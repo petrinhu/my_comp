@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # =============================================================================
 # MYCOMP - Gerador de Relatório de Configuração do Sistema
-# Versão: 0.3.4
+# Versão: 0.3.5
 # Descrição: Coleta informações exaustivas do sistema Linux e gera
 #             relatório em Markdown e HTML, com log completo de debug.
 # Uso: sudo bash my_comp.sh [/caminho/de/saida]
@@ -12,7 +12,7 @@ set -euo pipefail
 # =============================================================================
 # CONFIGURAÇÕES GLOBAIS
 # =============================================================================
-SCRIPT_VERSION="0.3.4"
+SCRIPT_VERSION="0.3.5"
 HOSTNAME_VAL=$(hostname)
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 DATESTAMP=$(date '+%Y%m%d_%H%M%S')
@@ -411,12 +411,16 @@ Grupos: $(run_cmd "USER/groups" groups)
 Shell: $SHELL | Home: $HOME"
 
     section 2 "Usuários do Sistema (não-sistema, UID >= 1000)"
-    code_block "text" "$(run_cmd "USER/passwd" python3 -c "
+    local _pw_tmp
+    _pw_tmp=$(mktemp /tmp/mycomp_pw_XXXXXX.py)
+    cat > "$_pw_tmp" << 'PYEOF'
 import pwd
 for e in pwd.getpwall():
     if 1000 <= e.pw_uid < 65534:
-        print(e.pw_name, 'UID:'+str(e.pw_uid), 'Shell:'+e.pw_shell, 'Home:'+e.pw_dir)
-")"
+        print(e.pw_name, "UID:"+str(e.pw_uid), "Shell:"+e.pw_shell, "Home:"+e.pw_dir)
+PYEOF
+    code_block "text" "$(run_cmd "USER/passwd" python3 "$_pw_tmp")"
+    rm -f "$_pw_tmp"
 
     section 2 "Últimos Logins"
     code_block "text" "$(run_cmd "USER/last" last -n 20)"

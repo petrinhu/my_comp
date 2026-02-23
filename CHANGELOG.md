@@ -7,6 +7,11 @@ seguindo [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
+## [0.3.5] — 2026-02-23
+
+### Corrigido
+- `USER/passwd` — código Python multilinhas agora escrito em arquivo temporário `.py` antes de chamar `run_cmd`; quebras de linha não sobreviviam ao `printf` interno do `run_cmd`
+
 ## [0.3.4] — 2026-02-23
 
 ### Corrigido
@@ -54,6 +59,7 @@ seguindo [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
+[0.3.5]: https://github.com/petrinhu/my_comp/compare/v0.3.4...v0.3.5
 [0.3.4]: https://github.com/petrinhu/my_comp/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/petrinhu/my_comp/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/petrinhu/my_comp/compare/v0.3.1...v0.3.2
