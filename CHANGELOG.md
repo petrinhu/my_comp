@@ -7,6 +7,12 @@ seguindo [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
+## [0.3.4] — 2026-02-23
+
+### Corrigido
+- Arquivos de saída (`.md`, `.html`, `.log`) agora recebem `chown` para o usuário real (`$SUDO_USER`) ao final — não ficam mais presos como root
+- `USER/passwd` — substituído `awk` (problema persistente de quoting no script temporário) por `python3` inline, que já está disponível no sistema
+
 ## [0.3.3] — 2026-02-23
 
 ### Corrigido
@@ -48,6 +54,7 @@ seguindo [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
+[0.3.4]: https://github.com/petrinhu/my_comp/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/petrinhu/my_comp/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/petrinhu/my_comp/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/petrinhu/my_comp/compare/v0.3.0...v0.3.1

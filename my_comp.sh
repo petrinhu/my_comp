@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # =============================================================================
 # MYCOMP - Gerador de Relatório de Configuração do Sistema
-# Versão: 0.3.3
+# Versão: 0.3.4
 # Descrição: Coleta informações exaustivas do sistema Linux e gera
 #             relatório em Markdown e HTML, com log completo de debug.
 # Uso: sudo bash my_comp.sh [/caminho/de/saida]
@@ -12,7 +12,7 @@ set -euo pipefail
 # =============================================================================
 # CONFIGURAÇÕES GLOBAIS
 # =============================================================================
-SCRIPT_VERSION="0.3.3"
+SCRIPT_VERSION="0.3.4"
 HOSTNAME_VAL=$(hostname)
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 DATESTAMP=$(date '+%Y%m%d_%H%M%S')
@@ -411,7 +411,12 @@ Grupos: $(run_cmd "USER/groups" groups)
 Shell: $SHELL | Home: $HOME"
 
     section 2 "Usuários do Sistema (não-sistema, UID >= 1000)"
-    code_block "text" "$(run_cmd "USER/passwd" awk -F: '$3 >= 1000 && $3 < 65534 {print $1, "UID:"$3, "Shell:"$7, "Home:"$6}' /etc/passwd)"
+    code_block "text" "$(run_cmd "USER/passwd" python3 -c "
+import pwd
+for e in pwd.getpwall():
+    if 1000 <= e.pw_uid < 65534:
+        print(e.pw_name, 'UID:'+str(e.pw_uid), 'Shell:'+e.pw_shell, 'Home:'+e.pw_dir)
+")"
 
     section 2 "Últimos Logins"
     code_block "text" "$(run_cmd "USER/last" last -n 20)"
@@ -1298,6 +1303,13 @@ HEADER
     local total_elapsed=$(( ts_fim - ts_total ))
 
     _log_finalize
+
+    # Devolve propriedade dos arquivos ao usuário real (não root)
+    local real_user="${SUDO_USER:-}"
+    if [[ -n "$real_user" ]]; then
+        chown "$real_user":"$real_user" "$MD_FILE" "$HTML_FILE" "$LOG_FILE" 2>/dev/null || true
+        log_info "Propriedade dos arquivos transferida para: $real_user"
+    fi
 
     echo ""
     echo "============================================================"
