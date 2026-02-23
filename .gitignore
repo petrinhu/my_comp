@@ -1,0 +1,10 @@
+# Saídas geradas pelo script
+MYCOMP_*.md
+MYCOMP_*.html
+MYCOMP_debug_*.log
+
+# Temporários do sistema
+*~
+*.swp
+*.swo
+.DS_Store
