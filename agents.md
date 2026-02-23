@@ -64,7 +64,7 @@ main()
  ├── collect_processes()
  ├── collect_power()
  ├── collect_dmi()
- ├── generate_html()       ← pandoc ou fallback sed
+ ├── generate_html()       ← gera HTML via Python3 embutido
  └── _log_finalize()       ← sumário de estatísticas no LOG_FILE
 ```
 
@@ -103,22 +103,22 @@ Todos ignorados pelo `.gitignore`.
 
 ### Obrigatórias (script falha sem elas)
 - `bash` 4+
+- `python3` — geração de HTML e coleta de usuários do sistema
 - `hostname`, `date`, `uname`, `cat`, `grep`, `awk`, `sed`, `wc`, `mktemp`
 
 ### Recomendadas (coleta degradada se ausentes)
 | Ferramenta | Pacote Fedora | Seção afetada |
 |---|---|---|
-| `pandoc` | `pandoc` | ~~geração HTML~~ removido — geração via sed nativa |
-| `ollama` | `ollama` | ~~modelos de IA~~ removido — fora do escopo do script |
 | `dmidecode` | `dmidecode` | DMI/SMBIOS |
 | `sensors` | `lm_sensors` | temperatura |
 | `lspci` | `pciutils` | GPU, periféricos PCI |
 | `lsusb` | `usbutils` | periféricos USB |
 | `smartctl` | `smartmontools` | saúde de discos |
+| `nvme` | `nvme-cli` | SSDs NVMe |
 | `ss` / `netstat` | `iproute` / `net-tools` | rede |
 
 ```bash
-sudo dnf install dmidecode lm_sensors pciutils usbutils smartmontools
+sudo dnf install python3 dmidecode lm_sensors pciutils usbutils smartmontools nvme-cli
 ```
 
 ---
@@ -129,8 +129,9 @@ sudo dnf install dmidecode lm_sensors pciutils usbutils smartmontools
   suspende `set -e` com `set +e` para capturar falhas sem abortar.
 - Variáveis de contadores usam `(( VAR++ )) || true` para não disparar `set -e`
   quando o resultado é zero.
-- `eval "$cmd"` é usado em `run_cmd` — ao modificar, mantenha essa abordagem para
-  suportar pipes e redirecionamentos compostos.
+- `run_cmd` escreve o comando em um script temporário (`mktemp`) e executa via
+  `bash script_tmp` — isso evita dupla expansão de shell. Ao modificar, mantenha
+  essa abordagem para suportar pipes e redirecionamentos compostos.
 - O script **não modifica o sistema** — apenas lê e coleta informações.
 - Compatibilidade: testado em Fedora; deve funcionar em qualquer distro com bash 4+.
 
@@ -193,7 +194,7 @@ collect_exemplo() {
 - Não usar `exit` dentro de funções `collect_*` — use `return`
 - Não modificar arquivos do sistema — script é somente leitura
 - Não remover o `|| true` dos contadores — quebra com `set -e`
-- Não substituir `eval` em `run_cmd` sem testar pipes compostos
+- Não alterar o mecanismo de script temporário em `run_cmd` sem testar pipes compostos
 
 ### Versionamento
 

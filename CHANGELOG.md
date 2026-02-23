@@ -12,6 +12,10 @@ seguindo [Semantic Versioning](https://semver.org/lang/pt-BR/).
 ### Adicionado
 - `python3` movido para dependências **obrigatórias** — é usado na geração de HTML e na coleta de usuários; ausência causaria falha silenciosa
 
+### Documentação
+- README: geração HTML descrita como Python3 (não mais sed); `nvme-cli` adicionado aos recomendados e ao `dnf install`
+- agents.md: `python3` adicionado às obrigatórias; `pandoc`/`ollama` removidos da tabela; `run_cmd` documentado como script temporário (não mais `eval`); `nvme-cli` adicionado à tabela de recomendadas
+
 ## [0.3.5] — 2026-02-23
 
 ### Corrigido
@@ -53,7 +57,7 @@ seguindo [Semantic Versioning](https://semver.org/lang/pt-BR/).
 - Publicação inicial no GitHub
 - `README.md`, `CHANGELOG.md`, `agents.md`, `LICENSE`, `.gitignore`
 - Timeout global de 30s por comando
-- Geração HTML nativa via sed (removido pandoc)
+- Geração HTML nativa (removido pandoc; geração via sed — substituída por Python3 em v0.3.1)
 
 ### Removido
 - `ollama` e `pandoc` das dependências opcionais
