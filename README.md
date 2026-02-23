@@ -10,7 +10,7 @@ Coleta informações exaustivas do sistema e gera relatório em Markdown e HTML,
 - Informações de desktop environment, serviços systemd e processos
 - Dados DMI/SMBIOS via `dmidecode`
 - Perfil de energia (powerprofilesctl, tuned, TLP, sensors)
-- Saída em Markdown + HTML (geração nativa via sed, sem dependências externas)
+- Saída em Markdown + HTML (geração via Python3)
 - Log de debug detalhado com timestamps, exit codes e métricas por comando
 
 ## Requisitos
@@ -18,10 +18,10 @@ Coleta informações exaustivas do sistema e gera relatório em Markdown e HTML,
 - Bash 4+
 - `python3` (obrigatório — geração HTML e coleta de usuários)
 - `sudo` / root (necessário para dmidecode e algumas coletas)
-- Recomendados: `dmidecode`, `lm_sensors`, `lspci`, `lsusb`, `smartmontools`
+- Recomendados: `dmidecode`, `lm_sensors`, `lspci`, `lsusb`, `smartmontools`, `nvme-cli`
 
 ```bash
-sudo dnf install dmidecode lm_sensors pciutils usbutils smartmontools
+sudo dnf install python3 dmidecode lm_sensors pciutils usbutils smartmontools nvme-cli
 ```
 
 ## Uso
