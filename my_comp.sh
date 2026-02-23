@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # =============================================================================
 # MYCOMP - Gerador de Relatório de Configuração do Sistema
-# Versão: 0.3.1
+# Versão: 0.3.2
 # Descrição: Coleta informações exaustivas do sistema Linux e gera
 #             relatório em Markdown e HTML, com log completo de debug.
 # Uso: sudo bash my_comp.sh [/caminho/de/saida]
@@ -12,7 +12,7 @@ set -euo pipefail
 # =============================================================================
 # CONFIGURAÇÕES GLOBAIS
 # =============================================================================
-SCRIPT_VERSION="0.3.1"
+SCRIPT_VERSION="0.3.2"
 HOSTNAME_VAL=$(hostname)
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 DATESTAMP=$(date '+%Y%m%d_%H%M%S')
@@ -103,18 +103,24 @@ run_cmd() {
     shift
     local cmd="$*"
 
-    local stdout_tmp stderr_tmp
+    local stdout_tmp stderr_tmp script_tmp
     stdout_tmp=$(mktemp /tmp/mycomp_out_XXXXXX)
     stderr_tmp=$(mktemp /tmp/mycomp_err_XXXXXX)
+    script_tmp=$(mktemp /tmp/mycomp_cmd_XXXXXX)
+
+    # Escreve o comando no arquivo — evita dupla expansão de shell
+    printf '%s\n' "#!/usr/bin/env bash" "$cmd" > "$script_tmp"
+    chmod +x "$script_tmp"
 
     local ts_start ts_end elapsed exit_code
     ts_start=$(date '+%s%3N')
     (( LOG_CMD_TOTAL++ )) || true
 
     set +e
-    timeout "$CMD_TIMEOUT" bash -c "$cmd" > "$stdout_tmp" 2> "$stderr_tmp"
+    timeout "$CMD_TIMEOUT" bash "$script_tmp" > "$stdout_tmp" 2> "$stderr_tmp"
     exit_code=$?
     set -e
+    rm -f "$script_tmp"
 
     # exit code 124 = timeout expirado
     if [[ $exit_code -eq 124 ]]; then
@@ -444,7 +450,7 @@ $(run_cmd "DESKTOP/kscreen" bash -c 'command -v kscreen-doctor && timeout 10 ksc
 $(run_cmd "DESKTOP/wlr-randr" bash -c 'command -v wlr-randr && timeout 10 wlr-randr 2>/dev/null || echo "[wlr-randr indisponível]"')
 
 === xrandr (X11 apenas) ===
-$(run_cmd "DESKTOP/xrandr" bash -c 'if [[ -n "$DISPLAY" ]]; then timeout 10 xrandr --query 2>/dev/null || echo "[xrandr falhou]"; else echo "[xrandr ignorado — sem sessão X11/DISPLAY]"; fi')
+$(run_cmd "DESKTOP/xrandr" bash -c 'test -n "$DISPLAY" && timeout 10 xrandr --query 2>/dev/null || echo "[xrandr ignorado — Wayland ou sem DISPLAY]"')
 
 === Conectores DRM via sysfs (universal) ===
 $(run_cmd "DESKTOP/drm-connectors" bash -c '

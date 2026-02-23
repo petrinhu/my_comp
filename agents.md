@@ -12,7 +12,7 @@ roadmap e guia de contribuição.
 |---|---|
 | **Nome** | my_comp |
 | **Repositório** | https://github.com/petrinhu/my_comp |
-| **Versão atual** | 0.3.1 |
+| **Versão atual** | 0.3.2 |
 | **Linguagem** | Bash (POSIX-compatible, bash 4+) |
 | **Plataforma alvo** | Linux (desenvolvido e testado em Fedora) |
 | **Autor** | Petrus Costa |
@@ -220,4 +220,4 @@ my_comp/
 
 ---
 
-*Última atualização: 2026-02-23 — v0.3.1*
+*Última atualização: 2026-02-23 — v0.3.2*

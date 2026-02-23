@@ -7,6 +7,12 @@ seguindo [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
+## [0.3.2] — 2026-02-23
+
+### Corrigido
+- `run_cmd` reescrito para usar arquivo de script temporário — elimina dupla expansão de shell que corrompia aspas em `awk`, pipes e estruturas complexas
+- `xrandr` — lógica `if/then` substituída por `test &&/||` evitando exit 2 espúrio no Wayland
+
 ## [0.3.1] — 2026-02-23
 
 ### Corrigido
@@ -37,5 +43,6 @@ seguindo [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
+[0.3.2]: https://github.com/petrinhu/my_comp/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/petrinhu/my_comp/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/petrinhu/my_comp/releases/tag/v0.3.0
