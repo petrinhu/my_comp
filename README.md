@@ -16,6 +16,7 @@ Coleta informações exaustivas do sistema e gera relatório em Markdown e HTML,
 ## Requisitos
 
 - Bash 4+
+- `python3` (obrigatório — geração HTML e coleta de usuários)
 - `sudo` / root (necessário para dmidecode e algumas coletas)
 - Recomendados: `dmidecode`, `lm_sensors`, `lspci`, `lsusb`, `smartmontools`
 
@@ -41,7 +42,7 @@ Se nenhum caminho for fornecido, os arquivos são gerados no diretório atual.
 
 ## Versão
 
-v0.3.5 — veja [CHANGELOG.md](CHANGELOG.md)
+v0.3.6 — veja [CHANGELOG.md](CHANGELOG.md)
 
 ## Licença
 

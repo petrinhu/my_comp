@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # =============================================================================
 # MYCOMP - Gerador de Relatório de Configuração do Sistema
-# Versão: 0.3.5
+# Versão: 0.3.6
 # Descrição: Coleta informações exaustivas do sistema Linux e gera
 #             relatório em Markdown e HTML, com log completo de debug.
 # Uso: sudo bash my_comp.sh [/caminho/de/saida]
@@ -12,7 +12,7 @@ set -euo pipefail
 # =============================================================================
 # CONFIGURAÇÕES GLOBAIS
 # =============================================================================
-SCRIPT_VERSION="0.3.5"
+SCRIPT_VERSION="0.3.6"
 HOSTNAME_VAL=$(hostname)
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 DATESTAMP=$(date '+%Y%m%d_%H%M%S')
@@ -270,7 +270,7 @@ DEPS_REQUIRED=(
     "lspci:pciutils"        "ip:iproute"             "ss:iproute"
     "nmcli:NetworkManager"  "hostnamectl:systemd"    "timedatectl:systemd"
     "localectl:systemd"     "systemctl:systemd"      "journalctl:systemd"
-    "findmnt:util-linux"    "blkid:util-linux"
+    "findmnt:util-linux"    "blkid:util-linux"       "python3:python3"
 )
 
 DEPS_OPTIONAL=(
@@ -281,7 +281,7 @@ DEPS_OPTIONAL=(
     "pvdisplay:lvm2"            "mdadm:mdadm"                "v4l2-ctl:v4l-utils"
     "bluetoothctl:bluez"        "flatpak:flatpak"            "podman:podman"
     "docker:docker"             "gcc:gcc"
-    "python3:python3"           "node:nodejs"                "iostat:sysstat"
+    "node:nodejs"                "iostat:sysstat"
     "hdparm:hdparm"             "firewall-cmd:firewalld"     "getenforce:libselinux-utils"
     "usb-devices:usbutils"
     "powerprofilesctl:power-profiles-daemon"

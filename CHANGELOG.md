@@ -7,6 +7,11 @@ seguindo [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
+## [0.3.6] — 2026-02-23
+
+### Adicionado
+- `python3` movido para dependências **obrigatórias** — é usado na geração de HTML e na coleta de usuários; ausência causaria falha silenciosa
+
 ## [0.3.5] — 2026-02-23
 
 ### Corrigido
@@ -59,6 +64,7 @@ seguindo [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
+[0.3.6]: https://github.com/petrinhu/my_comp/compare/v0.3.5...v0.3.6
 [0.3.5]: https://github.com/petrinhu/my_comp/compare/v0.3.4...v0.3.5
 [0.3.4]: https://github.com/petrinhu/my_comp/compare/v0.3.3...v0.3.4
 [0.3.3]: https://github.com/petrinhu/my_comp/compare/v0.3.2...v0.3.3
