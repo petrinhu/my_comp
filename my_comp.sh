@@ -405,7 +405,7 @@ Grupos: $(run_cmd "USER/groups" groups)
 Shell: $SHELL | Home: $HOME"
 
     section 2 "Usuários do Sistema (não-sistema, UID >= 1000)"
-    code_block "text" "$(run_cmd "USER/passwd" bash -c "awk -F: '\$3 >= 1000 && \$3 < 65534 {print \$1, \"UID:\"\$3, \"Shell:\"\$7, \"Home:\"\$6}' /etc/passwd")"
+    code_block "text" "$(run_cmd "USER/passwd" bash -c 'awk -F: '"'"'$3 >= 1000 && $3 < 65534 {print $1, "UID:"$3, "Shell:"$7, "Home:"$6}'"'"' /etc/passwd')"
 
     section 2 "Últimos Logins"
     code_block "text" "$(run_cmd "USER/last" last -n 20)"
@@ -473,13 +473,13 @@ collect_cpu() {
     code_block "text" "$(run_cmd "CPU/lscpu-ext" lscpu --extended)"
 
     section 3 "/proc/cpuinfo — Campos Relevantes"
-    code_block "text" "$(run_cmd "CPU/cpuinfo" grep -E 'processor|model name|cpu MHz|cache size|physical id|core id|flags' /proc/cpuinfo | head -80)"
+    code_block "text" "$(run_cmd "CPU/cpuinfo" bash -c "grep -E 'processor|model name|cpu MHz|cache size|physical id|core id|flags' /proc/cpuinfo | head -80")"
 
     section 3 "Flags da CPU (extensões e virtualização)"
     code_block "text" "$(run_cmd "CPU/flags" bash -c "grep -m1 'flags' /proc/cpuinfo | tr ' ' '\n' | sort | grep -E 'vmx|svm|avx|aes|ht|lm|nx|pae|sse'")"
 
     section 3 "Governador de Frequência"
-    code_block "text" "$(run_cmd "CPU/governor" bash -c 'cat /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor 2>/dev/null | sort -u')"
+    code_block "text" "$(run_cmd "CPU/governor" bash -c 'cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor 2>/dev/null && echo "(cpu0 — representativo)" || echo "[cpufreq não disponível]"')"
 
     section 3 "Temperatura da CPU"
     if cmd_exists sensors; then
@@ -690,9 +690,9 @@ $(run_cmd "${sec}/usage" btrfs filesystem usage "$mountpoint")
 $(run_cmd "${sec}/subvol" btrfs subvolume list "$mountpoint")
 === btrfs scrub status ===
 $(run_cmd "${sec}/scrub" btrfs scrub status "$mountpoint")
-=== compsize — taxa de compressão real ===
+=== compsize — taxa de compressão real (amostra /usr) ===
 $(if cmd_exists compsize; then
-    run_cmd "${sec}/compsize" compsize "$mountpoint"
+    run_cmd "${sec}/compsize" bash -c "compsize /usr 2>/dev/null | tail -5"
   else
     run_cmd_skip "${sec}/compsize" "compsize" "instale btrfs-compsize"
   fi)
@@ -1140,7 +1140,7 @@ generate_html() {
 <style>
 body{font-family:'Segoe UI',sans-serif;max-width:1200px;margin:0 auto;padding:20px;background:#0d1117;color:#c9d1d9}
 h1,h2,h3,h4{color:#58a6ff;border-bottom:1px solid #30363d;padding-bottom:4px}
-pre{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:14px;overflow-x:auto;font-size:12px;line-height:1.4}
+pre{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:14px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;font-size:12px;line-height:1.4}
 code{background:#161b22;padding:2px 5px;border-radius:3px;font-size:12px}
 .header{background:#161b22;border-radius:6px;padding:18px;margin-bottom:20px;border-left:4px solid #58a6ff}
 em{color:#f0883e}strong{color:#79c0ff}
