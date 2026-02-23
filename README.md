@@ -41,7 +41,7 @@ Se nenhum caminho for fornecido, os arquivos são gerados no diretório atual.
 
 ## Versão
 
-v0.3.0 — veja [CHANGELOG.md](CHANGELOG.md)
+v0.3.1 — veja [CHANGELOG.md](CHANGELOG.md)
 
 ## Licença
 

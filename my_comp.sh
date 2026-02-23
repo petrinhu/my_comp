@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # =============================================================================
 # MYCOMP - Gerador de Relatório de Configuração do Sistema
-# Versão: 0.3.0
+# Versão: 0.3.1
 # Descrição: Coleta informações exaustivas do sistema Linux e gera
 #             relatório em Markdown e HTML, com log completo de debug.
 # Uso: sudo bash my_comp.sh [/caminho/de/saida]
@@ -12,7 +12,7 @@ set -euo pipefail
 # =============================================================================
 # CONFIGURAÇÕES GLOBAIS
 # =============================================================================
-SCRIPT_VERSION="0.3.0"
+SCRIPT_VERSION="0.3.1"
 HOSTNAME_VAL=$(hostname)
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 DATESTAMP=$(date '+%Y%m%d_%H%M%S')
@@ -405,7 +405,7 @@ Grupos: $(run_cmd "USER/groups" groups)
 Shell: $SHELL | Home: $HOME"
 
     section 2 "Usuários do Sistema (não-sistema, UID >= 1000)"
-    code_block "text" "$(run_cmd "USER/passwd" bash -c 'awk -F: '"'"'$3 >= 1000 && $3 < 65534 {print $1, "UID:"$3, "Shell:"$7, "Home:"$6}'"'"' /etc/passwd')"
+    code_block "text" "$(run_cmd "USER/passwd" bash -c 'awk -F: "$3 >= 1000 && $3 < 65534 {print $1, \"UID:\"$3, \"Shell:\"$7, \"Home:\"$6}" /etc/passwd')"
 
     section 2 "Últimos Logins"
     code_block "text" "$(run_cmd "USER/last" last -n 20)"
@@ -444,7 +444,7 @@ $(run_cmd "DESKTOP/kscreen" bash -c 'command -v kscreen-doctor && timeout 10 ksc
 $(run_cmd "DESKTOP/wlr-randr" bash -c 'command -v wlr-randr && timeout 10 wlr-randr 2>/dev/null || echo "[wlr-randr indisponível]"')
 
 === xrandr (X11 apenas) ===
-$(run_cmd "DESKTOP/xrandr" bash -c 'if [[ -n "$DISPLAY" ]]; then timeout 10 xrandr --query 2>/dev/null; else echo "[xrandr ignorado — sem sessão X11]"; fi')
+$(run_cmd "DESKTOP/xrandr" bash -c 'if [[ -n "$DISPLAY" ]]; then timeout 10 xrandr --query 2>/dev/null || echo "[xrandr falhou]"; else echo "[xrandr ignorado — sem sessão X11/DISPLAY]"; fi')
 
 === Conectores DRM via sysfs (universal) ===
 $(run_cmd "DESKTOP/drm-connectors" bash -c '
@@ -476,7 +476,7 @@ collect_cpu() {
     code_block "text" "$(run_cmd "CPU/cpuinfo" bash -c "grep -E 'processor|model name|cpu MHz|cache size|physical id|core id|flags' /proc/cpuinfo | head -80")"
 
     section 3 "Flags da CPU (extensões e virtualização)"
-    code_block "text" "$(run_cmd "CPU/flags" bash -c "grep -m1 'flags' /proc/cpuinfo | tr ' ' '\n' | sort | grep -E 'vmx|svm|avx|aes|ht|lm|nx|pae|sse'")"
+    code_block "text" "$(run_cmd "CPU/flags" bash -c 'grep -m1 "flags" /proc/cpuinfo | tr " " "\n" | sort | grep -E "vmx|svm|avx|aes|ht|lm|nx|pae|sse"')"
 
     section 3 "Governador de Frequência"
     code_block "text" "$(run_cmd "CPU/governor" bash -c '
@@ -833,7 +833,9 @@ $(run_cmd "DISK/lvdisplay" lvdisplay)"
         fstype=$(echo "$line" | awk '{print $3}')
         # Ignora filesystems virtuais/kernel
         case "$fstype" in
-            tmpfs|devtmpfs|sysfs|proc|cgroup*|pstore|efivarfs|securityfs|debugfs|tracefs|fusectl|mqueue|hugetlbfs|autofs|binfmt_misc|configfs|ramfs) continue ;;
+            tmpfs|devtmpfs|sysfs|proc|cgroup*|pstore|efivarfs|securityfs|debugfs|\
+tracefs|fusectl|mqueue|hugetlbfs|autofs|binfmt_misc|configfs|ramfs|\
+devpts|bpf|selinuxfs|fuse.portal|overlay|squashfs) continue ;;
         esac
         [[ -z "$fstype" || "$fstype" == "-" ]] && continue
         collect_fs_specific "$device" "$mountpoint" "$fstype"
@@ -1026,7 +1028,7 @@ $(run_cmd "CONTAINER/docker-ps" docker ps -a)"
     fi
 
     section 3 "Virtualização"
-    code_block "text" "systemd-detect-virt: $(run_cmd "VIRT/detect" systemd-detect-virt)
+    code_block "text" "systemd-detect-virt: $(run_cmd "VIRT/detect" bash -c 'systemd-detect-virt; true')
 virt-what         : $(run_cmd "VIRT/virt-what" bash -c 'command -v virt-what && virt-what || echo "[virt-what não instalado]"')"
 
     log_section_end "SOFTWARE" "$ts_sec"
