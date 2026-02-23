@@ -479,7 +479,14 @@ collect_cpu() {
     code_block "text" "$(run_cmd "CPU/flags" bash -c "grep -m1 'flags' /proc/cpuinfo | tr ' ' '\n' | sort | grep -E 'vmx|svm|avx|aes|ht|lm|nx|pae|sse'")"
 
     section 3 "Governador de Frequência"
-    code_block "text" "$(run_cmd "CPU/governor" bash -c 'cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor 2>/dev/null && echo "(cpu0 — representativo)" || echo "[cpufreq não disponível]"')"
+    code_block "text" "$(run_cmd "CPU/governor" bash -c '
+        f=/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+        if [[ -r "$f" ]]; then
+            echo "$(cat $f) (cpu0 — representativo)"
+        else
+            echo "[cpufreq não disponível neste kernel/hardware]"
+        fi
+    ')"
 
     section 3 "Temperatura da CPU"
     if cmd_exists sensors; then
@@ -1130,45 +1137,90 @@ generate_html() {
     log_section_start "GERAÇÃO HTML"
     local ts_sec; ts_sec=$(date '+%s%3N')
 
-    cat > "$HTML_FILE" << HTMLEOF
-<!DOCTYPE html>
+    python3 - "$MD_FILE" "$HTML_FILE" "${HOSTNAME_VAL}" "${TIMESTAMP}" "${SCRIPT_VERSION}" << 'PYEOF'
+import sys, html
+
+md_file   = sys.argv[1]
+html_file = sys.argv[2]
+hostname  = sys.argv[3]
+timestamp = sys.argv[4]
+version   = sys.argv[5]
+
+css = """
+body{font-family:'Segoe UI',sans-serif;max-width:1400px;margin:0 auto;padding:20px;background:#0d1117;color:#c9d1d9}
+h1,h2,h3,h4{color:#58a6ff;border-bottom:1px solid #30363d;padding-bottom:4px;margin-top:1.5em}
+pre{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:14px;
+    overflow-x:auto;white-space:pre-wrap;word-wrap:break-word;
+    font-size:12px;line-height:1.5;max-width:100%}
+code{font-family:'Consolas','Liberation Mono',monospace}
+.header{background:#161b22;border-radius:6px;padding:18px;margin-bottom:20px;border-left:4px solid #58a6ff}
+strong{color:#79c0ff}em{color:#f0883e}
+p{margin:0.4em 0}
+"""
+
+with open(md_file, 'r', encoding='utf-8', errors='replace') as f:
+    lines = f.readlines()
+
+out = []
+out.append(f"""<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MYCOMP — ${HOSTNAME_VAL} — ${TIMESTAMP}</title>
-<style>
-body{font-family:'Segoe UI',sans-serif;max-width:1200px;margin:0 auto;padding:20px;background:#0d1117;color:#c9d1d9}
-h1,h2,h3,h4{color:#58a6ff;border-bottom:1px solid #30363d;padding-bottom:4px}
-pre{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:14px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;font-size:12px;line-height:1.4}
-code{background:#161b22;padding:2px 5px;border-radius:3px;font-size:12px}
-.header{background:#161b22;border-radius:6px;padding:18px;margin-bottom:20px;border-left:4px solid #58a6ff}
-em{color:#f0883e}strong{color:#79c0ff}
-</style>
+<title>MYCOMP — {html.escape(hostname)} — {html.escape(timestamp)}</title>
+<style>{css}</style>
 </head>
 <body>
 <div class="header">
 <h1>MYCOMP — Relatório do Sistema</h1>
-<p><strong>Host:</strong> ${HOSTNAME_VAL} &nbsp;|&nbsp;
-   <strong>Gerado em:</strong> ${TIMESTAMP} &nbsp;|&nbsp;
-   <strong>Script versão:</strong> ${SCRIPT_VERSION}</p>
+<p><strong>Host:</strong> {html.escape(hostname)} &nbsp;|&nbsp;
+   <strong>Gerado em:</strong> {html.escape(timestamp)} &nbsp;|&nbsp;
+   <strong>Versão:</strong> {html.escape(version)}</p>
 </div>
-HTMLEOF
+""")
 
-    sed \
-        -e 's/^#### \(.*\)/<h4>\1<\/h4>/' \
-        -e 's/^### \(.*\)/<h3>\1<\/h3>/' \
-        -e 's/^## \(.*\)/<h2>\1<\/h2>/' \
-        -e 's/^# \(.*\)/<h1>\1<\/h1>/' \
-        -e 's/\*\*\(.*\)\*\*/<strong>\1<\/strong>/g' \
-        -e 's/_\(.*\)_/<em>\1<\/em>/g' \
-        -e '/^```/,/^```/{/^```[a-z]*$/{s/.*/<pre><code>/};/^```$/{s/.*/<\/code><\/pre>/}}' \
-        -e 's/^$/<br>/' \
-        "$MD_FILE" >> "$HTML_FILE"
+in_code = False
+for line in lines:
+    line = line.rstrip('\n')
+    if line.startswith('```'):
+        if not in_code:
+            out.append('<pre><code>')
+            in_code = True
+        else:
+            out.append('</code></pre>')
+            in_code = False
+        continue
+    if in_code:
+        out.append(html.escape(line) + '\n')
+        continue
+    # headings
+    if line.startswith('#### '):
+        out.append(f'<h4>{html.escape(line[5:])}</h4>')
+    elif line.startswith('### '):
+        out.append(f'<h3>{html.escape(line[4:])}</h3>')
+    elif line.startswith('## '):
+        out.append(f'<h2>{html.escape(line[3:])}</h2>')
+    elif line.startswith('# '):
+        out.append(f'<h1>{html.escape(line[2:])}</h1>')
+    elif line.startswith('---'):
+        out.append('<hr>')
+    elif line.strip() == '':
+        out.append('<br>')
+    else:
+        out.append(f'<p>{html.escape(line)}</p>')
 
-    echo "</body></html>" >> "$HTML_FILE"
+if in_code:
+    out.append('</code></pre>')
+
+out.append('</body></html>')
+
+with open(html_file, 'w', encoding='utf-8') as f:
+    f.write('\n'.join(out))
+
+print(f"HTML gerado: {html_file}")
+PYEOF
+
     log_info "HTML gerado: $HTML_FILE"
-
     log_section_end "GERAÇÃO HTML" "$ts_sec"
 }
 
