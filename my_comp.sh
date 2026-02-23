@@ -28,7 +28,8 @@ declare -i LOG_COUNT_ERR=0
 declare -i LOG_COUNT_SKIP=0
 declare -i LOG_CMD_TOTAL=0
 
-# Cores para terminal
+# Timeout máximo por comando (segundos) — evita travamentos
+CMD_TIMEOUT=30
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -111,9 +112,18 @@ run_cmd() {
     (( LOG_CMD_TOTAL++ )) || true
 
     set +e
-    eval "$cmd" > "$stdout_tmp" 2> "$stderr_tmp"
+    timeout "$CMD_TIMEOUT" bash -c "$cmd" > "$stdout_tmp" 2> "$stderr_tmp"
     exit_code=$?
     set -e
+
+    # exit code 124 = timeout expirado
+    if [[ $exit_code -eq 124 ]]; then
+        (( LOG_COUNT_WARN++ )) || true
+        _log_write "WARNING" "$section_name" "TIMEOUT: comando excedeu ${CMD_TIMEOUT}s — CMD: ${cmd}"
+        echo "[TIMEOUT: ${CMD_TIMEOUT}s excedidos | cmd: ${cmd}]"
+        rm -f "$stdout_tmp" "$stderr_tmp"
+        return 0
+    fi
 
     ts_end=$(date '+%s%3N')
     elapsed=$(( ts_end - ts_start ))
@@ -395,7 +405,7 @@ Grupos: $(run_cmd "USER/groups" groups)
 Shell: $SHELL | Home: $HOME"
 
     section 2 "Usuários do Sistema (não-sistema, UID >= 1000)"
-    code_block "text" "$(run_cmd "USER/passwd" awk -F: '$3 >= 1000 && $3 < 65534 {print $1, "UID:"$3, "Shell:"$7, "Home:"$6}' /etc/passwd)"
+    code_block "text" "$(run_cmd "USER/passwd" bash -c "awk -F: '\$3 >= 1000 && \$3 < 65534 {print \$1, \"UID:\"\$3, \"Shell:\"\$7, \"Home:\"\$6}' /etc/passwd")"
 
     section 2 "Últimos Logins"
     code_block "text" "$(run_cmd "USER/last" last -n 20)"
@@ -417,9 +427,34 @@ WAYLAND_DISPLAY    : ${WAYLAND_DISPLAY:-não definido}
 DISPLAY            : ${DISPLAY:-não definido}"
 
     section 3 "Resolução e Monitores"
-    code_block "text" "$(run_cmd "DESKTOP/xrandr" bash -c 'command -v xrandr && xrandr --query || echo "[xrandr indisponível — sessão Wayland]"')
-$(run_cmd "DESKTOP/kscreen" bash -c 'command -v kscreen-doctor && kscreen-doctor -o || echo "[kscreen-doctor indisponível]"')
-$(run_cmd "DESKTOP/wlr-randr" bash -c 'command -v wlr-randr && wlr-randr || echo "[wlr-randr indisponível]"')"
+    # Detecta tipo de sessão do usuário real (não root)
+    local real_user="${SUDO_USER:-$USER}"
+    local real_uid
+    real_uid=$(id -u "$real_user" 2>/dev/null || echo "")
+    local xdg_type=""
+    [[ -n "$real_uid" ]] && xdg_type=$(loginctl show-user "$real_user" 2>/dev/null | grep -i "Display\|Session" | head -3 || true)
+
+    code_block "text" "Sessão do usuário $real_user:
+$(run_cmd "DESKTOP/loginctl" bash -c "loginctl show-session \$(loginctl list-sessions --no-legend | awk '\$3==\"${real_user}\" {print \$1}' | head -1) 2>/dev/null | grep -E 'Type|State|Display' || echo '[sessão não detectada via loginctl]'")
+
+=== kscreen-doctor (KDE/Wayland) ===
+$(run_cmd "DESKTOP/kscreen" bash -c 'command -v kscreen-doctor && timeout 10 kscreen-doctor -o 2>/dev/null || echo "[kscreen-doctor indisponível]"')
+
+=== wlr-randr (wlroots/Wayland) ===
+$(run_cmd "DESKTOP/wlr-randr" bash -c 'command -v wlr-randr && timeout 10 wlr-randr 2>/dev/null || echo "[wlr-randr indisponível]"')
+
+=== xrandr (X11 apenas) ===
+$(run_cmd "DESKTOP/xrandr" bash -c 'if [[ -n "$DISPLAY" ]]; then timeout 10 xrandr --query 2>/dev/null; else echo "[xrandr ignorado — sem sessão X11]"; fi')
+
+=== Conectores DRM via sysfs (universal) ===
+$(run_cmd "DESKTOP/drm-connectors" bash -c '
+    for conn in /sys/class/drm/*/status; do
+        name=$(echo "$conn" | sed "s|/sys/class/drm/||;s|/status||")
+        status=$(cat "$conn" 2>/dev/null)
+        modes=$(cat "$(dirname $conn)/modes" 2>/dev/null | head -3 | tr "\n" " ")
+        printf "%-30s status: %-12s modos: %s\n" "$name" "$status" "$modes"
+    done
+')"
 
     log_section_end "DESKTOP" "$ts_sec"
 }
@@ -847,26 +882,6 @@ $(run_cmd "NVME/hdparm" hdparm -I "$nvme_dev")"
     else
         write "$(run_cmd_skip "DISK/iostat" "iostat" "instale sysstat")"
     fi
-
-    section 3 "Espaço em /home — Diretórios por Tamanho"
-    local home_dir
-    home_dir=$(eval echo "~${SUDO_USER:-$USER}")
-    _log_write "DEBUG  " "ARMAZENAMENTO" "Home dir: ${home_dir}"
-    code_block "text" "$(run_cmd "HOME/du-depth3" du -h --max-depth=3 "$home_dir" | sort -rh | head -60)"
-
-    section 3 "Tipos de Arquivo em /home (extensões mais frequentes)"
-    code_block "text" "$(run_cmd "HOME/file-types" bash -c "
-        find '${home_dir}' -type f 2>/dev/null \
-        | sed 's/.*\.//' \
-        | tr '[:upper:]' '[:lower:]' \
-        | sort | uniq -c | sort -rn | head -50
-    ")"
-
-    section 3 "Arquivos Grandes em /home (acima de 100MB)"
-    code_block "text" "$(run_cmd "HOME/large-files" find "$home_dir" -type f -size +100M | sort)"
-
-    section 3 "Arquivos Abertos em /home no Momento (lsof)"
-    code_block "text" "$(run_cmd "HOME/lsof" lsof +D "$home_dir" | head -50)"
 
     log_section_end "ARMAZENAMENTO" "$ts_sec"
 }
