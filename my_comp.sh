@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # =============================================================================
 # MYCOMP - Gerador de Relatório de Configuração do Sistema
-# Versão: 0.3.2
+# Versão: 0.3.3
 # Descrição: Coleta informações exaustivas do sistema Linux e gera
 #             relatório em Markdown e HTML, com log completo de debug.
 # Uso: sudo bash my_comp.sh [/caminho/de/saida]
@@ -12,7 +12,7 @@ set -euo pipefail
 # =============================================================================
 # CONFIGURAÇÕES GLOBAIS
 # =============================================================================
-SCRIPT_VERSION="0.3.2"
+SCRIPT_VERSION="0.3.3"
 HOSTNAME_VAL=$(hostname)
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 DATESTAMP=$(date '+%Y%m%d_%H%M%S')
@@ -411,7 +411,7 @@ Grupos: $(run_cmd "USER/groups" groups)
 Shell: $SHELL | Home: $HOME"
 
     section 2 "Usuários do Sistema (não-sistema, UID >= 1000)"
-    code_block "text" "$(run_cmd "USER/passwd" bash -c 'awk -F: "$3 >= 1000 && $3 < 65534 {print $1, \"UID:\"$3, \"Shell:\"$7, \"Home:\"$6}" /etc/passwd')"
+    code_block "text" "$(run_cmd "USER/passwd" awk -F: '$3 >= 1000 && $3 < 65534 {print $1, "UID:"$3, "Shell:"$7, "Home:"$6}' /etc/passwd)"
 
     section 2 "Últimos Logins"
     code_block "text" "$(run_cmd "USER/last" last -n 20)"
@@ -482,7 +482,7 @@ collect_cpu() {
     code_block "text" "$(run_cmd "CPU/cpuinfo" bash -c "grep -E 'processor|model name|cpu MHz|cache size|physical id|core id|flags' /proc/cpuinfo | head -80")"
 
     section 3 "Flags da CPU (extensões e virtualização)"
-    code_block "text" "$(run_cmd "CPU/flags" bash -c 'grep -m1 "flags" /proc/cpuinfo | tr " " "\n" | sort | grep -E "vmx|svm|avx|aes|ht|lm|nx|pae|sse"')"
+    code_block "text" "$(run_cmd "CPU/flags" grep -m1 'flags' /proc/cpuinfo | tr ' ' '\n' | sort | grep -E 'vmx|svm|avx|aes|ht|lm|nx|pae|sse')"
 
     section 3 "Governador de Frequência"
     code_block "text" "$(run_cmd "CPU/governor" bash -c '

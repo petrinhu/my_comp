@@ -7,6 +7,11 @@ seguindo [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
+## [0.3.3] — 2026-02-23
+
+### Corrigido
+- `USER/passwd` e `CPU/flags` — removido `bash -c` redundante; como `run_cmd` já executa via script temporário, o `bash -c` aninhado impedia as aspas de chegarem corretamente ao awk e ao grep
+
 ## [0.3.2] — 2026-02-23
 
 ### Corrigido
@@ -43,6 +48,7 @@ seguindo [Semantic Versioning](https://semver.org/lang/pt-BR/).
 
 ---
 
+[0.3.3]: https://github.com/petrinhu/my_comp/compare/v0.3.2...v0.3.3
 [0.3.2]: https://github.com/petrinhu/my_comp/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/petrinhu/my_comp/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/petrinhu/my_comp/releases/tag/v0.3.0
