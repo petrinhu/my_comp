@@ -108,7 +108,8 @@ Todos ignorados pelo `.gitignore`.
 ### Recomendadas (coleta degradada se ausentes)
 | Ferramenta | Pacote Fedora | Seção afetada |
 |---|---|---|
-| `pandoc` | `pandoc` | geração HTML (fallback sed disponível) |
+| `pandoc` | `pandoc` | ~~geração HTML~~ removido — geração via sed nativa |
+| `ollama` | `ollama` | ~~modelos de IA~~ removido — fora do escopo do script |
 | `dmidecode` | `dmidecode` | DMI/SMBIOS |
 | `sensors` | `lm_sensors` | temperatura |
 | `lspci` | `pciutils` | GPU, periféricos PCI |
@@ -117,7 +118,7 @@ Todos ignorados pelo `.gitignore`.
 | `ss` / `netstat` | `iproute` / `net-tools` | rede |
 
 ```bash
-sudo dnf install pandoc dmidecode lm_sensors pciutils usbutils smartmontools
+sudo dnf install dmidecode lm_sensors pciutils usbutils smartmontools
 ```
 
 ---

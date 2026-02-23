@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # =============================================================================
 # MYCOMP - Gerador de Relatório de Configuração do Sistema
-# Versão: 2.1
+# Versão: 0.3.0
 # Descrição: Coleta informações exaustivas do sistema Linux e gera
 #             relatório em Markdown e HTML, com log completo de debug.
-# Uso: sudo bash mycomp_gen.sh [/caminho/de/saida]
+# Uso: sudo bash my_comp.sh [/caminho/de/saida]
 # =============================================================================
 
 set -euo pipefail
@@ -12,7 +12,7 @@ set -euo pipefail
 # =============================================================================
 # CONFIGURAÇÕES GLOBAIS
 # =============================================================================
-SCRIPT_VERSION="2.1"
+SCRIPT_VERSION="0.3.0"
 HOSTNAME_VAL=$(hostname)
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 DATESTAMP=$(date '+%Y%m%d_%H%M%S')
@@ -264,10 +264,10 @@ DEPS_OPTIONAL=(
     "xfs_info:xfsprogs"        "dump.f2fs:f2fs-tools"       "cryptsetup:cryptsetup"
     "pvdisplay:lvm2"            "mdadm:mdadm"                "v4l2-ctl:v4l-utils"
     "bluetoothctl:bluez"        "flatpak:flatpak"            "podman:podman"
-    "docker:docker"             "ollama:ollama"              "gcc:gcc"
+    "docker:docker"             "gcc:gcc"
     "python3:python3"           "node:nodejs"                "iostat:sysstat"
     "hdparm:hdparm"             "firewall-cmd:firewalld"     "getenforce:libselinux-utils"
-    "pandoc:pandoc"             "usb-devices:usbutils"       "v4l2-ctl:v4l-utils"
+    "usb-devices:usbutils"
     "powerprofilesctl:power-profiles-daemon"
 )
 
@@ -1003,13 +1003,6 @@ $(run_cmd "CONTAINER/docker-ps" docker ps -a)"
         write "$(run_cmd_skip "CONTAINER/docker" "docker" "não instalado")"
     fi
 
-    section 3 "Ollama — Modelos de IA Instalados"
-    if cmd_exists ollama; then
-        code_block "text" "$(run_cmd "AI/ollama-list" ollama list)"
-    else
-        write "$(run_cmd_skip "AI/ollama" "ollama" "não encontrado no PATH")"
-    fi
-
     section 3 "Virtualização"
     code_block "text" "systemd-detect-virt: $(run_cmd "VIRT/detect" systemd-detect-virt)
 virt-what         : $(run_cmd "VIRT/virt-what" bash -c 'command -v virt-what && virt-what || echo "[virt-what não instalado]"')"
@@ -1122,20 +1115,6 @@ generate_html() {
     log_section_start "GERAÇÃO HTML"
     local ts_sec; ts_sec=$(date '+%s%3N')
 
-    if cmd_exists pandoc; then
-        run_cmd "HTML/pandoc" pandoc -f markdown -t html5 \
-            --standalone \
-            --metadata title="MYCOMP - ${HOSTNAME_VAL} - ${TIMESTAMP}" \
-            --css="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.css" \
-            -o "$HTML_FILE" "$MD_FILE" > /dev/null
-        log_info "HTML gerado via pandoc: $HTML_FILE"
-        log_section_end "GERAÇÃO HTML" "$ts_sec"
-        return
-    fi
-
-    log_warn "pandoc não encontrado — gerando HTML básico via sed (instale pandoc para melhor resultado: dnf install pandoc)"
-    _log_write "WARNING" "HTML" "Usando fallback sed — pandoc não disponível"
-
     cat > "$HTML_FILE" << HTMLEOF
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -1173,7 +1152,7 @@ HTMLEOF
         "$MD_FILE" >> "$HTML_FILE"
 
     echo "</body></html>" >> "$HTML_FILE"
-    log_info "HTML básico gerado: $HTML_FILE"
+    log_info "HTML gerado: $HTML_FILE"
 
     log_section_end "GERAÇÃO HTML" "$ts_sec"
 }
