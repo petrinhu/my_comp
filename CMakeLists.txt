@@ -47,6 +47,7 @@ set(PROJECT_SOURCES
     src/infrastructure/collectors/linux_power_provider.cpp
     src/presentation/viewmodels/cpu_viewmodel.cpp
     src/presentation/viewmodels/gpu_viewmodel.cpp
+    src/presentation/viewmodels/power_viewmodel.cpp
     src/presentation/viewmodels/memory_viewmodel.cpp
     src/presentation/viewmodels/firmware_viewmodel.cpp
     src/presentation/viewmodels/storage_viewmodel.cpp

@@ -19,6 +19,7 @@
 #include "presentation/viewmodels/memory_viewmodel.h"
 #include "presentation/viewmodels/firmware_viewmodel.h"
 #include "presentation/viewmodels/gpu_viewmodel.h"
+#include "presentation/viewmodels/power_viewmodel.h"
 #include "presentation/viewmodels/storage_viewmodel.h"
 #include "presentation/viewmodels/network_viewmodel.h"
 #include "infrastructure/collectors/linux_memory_provider.h"
@@ -66,6 +67,7 @@ int main(int argc, char *argv[])
     my_comp::presentation::viewmodels::MemoryViewModel memory_vm(memory_provider);
     my_comp::presentation::viewmodels::FirmwareViewModel firmware_vm(firmware_provider);
     my_comp::presentation::viewmodels::GpuViewModel gpu_vm;
+    my_comp::presentation::viewmodels::PowerViewModel power_vm;
     my_comp::presentation::viewmodels::StorageViewModel storage_vm(storage_provider);
     my_comp::presentation::viewmodels::NetworkViewModel network_vm(network_provider);
 
@@ -79,6 +81,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("memoryViewModel", &memory_vm);
     engine.rootContext()->setContextProperty("firmwareViewModel", &firmware_vm);
     engine.rootContext()->setContextProperty("gpuViewModel", &gpu_vm);
+    engine.rootContext()->setContextProperty("powerViewModel", &power_vm);
     engine.rootContext()->setContextProperty("storageViewModel", &storage_vm);
     engine.rootContext()->setContextProperty("networkViewModel", &network_vm);
 
