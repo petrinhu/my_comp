@@ -5,11 +5,14 @@
 
 namespace my_comp::domain::models {
 
+enum class ProviderType { Dnf, Flatpak, Npm, Snap };
+
 struct UpdatePackage {
     QString name;
     QString current_version;
     QString new_version;
-    QString source;      // e.g., "dnf", "flatpak", "npm"
+    QString source;      // Mantido para compatibilidade
+    ProviderType provider; // Novo campo para lógica hexagonal
     QString description;
     bool is_critical{false};
 

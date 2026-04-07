@@ -14,11 +14,13 @@ using UpdatePackage = my_comp::domain::models::UpdatePackage;
 
 class UpdateManager {
 public:
-    void register_provider(std::unique_ptr<IUpdateProvider> provider) {
+    virtual ~UpdateManager() = default;
+
+    virtual void register_provider(std::unique_ptr<IUpdateProvider> provider) {
         providers_.push_back(std::move(provider));
     }
 
-    [[nodiscard]] std::vector<UpdatePackage> check_all_updates() {
+    [[nodiscard]] virtual std::vector<UpdatePackage> check_all_updates() {
         std::vector<UpdatePackage> all_updates;
         for (const auto& provider : providers_) {
             if (provider && provider->is_available()) {

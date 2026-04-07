@@ -47,9 +47,12 @@ set(PROJECT_SOURCES
     src/infrastructure/collectors/sysfs_gpu_provider.cpp
     src/infrastructure/collectors/linux_power_provider.cpp
     src/infrastructure/collectors/linux_system_info_provider.cpp
+    src/infrastructure/collectors/installer_adapter.cpp
     src/presentation/viewmodels/cpu_viewmodel.cpp
     src/presentation/viewmodels/gpu_viewmodel.cpp
     src/presentation/viewmodels/power_viewmodel.cpp
+    src/presentation/viewmodels/system_info_viewmodel.cpp
+    src/presentation/viewmodels/installation_viewmodel.cpp
     src/presentation/viewmodels/memory_viewmodel.cpp
     src/presentation/viewmodels/firmware_viewmodel.cpp
     src/presentation/viewmodels/storage_viewmodel.cpp

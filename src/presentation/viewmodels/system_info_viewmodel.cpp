@@ -10,4 +10,4 @@ SystemInfoViewModel::SystemInfoViewModel(std::shared_ptr<domain::interfaces::ISy
     m_driver = info.gpuDriver;
 }
 
-}
+} // namespace my_comp::presentation::viewmodels

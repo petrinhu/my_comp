@@ -19,6 +19,7 @@
 #include "presentation/viewmodels/memory_viewmodel.h"
 #include "presentation/viewmodels/firmware_viewmodel.h"
 #include "presentation/viewmodels/gpu_viewmodel.h"
+#include "presentation/viewmodels/system_info_viewmodel.h"
 #include "presentation/viewmodels/power_viewmodel.h"
 #include "presentation/viewmodels/storage_viewmodel.h"
 #include "presentation/viewmodels/network_viewmodel.h"
@@ -26,6 +27,11 @@
 #include "infrastructure/collectors/dbus_firmware_provider.h"
 #include "infrastructure/collectors/linux_storage_provider.h"
 #include "infrastructure/collectors/linux_network_provider.h"
+#include "infrastructure/collectors/linux_system_info_provider.h"
+
+#include "infrastructure/collectors/interactive_process_runner.h"
+#include "infrastructure/collectors/installer_adapter.h"
+#include "presentation/viewmodels/installation_viewmodel.h"
 
 int main(int argc, char *argv[])
 {
@@ -80,6 +86,16 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("cpuViewModel", &cpu_vm);
     engine.rootContext()->setContextProperty("memoryViewModel", &memory_vm);
     engine.rootContext()->setContextProperty("firmwareViewModel", &firmware_vm);
+    auto shell_executor = std::make_shared<my_comp::infrastructure::collectors::QProcessShellExecutor>();
+    auto system_info_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxSystemInfoProvider>(shell_executor);
+    my_comp::presentation::viewmodels::SystemInfoViewModel system_info_vm(system_info_provider);
+    
+    auto interactive_runner = std::make_shared<my_comp::infrastructure::collectors::InteractiveProcessRunner>();
+    auto installer_adapter = std::make_shared<my_comp::infrastructure::collectors::InstallerAdapter>(interactive_runner);
+    my_comp::presentation::viewmodels::InstallationViewModel installation_vm(installer_adapter);
+
+    engine.rootContext()->setContextProperty("systemInfoViewModel", &system_info_vm);
+    engine.rootContext()->setContextProperty("installationViewModel", &installation_vm);
     engine.rootContext()->setContextProperty("gpuViewModel", &gpu_vm);
     engine.rootContext()->setContextProperty("powerViewModel", &power_vm);
     engine.rootContext()->setContextProperty("storageViewModel", &storage_vm);

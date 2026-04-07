@@ -1,26 +1,36 @@
 #include "installation_viewmodel.h"
+#include "../../infrastructure/collectors/installer_adapter.h"
 
 namespace my_comp::presentation::viewmodels {
 
-InstallationViewModel::InstallationViewModel(std::shared_ptr<infrastructure::collectors::IShellExecutor> executor, QObject* parent) 
-    : QObject(parent), m_executor(executor) {
+InstallationViewModel::InstallationViewModel(std::shared_ptr<domain::interfaces::IInstaller> installer, QObject* parent) 
+    : QObject(parent), m_installer(installer) {
     
-    auto executor_qobj = dynamic_cast<QObject*>(m_executor.get());
-    if (executor_qobj) {
-        connect(executor_qobj, SIGNAL(outputReceived(QString)), this, SLOT(onOutputReceived(QString)));
-        connect(executor_qobj, SIGNAL(interactionRequired(QString)), this, SLOT(onInteractionRequired(QString)));
-    }
+    auto runner_adapter = dynamic_cast<my_comp::infrastructure::collectors::InstallerAdapter*>(m_installer.get());
 }
 
-void InstallationViewModel::startInstallation(const QString& package) {
-    m_log = "Iniciando instalação de " + package + "...\n";
+void InstallationViewModel::startInstallation(const QString& name, int providerType) {
+    domain::models::UpdatePackage pkg;
+    pkg.name = name;
+    pkg.provider = static_cast<domain::models::ProviderType>(providerType);
+    
+    m_log = "Iniciando instalação de " + name + "...\n";
     emit logOutputChanged();
-    m_executor->startInteractive("sudo", {"dnf", "install", "-y", package});
+    m_installer->install(pkg);
 }
 
 void InstallationViewModel::respond(bool confirmed) {
-    m_executor->sendInput(confirmed ? "y" : "n");
-    m_isWaiting = false;
+    // Lógica de resposta será implementada via canal de comunicação do runner
+}
+
+void InstallationViewModel::onOutputReceived(const QString& output) {
+    m_log += output;
+    emit logOutputChanged();
+}
+
+void InstallationViewModel::onInteractionRequired(const QString& question) {
+    m_question = question;
+    m_isWaiting = true;
     emit interactionRequired();
 }
 

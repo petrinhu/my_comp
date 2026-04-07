@@ -1,16 +1,17 @@
 #ifndef NPM_UPDATE_PROVIDER_H
 #define NPM_UPDATE_PROVIDER_H
 
-#include <memory>
-#include <QJsonDocument>
-#include <QJsonObject>
 #include "../../domain/interfaces/i_update_provider.h"
 #include "i_shell_executor.h"
+#include <QStringList>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <memory>
 
 namespace my_comp::infrastructure::collectors {
 
-using IUpdateProvider = my_comp::domain::interfaces::IUpdateProvider;
-using UpdatePackage = my_comp::domain::models::UpdatePackage;
+using namespace my_comp::domain::interfaces;
+using namespace my_comp::domain::models;
 
 class NpmUpdateProvider : public IUpdateProvider {
 public:
@@ -20,30 +21,34 @@ public:
 
     [[nodiscard]] bool is_available() const override {
         QString output;
-        return shell_->execute("which", {"npm"}, output) == 0;
+        shell_->execute("which", {"npm"}, output);
+        return !output.isEmpty();
     }
 
     [[nodiscard]] std::vector<UpdatePackage> check_updates() override {
         QString output;
+        std::vector<UpdatePackage> updates;
+        
         // npm outdated -g --json returns exit code 1 if updates found
         shell_->execute("npm", {"outdated", "-g", "--json"}, output);
         
-        std::vector<UpdatePackage> updates;
         QJsonDocument doc = QJsonDocument::fromJson(output.toUtf8());
-        if (!doc.isNull() && doc.isObject()) {
-            QJsonObject root = doc.object();
-            for (auto it = root.begin(); it != root.end(); ++it) {
-                QString name = it.key();
-                QJsonObject pkg = it.value().toObject();
-                updates.push_back({
-                    name,
-                    pkg["current"].isString() ? pkg["current"].toString() : "",
-                    pkg["latest"].isString() ? pkg["latest"].toString() : "",
-                    "npm",
-                    "Global node package",
-                    false
-                });
-            }
+        if (!doc.isObject()) return updates;
+
+        QJsonObject obj = doc.object();
+        for (auto it = obj.begin(); it != obj.end(); ++it) {
+            QString name = it.key();
+            QJsonObject pkg = it.value().toObject();
+            
+            UpdatePackage upkg;
+            upkg.name = name;
+            upkg.current_version = pkg["current"].isString() ? pkg["current"].toString() : "";
+            upkg.new_version = pkg["latest"].isString() ? pkg["latest"].toString() : "";
+            upkg.source = "npm";
+            upkg.provider = ProviderType::Npm;
+            upkg.description = "Global node package";
+            upkg.is_critical = false;
+            updates.push_back(upkg);
         }
         return updates;
     }

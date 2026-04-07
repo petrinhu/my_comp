@@ -1,15 +1,15 @@
 #ifndef FLATPAK_UPDATE_PROVIDER_H
 #define FLATPAK_UPDATE_PROVIDER_H
 
-#include <memory>
-#include <QStringList>
 #include "../../domain/interfaces/i_update_provider.h"
 #include "i_shell_executor.h"
+#include <QStringList>
+#include <memory>
 
 namespace my_comp::infrastructure::collectors {
 
-using IUpdateProvider = my_comp::domain::interfaces::IUpdateProvider;
-using UpdatePackage = my_comp::domain::models::UpdatePackage;
+using namespace my_comp::domain::interfaces;
+using namespace my_comp::domain::models;
 
 class FlatpakUpdateProvider : public IUpdateProvider {
 public:
@@ -19,29 +19,28 @@ public:
 
     [[nodiscard]] bool is_available() const override {
         QString output;
-        return shell_->execute("which", {"flatpak"}, output) == 0;
+        shell_->execute("which", {"flatpak"}, output);
+        return !output.isEmpty();
     }
 
     [[nodiscard]] std::vector<UpdatePackage> check_updates() override {
         QString output;
-        // flatpak remote-ls --updates --columns=name,version,application
-        int exit_code = shell_->execute("flatpak", {"remote-ls", "--updates", "--columns=name,version,application"}, output);
-        
         std::vector<UpdatePackage> updates;
-        if (exit_code == 0) {
-            auto lines = output.split("\n", Qt::SkipEmptyParts);
+        
+        if (shell_->execute("flatpak", {"remote-ls", "--updates", "--columns=name,version,application"}, output) == 0) {
+            auto lines = output.split('\n', Qt::SkipEmptyParts);
             for (const auto& line : lines) {
-                // Flatpak outputs using tabs when columns are requested
-                auto parts = line.split("\t", Qt::SkipEmptyParts);
+                auto parts = line.split('\t', Qt::SkipEmptyParts);
                 if (parts.size() >= 3) {
-                    updates.push_back({
-                        parts[0].trimmed(), // name
-                        "",                 // current
-                        parts[1].trimmed(), // new_version
-                        "flatpak",          // source
-                        parts[2].trimmed(), // app id
-                        false
-                    });
+                    UpdatePackage pkg;
+                    pkg.name = parts[0].trimmed();
+                    pkg.current_version = "";
+                    pkg.new_version = parts[1].trimmed();
+                    pkg.source = "flatpak";
+                    pkg.provider = ProviderType::Flatpak;
+                    pkg.description = parts[2].trimmed();
+                    pkg.is_critical = false;
+                    updates.push_back(pkg);
                 }
             }
         }
