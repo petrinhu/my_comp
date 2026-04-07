@@ -42,7 +42,10 @@ set(PROJECT_SOURCES
     src/infrastructure/collectors/dbus_firmware_provider.cpp
     src/infrastructure/collectors/linux_storage_provider.cpp
     src/infrastructure/collectors/linux_network_provider.cpp
+    src/infrastructure/collectors/nvidia_gpu_provider.cpp
+    src/infrastructure/collectors/sysfs_gpu_provider.cpp
     src/presentation/viewmodels/cpu_viewmodel.cpp
+    src/presentation/viewmodels/gpu_viewmodel.cpp
     src/presentation/viewmodels/memory_viewmodel.cpp
     src/presentation/viewmodels/firmware_viewmodel.cpp
     src/presentation/viewmodels/storage_viewmodel.cpp
@@ -103,11 +106,13 @@ add_executable(acceptance_tests
     tests/acceptance/storage_monitor_test.cpp
     tests/acceptance/network_monitor_test.cpp
     tests/acceptance/security_vault_test.cpp
+    tests/acceptance/gpu_monitor_test.cpp
     src/infrastructure/collectors/linux_memory_provider.cpp
     src/infrastructure/security/openssl_vault.cpp
     src/infrastructure/collectors/dbus_firmware_provider.cpp
     src/infrastructure/collectors/linux_storage_provider.cpp
     src/infrastructure/collectors/linux_network_provider.cpp
+    src/infrastructure/collectors/nvidia_gpu_provider.cpp
 )
 target_link_libraries(acceptance_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::DBus OpenSSL::Crypto)
 add_test(NAME acceptance_tests COMMAND acceptance_tests)

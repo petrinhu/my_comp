@@ -32,11 +32,17 @@ Atue como Engenheiro de Sistemas Sênior especializado em C++20.
 - Suporte nativo para exportação de logs e relatórios em: **JSON, XML, CSV e Markdown**.
 
 ## 6. Fluxo de Trabalho (Sprint)
-1. **Red:** Criar teste que falha.
-2. **Green:** Implementar o mínimo para passar.
-3. **Refactor:** Limpar o código e garantir conformidade com o guia de estilo.
-4. **Build & Fix:** `cmake --build build/` e resolução de todos os warnings.
-5. **Audit:** Valgrind e Clang-Tidy antes de finalizar qualquer funcionalidade.
+1. **Red**: Criar teste que falha.
+2. **Green**: Implementar o mínimo para passar.
+3. **Refactor**: Limpar o código e garantir conformidade com o guia de estilo.
+4. **Audit**: Valgrind e Clang-Tidy para garantir qualidade.
+5. **Mandatory Implementation Hook** (Finalização):
+    - **Build & Fix**: `cmake --build build/` e resolução de todos os warnings.
+    - **Commit**: Realizar o commit no repositório git local.
+    - **Deploy (Push)**: Enviar para o repositório remoto.
+    - **Update Table**: Atualizar a tabela de progresso no arquivo `SESSION.md`.
+    - **Show Table**: Exibir a tabela de progresso atualizada.
+    - **Next Step**: Perguntar "Como deseja prosseguir?".
 
 ## 7. Diretrizes de Gerenciamento e Memória
 - **Memória Real-time (SESSION.md):** Todas as decisões técnicas, mudanças de requisitos e progresso imediato devem ser registrados no arquivo `SESSION.md` na raiz do projeto em tempo real.
