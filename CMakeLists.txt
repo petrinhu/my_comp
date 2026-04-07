@@ -42,6 +42,7 @@ set(PROJECT_SOURCES
     src/infrastructure/collectors/dbus_firmware_provider.cpp
     src/infrastructure/collectors/linux_storage_provider.cpp
     src/infrastructure/collectors/linux_network_provider.cpp
+    src/infrastructure/collectors/interactive_process_runner.cpp
     src/infrastructure/collectors/nvidia_gpu_provider.cpp
     src/infrastructure/collectors/sysfs_gpu_provider.cpp
     src/infrastructure/collectors/linux_power_provider.cpp
@@ -114,6 +115,7 @@ add_executable(acceptance_tests
     src/infrastructure/collectors/dbus_firmware_provider.cpp
     src/infrastructure/collectors/linux_storage_provider.cpp
     src/infrastructure/collectors/linux_network_provider.cpp
+    src/infrastructure/collectors/interactive_process_runner.cpp
     src/infrastructure/collectors/nvidia_gpu_provider.cpp
 )
 target_link_libraries(acceptance_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::DBus OpenSSL::Crypto)
