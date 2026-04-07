@@ -115,6 +115,7 @@ Window {
                         {name: "Dashboard", icon: "📊", tip: "Visão geral do sistema em tempo real"},
                         {name: "Updates", icon: "📦", tip: "Gerenciar pacotes DNF, Flatpak e NPM"},
                         {name: "Journal", icon: "📜", tip: "Analisar logs e erros críticos do sistema"},
+                        {name: "Network", icon: "🌐", tip: "Monitoramento detalhado de conexões e rotas"},
                         {name: "Hardware", icon: "💻", tip: "Topologia completa de dispositivos e portas"},
                         {name: "Security", icon: "🛡️", tip: "Auditoria de Firewall, SELinux e Logins"},
                         {name: "Export", icon: "📤", tip: "Gerar relatórios em MD, JSON ou HTML"}
@@ -368,6 +369,7 @@ Window {
                 }
                 Item { Layout.fillHeight: true }
             }
+            PlaceholderView { title: "Dashboard de Rede"; icon: "🌐"; desc: "Monitoramento em tempo real de interfaces, rotas e tráfego." }
             PlaceholderView { title: "Auditoria de Segurança"; icon: "🛡️"; desc: "SELinux, Firewall, Portas Abertas e Logins." }
             PlaceholderView { title: "Exportar Relatórios"; icon: "📤"; desc: "Paridade total com legado (MD, HTML, JSON)." }
         }
