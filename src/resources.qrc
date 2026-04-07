@@ -1,0 +1,6 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/">
+    <file alias="Main.qml">presentation/qml/Main.qml</file>
+    <file alias="CpuDetailDialog.qml">presentation/qml/CpuDetailDialog.qml</file>
+</qresource>
+</RCC>

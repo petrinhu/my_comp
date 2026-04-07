@@ -1,0 +1,33 @@
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+#include <vector>
+#include "../../src/domain/interfaces/i_diagnostic_provider.h"
+#include "../../src/domain/models/log_entry.h"
+#include "../../src/domain/diagnostic_manager.h"
+
+using namespace my_comp::domain;
+using namespace testing;
+
+class MockDiagnosticProvider : public interfaces::IDiagnosticProvider {
+public:
+    MOCK_METHOD(QString, get_name, (), (const, override));
+    MOCK_METHOD(std::vector<models::LogEntry>, fetch_logs, (interfaces::DiagnosticFilter), (override));
+};
+
+TEST(JournalAcceptance, ShouldConsolidateDiagnosticLogs) {
+    DiagnosticManager manager;
+    auto mock = std::make_unique<MockDiagnosticProvider>();
+
+    // Esperamos qualquer filtro ( _ )
+    EXPECT_CALL(*mock, fetch_logs(_))
+        .WillOnce(Return(std::vector<models::LogEntry>{
+            {"10:00", 3, "Kernel panic", "journal"},
+            {"10:05", 3, "Disk failure", "journal"}
+        }));
+
+    manager.register_provider(std::move(mock));
+    auto logs = manager.fetch_all_logs();
+
+    ASSERT_EQ(logs.size(), 2);
+    EXPECT_EQ(logs[0].message, "Kernel panic");
+}
