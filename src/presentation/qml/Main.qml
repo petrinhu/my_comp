@@ -263,6 +263,15 @@ Window {
                         }
                         delegate: ItemDelegate {
                             width: updateList.width; height: 65
+                            onDoubleClicked: {
+                                let providerInt = 0
+                                if (source === "flatpak") providerInt = 1
+                                else if (source === "npm") providerInt = 2
+                                else if (source === "snap") providerInt = 3
+                                
+                                installationViewModel.startInstallation(name, providerInt)
+                                root.currentView = 7 // Muda para a aba de terminal dedicada
+                            }
                             contentItem: RowLayout {
                                 spacing: 15
                                 Rectangle { 
@@ -392,6 +401,12 @@ Window {
             // ABA 5 e 6 - Placeholders restantes
             PlaceholderView { title: "Auditoria de Segurança"; icon: "🛡️"; desc: "SELinux, Firewall, Portas Abertas e Logins." }
             PlaceholderView { title: "Exportar Relatórios"; icon: "📤"; desc: "Paridade total com legado (MD, HTML, JSON)." }
+
+            // ABA 7 - Terminal de Instalação (Acessada via Double Click)
+            InstallationView {
+                id: installView
+                anchors.margins: 25
+            }
         }
     }
 

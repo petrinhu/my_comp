@@ -24,23 +24,13 @@
 | 20 | Monitor: Storage (I/O / SMART) | Alta | Média | ✅ | Coleta via /proc. |
 | 21 | Monitor: Network (Latency/Traffic) | Média | Baixa | ✅ | Via /proc/net/dev. |
 | 28 | Segurança: AES-256-GCM Vault | Alta | Alta | ✅ | Auditado (OpenSSL). |
-| 33 | Journal: Searchbar e Filtros Dinâmicos | Alta | Média | ❌ | Busca e menu de categorias. |
-| 36 | Updates: Instalação Individual | Alta | Alta | ❌ | Fluxo sudo/terminal. |
+| 33 | Journal: Searchbar e Filtros Dinâmicos | Alta | Média | ✅ | Auditado. |
+| 36 | Updates: Gerenciamento Universal | Alta | Alta | ✅ | **Auditado: Backend interativo OK.** |
+| 36.1 | Terminal Interativo (y/n & Logs) | Alta | Alta | ✅ | **Auditado: UI/UX Terminal OK.** |
+| 36.2 | Multi-provedor (DNF/Flatpak) | Alta | Média | ✅ | **Auditado: Roteamento IInstaller.** |
+| 39 | Updates: Kernel/Distro/Driver info | Alta | Alta | ✅ | **Auditado: SystemInfo integrado.** |
 | 38.1 | Link Duplo (Wi-Fi + Eth) e Prioridade | Alta | Alta | ❌ | Indicadores de rota ativa. |
-| 38.2 | IP Stack (Local, Público, GW, DNS) | Alta | Média | ❌ | Endereçamento completo. |
-| 38.3 | Latência e Throughput (Gráfico) | Alta | Alta | ❌ | Ping/Speed real-time. |
-| 38.6 | Scanner de Rede Local (ARP/Nmap) | Alta | Média | ❌ | Lista de dispositivos. |
-| 38.6.1 | Descoberta Específica: Alexa | Alta | Média | ❌ | mDNS/MAC signature. |
-| 38.6.2 | Mapper de Fabricantes (MAC/OUI DB) | Média | Baixa | ❌ | Identificação via OUI. |
-| 38.7 | Geolocalizador de IP Público | Baixa | Baixa | ❌ | Info geográfica. |
-| 38.8 | Verificador de Portas e Serviços | Média | Média | ❌ | Diagnóstico de serviços. |
-| 38.9 | Teste de Performance DNS | Baixa | Média | ❌ | Comparativo. |
-| 38.10 | Histórico de Uptime de Conexão | Média | Média | ❌ | Logs de quedas. |
-| 38.11 | Monitor de Packet Loss e Jitter | Alta | Alta | ❌ | Instabilidade real-time. |
-| 38.12 | Monitor de Rede por Aplicativo (Top) | Alta | Alta | ❌ | Consumo por processo. |
-| 38.13 | Ferramenta de Teste de MTU | Baixa | Média | ❌ | Otimização. |
-| 38.14 | Wake-on-LAN (WoL) Trigger | Média | Alta | ❌ | Ligar remoto. |
-| 39 | Updates: Kernel/Distro/Driver info | Alta | Alta | ❌ | Info de sistema. |
+
 | T1 | Testes Unitários (QtTest/GTest) | Alta | Alta | 🟡 | Em execução. |
 | T4 | Análise Dinâmica (ASan/Valgrind) | Alta | Alta | ❌ | Mandato Final. |
 | A4 | QA Geral C++ (Build Strict) | Alta | Média | 🟡 | Build/Testes ok. |
