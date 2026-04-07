@@ -293,7 +293,20 @@ Window {
                 RowLayout { 
                     Text { text: "Analisador de Journal"; color: root.textColor; font.pixelSize: 24; font.bold: true }
                     Item { Layout.fillWidth: true }
-                    Button { text: "Atualizar Logs"; highlighted: true; onClicked: diagnosticViewModel.refresh() } 
+                    TextField {
+                        id: searchField
+                        placeholderText: "Buscar no Journal..."
+                        Layout.preferredWidth: 300
+                        onTextChanged: diagnosticViewModel.searchQuery = text
+                        Keys.onReturnPressed: diagnosticViewModel.performSearch()
+                    }
+                    Button { text: "Buscar"; highlighted: true; onClicked: diagnosticViewModel.performSearch() }
+                    Button { text: "Reset"; onClicked: diagnosticViewModel.refresh() } 
+                }
+                ProgressBar {
+                    Layout.fillWidth: true
+                    value: diagnosticViewModel.searchProgress
+                    visible: diagnosticViewModel.isBusy
                 }
                 Rectangle {
                     Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor

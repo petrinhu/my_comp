@@ -24,6 +24,7 @@ public:
 
     [[nodiscard]] virtual QString get_name() const = 0;
     [[nodiscard]] virtual std::vector<LogEntry> fetch_logs(DiagnosticFilter filter = DiagnosticFilter::All) = 0;
+    [[nodiscard]] virtual std::vector<LogEntry> search_logs(const QString& query) = 0;
 };
 
 } // namespace my_comp::domain::interfaces

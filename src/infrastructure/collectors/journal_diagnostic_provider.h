@@ -58,6 +58,19 @@ public:
         return logs;
     }
 
+    [[nodiscard]] std::vector<LogEntry> search_logs(const QString& query) override {
+        QStringList args = {"-b", "--no-pager", "-g", query};
+        QString output;
+        shell_->execute("journalctl", args, output);
+        
+        std::vector<LogEntry> logs;
+        auto lines = output.split("\n", Qt::SkipEmptyParts);
+        for (const auto& line : lines) {
+            logs.push_back({"Live", 3, line.trimmed(), "journal"});
+        }
+        return logs;
+    }
+
 private:
     std::shared_ptr<IShellExecutor> shell_;
 };
