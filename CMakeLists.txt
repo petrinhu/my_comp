@@ -44,6 +44,7 @@ set(PROJECT_SOURCES
     src/infrastructure/collectors/linux_network_provider.cpp
     src/infrastructure/collectors/nvidia_gpu_provider.cpp
     src/infrastructure/collectors/sysfs_gpu_provider.cpp
+    src/infrastructure/collectors/linux_power_provider.cpp
     src/presentation/viewmodels/cpu_viewmodel.cpp
     src/presentation/viewmodels/gpu_viewmodel.cpp
     src/presentation/viewmodels/memory_viewmodel.cpp
