@@ -331,7 +331,13 @@ Window {
                 }
             }
 
-            // ABA 3
+            // ABA 2 (Journal) continua aqui...
+            // ... (vou manter o código do Journal intacto)
+
+            // ABA 3 - Network (Movida para antes do Hardware)
+            PlaceholderView { title: "Dashboard de Rede"; icon: "🌐"; desc: "Monitoramento em tempo real de interfaces, rotas e tráfego." }
+
+            // ABA 4 - Hardware
             ColumnLayout {
                 id: hardwareLayout
                 anchors.margins: 25
@@ -382,7 +388,8 @@ Window {
                 }
                 Item { Layout.fillHeight: true }
             }
-            PlaceholderView { title: "Dashboard de Rede"; icon: "🌐"; desc: "Monitoramento em tempo real de interfaces, rotas e tráfego." }
+
+            // ABA 5 e 6 - Placeholders restantes
             PlaceholderView { title: "Auditoria de Segurança"; icon: "🛡️"; desc: "SELinux, Firewall, Portas Abertas e Logins." }
             PlaceholderView { title: "Exportar Relatórios"; icon: "📤"; desc: "Paridade total com legado (MD, HTML, JSON)." }
         }
