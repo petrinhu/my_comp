@@ -35,7 +35,7 @@
 | 30 | Áudio: FFT Waveform (Real-time) | Média | Alta | ❌ | Visualizador de ondas (QtMultimedia). |
 | 31 | UI/UX: Refatoração de DashboardCards | Alta | Baixa | ✅ | **Auditado: Layout responsivo (2-4 colunas) e 8 cards integrados.** |
 | 32 | Infra: Sistema de Refresh em Tempo Real | Alta | Média | ✅ | Atualização dinâmica integrada. |
-| 33 | Journal: Searchbar e Filtros Dinâmicos | Alta | Média | ❌ | Implementar busca e menu de categorias. |
+| 33 | Journal: Searchbar e Filtros Dinâmicos | Alta | Média | ✅ | **Auditado: Busca por texto unificada a categorias (journalctl -g).** |
 | 34 | Journal: Numeração de Linhas (Texto Original) | Alta | Baixa | ❌ | Mostrar índice real da linha no journalctl. |
 | 35 | Journal: Double-Click Search (Navegador) | Média | Baixa | ❌ | Abrir busca no Google. |
 | 36 | Updates: Instalação Individual (Double-Click) | Alta | Alta | ❌ | Fluxo de instalação com terminal/verbose. |

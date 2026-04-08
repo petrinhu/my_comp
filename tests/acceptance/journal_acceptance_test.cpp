@@ -25,7 +25,7 @@ TEST(JournalAcceptance, ShouldConsolidateDiagnosticLogs) {
 
     EXPECT_CALL(*mock, fetch_logs(_, _))
         .WillOnce(Return(std::vector<models::LogEntry>{
-            {"10:00", 3, "Kernel panic", "journal"}
+            {1, "10:00", 3, "Kernel panic", "journal"}
         }));
 
     manager.register_provider(std::move(mock));

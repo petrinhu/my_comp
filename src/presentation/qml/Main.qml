@@ -376,8 +376,16 @@ Window {
                         delegate: ItemDelegate {
                             width: journalList.width; height: 50
                             contentItem: RowLayout {
-                                spacing: 15
-                                Rectangle { width: 8; Layout.fillHeight: true; color: root.criticalColor; radius: 4 }
+                                spacing: 10
+                                Text { 
+                                    text: lineNumber
+                                    color: "#7f8c8d"
+                                    font.pixelSize: 10
+                                    font.family: "Monospace"
+                                    Layout.preferredWidth: 30
+                                    horizontalAlignment: Text.AlignRight
+                                }
+                                Rectangle { width: 4; Layout.fillHeight: true; color: root.criticalColor; radius: 2 }
                                 ColumnLayout { 
                                     spacing: 2
                                     Text { text: message; color: root.textColor; font.pixelSize: 13; elide: Text.ElideRight; Layout.fillWidth: true }

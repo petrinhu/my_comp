@@ -50,8 +50,10 @@ public:
         
         std::vector<LogEntry> logs;
         auto lines = output.split("\n", Qt::SkipEmptyParts);
+        int current_line = 1;
         for (const auto& line : lines) {
             logs.push_back({
+                current_line++,   // line_number
                 "Live",           // timestamp
                 3,                // level
                 line.trimmed(),   // message

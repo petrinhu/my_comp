@@ -14,7 +14,8 @@ class LogEntryModel : public QAbstractListModel {
 
 public:
     enum LogRoles {
-        TimestampRole = Qt::UserRole + 1,
+        LineNumberRole = Qt::UserRole + 1,
+        TimestampRole,
         PriorityRole,
         MessageRole,
         SourceRole
@@ -39,6 +40,7 @@ public:
 
         const auto& log = logs_[static_cast<size_t>(index.row())];
         switch (role) {
+            case LineNumberRole: return log.line_number;
             case TimestampRole: return log.timestamp;
             case PriorityRole: return log.priority;
             case MessageRole: return log.message;
@@ -49,6 +51,7 @@ public:
 
     [[nodiscard]] QHash<int, QByteArray> roleNames() const override {
         QHash<int, QByteArray> roles;
+        roles[LineNumberRole] = "lineNumber";
         roles[TimestampRole] = "timestamp";
         roles[PriorityRole] = "priority";
         roles[MessageRole] = "message";

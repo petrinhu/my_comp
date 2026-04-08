@@ -6,6 +6,7 @@
 namespace my_comp::domain::models {
 
 struct LogEntry {
+    int line_number;
     QString timestamp;
     int priority;        // 0-7 (systemd priority)
     QString message;
