@@ -332,7 +332,36 @@ Window {
                         Keys.onReturnPressed: diagnosticViewModel.performSearch()
                     }
                     Button { text: "Buscar"; highlighted: true; onClicked: diagnosticViewModel.performSearch() }
-                    Button { text: "Reset"; onClicked: diagnosticViewModel.refresh() } 
+                    Button { text: "Reset"; onClicked: { searchField.text = ""; diagnosticViewModel.currentFilter = 5; } } 
+                }
+                RowLayout {
+                    spacing: 10
+                    Layout.fillWidth: true
+                    Repeater {
+                        model: [
+                            {name: "Críticos", val: 0},
+                            {name: "Hardware", val: 1},
+                            {name: "Boot", val: 2},
+                            {name: "KDE/Wayland", val: 3},
+                            {name: "Segurança", val: 4},
+                            {name: "Todos", val: 5}
+                        ]
+                        delegate: Button {
+                            text: modelData.name
+                            flat: diagnosticViewModel.currentFilter !== modelData.val
+                            highlighted: diagnosticViewModel.currentFilter === modelData.val
+                            onClicked: diagnosticViewModel.currentFilter = modelData.val
+                            
+                            contentItem: Text {
+                                text: parent.text
+                                font.pixelSize: 11
+                                font.bold: true
+                                color: parent.highlighted ? "white" : root.textColor
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                            }
+                        }
+                    }
                 }
                 ProgressBar {
                     Layout.fillWidth: true

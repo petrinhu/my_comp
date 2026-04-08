@@ -23,8 +23,13 @@ public:
     virtual ~IDiagnosticProvider() = default;
 
     [[nodiscard]] virtual QString get_name() const = 0;
-    [[nodiscard]] virtual std::vector<LogEntry> fetch_logs(DiagnosticFilter filter = DiagnosticFilter::All) = 0;
-    [[nodiscard]] virtual std::vector<LogEntry> search_logs(const QString& query) = 0;
+
+    /**
+     * @brief Coleta logs combinando filtro de categoria e busca por texto.
+     * @param filter Categoria (ex: Hardware, Boot).
+     * @param query Texto opcional para busca (ex: "timeout", "error").
+     */
+    virtual std::vector<LogEntry> fetch_logs(DiagnosticFilter filter = DiagnosticFilter::All, const QString& query = "") = 0;
 };
 
 } // namespace my_comp::domain::interfaces

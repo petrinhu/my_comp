@@ -19,21 +19,13 @@ public:
         providers_.push_back(std::move(provider));
     }
 
-    [[nodiscard]] std::vector<LogEntry> fetch_all_logs(DiagnosticFilter filter = DiagnosticFilter::All) {
+    /**
+     * @brief Coleta logs de todos os provedores com filtro e busca aplicados.
+     */
+    [[nodiscard]] std::vector<LogEntry> fetch_all_logs(DiagnosticFilter filter = DiagnosticFilter::All, const QString& query = "") {
         std::vector<LogEntry> all_logs;
         for (const auto& provider : providers_) {
-            auto logs = provider->fetch_logs(filter);
-            all_logs.insert(all_logs.end(), 
-                          std::make_move_iterator(logs.begin()), 
-                          std::make_move_iterator(logs.end()));
-        }
-        return all_logs;
-    }
-
-    [[nodiscard]] std::vector<LogEntry> search_logs(const QString& query) {
-        std::vector<LogEntry> all_logs;
-        for (const auto& provider : providers_) {
-            auto logs = provider->search_logs(query);
+            auto logs = provider->fetch_logs(filter, query);
             all_logs.insert(all_logs.end(), 
                           std::make_move_iterator(logs.begin()), 
                           std::make_move_iterator(logs.end()));

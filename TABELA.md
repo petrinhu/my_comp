@@ -33,7 +33,7 @@
 | 28 | Segurança: AES-256-GCM Vault | Alta | Alta | ✅ | Auditado via OpenSSL (100% offline). |
 | 29 | Gerenciador: Cargo/Go/Snap/APT/Pacman | Alta | Alta | ❌ | Expansão Multi-distro. |
 | 30 | Áudio: FFT Waveform (Real-time) | Média | Alta | ❌ | Visualizador de ondas (QtMultimedia). |
-| 31 | UI/UX: Refatoração de DashboardCards | Alta | Baixa | ✅ | Alto contraste e escala dinâmica. |
+| 31 | UI/UX: Refatoração de DashboardCards | Alta | Baixa | ✅ | **Auditado: Layout responsivo (2-4 colunas) e 8 cards integrados.** |
 | 32 | Infra: Sistema de Refresh em Tempo Real | Alta | Média | ✅ | Atualização dinâmica integrada. |
 | 33 | Journal: Searchbar e Filtros Dinâmicos | Alta | Média | ❌ | Implementar busca e menu de categorias. |
 | 34 | Journal: Numeração de Linhas (Texto Original) | Alta | Baixa | ❌ | Mostrar índice real da linha no journalctl. |

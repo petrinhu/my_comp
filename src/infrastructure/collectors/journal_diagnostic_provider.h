@@ -9,7 +9,6 @@ namespace my_comp::infrastructure::collectors {
 
 using IDiagnosticProvider = my_comp::domain::interfaces::IDiagnosticProvider;
 using LogEntry = my_comp::domain::models::LogEntry;
-
 using DiagnosticFilter = my_comp::domain::interfaces::DiagnosticFilter;
 
 class JournalDiagnosticProvider : public IDiagnosticProvider {
@@ -18,8 +17,8 @@ public:
 
     [[nodiscard]] QString get_name() const override { return "journal"; }
 
-    [[nodiscard]] std::vector<LogEntry> fetch_logs(DiagnosticFilter filter) override {
-        QStringList args = {"-b", "--no-pager"};
+    [[nodiscard]] std::vector<LogEntry> fetch_logs(DiagnosticFilter filter = DiagnosticFilter::All, const QString& query = "") override {
+        QStringList args = {"-b", "--no-pager", "-n", "100"}; // Limite de 100 para performance
         
         switch (filter) {
             case DiagnosticFilter::CriticalErrors:
@@ -42,6 +41,10 @@ public:
                 break;
         }
 
+        if (!query.isEmpty()) {
+            args << "-g" << query;
+        }
+
         QString output;
         shell_->execute("journalctl", args, output);
         
@@ -54,19 +57,6 @@ public:
                 line.trimmed(),   // message
                 "journal"         // source
             });
-        }
-        return logs;
-    }
-
-    [[nodiscard]] std::vector<LogEntry> search_logs(const QString& query) override {
-        QStringList args = {"-b", "--no-pager", "-g", query};
-        QString output;
-        shell_->execute("journalctl", args, output);
-        
-        std::vector<LogEntry> logs;
-        auto lines = output.split("\n", Qt::SkipEmptyParts);
-        for (const auto& line : lines) {
-            logs.push_back({"Live", 3, line.trimmed(), "journal"});
         }
         return logs;
     }
