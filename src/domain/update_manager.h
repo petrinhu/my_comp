@@ -5,16 +5,28 @@
 #include <memory>
 #include <algorithm>
 #include "interfaces/i_update_provider.h"
+#include "interfaces/i_installer.h"
 #include "models/update_package.h"
 
 namespace my_comp::domain {
 
 using IUpdateProvider = my_comp::domain::interfaces::IUpdateProvider;
+using IInstaller = my_comp::domain::interfaces::IInstaller;
 using UpdatePackage = my_comp::domain::models::UpdatePackage;
 
 class UpdateManager {
 public:
     virtual ~UpdateManager() = default;
+
+    void set_installer(std::shared_ptr<IInstaller> installer) {
+        installer_ = std::move(installer);
+    }
+
+    virtual void upgrade_all() {
+        if (installer_) {
+            installer_->upgradeAll();
+        }
+    }
 
     virtual void register_provider(std::unique_ptr<IUpdateProvider> provider) {
         providers_.push_back(std::move(provider));
@@ -34,6 +46,7 @@ public:
     }
 
 private:
+    std::shared_ptr<IInstaller> installer_;
     std::vector<std::unique_ptr<IUpdateProvider>> providers_;
 };
 

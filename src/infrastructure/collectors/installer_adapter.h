@@ -12,6 +12,7 @@ class InstallerAdapter : public QObject, public domain::interfaces::IInstaller {
 public:
     explicit InstallerAdapter(std::shared_ptr<domain::interfaces::IInteractiveRunner> runner);
     void install(const domain::models::UpdatePackage& package) override;
+    void upgradeAll() override;
     void sendResponse(const QString& response) override;
 
 private:

@@ -92,6 +92,8 @@ int main(int argc, char *argv[])
     
     auto interactive_runner = std::make_shared<my_comp::infrastructure::collectors::InteractiveProcessRunner>();
     auto installer_adapter = std::make_shared<my_comp::infrastructure::collectors::InstallerAdapter>(interactive_runner);
+    update_manager->set_installer(installer_adapter);
+    
     my_comp::presentation::viewmodels::InstallationViewModel installation_vm(installer_adapter);
 
     engine.rootContext()->setContextProperty("systemInfoViewModel", &system_info_vm);

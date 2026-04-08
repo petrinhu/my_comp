@@ -249,7 +249,14 @@ Window {
                 RowLayout { 
                     Text { text: "Central de Atualizações"; color: root.textColor; font.pixelSize: 24; font.bold: true }
                     Item { Layout.fillWidth: true }
-                    Button { text: "Atualizar Tudo"; highlighted: true; onClicked: console.log("Atualizar Tudo solicitado") } 
+                    Button { 
+                        text: "Atualizar Tudo"
+                        highlighted: true
+                        onClicked: {
+                            updateViewModel.upgradeAll()
+                            root.currentView = 7 // Muda para a aba de terminal
+                        }
+                    } 
                     Button { text: "Verificar Agora"; highlighted: true; onClicked: updateViewModel.refresh() } 
                 }
                 Rectangle {

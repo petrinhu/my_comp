@@ -25,6 +25,11 @@ public:
     [[nodiscard]] int totalUpdates() const { return model_->rowCount(); }
     [[nodiscard]] bool isBusy() const { return is_busy_; }
 
+    Q_INVOKABLE void upgradeAll() {
+        qDebug() << "[UpdateVM] Requesting full upgrade...";
+        manager_->upgrade_all();
+    }
+
     Q_INVOKABLE void refresh() {
         if (is_busy_) return;
         qDebug() << "[UpdateVM] Starting update check...";

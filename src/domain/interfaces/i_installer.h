@@ -9,6 +9,7 @@ class IInstaller {
 public:
     virtual ~IInstaller() = default;
     virtual void install(const models::UpdatePackage& package) = 0;
+    virtual void upgradeAll() = 0;
     virtual void sendResponse(const QString& response) = 0;
 
     // Callbacks para desacoplar do QObject na Foundation

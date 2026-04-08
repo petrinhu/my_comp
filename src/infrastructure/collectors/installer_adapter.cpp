@@ -45,6 +45,12 @@ void InstallerAdapter::install(const domain::models::UpdatePackage& package) {
     m_runner->start(cmd, args);
 }
 
+void InstallerAdapter::upgradeAll() {
+    QString cmd = "sudo";
+    QStringList args = {"dnf", "upgrade", "-y"};
+    m_runner->start(cmd, args);
+}
+
 void InstallerAdapter::sendResponse(const QString& response) {
     m_runner->sendResponse(response);
 }
