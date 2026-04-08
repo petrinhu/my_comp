@@ -114,11 +114,13 @@ add_executable(acceptance_tests
     tests/acceptance/network_monitor_test.cpp
     tests/acceptance/security_vault_test.cpp
     tests/acceptance/gpu_monitor_test.cpp
+    tests/acceptance/power_monitor_test.cpp
     src/infrastructure/collectors/linux_memory_provider.cpp
     src/infrastructure/security/openssl_vault.cpp
     src/infrastructure/collectors/dbus_firmware_provider.cpp
     src/infrastructure/collectors/linux_storage_provider.cpp
     src/infrastructure/collectors/linux_network_provider.cpp
+    src/infrastructure/collectors/linux_power_provider.cpp
     src/infrastructure/collectors/interactive_process_runner.cpp
     src/infrastructure/collectors/nvidia_gpu_provider.cpp
 )

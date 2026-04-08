@@ -230,11 +230,11 @@ Window {
                                         networkViewModel.latency >= 100 && networkViewModel.latency < 300 ? "#f1c40f" : root.criticalColor
                         }
                         DashboardCard { 
-                            id: tempCard
-                            title: "THERMAL HEATMAP"
-                            value: cpuViewModel.temperature.toFixed(0) + "°C"
-                            subValue: "CPU Package"
-                            valueColor: cpuViewModel.temperature > 80 ? root.criticalColor : root.highlightColor
+                            id: powerCard
+                            title: "POWER & BATTERY"
+                            value: powerViewModel.batteryPercent.toFixed(0) + "%"
+                            subValue: powerViewModel.powerWatts.toFixed(1) + " W • " + (powerViewModel.batteryPercent > 90 ? "Healthy" : "Discharging")
+                            valueColor: powerViewModel.batteryPercent < 20 ? root.criticalColor : "#2ecc71"
                         }
                         DashboardCard { 
                             id: swapCard

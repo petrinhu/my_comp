@@ -3,8 +3,13 @@
 #include <QString>
 
 namespace my_comp::infrastructure::collectors {
+
 class LinuxPowerProvider : public domain::interfaces::IPowerProvider {
 public:
-    std::vector<domain::models::PowerStats> get_power_data() override;
+    domain::models::PowerStats collect_stats() override;
+
+private:
+    QString read_sysfs(const QString& path);
 };
-}
+
+} // namespace my_comp::infrastructure::collectors

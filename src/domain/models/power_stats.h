@@ -1,15 +1,15 @@
 #pragma once
-
-#include "../../domain/interfaces/i_power_provider.h"
-#include <vector>
-#include <memory>
-#include <string>
+#include <QString>
 
 namespace my_comp::domain::models {
+
 struct PowerStats {
-    double power_watts;      // Consumo atual em Watts
-    double battery_percent;  // Nível de carga (0-100)
-    bool is_charging;        // Estado de carga
-    std::string model;       // Ex: BAT0
+    double battery_percent = 0.0;
+    double consumption_watts = 0.0;
+    double health_percent = 0.0;
+    int cycle_count = 0;
+    QString status; // "Charging", "Discharging", "Full"
+    bool is_ac_connected = false;
 };
-}
+
+} // namespace my_comp::domain::models

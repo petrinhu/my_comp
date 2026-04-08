@@ -18,7 +18,7 @@
 | 13 | Journal: Filtro de KDE/Wayland | Média | Média | ✅ | Auditado via acceptance tests. |
 | 14 | Journal: Filtro de Segurança/Network | Média | Média | ✅ | Auditado via acceptance tests. |
 | 15 | Monitor: CPU Real-time (Load/Freq) | Alta | Média | ✅ | Coleta real via /proc. |
-| 16 | Monitor: GPU Real-time (Load/Temp/VRAM) | Média | Alta | ❌ | Multi-vendor (Nvidia/Intel/AMD). |
+| 16 | Monitor: GPU Real-time (Load/Temp/VRAM) | Média | Alta | ✅ | **Auditado: NVIDIA RTX 3050 (via nvidia-smi CSV).** |
 | 17 | Monitor: Firmware (LVFS/fwupd) | Alta | Média | ✅ | Integração nativa D-Bus. |
 | 18 | Monitor: Bateria & Energia (Watts/Saúde) | Média | Baixa | ❌ | Real-time: Power draw em Watts. |
 | 19 | Monitor: RAM & Swap (ZRAM/Usage) | Alta | Baixa | ✅ | Coleta via /proc/meminfo e ZRAM. |
