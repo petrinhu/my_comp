@@ -39,7 +39,7 @@
 | 34 | Journal: Numeração de Linhas (Texto Original) | Alta | Baixa | ❌ | Mostrar índice real da linha no journalctl. |
 | 35 | Journal: Double-Click Search (Navegador) | Média | Baixa | ❌ | Abrir busca no Google. |
 | 36 | Updates: Instalação Individual (Double-Click) | Alta | Alta | ❌ | Fluxo de instalação com terminal/verbose. |
-| 37 | Updates: Botão "Atualizar Tudo" | Alta | Alta | 🟡 | Em andamento (Implementando orquestrador). |
+| 37 | Updates: Botão "Atualizar Tudo" | Alta | Alta | ✅ | **Auditado: Orquestração interativa via InstallerAdapter.** |
 | T1 | Testes Unitários (QtTest/GTest) | Alta | Alta | 🟡 | Em execução (Novos testes para Memory/Net). |
 | T2 | Análise Estática (Clang-Tidy/CppCheck) | Alta | Média | ❌ | Mandato Final. |
 | T4 | Análise Dinâmica (ASan/Valgrind) | Alta | Alta | ❌ | Mandato Final. |

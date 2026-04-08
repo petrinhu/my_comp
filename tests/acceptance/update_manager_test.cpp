@@ -18,6 +18,27 @@ public:
     MOCK_METHOD(std::vector<UpdatePackage>, check_updates, (), (override));
 };
 
+#include "../../src/domain/interfaces/i_installer.h"
+
+class MockInstaller : public IInstaller {
+public:
+    MOCK_METHOD(void, install, (const UpdatePackage&), (override));
+    MOCK_METHOD(void, upgradeAll, (), (override));
+    MOCK_METHOD(void, sendResponse, (const QString&), (override));
+};
+
+TEST(UpdateManagerATDD, ShouldOrchestrateFullUpgrade) {
+    auto manager = std::make_shared<UpdateManager>();
+    auto mock_installer = std::make_shared<MockInstaller>();
+
+    manager->set_installer(mock_installer);
+
+    // Mandato: O Manager deve chamar upgradeAll do instalador
+    EXPECT_CALL(*mock_installer, upgradeAll()).Times(1);
+
+    manager->upgrade_all();
+}
+
 TEST(UpdateManagerATDD, ShouldConsolidateUpdatesFromMultipleProviders) {
     auto manager = std::make_shared<UpdateManager>();
     

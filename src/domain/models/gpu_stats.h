@@ -1,20 +1,17 @@
 #pragma once
-
-#include <string>
-#include <cstdint>
+#include <QString>
 
 namespace my_comp::domain::models {
 
 struct GpuStats {
-    std::string vendor;      // NVIDIA, AMD, Intel
-    std::string model;       // Ex: RTX 3050, Radeon RX 6600
-    uint32_t load;           // %
-    uint32_t temp;           // °C
-    uint32_t vram_used;      // MB
-    uint32_t vram_total;     // MB
-    uint32_t power_usage;    // Watts
-    uint32_t clock_speed;    // MHz
-    uint32_t fan_speed;      // %
+    QString model_name;
+    QString vendor;
+    double load_percent = 0.0;
+    double temperature = 0.0;
+    uint64_t vram_total_mb = 0;
+    uint64_t vram_used_mb = 0;
+    double vram_usage_percent = 0.0;
+    bool is_active = false;
 };
 
 } // namespace my_comp::domain::models

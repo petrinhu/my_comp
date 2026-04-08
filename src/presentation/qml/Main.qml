@@ -208,6 +208,13 @@ Window {
                             valueColor: memoryViewModel.ramUsagePercent > 90 ? root.criticalColor : root.highlightColor
                         }
                         DashboardCard { 
+                            id: gpuCard
+                            title: gpuViewModel.gpus.length > 0 ? gpuViewModel.gpus[0].modelName : "GPU LOAD"
+                            value: gpuViewModel.gpus.length > 0 ? gpuViewModel.gpus[0].load.toFixed(1) + "%" : "---"
+                            subValue: gpuViewModel.gpus.length > 0 ? gpuViewModel.gpus[0].temp.toFixed(0) + "°C • VRAM " + (gpuViewModel.gpus[0].vramPercent).toFixed(0) + "%" : "No GPU active"
+                            valueColor: gpuViewModel.gpus.length > 0 && gpuViewModel.gpus[0].temp > 80 ? root.criticalColor : root.highlightColor
+                        }
+                        DashboardCard { 
                             id: ioCard
                             title: "I/O THROUGHPUT"
                             value: storageViewModel.totalThroughput

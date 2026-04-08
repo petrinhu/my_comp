@@ -4,43 +4,43 @@
 
 namespace my_comp::infrastructure::collectors {
 
-std::vector<GpuStats> NvidiaGpuProvider::get_all_gpus() {
-    std::vector<GpuStats> gpus;
+std::vector<domain::models::GpuStats> NvidiaGpuProvider::collect_stats() {
+    std::vector<domain::models::GpuStats> results;
     QProcess process;
     
-    // Comando para retornar dados da GPU em formato CSV (sem cabeçalho)
-    // nvidia-smi --query-gpu=gpu_name,utilization.gpu,temperature.gpu,memory.used,memory.total,power.draw,clocks.current.graphics,fan.speed --format=csv,noheader,nounits
     QStringList args;
-    args << "--query-gpu=gpu_name,utilization.gpu,temperature.gpu,memory.used,memory.total,power.draw,clocks.current.graphics,fan.speed"
+    args << "--query-gpu=gpu_name,utilization.gpu,temperature.gpu,memory.total,memory.used"
          << "--format=csv,noheader,nounits";
 
     process.start("nvidia-smi", args);
-    if (!process.waitForFinished()) return gpus;
+    if (!process.waitForFinished()) return results;
 
     QString output = QString::fromUtf8(process.readAllStandardOutput());
     QStringList lines = output.split('\n', Qt::SkipEmptyParts);
 
     for (const QString& line : lines) {
-        gpus.push_back(parse_nvidia_smi_line(line));
+        results.push_back(parse_line(line));
     }
 
-    return gpus;
+    return results;
 }
 
-GpuStats NvidiaGpuProvider::parse_nvidia_smi_line(const QString& line) {
+domain::models::GpuStats NvidiaGpuProvider::parse_line(const QString& line) {
     QStringList fields = line.split(',', Qt::KeepEmptyParts);
-    GpuStats stats{};
+    domain::models::GpuStats stats;
     stats.vendor = "NVIDIA";
+    stats.is_active = true;
 
-    if (fields.size() >= 8) {
-        stats.model = fields[0].trimmed().toStdString();
-        stats.load = fields[1].trimmed().toUInt();
-        stats.temp = fields[2].trimmed().toUInt();
-        stats.vram_used = fields[3].trimmed().toUInt();
-        stats.vram_total = fields[4].trimmed().toUInt();
-        stats.power_usage = static_cast<uint32_t>(fields[5].trimmed().toFloat()); // Pode ser decimal
-        stats.clock_speed = fields[6].trimmed().toUInt();
-        stats.fan_speed = fields[7].trimmed().toUInt();
+    if (fields.size() >= 5) {
+        stats.model_name = fields[0].trimmed();
+        stats.load_percent = fields[1].trimmed().toDouble();
+        stats.temperature = fields[2].trimmed().toDouble();
+        stats.vram_total_mb = fields[3].trimmed().toULongLong();
+        stats.vram_used_mb = fields[4].trimmed().toULongLong();
+        
+        if (stats.vram_total_mb > 0) {
+            stats.vram_usage_percent = (100.0 * stats.vram_used_mb) / stats.vram_total_mb;
+        }
     }
 
     return stats;
