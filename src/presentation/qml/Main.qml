@@ -188,10 +188,11 @@ Window {
                     spacing: 25
                     Text { text: "Mission Control"; color: root.textColor; font.pixelSize: 24; font.bold: true }
                     GridLayout {
-                        columns: 2
+                        columns: root.width > 1200 ? 4 : root.width > 800 ? 3 : 2
                         Layout.fillWidth: true
-                        rowSpacing: 20
-                        columnSpacing: 20
+                        rowSpacing: 15
+                        columnSpacing: 15
+                        
                         DashboardCard { 
                             id: cpuCard
                             title: "CPU LOAD"
@@ -242,6 +243,13 @@ Window {
                             value: memoryViewModel.swapUsagePercent.toFixed(1) + "%"
                             subValue: memoryViewModel.hasZram ? "ZRAM Active (x" + memoryViewModel.zramCompressionRatio.toFixed(1) + ")" : "Standard Swap"
                             valueColor: "#9b59b6"
+                        }
+                        DashboardCard { 
+                            id: sysCard
+                            title: "SYSTEM CORE"
+                            value: systemInfoViewModel.kernel.split("-")[0]
+                            subValue: systemInfoViewModel.distro
+                            valueColor: root.highlightColor
                         }
                     }
                 }

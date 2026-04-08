@@ -20,7 +20,7 @@
 | 15 | Monitor: CPU Real-time (Load/Freq) | Alta | Média | ✅ | Coleta real via /proc. |
 | 16 | Monitor: GPU Real-time (Load/Temp/VRAM) | Média | Alta | ✅ | **Auditado: NVIDIA RTX 3050 (via nvidia-smi CSV).** |
 | 17 | Monitor: Firmware (LVFS/fwupd) | Alta | Média | ✅ | Integração nativa D-Bus. |
-| 18 | Monitor: Bateria & Energia (Watts/Saúde) | Média | Baixa | ❌ | Real-time: Power draw em Watts. |
+| 18 | Monitor: Bateria & Energia (Watts/Saúde) | Média | Baixa | ✅ | **Auditado: Real-time via Sysfs (BAT1).** |
 | 19 | Monitor: RAM & Swap (ZRAM/Usage) | Alta | Baixa | ✅ | Coleta via /proc/meminfo e ZRAM. |
 | 20 | Monitor: Storage (I/O Throughput/SMART) | Alta | Média | ✅ | Coleta via /proc/diskstats (MB/s). |
 | 21 | Monitor: Network (Latency/Traffic/Ping) | Média | Baixa | ✅ | Coleta via /proc/net/dev e ICMP Ping. |
