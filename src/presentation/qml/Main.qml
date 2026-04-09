@@ -375,6 +375,7 @@ Window {
                         anchors.fill: parent; anchors.margins: 10; clip: true; model: diagnosticViewModel.logModel
                         delegate: ItemDelegate {
                             width: journalList.width; height: 50
+                            onDoubleClicked: diagnosticViewModel.searchOnline(message)
                             contentItem: RowLayout {
                                 spacing: 10
                                 Text { 

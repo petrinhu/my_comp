@@ -36,7 +36,7 @@
 | 31 | UI/UX: Refatoração de DashboardCards | Alta | Baixa | ✅ | **Auditado: Layout responsivo (2-4 colunas) e 8 cards integrados.** |
 | 32 | Infra: Sistema de Refresh em Tempo Real | Alta | Média | ✅ | Atualização dinâmica integrada. |
 | 33 | Journal: Searchbar e Filtros Dinâmicos | Alta | Média | ✅ | **Auditado: Busca por texto unificada a categorias (journalctl -g).** |
-| 34 | Journal: Numeração de Linhas (Texto Original) | Alta | Baixa | ❌ | Mostrar índice real da linha no journalctl. |
+| 34 | Journal: Numeração de Linhas (Texto Original) | Alta | Baixa | ✅ | **Auditado: Índice sequencial integrado ao modelo LogEntry.** |
 | 35 | Journal: Double-Click Search (Navegador) | Média | Baixa | ❌ | Abrir busca no Google. |
 | 36 | Updates: Instalação Individual (Double-Click) | Alta | Alta | ❌ | Fluxo de instalação com terminal/verbose. |
 | 37 | Updates: Botão "Atualizar Tudo" | Alta | Alta | ✅ | **Auditado: Orquestração interativa via InstallerAdapter.** |

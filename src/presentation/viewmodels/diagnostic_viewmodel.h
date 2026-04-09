@@ -3,6 +3,9 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QDesktopServices>
+#include <QUrl>
+#include <QUrlQuery>
 #include <memory>
 #include "../../domain/diagnostic_manager.h"
 #include "log_entry_model.h"
@@ -42,6 +45,17 @@ public:
         refresh();
     }
 
+    Q_INVOKABLE void searchOnline(const QString& message) {
+        if (message.isEmpty()) return;
+        
+        QUrl url("https://www.google.com/search");
+        QUrlQuery query;
+        query.addQueryItem("q", "linux journalctl " + message);
+        url.setQuery(query);
+        
+        QDesktopServices::openUrl(url);
+    }
+
     QString searchQuery() const { return search_query_; }
     void setSearchQuery(const QString& q) { search_query_ = q; emit searchQueryChanged(); }
     
@@ -64,7 +78,7 @@ private:
     LogEntryModel* model_;
     bool is_busy_{false};
     QString search_query_;
-    int m_current_filter{5}; // Default: All (conforme enum DiagnosticFilter)
+    int m_current_filter{5}; // Default: All
 };
 
 } // namespace my_comp::presentation::viewmodels
