@@ -458,8 +458,84 @@ Window {
                 Item { Layout.fillHeight: true }
             }
 
-            // ABA 5 e 6 - Placeholders restantes
-            PlaceholderView { title: "Auditoria de Segurança"; icon: "🛡️"; desc: "SELinux, Firewall, Portas Abertas e Logins." }
+            // ABA 5 - Security
+            ColumnLayout {
+                id: securityLayout
+                anchors.margins: 25
+                spacing: 15
+                RowLayout { 
+                    Text { text: "Auditoria de Segurança & Logins"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                    Item { Layout.fillWidth: true }
+                    Button { text: "Atualizar"; highlighted: true; onClicked: userMetadataViewModel.refresh() } 
+                }
+                
+                GridLayout {
+                    columns: 2
+                    Layout.fillWidth: true
+                    columnSpacing: 20
+                    
+                    Rectangle {
+                        Layout.fillWidth: true; height: 180; color: root.cardColor; radius: 8; border.color: root.borderColor
+                        ColumnLayout {
+                            anchors.fill: parent; anchors.margins: 15; spacing: 8
+                            Text { text: "👤 IDENTIDADE ATUAL"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                            Text { text: "<b>Usuário:</b> " + userMetadataViewModel.currentUser; color: root.textColor; textFormat: Text.StyledText }
+                            Text { text: "<b>Shell:</b> " + userMetadataViewModel.shell; color: root.textColor; textFormat: Text.StyledText }
+                            Text { text: "<b>Home:</b> " + userMetadataViewModel.home; color: root.textColor; textFormat: Text.StyledText }
+                            Text { 
+                                text: "<b>Grupos:</b> " + userMetadataViewModel.groups.join(", ")
+                                color: root.textColor
+                                textFormat: Text.StyledText
+                                Layout.fillWidth: true
+                                elide: Text.ElideRight
+                                font.pixelSize: 11
+                            }
+                            Item { Layout.fillHeight: true }
+                        }
+                    }
+                    
+                    Rectangle {
+                        Layout.fillWidth: true; height: 180; color: root.cardColor; radius: 8; border.color: root.borderColor
+                        ColumnLayout {
+                            anchors.fill: parent; anchors.margins: 15; spacing: 8
+                            Text { text: "🌍 AMBIENTE (WAYLAND/XDG)"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                            ScrollView {
+                                Layout.fillWidth: true; Layout.fillHeight: true; clip: true
+                                ColumnLayout {
+                                    width: parent.width
+                                    spacing: 2
+                                    Repeater {
+                                        model: Object.keys(userMetadataViewModel.envVars)
+                                        delegate: Text {
+                                            text: "<b>" + modelData + ":</b> " + userMetadataViewModel.envVars[modelData]
+                                            color: root.textColor; font.pixelSize: 10; font.family: "Monospace"; textFormat: Text.StyledText
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                Text { text: "📜 HISTÓRICO DE ACESSOS (last)"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                Rectangle {
+                    Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
+                    ListView {
+                        anchors.fill: parent; anchors.margins: 10; clip: true
+                        model: userMetadataViewModel.loginHistory
+                        delegate: Text { 
+                            text: modelData
+                            color: root.textColor
+                            font.family: "Monospace"
+                            font.pixelSize: 11
+                            padding: 2
+                        }
+                        ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+                    }
+                }
+            }
+
+            // ABA 6 - Export
             PlaceholderView { title: "Exportar Relatórios"; icon: "📤"; desc: "Paridade total com legado (MD, HTML, JSON)." }
 
             // ABA 7 - Terminal de Instalação (Acessada via Double Click)

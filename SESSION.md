@@ -13,6 +13,7 @@ A tabela completa de 43 itens agora reside em um arquivo exclusivo para evitar i
 - [x] Implementado Monitor de Firmware via `org.freedesktop.fwupd` (D-Bus).
 - [x] Implementado Monitor de Storage (I/O Throughput) via `/proc/diskstats`.
 - [x] Implementado Monitor de Network (Latency/Traffic) via `/proc/net/dev`.
+- [x] Implementado Collector de User & Env Metadata (Item 22) com auditoria de logins e env vars.
 - [x] Implementado Cofre Digital AES-256-GCM com OpenSSL.
 - [x] Criada e instalada a Skill Global `pendencias`.
 - [🟡] Em andamento: Orquestrador do botão "Atualizar Tudo" (Item 37).

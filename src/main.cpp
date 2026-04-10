@@ -23,11 +23,13 @@
 #include "presentation/viewmodels/power_viewmodel.h"
 #include "presentation/viewmodels/storage_viewmodel.h"
 #include "presentation/viewmodels/network_viewmodel.h"
+#include "presentation/viewmodels/user_metadata_viewmodel.h"
 #include "infrastructure/collectors/linux_memory_provider.h"
 #include "infrastructure/collectors/dbus_firmware_provider.h"
 #include "infrastructure/collectors/linux_storage_provider.h"
 #include "infrastructure/collectors/linux_network_provider.h"
 #include "infrastructure/collectors/linux_system_info_provider.h"
+#include "infrastructure/collectors/linux_user_metadata_provider.h"
 
 #include "infrastructure/collectors/interactive_process_runner.h"
 #include "infrastructure/collectors/installer_adapter.h"
@@ -96,7 +98,11 @@ int main(int argc, char *argv[])
     
     my_comp::presentation::viewmodels::InstallationViewModel installation_vm(installer_adapter);
 
+    auto user_metadata_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxUserMetadataProvider>(shell);
+    my_comp::presentation::viewmodels::UserMetadataViewModel user_metadata_vm(user_metadata_provider);
+
     engine.rootContext()->setContextProperty("systemInfoViewModel", &system_info_vm);
+    engine.rootContext()->setContextProperty("userMetadataViewModel", &user_metadata_vm);
     engine.rootContext()->setContextProperty("installationViewModel", &installation_vm);
     engine.rootContext()->setContextProperty("gpuViewModel", &gpu_vm);
     engine.rootContext()->setContextProperty("powerViewModel", &power_vm);
