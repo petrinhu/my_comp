@@ -26,6 +26,7 @@
 #include "presentation/viewmodels/user_metadata_viewmodel.h"
 #include "presentation/viewmodels/hardware_viewmodel.h"
 #include "presentation/viewmodels/service_viewmodel.h"
+#include "presentation/viewmodels/process_viewmodel.h"
 #include "infrastructure/collectors/linux_memory_provider.h"
 #include "infrastructure/collectors/dbus_firmware_provider.h"
 #include "infrastructure/collectors/linux_storage_provider.h"
@@ -34,6 +35,7 @@
 #include "infrastructure/collectors/linux_user_metadata_provider.h"
 #include "infrastructure/collectors/linux_hardware_provider.h"
 #include "infrastructure/collectors/systemd_service_provider.h"
+#include "infrastructure/collectors/linux_process_provider.h"
 
 #include "infrastructure/collectors/interactive_process_runner.h"
 #include "infrastructure/collectors/installer_adapter.h"
@@ -111,10 +113,14 @@ int main(int argc, char *argv[])
     auto service_provider = std::make_shared<my_comp::infrastructure::collectors::SystemdServiceProvider>(shell);
     my_comp::presentation::viewmodels::ServiceViewModel service_vm(service_provider);
 
+    auto process_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxProcessProvider>();
+    my_comp::presentation::viewmodels::ProcessViewModel process_vm(process_provider);
+
     engine.rootContext()->setContextProperty("systemInfoViewModel", &system_info_vm);
     engine.rootContext()->setContextProperty("userMetadataViewModel", &user_metadata_vm);
     engine.rootContext()->setContextProperty("hardwareViewModel", &hardware_vm);
     engine.rootContext()->setContextProperty("serviceViewModel", &service_vm);
+    engine.rootContext()->setContextProperty("processViewModel", &process_vm);
     engine.rootContext()->setContextProperty("installationViewModel", &installation_vm);
     engine.rootContext()->setContextProperty("gpuViewModel", &gpu_vm);
     engine.rootContext()->setContextProperty("powerViewModel", &power_vm);

@@ -27,7 +27,7 @@
 | 22 | Collector: User & Env Metadata | Baixa | Baixa | ✅ | **Auditado: Logins, Env Vars e Limits via C API/Shell.** |
 | 23 | Collector: Hardware Topology | Média | Baixa | ✅ | **Auditado: SMBIOS (sysfs), USB (lsusb) e BT (bluetoothctl).** |
 | 24 | Collector: Systemd Services | Média | Baixa | ✅ | **Auditado: Controle (Start/Stop/Enable) e Criador de Daemons.** |
-| 25 | Collector: Process List (Top) | Baixa | Baixa | ❌ | Top processos por recurso. |
+| 25 | Collector: Process List (Top) | Baixa | Baixa | ✅ | **Auditado: Monitor style htop (/proc) com Kill/Sort.** |
 | 26 | Collector: Dev Stacks (Compilers/Cont) | Média | Média | ❌ | Toolchain info + Podman/Docker. |
 | 27 | Export: Multi-format (MD/HTML/JSON) | Baixa | Média | ❌ | Relatórios completos agnósticos. |
 | 28 | Segurança: AES-256-GCM Vault | Alta | Alta | ✅ | Auditado via OpenSSL (100% offline). |

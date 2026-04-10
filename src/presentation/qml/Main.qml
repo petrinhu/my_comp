@@ -101,6 +101,32 @@ Window {
         }
     }
 
+    Dialog {
+        id: killConfirmDialog
+        title: "Encerrar Processo?"
+        x: (parent.width - width) / 2
+        y: (parent.height - height) / 2
+        modal: true
+        standardButtons: Dialog.Yes | Dialog.No
+        
+        property int targetPid: 0
+        property string targetName: ""
+        
+        function openWith(pid, name) {
+            targetPid = pid
+            targetName = name
+            open()
+        }
+
+        ColumnLayout {
+            spacing: 10
+            Text { text: "Deseja realmente encerrar o processo?"; color: root.textColor }
+            Text { text: "<b>" + killConfirmDialog.targetName + "</b> (PID: " + killConfirmDialog.targetPid + ")"; color: root.criticalColor; textFormat: Text.StyledText }
+        }
+
+        onAccepted: processViewModel.killProcess(targetPid)
+    }
+
     RowLayout {
         anchors.fill: parent
         spacing: 0
@@ -200,6 +226,66 @@ Window {
                         DashboardCard { title: "NET"; value: networkViewModel.latency.toFixed(0) + "ms" }
                         DashboardCard { title: "POWER"; value: powerViewModel.batteryPercent.toFixed(0) + "%" }
                         DashboardCard { title: "CORE"; value: systemInfoViewModel.kernel.split("-")[0] }
+                    }
+
+                    // Process Explorer (Estilo htop)
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 400
+                        spacing: 10
+                        
+                        RowLayout {
+                            Text { text: "Explorador de Processos"; color: root.textColor; font.pixelSize: 18; font.bold: true }
+                            Item { Layout.fillWidth: true }
+                            TextField {
+                                placeholderText: "Filtrar (Nome/User)..."
+                                onTextChanged: processViewModel.filter = text
+                                Layout.preferredWidth: 200
+                            }
+                        }
+
+                        Rectangle {
+                            Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
+                            ColumnLayout {
+                                anchors.fill: parent; spacing: 0
+                                
+                                // Header manual simplificado
+                                RowLayout {
+                                    Layout.fillWidth: true; height: 30
+                                    Rectangle { Layout.fillWidth: true; Layout.fillHeight: true; color: root.isDark ? "#2a2e32" : "#f5f5f5"; border.color: root.borderColor
+                                        RowLayout { anchors.fill: parent; anchors.leftMargin: 10; anchors.rightMargin: 10
+                                            Text { text: "PID"; font.bold: true; Layout.preferredWidth: 60; color: root.textColor }
+                                            Text { text: "USER"; font.bold: true; Layout.preferredWidth: 100; color: root.textColor }
+                                            Text { text: "CPU%"; font.bold: true; Layout.preferredWidth: 60; color: root.textColor }
+                                            Text { text: "MEM%"; font.bold: true; Layout.preferredWidth: 60; color: root.textColor }
+                                            Text { text: "STATE"; font.bold: true; Layout.preferredWidth: 50; color: root.textColor }
+                                            Text { text: "COMMAND"; font.bold: true; Layout.fillWidth: true; color: root.textColor }
+                                        }
+                                    }
+                                }
+
+                                ListView {
+                                    id: processList
+                                    Layout.fillWidth: true; Layout.fillHeight: true; clip: true
+                                    model: processViewModel.processes
+                                    delegate: ItemDelegate {
+                                        width: processList.width; height: 30
+                                        padding: 0
+                                        contentItem: RowLayout {
+                                            anchors.fill: parent; anchors.leftMargin: 10; anchors.rightMargin: 10
+                                            Text { text: modelData.pid; Layout.preferredWidth: 60; color: root.highlightColor; font.family: "Monospace" }
+                                            Text { text: modelData.user; Layout.preferredWidth: 100; color: root.textColor; font.pixelSize: 11 }
+                                            Text { text: modelData.cpu.toFixed(1); Layout.preferredWidth: 60; color: modelData.cpu > 50 ? root.criticalColor : "#2ecc71"; font.bold: true; font.family: "Monospace" }
+                                            Text { text: modelData.mem.toFixed(1); Layout.preferredWidth: 60; color: root.highlightColor; font.family: "Monospace" }
+                                            Text { text: modelData.state; Layout.preferredWidth: 50; color: modelData.state === "R" ? "#2ecc71" : "#7f8c8d"; font.bold: true }
+                                            Text { text: modelData.command; Layout.fillWidth: true; color: root.textColor; elide: Text.ElideRight; font.family: "Monospace"; font.pixelSize: 11 }
+                                        }
+                                        
+                                        onDoubleClicked: killConfirmDialog.openWith(modelData.pid, modelData.command)
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
