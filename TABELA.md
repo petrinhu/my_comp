@@ -26,7 +26,7 @@
 | 21 | Monitor: Network (Latency/Traffic/Ping) | Média | Baixa | ✅ | Coleta via /proc/net/dev e ICMP Ping. |
 | 22 | Collector: User & Env Metadata | Baixa | Baixa | ✅ | **Auditado: Logins, Env Vars e Limits via C API/Shell.** |
 | 23 | Collector: Hardware Topology | Média | Baixa | ✅ | **Auditado: SMBIOS (sysfs), USB (lsusb) e BT (bluetoothctl).** |
-| 24 | Collector: Systemd Services | Média | Baixa | ❌ | Gerenciamento de unidades e falhas. |
+| 24 | Collector: Systemd Services | Média | Baixa | ✅ | **Auditado: Controle (Start/Stop/Enable) e Criador de Daemons.** |
 | 25 | Collector: Process List (Top) | Baixa | Baixa | ❌ | Top processos por recurso. |
 | 26 | Collector: Dev Stacks (Compilers/Cont) | Média | Média | ❌ | Toolchain info + Podman/Docker. |
 | 27 | Export: Multi-format (MD/HTML/JSON) | Baixa | Média | ❌ | Relatórios completos agnósticos. |
