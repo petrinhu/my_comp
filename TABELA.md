@@ -25,7 +25,7 @@
 | 20 | Monitor: Storage (I/O Throughput/SMART) | Alta | Média | ✅ | Coleta via /proc/diskstats (MB/s). |
 | 21 | Monitor: Network (Latency/Traffic/Ping) | Média | Baixa | ✅ | Coleta via /proc/net/dev e ICMP Ping. |
 | 22 | Collector: User & Env Metadata | Baixa | Baixa | ✅ | **Auditado: Logins, Env Vars e Limits via C API/Shell.** |
-| 23 | Collector: Hardware Topology | Média | Baixa | ❌ | USB Tree, Bluetooth paired, SMBIOS. |
+| 23 | Collector: Hardware Topology | Média | Baixa | ✅ | **Auditado: SMBIOS (sysfs), USB (lsusb) e BT (bluetoothctl).** |
 | 24 | Collector: Systemd Services | Média | Baixa | ❌ | Gerenciamento de unidades e falhas. |
 | 25 | Collector: Process List (Top) | Baixa | Baixa | ❌ | Top processos por recurso. |
 | 26 | Collector: Dev Stacks (Compilers/Cont) | Média | Média | ❌ | Toolchain info + Podman/Docker. |

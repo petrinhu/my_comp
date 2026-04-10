@@ -414,48 +414,108 @@ Window {
                 RowLayout { 
                     Text { text: "Topologia de Hardware"; color: root.textColor; font.pixelSize: 24; font.bold: true }
                     Item { Layout.fillWidth: true }
-                    Button { text: "Atualizar Hardware"; highlighted: true; onClicked: firmwareViewModel.refresh() } 
-                }
-                Text { text: "Dispositivos de Firmware (LVFS/fwupd)"; color: root.highlightColor; font.bold: true; Layout.topMargin: 10 }
-                Rectangle {
-                    Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
-                    ListView {
-                        id: firmwareList
-                        anchors.fill: parent; anchors.margins: 10; clip: true; model: firmwareViewModel.devices
-                        ScrollBar.vertical: ScrollBar { 
-                            policy: ScrollBar.AsNeeded
-                            contentItem: Rectangle { implicitWidth: 6; radius: 3; color: root.isDark ? "#4d4d4d" : "#bcbebf" }
+                    Button { 
+                        text: "Atualizar Hardware"
+                        highlighted: true
+                        onClicked: {
+                            firmwareViewModel.refresh()
+                            hardwareViewModel.refresh()
                         }
-                        delegate: ItemDelegate {
-                            width: firmwareList.width; height: 60
-                            background: Rectangle { color: "transparent" }
-                            contentItem: RowLayout {
-                                spacing: 15
-                                ColumnLayout { 
-                                    spacing: 2
-                                    Text { text: modelData.name; color: root.textColor; font.bold: true; elide: Text.ElideRight; Layout.fillWidth: true }
-                                    Text { text: (modelData.vendor ? modelData.vendor + " • " : "") + "ID: " + modelData.id; color: "#7f8c8d"; font.pixelSize: 11; elide: Text.ElideRight; Layout.fillWidth: true } 
-                                }
-                                Item { Layout.fillWidth: true }
+                    } 
+                }
+                
+                ScrollView {
+                    Layout.fillWidth: true; Layout.fillHeight: true; clip: true
+                    ColumnLayout {
+                        width: parent.width
+                        spacing: 20
+                        
+                        Text { text: "💻 DMI / SMBIOS"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                        Rectangle {
+                            Layout.fillWidth: true; height: 160; color: root.cardColor; radius: 8; border.color: root.borderColor
+                            GridLayout {
+                                anchors.fill: parent; anchors.margins: 15; columns: 2
+                                Text { text: "<b>Vendor:</b> " + hardwareViewModel.smbios.vendor; color: root.textColor; textFormat: Text.StyledText }
+                                Text { text: "<b>Model:</b> " + hardwareViewModel.smbios.model; color: root.textColor; textFormat: Text.StyledText }
+                                Text { text: "<b>Version:</b> " + hardwareViewModel.smbios.version; color: root.textColor; textFormat: Text.StyledText }
+                                Text { text: "<b>Serial:</b> " + hardwareViewModel.smbios.serial; color: root.textColor; textFormat: Text.StyledText }
+                                Text { text: "<b>Board:</b> " + hardwareViewModel.smbios.boardName; color: root.textColor; textFormat: Text.StyledText }
+                                Text { text: "<b>Board Vendor:</b> " + hardwareViewModel.smbios.boardVendor; color: root.textColor; textFormat: Text.StyledText }
+                                Item { Layout.fillHeight: true; Layout.columnSpan: 2 }
+                            }
+                        }
+                        
+                        RowLayout {
+                            spacing: 20
+                            Layout.fillWidth: true
+                            ColumnLayout {
+                                Layout.fillWidth: true; Layout.preferredHeight: 300
+                                Text { text: "🔌 DISPOSITIVOS USB"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
                                 Rectangle {
-                                    color: root.isDark ? "#2a2e32" : "#f5f5f5"
-                                    radius: 4
-                                    width: 100; height: 25
-                                    Text { 
-                                        anchors.centerIn: parent
-                                        text: modelData.version
-                                        color: root.highlightColor
-                                        font.family: "Monospace"
-                                        font.pixelSize: 11
+                                    Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
+                                    ListView {
+                                        anchors.fill: parent; anchors.margins: 10; clip: true
+                                        model: hardwareViewModel.usbDevices
+                                        delegate: ItemDelegate {
+                                            width: parent.width; height: 45
+                                            contentItem: ColumnLayout {
+                                                spacing: 2
+                                                Text { text: modelData.name; color: root.textColor; font.bold: true; font.pixelSize: 11; elide: Text.ElideRight; Layout.fillWidth: true }
+                                                Text { text: "Bus " + modelData.bus + " • ID " + modelData.vendorId + ":" + modelData.productId; color: "#7f8c8d"; font.pixelSize: 10 }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            ColumnLayout {
+                                Layout.fillWidth: true; Layout.preferredHeight: 300
+                                Text { text: "📶 BLUETOOTH"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                                Rectangle {
+                                    Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
+                                    ListView {
+                                        anchors.fill: parent; anchors.margins: 10; clip: true
+                                        model: hardwareViewModel.bluetoothDevices
+                                        delegate: ItemDelegate {
+                                            width: parent.width; height: 45
+                                            contentItem: RowLayout {
+                                                ColumnLayout {
+                                                    spacing: 2
+                                                    Text { text: modelData.name; color: root.textColor; font.bold: true; font.pixelSize: 11; elide: Text.ElideRight; Layout.fillWidth: true }
+                                                    Text { text: modelData.address; color: "#7f8c8d"; font.pixelSize: 10 }
+                                                }
+                                                Item { Layout.fillWidth: true }
+                                                Text { text: modelData.paired ? "✔️ Pareado" : ""; color: "#2ecc71"; font.pixelSize: 10; font.bold: true }
+                                            }
+                                        }
+                                        Text { anchors.centerIn: parent; text: "Nenhum dispositivo BT pareado."; color: "#7f8c8d"; visible: parent.count === 0 }
                                     }
                                 }
                             }
                         }
-                        Text { anchors.centerIn: parent; visible: firmwareList.count === 0 && !firmwareViewModel.isBusy; text: "Nenhum dispositivo de firmware detectado."; color: "#95a5a6" }
-                        BusyIndicator { anchors.centerIn: parent; running: firmwareViewModel.isBusy }
+
+                        Text { text: "🛠️ FIRMWARE (LVFS/fwupd)"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                        Rectangle {
+                            Layout.fillWidth: true; Layout.preferredHeight: 300; color: root.cardColor; radius: 8; border.color: root.borderColor
+                            ListView {
+                                id: firmwareList
+                                anchors.fill: parent; anchors.margins: 10; clip: true; model: firmwareViewModel.devices
+                                delegate: ItemDelegate {
+                                    width: firmwareList.width; height: 50
+                                    contentItem: RowLayout {
+                                        spacing: 15
+                                        ColumnLayout { 
+                                            spacing: 2
+                                            Text { text: modelData.name; color: root.textColor; font.bold: true; elide: Text.ElideRight; Layout.fillWidth: true }
+                                            Text { text: (modelData.vendor ? modelData.vendor + " • " : "") + "ID: " + modelData.id; color: "#7f8c8d"; font.pixelSize: 11; elide: Text.ElideRight; Layout.fillWidth: true } 
+                                        }
+                                        Item { Layout.fillWidth: true }
+                                        Text { text: modelData.version; color: root.highlightColor; font.family: "Monospace"; font.pixelSize: 11 }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
-                Item { Layout.fillHeight: true }
             }
 
             // ABA 5 - Security
