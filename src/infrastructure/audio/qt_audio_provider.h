@@ -28,6 +28,7 @@ private:
     QAudioFormat m_format;
 
     void process_samples(const float* samples, int count);
+    void stop_capture_impl();
 };
 
 } // namespace my_comp::infrastructure::audio

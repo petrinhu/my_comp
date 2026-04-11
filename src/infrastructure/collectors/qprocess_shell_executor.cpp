@@ -3,9 +3,9 @@
 
 namespace my_comp::infrastructure::collectors {
 
-int QProcessShellExecutor::execute(const QString& cmd, const QStringList& args, QString& output) {
+int QProcessShellExecutor::execute(const QString& command, const QStringList& args, QString& output) {
     QProcess p;
-    p.start(cmd, args);
+    p.start(command, args);
     if (!p.waitForFinished()) {
         return -1;
     }

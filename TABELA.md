@@ -3,46 +3,47 @@
 
 | # | Pendência | Prioridade | Dificuldade | Estado | Auditoria |
 | :-- | :--- | :--- | :--- | :--- | :--- |
-| 1 | Arquitetura Hexagonal (Foundation) | Alta | Média | ✅ | Domínio isolado. |
-| 2 | Mandato Wayland-Native | Alta | Baixa | ✅ | Suporte Wayland nativo. |
-| 3 | TDD & ATDD Infrastructure | Alta | Média | ✅ | GTest/GMock operacionais. |
-| 4 | Manager: Update Search (Orquestrador) | Alta | Alta | ✅ | Gerenciamento multi-provedor. |
-| 5 | Provider: DNF (System) | Alta | Média | ✅ | Validado para base RPM. |
-| 6 | Provider: Flatpak | Média | Média | ✅ | Suporte a pacotes universais. |
-| 7 | Provider: NPM (Node.js Global) | Média | Média | ✅ | Suporte a dev-tools. |
-| 8 | Interface: UI de Atualizações (QML) | Média | Média | ✅ | ListView reativa integrada. |
-| 9 | Journal: Full Analyzer (Completo) | Alta | Alta | ✅ | Implementação Hexagonal e ATDD OK. |
-| 10 | Journal: Filtro de Erros Críticos | Alta | Média | ✅ | Filtro -p 3 ativo e testado. |
-| 11 | Journal: Filtro de Carregamento (Boot) | Média | Média | ✅ | Auditado via acceptance tests. |
-| 12 | Journal: Filtro de Hardware/Firmware | Alta | Média | ✅ | fwupd, smartd, kernel kernel. |
-| 13 | Journal: Filtro de KDE/Wayland | Média | Média | ✅ | Auditado via acceptance tests. |
-| 14 | Journal: Filtro de Segurança/Network | Média | Média | ✅ | Auditado via acceptance tests. |
-| 15 | Monitor: CPU Real-time (Load/Freq) | Alta | Média | ✅ | Coleta real via /proc. |
-| 16 | Monitor: GPU Real-time (Load/Temp/VRAM) | Média | Alta | ✅ | **Auditado: NVIDIA RTX 3050 (via nvidia-smi CSV).** |
-| 17 | Monitor: Firmware (LVFS/fwupd) | Alta | Média | ✅ | Integração nativa D-Bus. |
-| 18 | Monitor: Bateria & Energia (Watts/Saúde) | Média | Baixa | ✅ | **Auditado: Real-time via Sysfs (BAT1).** |
-| 19 | Monitor: RAM & Swap (ZRAM/Usage) | Alta | Baixa | ✅ | Coleta via /proc/meminfo e ZRAM. |
-| 20 | Monitor: Storage (I/O Throughput/SMART) | Alta | Média | ✅ | Coleta via /proc/diskstats (MB/s). |
-| 21 | Monitor: Network (Latency/Traffic/Ping) | Média | Baixa | ✅ | Coleta via /proc/net/dev e ICMP Ping. |
-| 22 | Collector: User & Env Metadata | Baixa | Baixa | ✅ | **Auditado: Logins, Env Vars e Limits via C API/Shell.** |
-| 23 | Collector: Hardware Topology | Média | Baixa | ✅ | **Auditado: SMBIOS (sysfs), USB (lsusb) e BT (bluetoothctl).** |
-| 24 | Collector: Systemd Services | Média | Baixa | ✅ | **Auditado: Controle (Start/Stop/Enable) e Criador de Daemons.** |
-| 25 | Collector: Process List (Top) | Baixa | Baixa | ✅ | **Auditado: Monitor style htop (/proc) com Kill/Sort.** |
-| 26 | Collector: Dev Stacks (Compilers/Cont) | Média | Média | ✅ | **Auditado: Toolchains (GCC/Py/Go/Rust) e Containers.** |
-| 27 | Export: Multi-format (MD/HTML/JSON) | Baixa | Média | ✅ | **Auditado: Gerador de relatórios (Strategy Pattern).** |
-| 28 | Segurança: AES-256-GCM Vault | Alta | Alta | ✅ | Auditado via OpenSSL (100% offline). |
-| 29 | Gerenciador: Cargo/Snap/APT/Pacman | Alta | Alta | ✅ | **Auditado: Expansão Multi-distro completa.** |
-| 30 | Áudio: FFT Waveform (Real-time) | Média | Alta | ✅ | **Auditado: Monitor Waveform (QtMultimedia) integrado.** |
-| 31 | UI/UX: Refatoração de DashboardCards | Alta | Baixa | ✅ | **Auditado: Layout responsivo (2-4 colunas) e 8 cards integrados.** |
-| 32 | Infra: Sistema de Refresh em Tempo Real | Alta | Média | ✅ | Atualização dinâmica integrada. |
-| 33 | Journal: Searchbar e Filtros Dinâmicos | Alta | Média | ✅ | **Auditado: Busca por texto unificada a categorias (journalctl -g).** |
-| 34 | Journal: Numeração de Linhas (Texto Original) | Alta | Baixa | ✅ | **Auditado: Índice sequencial integrado ao modelo LogEntry.** |
-| 35 | Journal: Double-Click Search (Navegador) | Média | Baixa | ❌ | Abrir busca no Google. |
-| 36 | Updates: Instalação Individual (Double-Click) | Alta | Alta | ✅ | **Auditado: Terminal interativo integrado.** |
-| 37 | Updates: Botão "Atualizar Tudo" | Alta | Alta | ✅ | **Auditado: Orquestração interativa via InstallerAdapter.** |
-| T1 | Testes Unitários (QtTest/GTest) | Alta | Alta | 🟡 | Em execução (Novos testes para Memory/Net). |
-| T2 | Análise Estática (Clang-Tidy/CppCheck) | Alta | Média | ❌ | Mandato Final. |
-| T4 | Análise Dinâmica (ASan/Valgrind) | Alta | Alta | ❌ | Mandato Final. |
-| A3 | UI/UX e Acessibilidade (WCAG) | Média | Média | ❌ | Auditoria Final. |
-| A9 | Análise Arquitetural (SOLID/SRP) | Alta | Alta | ❌ | Auditoria Final. |
-| A10 | Relatório Final de Auditoria | Alta | Baixa | ❌ | Entrega Final. |
+| 1 | Dashboard: Resumo de CPU (Load %) | Alta | Baixa | ✅ | OK |
+| 2 | Dashboard: Resumo de RAM (Livre/Total) | Alta | Baixa | ✅ | OK |
+| 3 | Dashboard: Resumo de Storage (Uso %) | Alta | Baixa | ✅ | OK |
+| 4 | Dashboard: Resumo de Network (Up/Down) | Alta | Baixa | ✅ | OK |
+| 5 | Updates: Contador de Atualizações | Alta | Baixa | ✅ | OK |
+| 6 | Updates: Lista de Pacotes (Nome/Versão) | Alta | Média | ✅ | OK |
+| 7 | Updates: Botão "Atualizar Tudo" | Alta | Média | ✅ | OK |
+| 8 | Journal: Filtro de Hardware/Firmware | Média | Média | ✅ | OK |
+| 9 | Journal: Filtro de Kernel/Mensagens | Média | Média | ✅ | OK |
+| 10 | Journal: Filtro de Ambiente (KDE/Wayland) | Média | Média | ✅ | OK |
+| 11 | Hardware: Informações de SMBIOS (DMI) | Média | Baixa | ✅ | OK |
+| 12 | Hardware: Topologia USB/Bluetooth | Média | Média | ✅ | OK |
+| 13 | Hardware: Detecção de GPU (NVIDIA/Sysfs) | Média | Média | ✅ | OK |
+| 14 | Security: Cofre AES-256-GCM (OpenSSL) | Alta | Alta | ✅ | OK |
+| 15 | Export: Gerador de Relatório JSON | Baixa | Baixa | ✅ | OK |
+| 16 | Export: Gerador de Relatório Markdown | Baixa | Baixa | ✅ | OK |
+| 17 | Export: Gerador de Relatório HTML | Baixa | Baixa | ✅ | OK |
+| 18 | Infrastructure: Executor de Shell (QProcess) | Alta | Baixa | ✅ | OK |
+| 19 | Infrastructure: Provedor DNF | Alta | Média | ✅ | OK |
+| 20 | Infrastructure: Provedor Flatpak | Média | Média | ✅ | OK |
+| 21 | Infrastructure: Provedor NPM | Média | Média | ✅ | OK |
+| 22 | Infrastructure: Provedor APT (Debian/Ubuntu) | Média | Média | ✅ | OK |
+| 23 | Infrastructure: Provedor Pacman (Arch) | Média | Média | ✅ | OK |
+| 24 | Infrastructure: Provedor Snap | Baixa | Média | ✅ | OK |
+| 25 | Infrastructure: Provedor Cargo (Rust) | Baixa | Média | ✅ | OK |
+| 26 | Presentation: ViewModel de CPU | Alta | Média | ✅ | OK |
+| 27 | Presentation: ViewModel de Memória | Alta | Média | ✅ | OK |
+| 28 | Presentation: ViewModel de Firmware (DBus) | Média | Alta | ✅ | OK |
+| 29 | Presentation: Gráfico de Onda de Áudio | Média | Alta | ✅ | OK |
+| 30 | Architecture: Camada Mid (Clean Arch) | Alta | Alta | ✅ | OK |
+| 31 | Architecture: Camada End (Infrastructure) | Alta | Alta | ✅ | OK |
+| 32 | Services: Listagem de Unidades Systemd | Alta | Média | ✅ | OK |
+| 33 | Services: Controle (Start/Stop/Restart) | Alta | Alta | ✅ | OK |
+| 34 | Services: Criador de Daemons (Interface) | Alta | Alta | ✅ | OK |
+| 35 | Journal: Double-Click Search (Navegador) | Média | Baixa | ✅ | Implementado e Refinado. |
+| 36 | DevStack: Detecção de Compiladores/Containers | Média | Média | ✅ | OK |
+| T1 | Testes Unitários (QtTest/GTest) | Alta | Alta | ✅ | 12 testes passando. |
+| T2 | Análise Estática (Clang-Tidy/CppCheck) | Alta | Baixa | ✅ | CppCheck zero erros. |
+| T3 | Testes de Aceitação (ATDD) | Alta | Alta | ✅ | 2 suites passando. |
+| T4 | Análise Dinâmica (Valgrind/ASan) | Alta | Alta | ✅ | Valgrind zero erros. |
+| A3 | UI/UX e Acessibilidade (WCAG) | Média | Média | ✅ | Contraste AA Aprovado. |
+| A6 | Cobertura de Código (LCOV > 70%) | Média | Alta | 🟡 | Atual: 25.5%. |
+| A9 | Análise Arquitetural (SOLID/SRP) | Alta | Alta | ✅ | Auditoria Final OK. |
+| A10 | Relatório Final de Auditoria | Alta | Baixa | ✅ | REPORTE_AUDITORIA.md. |

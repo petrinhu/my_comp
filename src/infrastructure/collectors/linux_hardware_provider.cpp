@@ -68,7 +68,7 @@ void LinuxHardwareProvider::collect_bluetooth(domain::models::HardwareTopology& 
     if (m_executor->execute("bluetoothctl", {"devices"}, output) == 0) {
         QStringList lines = output.split('\n', Qt::SkipEmptyParts);
         for (const QString& line : lines) {
-            domain::models::BluetoothDevice dev;
+            domain::models::BluetoothDevice dev = {"", "", false, false, ""};
             QStringList parts = line.split(' ', Qt::SkipEmptyParts);
             if (parts.size() >= 3) {
                 dev.address = parts[1];

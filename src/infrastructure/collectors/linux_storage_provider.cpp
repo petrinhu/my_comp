@@ -5,7 +5,16 @@
 namespace my_comp::infrastructure::collectors {
 
 LinuxStorageProvider::LinuxStorageProvider() {
-    collect_stats(); // Captura inicial
+    std::ifstream diskstats("/proc/diskstats");
+    std::string line;
+    auto now = std::chrono::steady_clock::now();
+    while (std::getline(diskstats, line)) {
+        std::stringstream ss(line);
+        uint32_t major, minor; std::string dev_name;
+        uint64_t reads, reads_merged, sectors_read, time_read, writes, writes_merged, sectors_written, time_write;
+        ss >> major >> minor >> dev_name >> reads >> reads_merged >> sectors_read >> time_read >> writes >> writes_merged >> sectors_written >> time_write;
+        m_last_samples[dev_name] = {sectors_read, sectors_written, now};
+    }
 }
 
 domain::models::StorageStats LinuxStorageProvider::collect_stats() {

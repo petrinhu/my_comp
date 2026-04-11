@@ -32,8 +32,8 @@ Window {
     readonly property color sidebarColor: isDark ? darkSidebar : lightSidebar
     readonly property color cardColor: isDark ? darkCard : lightCard
     readonly property color borderColor: isDark ? darkBorder : lightBorder
-    readonly property color highlightColor: "#3daee9"
-    readonly property color criticalColor: "#ed1515"
+    readonly property color highlightColor: isDark ? "#3daee9" : "#1b6acb"
+    readonly property color criticalColor: isDark ? "#ff4d4d" : "#c0392b"
 
     property int currentView: 0
 
@@ -199,6 +199,8 @@ Window {
                         Layout.fillWidth: true
                         highlighted: root.currentView === index
                         onClicked: root.currentView = index
+                        ToolTip.visible: hovered
+                        ToolTip.text: modelData.name
                         background: Rectangle {
                             color: navDelegate.highlighted ? root.highlightColor : (navDelegate.hovered ? (root.isDark ? "#3e444a" : "#e8e8e8") : "transparent")
                             opacity: navDelegate.highlighted ? 0.2 : 1.0
@@ -411,6 +413,7 @@ Window {
                         anchors.fill: parent; anchors.margins: 10; clip: true; model: diagnosticViewModel.logModel
                         delegate: ItemDelegate {
                             width: parent.width; height: 40
+                            onDoubleClicked: diagnosticViewModel.searchOnline(source + " " + message)
                             contentItem: Text { text: message; color: root.textColor; elide: Text.ElideRight }
                         }
                     }
@@ -629,7 +632,11 @@ Window {
         property string title; property string value; signal clicked
         Layout.fillWidth: true; Layout.preferredHeight: 100; radius: 10
         color: root.cardColor; border.color: root.borderColor
-        MouseArea { anchors.fill: parent; onClicked: parent.clicked() }
+        MouseArea { 
+            id: ma; anchors.fill: parent; onClicked: parent.clicked(); hoverEnabled: true
+            ToolTip.visible: containsMouse
+            ToolTip.text: "Clique para detalhes de " + title
+        }
         ColumnLayout {
             anchors.centerIn: parent
             Text { text: title; color: root.textColor; font.pixelSize: 12; Layout.alignment: Qt.AlignHCenter }

@@ -151,15 +151,14 @@ audio_vm.start();
 QQmlApplicationEngine engine;
 
 // Injeção de Contexto
-engine.rootContext()->setContextProperty("isSystemDarkInitial", is_system_dark);
-engine.rootContext()->setContextProperty("updateViewModel", &update_vm);
-...
-engine.rootContext()->setContextProperty("processViewModel", &process_vm);
-engine.rootContext()->setContextProperty("devStackViewModel", &dev_stack_vm);
-engine.rootContext()->setContextProperty("exportViewModel", &export_vm);
-engine.rootContext()->setContextProperty("audioViewModel", &audio_vm);
-engine.rootContext()->setContextProperty("installationViewModel", &installation_vm);
-
+    engine.rootContext()->setContextProperty("isSystemDarkInitial", is_system_dark);
+    engine.rootContext()->setContextProperty("updateViewModel", &update_vm);
+    engine.rootContext()->setContextProperty("diagnosticViewModel", &diagnostic_vm);
+    engine.rootContext()->setContextProperty("cpuViewModel", &cpu_vm);
+    engine.rootContext()->setContextProperty("memoryViewModel", &memory_vm);
+    engine.rootContext()->setContextProperty("firmwareViewModel", &firmware_vm);
+    engine.rootContext()->setContextProperty("gpuViewModel", &gpu_vm);
+    engine.rootContext()->setContextProperty("powerViewModel", &power_vm);
     engine.rootContext()->setContextProperty("systemInfoViewModel", &system_info_vm);
     engine.rootContext()->setContextProperty("userMetadataViewModel", &user_metadata_vm);
     engine.rootContext()->setContextProperty("hardwareViewModel", &hardware_vm);
@@ -167,9 +166,8 @@ engine.rootContext()->setContextProperty("installationViewModel", &installation_
     engine.rootContext()->setContextProperty("processViewModel", &process_vm);
     engine.rootContext()->setContextProperty("devStackViewModel", &dev_stack_vm);
     engine.rootContext()->setContextProperty("exportViewModel", &export_vm);
+    engine.rootContext()->setContextProperty("audioViewModel", &audio_vm);
     engine.rootContext()->setContextProperty("installationViewModel", &installation_vm);
-    engine.rootContext()->setContextProperty("gpuViewModel", &gpu_vm);
-    engine.rootContext()->setContextProperty("powerViewModel", &power_vm);
     engine.rootContext()->setContextProperty("storageViewModel", &storage_vm);
     engine.rootContext()->setContextProperty("networkViewModel", &network_vm);
 

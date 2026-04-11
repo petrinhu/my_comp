@@ -6,14 +6,12 @@
 
 namespace my_comp::infrastructure::collectors {
 
-DBusFirmwareProvider::DBusFirmwareProvider() {
-    m_interface = std::make_unique<QDBusInterface>(
+DBusFirmwareProvider::DBusFirmwareProvider()
+    : m_interface(std::make_unique<QDBusInterface>(
         "org.freedesktop.fwupd",
         "/",
         "org.freedesktop.fwupd",
-        QDBusConnection::systemBus()
-    );
-}
+        QDBusConnection::systemBus())) {}
 
 std::vector<domain::models::FirmwareDevice> DBusFirmwareProvider::get_devices() {
     std::vector<domain::models::FirmwareDevice> devices;

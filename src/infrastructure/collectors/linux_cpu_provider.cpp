@@ -13,7 +13,7 @@ LinuxCpuProvider::LinuxCpuProvider() {
 }
 
 domain::models::CpuStats LinuxCpuProvider::collect_stats() {
-    domain::models::CpuStats stats;
+    domain::models::CpuStats stats = {0.0, 0.0, 0.0, {}};
     update_load(stats);
     stats.temperature = read_temperature();
     
@@ -32,7 +32,7 @@ domain::models::CpuStats LinuxCpuProvider::collect_stats() {
 }
 
 domain::models::CpuArchitecture LinuxCpuProvider::collect_architecture() {
-    domain::models::CpuArchitecture arch;
+    domain::models::CpuArchitecture arch = {"", "", 0, 0, {}, "", "", ""};
     
     // 1. Ler /proc/cpuinfo
     std::ifstream cpuinfo("/proc/cpuinfo");
@@ -130,7 +130,7 @@ void LinuxCpuProvider::update_load(domain::models::CpuStats& stats) {
         if (i == 0) {
             stats.total_load = load;
         } else {
-            domain::models::CoreStat core;
+            domain::models::CoreStat core = {0, 0.0, 0.0};
             core.id = (int)i - 1;
             core.load_percent = load;
             stats.cores.push_back(core);

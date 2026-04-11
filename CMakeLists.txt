@@ -11,7 +11,6 @@ set(CMAKE_AUTOUIC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick QuickControls2 WaylandClient Multimedia DBus Network Concurrent Test)
 
-
 find_package(OpenSSL REQUIRED)
 
 # Adicionar GoogleTest para TDD/ATDD
@@ -21,43 +20,50 @@ FetchContent_Declare(
   URL https://github.com/google/googletest/archive/refs/tags/v1.15.2.zip
   DOWNLOAD_EXTRACT_TIMESTAMP TRUE
 )
-# For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # Fontes
 set(PROJECT_SOURCES
     src/main.cpp
+    src/infrastructure/collectors/qprocess_shell_executor.cpp
+    src/infrastructure/collectors/interactive_process_runner.cpp
+    src/infrastructure/collectors/installer_adapter.cpp
     src/infrastructure/collectors/linux_cpu_provider.cpp
     src/infrastructure/collectors/linux_memory_provider.cpp
     src/infrastructure/collectors/dbus_firmware_provider.cpp
     src/infrastructure/collectors/linux_storage_provider.cpp
     src/infrastructure/collectors/linux_network_provider.cpp
-    src/infrastructure/collectors/interactive_process_runner.cpp
     src/infrastructure/collectors/nvidia_gpu_provider.cpp
     src/infrastructure/collectors/sysfs_gpu_provider.cpp
     src/infrastructure/collectors/linux_power_provider.cpp
     src/infrastructure/collectors/linux_system_info_provider.cpp
-    src/infrastructure/collectors/installer_adapter.cpp
     src/infrastructure/collectors/linux_user_metadata_provider.cpp
-    src/infrastructure/collectors/qprocess_shell_executor.cpp
     src/infrastructure/collectors/linux_hardware_provider.cpp
     src/infrastructure/collectors/systemd_service_provider.cpp
     src/infrastructure/collectors/linux_process_provider.cpp
     src/infrastructure/collectors/linux_dev_stack_provider.cpp
-    src/infrastructure/collectors/snap_update_provider.cpp
-    src/infrastructure/collectors/cargo_update_provider.cpp
     src/infrastructure/collectors/apt_update_provider.cpp
+    src/infrastructure/collectors/cargo_update_provider.cpp
     src/infrastructure/collectors/pacman_update_provider.cpp
+    src/infrastructure/collectors/snap_update_provider.cpp
+    src/infrastructure/audio/qt_audio_provider.cpp
+    src/infrastructure/exporters/json_export_provider.cpp
+    src/infrastructure/exporters/markdown_export_provider.cpp
+    src/infrastructure/exporters/html_export_provider.cpp
+    src/infrastructure/security/openssl_vault.cpp
+    src/presentation/viewmodels/update_viewmodel.cpp
+    src/presentation/viewmodels/update_package_model.cpp
+    src/presentation/viewmodels/diagnostic_viewmodel.cpp
+    src/presentation/viewmodels/log_entry_model.cpp
     src/presentation/viewmodels/cpu_viewmodel.cpp
-    src/presentation/viewmodels/gpu_viewmodel.cpp
-    src/presentation/viewmodels/power_viewmodel.cpp
-    src/presentation/viewmodels/system_info_viewmodel.cpp
-    src/presentation/viewmodels/installation_viewmodel.cpp
     src/presentation/viewmodels/memory_viewmodel.cpp
     src/presentation/viewmodels/firmware_viewmodel.cpp
+    src/presentation/viewmodels/gpu_viewmodel.cpp
+    src/presentation/viewmodels/power_viewmodel.cpp
     src/presentation/viewmodels/storage_viewmodel.cpp
     src/presentation/viewmodels/network_viewmodel.cpp
+    src/presentation/viewmodels/system_info_viewmodel.cpp
     src/presentation/viewmodels/user_metadata_viewmodel.cpp
     src/presentation/viewmodels/hardware_viewmodel.cpp
     src/presentation/viewmodels/service_viewmodel.cpp
@@ -65,14 +71,7 @@ set(PROJECT_SOURCES
     src/presentation/viewmodels/dev_stack_viewmodel.cpp
     src/presentation/viewmodels/export_viewmodel.cpp
     src/presentation/viewmodels/audio_viewmodel.cpp
-    src/infrastructure/audio/qt_audio_provider.cpp
-    src/infrastructure/exporters/json_export_provider.cpp
-    src/infrastructure/exporters/markdown_export_provider.cpp
-    src/infrastructure/exporters/html_export_provider.cpp
-    src/presentation/viewmodels/update_viewmodel.h
-    src/presentation/viewmodels/update_package_model.h
-    src/presentation/viewmodels/diagnostic_viewmodel.h
-    src/presentation/viewmodels/log_entry_model.h
+    src/presentation/viewmodels/installation_viewmodel.cpp
 )
 
 # Recurso QML
@@ -99,7 +98,8 @@ target_link_libraries(my_comp PRIVATE
 # Configuração de Testes
 enable_testing()
 
-add_executable(unit_tests 
+# Unit Tests Target
+set(UNIT_TEST_SOURCES
     tests/unit/placeholder_test.cpp
     tests/unit/dnf_update_provider_test.cpp
     tests/unit/flatpak_update_provider_test.cpp
@@ -108,15 +108,23 @@ add_executable(unit_tests
     tests/unit/journal_provider_test.cpp
     tests/unit/memory_provider_test.cpp
     tests/unit/user_metadata_provider_test.cpp
+    tests/unit/diagnostic_viewmodel_test.cpp
+    
+    src/infrastructure/collectors/qprocess_shell_executor.cpp
     src/infrastructure/collectors/linux_memory_provider.cpp
     src/infrastructure/collectors/linux_user_metadata_provider.cpp
-    src/presentation/viewmodels/update_viewmodel.h
-    src/presentation/viewmodels/update_package_model.h
+    src/presentation/viewmodels/update_viewmodel.cpp
+    src/presentation/viewmodels/update_package_model.cpp
+    src/presentation/viewmodels/diagnostic_viewmodel.cpp
+    src/presentation/viewmodels/log_entry_model.cpp
 )
-target_link_libraries(unit_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::DBus)
+
+add_executable(unit_tests ${UNIT_TEST_SOURCES})
+target_link_libraries(unit_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::Gui Qt6::DBus Qt6::Network)
 add_test(NAME unit_tests COMMAND unit_tests)
 
-add_executable(acceptance_tests 
+# Acceptance Tests Target
+set(ACCEPTANCE_TEST_SOURCES
     tests/acceptance/placeholder_acceptance.cpp
     tests/acceptance/update_manager_test.cpp
     tests/acceptance/journal_acceptance_test.cpp
@@ -136,33 +144,67 @@ add_executable(acceptance_tests
     tests/acceptance/dev_stack_test.cpp
     tests/acceptance/export_system_test.cpp
     tests/acceptance/audio_capture_test.cpp
+    
+    src/infrastructure/collectors/qprocess_shell_executor.cpp
+    src/infrastructure/collectors/interactive_process_runner.cpp
+    src/infrastructure/collectors/installer_adapter.cpp
+    src/infrastructure/collectors/linux_cpu_provider.cpp
     src/infrastructure/collectors/linux_memory_provider.cpp
-    src/infrastructure/security/openssl_vault.cpp
     src/infrastructure/collectors/dbus_firmware_provider.cpp
     src/infrastructure/collectors/linux_storage_provider.cpp
     src/infrastructure/collectors/linux_network_provider.cpp
-    src/infrastructure/collectors/linux_power_provider.cpp
-    src/infrastructure/collectors/interactive_process_runner.cpp
     src/infrastructure/collectors/nvidia_gpu_provider.cpp
+    src/infrastructure/collectors/sysfs_gpu_provider.cpp
+    src/infrastructure/collectors/linux_power_provider.cpp
+    src/infrastructure/collectors/linux_system_info_provider.cpp
     src/infrastructure/collectors/linux_user_metadata_provider.cpp
-    src/infrastructure/collectors/qprocess_shell_executor.cpp
     src/infrastructure/collectors/linux_hardware_provider.cpp
     src/infrastructure/collectors/systemd_service_provider.cpp
     src/infrastructure/collectors/linux_process_provider.cpp
     src/infrastructure/collectors/linux_dev_stack_provider.cpp
-    src/infrastructure/collectors/snap_update_provider.cpp
-    src/infrastructure/collectors/cargo_update_provider.cpp
     src/infrastructure/collectors/apt_update_provider.cpp
     src/infrastructure/collectors/pacman_update_provider.cpp
-    src/presentation/viewmodels/export_viewmodel.cpp
-    src/presentation/viewmodels/user_metadata_viewmodel.cpp
-    src/presentation/viewmodels/hardware_viewmodel.cpp
-    src/presentation/viewmodels/dev_stack_viewmodel.cpp
+    src/infrastructure/collectors/snap_update_provider.cpp
+    src/infrastructure/collectors/cargo_update_provider.cpp
+    src/infrastructure/audio/qt_audio_provider.cpp
+    src/infrastructure/exporters/json_export_provider.cpp
+    src/infrastructure/exporters/markdown_export_provider.cpp
+    src/infrastructure/exporters/html_export_provider.cpp
+    src/infrastructure/security/openssl_vault.cpp
+    
+    src/presentation/viewmodels/update_viewmodel.cpp
+    src/presentation/viewmodels/update_package_model.cpp
+    src/presentation/viewmodels/diagnostic_viewmodel.cpp
+    src/presentation/viewmodels/log_entry_model.cpp
     src/presentation/viewmodels/cpu_viewmodel.cpp
     src/presentation/viewmodels/memory_viewmodel.cpp
+    src/presentation/viewmodels/firmware_viewmodel.cpp
+    src/presentation/viewmodels/gpu_viewmodel.cpp
+    src/presentation/viewmodels/power_viewmodel.cpp
+    src/presentation/viewmodels/storage_viewmodel.cpp
+    src/presentation/viewmodels/network_viewmodel.cpp
     src/presentation/viewmodels/system_info_viewmodel.cpp
+    src/presentation/viewmodels/user_metadata_viewmodel.cpp
+    src/presentation/viewmodels/hardware_viewmodel.cpp
+    src/presentation/viewmodels/service_viewmodel.cpp
+    src/presentation/viewmodels/process_viewmodel.cpp
+    src/presentation/viewmodels/dev_stack_viewmodel.cpp
+    src/presentation/viewmodels/export_viewmodel.cpp
     src/presentation/viewmodels/audio_viewmodel.cpp
-    src/infrastructure/audio/qt_audio_provider.cpp
+    src/presentation/viewmodels/installation_viewmodel.cpp
 )
-target_link_libraries(acceptance_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::DBus Qt6::Concurrent Qt6::Test Qt6::Multimedia OpenSSL::Crypto)
+
+add_executable(acceptance_tests ${ACCEPTANCE_TEST_SOURCES})
+target_link_libraries(acceptance_tests PRIVATE 
+    GTest::gtest_main 
+    GTest::gmock 
+    Qt6::Core 
+    Qt6::DBus 
+    Qt6::Concurrent 
+    Qt6::Test 
+    Qt6::Multimedia 
+    Qt6::Network
+    OpenSSL::SSL
+    OpenSSL::Crypto
+)
 add_test(NAME acceptance_tests COMMAND acceptance_tests)

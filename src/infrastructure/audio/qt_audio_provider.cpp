@@ -16,7 +16,7 @@ QtAudioProvider::QtAudioProvider(QObject* parent) : QIODevice(parent) {
 }
 
 QtAudioProvider::~QtAudioProvider() {
-    stop_capture();
+    stop_capture_impl();
 }
 
 bool QtAudioProvider::start_capture() {
@@ -31,6 +31,10 @@ bool QtAudioProvider::start_capture() {
 }
 
 void QtAudioProvider::stop_capture() {
+    stop_capture_impl();
+}
+
+void QtAudioProvider::stop_capture_impl() {
     if (!m_capturing) return;
     m_audioSource->stop();
     close();

@@ -18,9 +18,8 @@ std::vector<domain::models::GpuStats> NvidiaGpuProvider::collect_stats() {
     QString output = QString::fromUtf8(process.readAllStandardOutput());
     QStringList lines = output.split('\n', Qt::SkipEmptyParts);
 
-    for (const QString& line : lines) {
-        results.push_back(parse_line(line));
-    }
+    std::transform(lines.begin(), lines.end(), std::back_inserter(results), 
+                   [this](const QString& line) { return parse_line(line); });
 
     return results;
 }

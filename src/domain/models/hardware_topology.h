@@ -15,11 +15,11 @@ struct UsbDevice {
 };
 
 struct BluetoothDevice {
-    QString name;
-    QString address;
-    bool paired;
-    bool connected;
-    QString type;
+    QString name = "";
+    QString address = "";
+    bool paired = false;
+    bool connected = false;
+    QString type = "";
 };
 
 struct SmbiosInfo {

@@ -7,7 +7,21 @@ namespace my_comp::infrastructure::collectors {
 
 LinuxNetworkProvider::LinuxNetworkProvider(std::shared_ptr<IShellExecutor> shell)
     : m_shell(std::move(shell)) {
-    collect_stats();
+    // Captura inicial para baseline de tráfego, sem usar a chamada virtual collect_stats()
+    std::ifstream netdev("/proc/net/dev");
+    std::string line;
+    auto now = std::chrono::steady_clock::now();
+    std::getline(netdev, line);
+    std::getline(netdev, line);
+    while (std::getline(netdev, line)) {
+        std::stringstream ss(line);
+        std::string iface_raw; ss >> iface_raw;
+        if (iface_raw.empty()) continue;
+        std::string iface_name = iface_raw.substr(0, iface_raw.find(':'));
+        uint64_t rx_bytes, rx_packets, rx_errs, rx_drop, rx_fifo, rx_frame, rx_compressed, rx_multi, tx_bytes;
+        ss >> rx_bytes >> rx_packets >> rx_errs >> rx_drop >> rx_fifo >> rx_frame >> rx_compressed >> rx_multi >> tx_bytes;
+        m_last_samples[iface_name] = {rx_bytes, tx_bytes, now};
+    }
 }
 
 domain::models::NetworkStats LinuxNetworkProvider::collect_stats() {

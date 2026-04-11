@@ -1,0 +1,275 @@
+Start testing: Apr 11 18:06 -03
+----------------------------------------------------------
+1/2 Testing: unit_tests
+1/2 Test: unit_tests
+Command: "/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests"
+Directory: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov
+"unit_tests" start time: Apr 11 18:06 -03
+Output:
+----------------------------------------------------------
+[==========] Running 12 tests from 9 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from PlaceholderTest
+[ RUN      ] PlaceholderTest.InitialSetup
+[       OK ] PlaceholderTest.InitialSetup (0 ms)
+[----------] 1 test from PlaceholderTest (0 ms total)
+
+[----------] 1 test from DnfUpdateProviderTest
+[ RUN      ] DnfUpdateProviderTest.ShouldIdentifyUpdatesFromDnfOutput
+[       OK ] DnfUpdateProviderTest.ShouldIdentifyUpdatesFromDnfOutput (0 ms)
+[----------] 1 test from DnfUpdateProviderTest (0 ms total)
+
+[----------] 1 test from FlatpakUpdateProviderTest
+[ RUN      ] FlatpakUpdateProviderTest.ShouldIdentifyUpdatesFromFlatpakOutput
+[       OK ] FlatpakUpdateProviderTest.ShouldIdentifyUpdatesFromFlatpakOutput (0 ms)
+[----------] 1 test from FlatpakUpdateProviderTest (0 ms total)
+
+[----------] 1 test from NpmUpdateProviderTest
+[ RUN      ] NpmUpdateProviderTest.ShouldIdentifyUpdatesFromNpmJsonOutput
+[       OK ] NpmUpdateProviderTest.ShouldIdentifyUpdatesFromNpmJsonOutput (0 ms)
+[----------] 1 test from NpmUpdateProviderTest (0 ms total)
+
+[----------] 1 test from UpdateViewModelTest
+[ RUN      ] UpdateViewModelTest.ShouldRefreshUpdatesFromManager
+[       OK ] UpdateViewModelTest.ShouldRefreshUpdatesFromManager (0 ms)
+[----------] 1 test from UpdateViewModelTest (0 ms total)
+
+[----------] 1 test from JournalProviderTest
+[ RUN      ] JournalProviderTest.ShouldParseJournalErrorOutput
+[       OK ] JournalProviderTest.ShouldParseJournalErrorOutput (0 ms)
+[----------] 1 test from JournalProviderTest (0 ms total)
+
+[----------] 2 tests from LinuxMemoryProviderTest
+[ RUN      ] LinuxMemoryProviderTest.ShouldParseMeminfo
+[       OK ] LinuxMemoryProviderTest.ShouldParseMeminfo (0 ms)
+[ RUN      ] LinuxMemoryProviderTest.ShouldHandleSwap
+[       OK ] LinuxMemoryProviderTest.ShouldHandleSwap (0 ms)
+[----------] 2 tests from LinuxMemoryProviderTest (0 ms total)
+
+[----------] 3 tests from UserMetadataProviderTest
+[ RUN      ] UserMetadataProviderTest.ShouldCollectCurrentUserInfo
+
+GMOCK WARNING:
+Uninteresting mock function call - returning default value.
+    Function call: execute(@0x7ffdd8f63d80 { 2-byte object <62-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <68-00> }, @0x7ffdd8f63d30 { { 2-byte object <2D-00>, 2-byte object <63-00> }, { 2-byte object <75-00>, 2-byte object <6C-00>, 2-byte object <69-00>, 2-byte object <6D-00>, 2-byte object <69-00>, 2-byte object <74-00>, 2-byte object <20-00>, 2-byte object <2D-00>, 2-byte object <61-00> } }, @0x7ffdd8f63d10 {})
+          Returns: 0
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
+
+GMOCK WARNING:
+Uninteresting mock function call - returning default value.
+    Function call: execute(@0x7ffdd8f63d80 { 2-byte object <6C-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <74-00> }, @0x7ffdd8f63d30 { { 2-byte object <2D-00>, 2-byte object <6E-00> }, { 2-byte object <32-00>, 2-byte object <30-00> } }, @0x7ffdd8f63d10 {})
+          Returns: 0
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
+[       OK ] UserMetadataProviderTest.ShouldCollectCurrentUserInfo (4 ms)
+[ RUN      ] UserMetadataProviderTest.ShouldCallShellForLimitsAndHistory
+[       OK ] UserMetadataProviderTest.ShouldCallShellForLimitsAndHistory (4 ms)
+[ RUN      ] UserMetadataProviderTest.ShouldCollectEnvVars
+
+GMOCK WARNING:
+Uninteresting mock function call - returning default value.
+    Function call: execute(@0x7ffdd8f63d90 { 2-byte object <62-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <68-00> }, @0x7ffdd8f63d40 { { 2-byte object <2D-00>, 2-byte object <63-00> }, { 2-byte object <75-00>, 2-byte object <6C-00>, 2-byte object <69-00>, 2-byte object <6D-00>, 2-byte object <69-00>, 2-byte object <74-00>, 2-byte object <20-00>, 2-byte object <2D-00>, 2-byte object <61-00> } }, @0x7ffdd8f63d20 {})
+          Returns: 0
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
+
+GMOCK WARNING:
+Uninteresting mock function call - returning default value.
+    Function call: execute(@0x7ffdd8f63d90 { 2-byte object <6C-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <74-00> }, @0x7ffdd8f63d40 { { 2-byte object <2D-00>, 2-byte object <6E-00> }, { 2-byte object <32-00>, 2-byte object <30-00> } }, @0x7ffdd8f63d20 {})
+          Returns: 0
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
+[       OK ] UserMetadataProviderTest.ShouldCollectEnvVars (3 ms)
+[----------] 3 tests from UserMetadataProviderTest (13 ms total)
+
+[----------] 1 test from DiagnosticViewModelTest
+[ RUN      ] DiagnosticViewModelTest.ShouldGenerateSearchUrl
+[       OK ] DiagnosticViewModelTest.ShouldGenerateSearchUrl (0 ms)
+[----------] 1 test from DiagnosticViewModelTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 12 tests from 9 test suites ran. (14 ms total)
+[  PASSED  ] 12 tests.
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"unit_tests" end time: Apr 11 18:06 -03
+"unit_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/2 Testing: acceptance_tests
+2/2 Test: acceptance_tests
+Command: "/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/acceptance_tests"
+Directory: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov
+"acceptance_tests" start time: Apr 11 18:06 -03
+Output:
+----------------------------------------------------------
+[==========] Running 34 tests from 20 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from PlaceholderAcceptance
+[ RUN      ] PlaceholderAcceptance.SystemReportGeneration
+[       OK ] PlaceholderAcceptance.SystemReportGeneration (0 ms)
+[----------] 1 test from PlaceholderAcceptance (0 ms total)
+
+[----------] 2 tests from UpdateManagerATDD
+[ RUN      ] UpdateManagerATDD.ShouldOrchestrateFullUpgrade
+[       OK ] UpdateManagerATDD.ShouldOrchestrateFullUpgrade (0 ms)
+[ RUN      ] UpdateManagerATDD.ShouldConsolidateUpdatesFromMultipleProviders
+[       OK ] UpdateManagerATDD.ShouldConsolidateUpdatesFromMultipleProviders (0 ms)
+[----------] 2 tests from UpdateManagerATDD (0 ms total)
+
+[----------] 1 test from JournalAcceptance
+[ RUN      ] JournalAcceptance.ShouldConsolidateDiagnosticLogs
+[       OK ] JournalAcceptance.ShouldConsolidateDiagnosticLogs (0 ms)
+[----------] 1 test from JournalAcceptance (0 ms total)
+
+[----------] 1 test from JournalSearchAcceptance
+[ RUN      ] JournalSearchAcceptance.ShouldFilterLogsByQuery
+[       OK ] JournalSearchAcceptance.ShouldFilterLogsByQuery (11 ms)
+[----------] 1 test from JournalSearchAcceptance (11 ms total)
+
+[----------] 4 tests from JournalHardwareAcceptanceTest
+[ RUN      ] JournalHardwareAcceptanceTest.FiltersHardwareFirmwareLogs
+[       OK ] JournalHardwareAcceptanceTest.FiltersHardwareFirmwareLogs (0 ms)
+[ RUN      ] JournalHardwareAcceptanceTest.FiltersBootLogs
+[       OK ] JournalHardwareAcceptanceTest.FiltersBootLogs (0 ms)
+[ RUN      ] JournalHardwareAcceptanceTest.FiltersDesktopEnvironmentLogs
+[       OK ] JournalHardwareAcceptanceTest.FiltersDesktopEnvironmentLogs (0 ms)
+[ RUN      ] JournalHardwareAcceptanceTest.FiltersSecurityNetworkLogs
+[       OK ] JournalHardwareAcceptanceTest.FiltersSecurityNetworkLogs (0 ms)
+[----------] 4 tests from JournalHardwareAcceptanceTest (0 ms total)
+
+[----------] 2 tests from CpuMonitorAcceptance
+[ RUN      ] CpuMonitorAcceptance.ShouldCollectRealisticCpuData
+[       OK ] CpuMonitorAcceptance.ShouldCollectRealisticCpuData (0 ms)
+[ RUN      ] CpuMonitorAcceptance.ShouldCollectArchitectureDetails
+[       OK ] CpuMonitorAcceptance.ShouldCollectArchitectureDetails (0 ms)
+[----------] 2 tests from CpuMonitorAcceptance (0 ms total)
+
+[----------] 3 tests from MemoryMonitorAcceptance
+[ RUN      ] MemoryMonitorAcceptance.ShouldCollectFromRealSystem
+[       OK ] MemoryMonitorAcceptance.ShouldCollectFromRealSystem (0 ms)
+[ RUN      ] MemoryMonitorAcceptance.ShouldCollectRealisticMemoryData
+[       OK ] MemoryMonitorAcceptance.ShouldCollectRealisticMemoryData (0 ms)
+[ RUN      ] MemoryMonitorAcceptance.ShouldHandleSwapAndZram
+[       OK ] MemoryMonitorAcceptance.ShouldHandleSwapAndZram (0 ms)
+[----------] 3 tests from MemoryMonitorAcceptance (0 ms total)
+
+[----------] 2 tests from FirmwareMonitorAcceptance
+[ RUN      ] FirmwareMonitorAcceptance.ShouldCollectFromRealSystem
+QDBusArgument: write from a read-only object
+[Firmware Test] Found 15 devices
+  - 6b5a0664 ()
+  - 12th Gen Intel Core™ i5-12500H (0x0000043b)
+  - ACER HD User Facing (0.4)
+  - BootGuard Configuration ()
+  - Internal SPI Controller ()
+  - Internal SPI Controller (BIOS) (V1.09)
+  - Internal SPI Controller (Embedded Controller) ()
+  - Internal SPI Controller (IFD descriptor region) ()
+  - Internal SPI Controller (Management Engine) ()
+  - Internal SPI Controller (Region 9) ()
+  - NV173FHM-NX4 ()
+  - SNV2S1000G (ELFK0S.6)
+  - System Firmware (1883509001)
+  - TPM (600.18.0.0)
+  - UEFI Device Firmware (306)
+[       OK ] FirmwareMonitorAcceptance.ShouldCollectFromRealSystem (3 ms)
+[ RUN      ] FirmwareMonitorAcceptance.ShouldCollectFirmwareDevices
+[       OK ] FirmwareMonitorAcceptance.ShouldCollectFirmwareDevices (0 ms)
+[----------] 2 tests from FirmwareMonitorAcceptance (3 ms total)
+
+[----------] 2 tests from StorageMonitorAcceptance
+[ RUN      ] StorageMonitorAcceptance.ShouldCollectFromRealSystem
+[Storage Test] Total Read: 59.0625 MB/s, Write: 24.707 MB/s
+  - nvme0n1: R=59.0625, W=24.707
+[       OK ] StorageMonitorAcceptance.ShouldCollectFromRealSystem (200 ms)
+[ RUN      ] StorageMonitorAcceptance.ShouldCollectRealisticStorageData
+[       OK ] StorageMonitorAcceptance.ShouldCollectRealisticStorageData (0 ms)
+[----------] 2 tests from StorageMonitorAcceptance (200 ms total)
+
+[----------] 2 tests from NetworkMonitorAcceptance
+[ RUN      ] NetworkMonitorAcceptance.ShouldCollectFromRealSystem
+[Network Test] Active: wlp0s20f3, RX: 0.0254885 Mbps, TX: 0.00794371 Mbps, Latency: 65.3 ms
+[       OK ] NetworkMonitorAcceptance.ShouldCollectFromRealSystem (335 ms)
+[ RUN      ] NetworkMonitorAcceptance.ShouldCollectRealisticNetworkData
+[       OK ] NetworkMonitorAcceptance.ShouldCollectRealisticNetworkData (0 ms)
+[----------] 2 tests from NetworkMonitorAcceptance (335 ms total)
+
+[----------] 1 test from SecurityVaultAcceptanceTest
+[ RUN      ] SecurityVaultAcceptanceTest.EncryptDecryptGCM_IntegrityCheck
+[       OK ] SecurityVaultAcceptanceTest.EncryptDecryptGCM_IntegrityCheck (1 ms)
+[----------] 1 test from SecurityVaultAcceptanceTest (1 ms total)
+
+[----------] 1 test from GpuMonitorAcceptanceTest
+[ RUN      ] GpuMonitorAcceptanceTest.DetectsNvidiaGpuAndReturnsStats
+[GPU Test] Detected: NVIDIA GeForce RTX 3050 Laptop GPU
+  - Load: 0%
+  - Temp: 53°C
+  - VRAM: 4/4096 MB
+[       OK ] GpuMonitorAcceptanceTest.DetectsNvidiaGpuAndReturnsStats (31 ms)
+[----------] 1 test from GpuMonitorAcceptanceTest (31 ms total)
+
+[----------] 2 tests from PowerMonitorAcceptanceTest
+[ RUN      ] PowerMonitorAcceptanceTest.DetectsBatteryOnRealSystem
+[Power Test] Status: Full
+  - Level: 100%
+  - Usage: 0 Watts
+  - Health: 69.5637%
+  - Cycles: 0
+[       OK ] PowerMonitorAcceptanceTest.DetectsBatteryOnRealSystem (0 ms)
+[ RUN      ] PowerMonitorAcceptanceTest.ShouldCollectBatteryData
+[       OK ] PowerMonitorAcceptanceTest.ShouldCollectBatteryData (0 ms)
+[----------] 2 tests from PowerMonitorAcceptanceTest (0 ms total)
+
+[----------] 1 test from UserMetadataAcceptance
+[ RUN      ] UserMetadataAcceptance.ShouldCollectUserDataContract
+[       OK ] UserMetadataAcceptance.ShouldCollectUserDataContract (0 ms)
+[----------] 1 test from UserMetadataAcceptance (0 ms total)
+
+[----------] 1 test from HardwareTopologyAcceptance
+[ RUN      ] HardwareTopologyAcceptance.ShouldCollectHardwareDataContract
+[       OK ] HardwareTopologyAcceptance.ShouldCollectHardwareDataContract (0 ms)
+[----------] 1 test from HardwareTopologyAcceptance (0 ms total)
+
+[----------] 2 tests from SystemdServicesAcceptance
+[ RUN      ] SystemdServicesAcceptance.ShouldControlServiceLifecycle
+[       OK ] SystemdServicesAcceptance.ShouldControlServiceLifecycle (0 ms)
+[ RUN      ] SystemdServicesAcceptance.ShouldCreateNewDaemon
+[       OK ] SystemdServicesAcceptance.ShouldCreateNewDaemon (0 ms)
+[----------] 2 tests from SystemdServicesAcceptance (0 ms total)
+
+[----------] 2 tests from ProcessMonitorAcceptance
+[ RUN      ] ProcessMonitorAcceptance.ShouldCollectProcessesContract
+[       OK ] ProcessMonitorAcceptance.ShouldCollectProcessesContract (0 ms)
+[ RUN      ] ProcessMonitorAcceptance.ShouldControlProcessLifecycle
+[       OK ] ProcessMonitorAcceptance.ShouldControlProcessLifecycle (0 ms)
+[----------] 2 tests from ProcessMonitorAcceptance (0 ms total)
+
+[----------] 1 test from DevStackAcceptance
+[ RUN      ] DevStackAcceptance.ShouldCollectDevStacksContract
+[       OK ] DevStackAcceptance.ShouldCollectDevStacksContract (0 ms)
+[----------] 1 test from DevStackAcceptance (0 ms total)
+
+[----------] 1 test from ExportSystemAcceptance
+[ RUN      ] ExportSystemAcceptance.ShouldConsolidateAndExportData
+[       OK ] ExportSystemAcceptance.ShouldConsolidateAndExportData (0 ms)
+[----------] 1 test from ExportSystemAcceptance (0 ms total)
+
+[----------] 2 tests from AudioCaptureAcceptance
+[ RUN      ] AudioCaptureAcceptance.ShouldManageCaptureLifecycle
+[       OK ] AudioCaptureAcceptance.ShouldManageCaptureLifecycle (0 ms)
+[ RUN      ] AudioCaptureAcceptance.ShouldReceiveDataViaCallback
+[       OK ] AudioCaptureAcceptance.ShouldReceiveDataViaCallback (0 ms)
+[----------] 2 tests from AudioCaptureAcceptance (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 34 tests from 20 test suites ran. (585 ms total)
+[  PASSED  ] 34 tests.
+<end of output>
+Test time =   0.61 sec
+----------------------------------------------------------
+Test Passed.
+"acceptance_tests" end time: Apr 11 18:06 -03
+"acceptance_tests" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Apr 11 18:06 -03
