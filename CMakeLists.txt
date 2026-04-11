@@ -53,6 +53,7 @@ set(PROJECT_SOURCES
     src/infrastructure/collectors/linux_hardware_provider.cpp
     src/infrastructure/collectors/systemd_service_provider.cpp
     src/infrastructure/collectors/linux_process_provider.cpp
+    src/infrastructure/collectors/linux_dev_stack_provider.cpp
     src/presentation/viewmodels/cpu_viewmodel.cpp
     src/presentation/viewmodels/gpu_viewmodel.cpp
     src/presentation/viewmodels/power_viewmodel.cpp
@@ -66,6 +67,7 @@ set(PROJECT_SOURCES
     src/presentation/viewmodels/hardware_viewmodel.cpp
     src/presentation/viewmodels/service_viewmodel.cpp
     src/presentation/viewmodels/process_viewmodel.cpp
+    src/presentation/viewmodels/dev_stack_viewmodel.cpp
     src/presentation/viewmodels/update_viewmodel.h
     src/presentation/viewmodels/update_package_model.h
     src/presentation/viewmodels/diagnostic_viewmodel.h
@@ -130,6 +132,7 @@ add_executable(acceptance_tests
     tests/acceptance/hardware_topology_test.cpp
     tests/acceptance/systemd_services_test.cpp
     tests/acceptance/process_monitor_test.cpp
+    tests/acceptance/dev_stack_test.cpp
     src/infrastructure/collectors/linux_memory_provider.cpp
     src/infrastructure/security/openssl_vault.cpp
     src/infrastructure/collectors/dbus_firmware_provider.cpp
@@ -143,6 +146,7 @@ add_executable(acceptance_tests
     src/infrastructure/collectors/linux_hardware_provider.cpp
     src/infrastructure/collectors/systemd_service_provider.cpp
     src/infrastructure/collectors/linux_process_provider.cpp
+    src/infrastructure/collectors/linux_dev_stack_provider.cpp
 )
 target_link_libraries(acceptance_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::DBus OpenSSL::Crypto)
 add_test(NAME acceptance_tests COMMAND acceptance_tests)

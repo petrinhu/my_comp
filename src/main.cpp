@@ -12,7 +12,7 @@
 #include "infrastructure/collectors/flatpak_update_provider.h"
 #include "infrastructure/collectors/npm_update_provider.h"
 #include "infrastructure/collectors/journal_diagnostic_provider.h"
-#include "infrastructure/collectors/linux_cpu_provider.h"
+
 #include "presentation/viewmodels/update_viewmodel.h"
 #include "presentation/viewmodels/diagnostic_viewmodel.h"
 #include "presentation/viewmodels/cpu_viewmodel.h"
@@ -27,6 +27,9 @@
 #include "presentation/viewmodels/hardware_viewmodel.h"
 #include "presentation/viewmodels/service_viewmodel.h"
 #include "presentation/viewmodels/process_viewmodel.h"
+#include "presentation/viewmodels/dev_stack_viewmodel.h"
+
+#include "infrastructure/collectors/linux_cpu_provider.h"
 #include "infrastructure/collectors/linux_memory_provider.h"
 #include "infrastructure/collectors/dbus_firmware_provider.h"
 #include "infrastructure/collectors/linux_storage_provider.h"
@@ -36,6 +39,7 @@
 #include "infrastructure/collectors/linux_hardware_provider.h"
 #include "infrastructure/collectors/systemd_service_provider.h"
 #include "infrastructure/collectors/linux_process_provider.h"
+#include "infrastructure/collectors/linux_dev_stack_provider.h"
 
 #include "infrastructure/collectors/interactive_process_runner.h"
 #include "infrastructure/collectors/installer_adapter.h"
@@ -63,11 +67,15 @@ int main(int argc, char *argv[])
     auto firmware_provider = std::make_shared<my_comp::infrastructure::collectors::DBusFirmwareProvider>();
     auto storage_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxStorageProvider>();
     auto network_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxNetworkProvider>(shell);
+    auto system_info_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxSystemInfoProvider>(shell);
+    auto interactive_runner = std::make_shared<my_comp::infrastructure::collectors::InteractiveProcessRunner>();
+    auto installer_adapter = std::make_shared<my_comp::infrastructure::collectors::InstallerAdapter>(interactive_runner);
 
     // 2. Domínio
     auto update_manager = std::make_shared<my_comp::domain::UpdateManager>();
     auto diagnostic_manager = std::make_shared<my_comp::domain::DiagnosticManager>();
     
+    update_manager->set_installer(installer_adapter);
     update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::DnfUpdateProvider>(shell));
     update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::FlatpakUpdateProvider>(shell));
     update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::NpmUpdateProvider>(shell));
@@ -84,24 +92,7 @@ int main(int argc, char *argv[])
     my_comp::presentation::viewmodels::PowerViewModel power_vm;
     my_comp::presentation::viewmodels::StorageViewModel storage_vm(storage_provider);
     my_comp::presentation::viewmodels::NetworkViewModel network_vm(network_provider);
-
-    QQmlApplicationEngine engine;
-    
-    // Injeção de Contexto
-    engine.rootContext()->setContextProperty("isSystemDarkInitial", is_system_dark);
-    engine.rootContext()->setContextProperty("updateViewModel", &update_vm);
-    engine.rootContext()->setContextProperty("diagnosticViewModel", &diagnostic_vm);
-    engine.rootContext()->setContextProperty("cpuViewModel", &cpu_vm);
-    engine.rootContext()->setContextProperty("memoryViewModel", &memory_vm);
-    engine.rootContext()->setContextProperty("firmwareViewModel", &firmware_vm);
-    auto shell_executor = std::make_shared<my_comp::infrastructure::collectors::QProcessShellExecutor>();
-    auto system_info_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxSystemInfoProvider>(shell_executor);
     my_comp::presentation::viewmodels::SystemInfoViewModel system_info_vm(system_info_provider);
-    
-    auto interactive_runner = std::make_shared<my_comp::infrastructure::collectors::InteractiveProcessRunner>();
-    auto installer_adapter = std::make_shared<my_comp::infrastructure::collectors::InstallerAdapter>(interactive_runner);
-    update_manager->set_installer(installer_adapter);
-    
     my_comp::presentation::viewmodels::InstallationViewModel installation_vm(installer_adapter);
 
     auto user_metadata_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxUserMetadataProvider>(shell);
@@ -116,21 +107,33 @@ int main(int argc, char *argv[])
     auto process_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxProcessProvider>();
     my_comp::presentation::viewmodels::ProcessViewModel process_vm(process_provider);
 
+    auto dev_stack_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxDevStackProvider>(shell);
+    my_comp::presentation::viewmodels::DevStackViewModel dev_stack_vm(dev_stack_provider);
+
+    QQmlApplicationEngine engine;
+    
+    // Injeção de Contexto
+    engine.rootContext()->setContextProperty("isSystemDarkInitial", is_system_dark);
+    engine.rootContext()->setContextProperty("updateViewModel", &update_vm);
+    engine.rootContext()->setContextProperty("diagnosticViewModel", &diagnostic_vm);
+    engine.rootContext()->setContextProperty("cpuViewModel", &cpu_vm);
+    engine.rootContext()->setContextProperty("memoryViewModel", &memory_vm);
+    engine.rootContext()->setContextProperty("firmwareViewModel", &firmware_vm);
     engine.rootContext()->setContextProperty("systemInfoViewModel", &system_info_vm);
     engine.rootContext()->setContextProperty("userMetadataViewModel", &user_metadata_vm);
     engine.rootContext()->setContextProperty("hardwareViewModel", &hardware_vm);
     engine.rootContext()->setContextProperty("serviceViewModel", &service_vm);
     engine.rootContext()->setContextProperty("processViewModel", &process_vm);
+    engine.rootContext()->setContextProperty("devStackViewModel", &dev_stack_vm);
     engine.rootContext()->setContextProperty("installationViewModel", &installation_vm);
     engine.rootContext()->setContextProperty("gpuViewModel", &gpu_vm);
     engine.rootContext()->setContextProperty("powerViewModel", &power_vm);
     engine.rootContext()->setContextProperty("storageViewModel", &storage_vm);
     engine.rootContext()->setContextProperty("networkViewModel", &network_vm);
 
-    using namespace Qt::StringLiterals;
-    const QUrl url(u"qrc:/Main.qml"_s);
+    const QUrl url(u"qrc:/my_comp/src/presentation/qml/Main.qml"_qs);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
+        &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl) {
             qCritical() << "[Main] Failed to create QML object!";
             QCoreApplication::exit(-1);

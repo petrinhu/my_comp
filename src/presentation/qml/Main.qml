@@ -180,6 +180,7 @@ Window {
                         {name: "Services", icon: "⚙️"},
                         {name: "Network", icon: "🌐"},
                         {name: "Hardware", icon: "💻"},
+                        {name: "Dev Tools", icon: "🛠️"},
                         {name: "Security", icon: "🛡️"},
                         {name: "Export", icon: "📤"}
                     ]
@@ -403,7 +404,61 @@ Window {
                 }
             }
 
-            // ABA 6 - Security
+            // ABA 6 - Dev Tools
+            ColumnLayout {
+                anchors.margins: 25; spacing: 15
+                RowLayout {
+                    Text { text: "Desenvolvimento & Containers"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                    Item { Layout.fillWidth: true }
+                    Button { text: "🔄"; onClicked: devStackViewModel.refresh() }
+                }
+                
+                ScrollView {
+                    Layout.fillWidth: true; Layout.fillHeight: true; clip: true
+                    ColumnLayout {
+                        width: parent.width; spacing: 20
+                        
+                        Text { text: "🛠️ COMPILADORES & RUNTIMES"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                        Rectangle {
+                            Layout.fillWidth: true; height: 200; color: root.cardColor; radius: 8; border.color: root.borderColor
+                            ListView {
+                                anchors.fill: parent; anchors.margins: 10; clip: true; model: devStackViewModel.toolchains
+                                delegate: RowLayout {
+                                    width: parent.width; height: 30
+                                    Text { text: modelData.name; font.bold: true; color: root.textColor; Layout.preferredWidth: 100 }
+                                    Text { text: modelData.version; color: "#7f8c8d"; Layout.fillWidth: true; elide: Text.ElideRight; font.family: "Monospace"; font.pixelSize: 11 }
+                                }
+                            }
+                        }
+                        
+                        Text { text: "🐳 CONTAINERS (PODMAN/DOCKER)"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                        Rectangle {
+                            Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 300; color: root.cardColor; radius: 8; border.color: root.borderColor
+                            ListView {
+                                id: containerList
+                                anchors.fill: parent; anchors.margins: 10; clip: true; model: devStackViewModel.containers
+                                delegate: ItemDelegate {
+                                    width: containerList.width; height: 50
+                                    contentItem: RowLayout {
+                                        spacing: 15
+                                        Rectangle { width: 8; height: 8; radius: 4; color: modelData.status.includes("Up") ? "#2ecc71" : "#95a5a6" }
+                                        ColumnLayout {
+                                            spacing: 2
+                                            Text { text: modelData.name; color: root.textColor; font.bold: true }
+                                            Text { text: modelData.runtime + " • " + modelData.image; color: "#7f8c8d"; font.pixelSize: 10 }
+                                        }
+                                        Item { Layout.fillWidth: true }
+                                        Text { text: modelData.status; color: root.textColor; font.pixelSize: 11 }
+                                    }
+                                }
+                                Text { anchors.centerIn: parent; text: "Nenhum container detectado."; color: "#7f8c8d"; visible: parent.count === 0 }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // ABA 7 - Security
             ColumnLayout {
                 anchors.margins: 25; spacing: 15
                 Text { text: "Segurança"; color: root.textColor; font.pixelSize: 24; font.bold: true }
@@ -416,10 +471,10 @@ Window {
                 }
             }
 
-            // ABA 7 - Export
+            // ABA 8 - Export
             PlaceholderView { title: "Exportar"; icon: "📤"; desc: "Gerar relatórios." }
 
-            // ABA 8 - Installation
+            // ABA 9 - Installation
             InstallationView { id: installView; anchors.margins: 25 }
         }
     }
