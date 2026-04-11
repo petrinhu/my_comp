@@ -3,6 +3,7 @@
 #include <QQmlContext>
 #include <QStyleHints>
 #include <QDebug>
+#include <QFile>
 #include <memory>
 
 #include "domain/update_manager.h"
@@ -11,6 +12,10 @@
 #include "infrastructure/collectors/dnf_update_provider.h"
 #include "infrastructure/collectors/flatpak_update_provider.h"
 #include "infrastructure/collectors/npm_update_provider.h"
+#include "infrastructure/collectors/snap_update_provider.h"
+#include "infrastructure/collectors/cargo_update_provider.h"
+#include "infrastructure/collectors/apt_update_provider.h"
+#include "infrastructure/collectors/pacman_update_provider.h"
 #include "infrastructure/collectors/journal_diagnostic_provider.h"
 
 #include "presentation/viewmodels/update_viewmodel.h"
@@ -80,9 +85,27 @@ int main(int argc, char *argv[])
     auto diagnostic_manager = std::make_shared<my_comp::domain::DiagnosticManager>();
     
     update_manager->set_installer(installer_adapter);
-    update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::DnfUpdateProvider>(shell));
-    update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::FlatpakUpdateProvider>(shell));
-    update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::NpmUpdateProvider>(shell));
+
+    // Provedores de Sistema (Detectar Distro)
+    if (QFile::exists("/usr/bin/dnf"))
+        update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::DnfUpdateProvider>(shell));
+    else if (QFile::exists("/usr/bin/apt"))
+        update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::AptUpdateProvider>(shell));
+    else if (QFile::exists("/usr/bin/pacman"))
+        update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::PacmanUpdateProvider>(shell));
+
+    // Provedores Universais/Dev
+    if (QFile::exists("/usr/bin/flatpak"))
+        update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::FlatpakUpdateProvider>(shell));
+    
+    if (QFile::exists("/usr/bin/snap"))
+        update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::SnapUpdateProvider>(shell));
+    
+    if (QFile::exists("/usr/bin/npm"))
+        update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::NpmUpdateProvider>(shell));
+    
+    if (QFile::exists("/usr/bin/cargo"))
+        update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::CargoUpdateProvider>(shell));
 
     diagnostic_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::JournalDiagnosticProvider>(shell));
 

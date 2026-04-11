@@ -35,8 +35,21 @@ void InstallerAdapter::install(const domain::models::UpdatePackage& package) {
             break;
         case domain::models::ProviderType::Snap:
             cmd = "snap";
-            args = {"install", package.name};
+            args = {"refresh", package.name};
             break;
+        case domain::models::ProviderType::Cargo:
+            cmd = "cargo";
+            args = {"install-update", package.name};
+            break;
+        case domain::models::ProviderType::Apt:
+            cmd = "sudo";
+            args = {"apt", "install", "-y", package.name};
+            break;
+        case domain::models::ProviderType::Pacman:
+            cmd = "sudo";
+            args = {"pacman", "-S", "--noconfirm", package.name};
+            break;
+
         case domain::models::ProviderType::Npm:
             cmd = "sudo";
             args = {"npm", "install", "-g", package.name};

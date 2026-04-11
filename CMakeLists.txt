@@ -45,6 +45,10 @@ set(PROJECT_SOURCES
     src/infrastructure/collectors/systemd_service_provider.cpp
     src/infrastructure/collectors/linux_process_provider.cpp
     src/infrastructure/collectors/linux_dev_stack_provider.cpp
+    src/infrastructure/collectors/snap_update_provider.cpp
+    src/infrastructure/collectors/cargo_update_provider.cpp
+    src/infrastructure/collectors/apt_update_provider.cpp
+    src/infrastructure/collectors/pacman_update_provider.cpp
     src/presentation/viewmodels/cpu_viewmodel.cpp
     src/presentation/viewmodels/gpu_viewmodel.cpp
     src/presentation/viewmodels/power_viewmodel.cpp
@@ -143,6 +147,10 @@ add_executable(acceptance_tests
     src/infrastructure/collectors/systemd_service_provider.cpp
     src/infrastructure/collectors/linux_process_provider.cpp
     src/infrastructure/collectors/linux_dev_stack_provider.cpp
+    src/infrastructure/collectors/snap_update_provider.cpp
+    src/infrastructure/collectors/cargo_update_provider.cpp
+    src/infrastructure/collectors/apt_update_provider.cpp
+    src/infrastructure/collectors/pacman_update_provider.cpp
     src/presentation/viewmodels/export_viewmodel.cpp
     src/presentation/viewmodels/user_metadata_viewmodel.cpp
     src/presentation/viewmodels/hardware_viewmodel.cpp

@@ -5,7 +5,7 @@
 
 namespace my_comp::domain::models {
 
-enum class ProviderType { Dnf, Flatpak, Npm, Snap };
+enum class ProviderType { Dnf, Flatpak, Npm, Snap, Cargo, Apt, Pacman };
 
 struct UpdatePackage {
     QString name;
