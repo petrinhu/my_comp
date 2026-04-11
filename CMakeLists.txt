@@ -9,17 +9,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS 
-    Core 
-    Gui 
-    Quick 
-    QuickControls2 
-    WaylandClient 
-    Multimedia 
-    DBus 
-    Network
-    Concurrent
-)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick QuickControls2 WaylandClient Multimedia DBus Network Concurrent Test)
+
 
 find_package(OpenSSL REQUIRED)
 
@@ -68,6 +59,10 @@ set(PROJECT_SOURCES
     src/presentation/viewmodels/service_viewmodel.cpp
     src/presentation/viewmodels/process_viewmodel.cpp
     src/presentation/viewmodels/dev_stack_viewmodel.cpp
+    src/presentation/viewmodels/export_viewmodel.cpp
+    src/infrastructure/exporters/json_export_provider.cpp
+    src/infrastructure/exporters/markdown_export_provider.cpp
+    src/infrastructure/exporters/html_export_provider.cpp
     src/presentation/viewmodels/update_viewmodel.h
     src/presentation/viewmodels/update_package_model.h
     src/presentation/viewmodels/diagnostic_viewmodel.h
@@ -133,6 +128,7 @@ add_executable(acceptance_tests
     tests/acceptance/systemd_services_test.cpp
     tests/acceptance/process_monitor_test.cpp
     tests/acceptance/dev_stack_test.cpp
+    tests/acceptance/export_system_test.cpp
     src/infrastructure/collectors/linux_memory_provider.cpp
     src/infrastructure/security/openssl_vault.cpp
     src/infrastructure/collectors/dbus_firmware_provider.cpp
@@ -147,6 +143,13 @@ add_executable(acceptance_tests
     src/infrastructure/collectors/systemd_service_provider.cpp
     src/infrastructure/collectors/linux_process_provider.cpp
     src/infrastructure/collectors/linux_dev_stack_provider.cpp
+    src/presentation/viewmodels/export_viewmodel.cpp
+    src/presentation/viewmodels/user_metadata_viewmodel.cpp
+    src/presentation/viewmodels/hardware_viewmodel.cpp
+    src/presentation/viewmodels/dev_stack_viewmodel.cpp
+    src/presentation/viewmodels/cpu_viewmodel.cpp
+    src/presentation/viewmodels/memory_viewmodel.cpp
+    src/presentation/viewmodels/system_info_viewmodel.cpp
 )
-target_link_libraries(acceptance_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::DBus OpenSSL::Crypto)
+target_link_libraries(acceptance_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::DBus Qt6::Concurrent Qt6::Test OpenSSL::Crypto)
 add_test(NAME acceptance_tests COMMAND acceptance_tests)

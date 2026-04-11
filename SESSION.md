@@ -19,8 +19,9 @@ A tabela completa de 43 itens agora reside em um arquivo exclusivo para evitar i
 - [x] Implementado Collector de Process List (Item 25) com interface estilo htop, ordenação dinâmica e kill.
 - [x] Finalizada orquestração do botão "Atualizar Tudo" (Item 37) e Instalação Individual (Item 36) via Terminal Interativo.
 - [x] Implementado Collector de Dev Stacks (Item 26) com detecção de compiladores e containers.
+- [x] Implementado Sistema de Exportação Multi-formato (Item 27) para JSON, Markdown e HTML.
 - [x] Implementado Cofre Digital AES-256-GCM com OpenSSL.
 
 ## 🚀 Próximos Passos Recomendados
-1. Implementar Exportação Multi-formato (Item 27).
-2. Expandir Gerenciadores de Pacotes (Item 29).
+1. Expandir Gerenciadores de Pacotes (Item 29): Cargo, Go, Snap, APT, Pacman.
+2. Implementar Áudio FFT Waveform (Item 30).

@@ -29,7 +29,7 @@
 | 24 | Collector: Systemd Services | Média | Baixa | ✅ | **Auditado: Controle (Start/Stop/Enable) e Criador de Daemons.** |
 | 25 | Collector: Process List (Top) | Baixa | Baixa | ✅ | **Auditado: Monitor style htop (/proc) com Kill/Sort.** |
 | 26 | Collector: Dev Stacks (Compilers/Cont) | Média | Média | ✅ | **Auditado: Toolchains (GCC/Py/Go/Rust) e Containers.** |
-| 27 | Export: Multi-format (MD/HTML/JSON) | Baixa | Média | ❌ | Relatórios completos agnósticos. |
+| 27 | Export: Multi-format (MD/HTML/JSON) | Baixa | Média | ✅ | **Auditado: Gerador de relatórios (Strategy Pattern).** |
 | 28 | Segurança: AES-256-GCM Vault | Alta | Alta | ✅ | Auditado via OpenSSL (100% offline). |
 | 29 | Gerenciador: Cargo/Go/Snap/APT/Pacman | Alta | Alta | ❌ | Expansão Multi-distro. |
 | 30 | Áudio: FFT Waveform (Real-time) | Média | Alta | ❌ | Visualizador de ondas (QtMultimedia). |

@@ -101,6 +101,16 @@ Window {
         }
     }
 
+    FolderDialog {
+        id: exportFolderDialog
+        title: "Selecionar Pasta para Exportação"
+        onAccepted: {
+            let path = selectedFolder.toString()
+            if (path.startsWith("file://")) path = path.substring(7)
+            exportPathField.text = path
+        }
+    }
+
     Dialog {
         id: killConfirmDialog
         title: "Encerrar Processo?"
@@ -472,7 +482,85 @@ Window {
             }
 
             // ABA 8 - Export
-            PlaceholderView { title: "Exportar"; icon: "📤"; desc: "Gerar relatórios." }
+            ColumnLayout {
+                anchors.margins: 25; spacing: 20
+                Text { text: "Centro de Exportação"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                
+                Rectangle {
+                    Layout.fillWidth: true; Layout.preferredHeight: 300; color: root.cardColor; radius: 8; border.color: root.borderColor
+                    ColumnLayout {
+                        anchors.centerIn: parent; width: parent.width * 0.8; spacing: 15
+                        
+                        Text { text: "Gerar Relatório Completo do Sistema"; color: root.highlightColor; font.bold: true }
+                        
+                        RowLayout {
+                            spacing: 10
+                            TextField {
+                                id: fileNameField
+                                placeholderText: "Nome do arquivo (ex: relatorio_hoje)"
+                                Layout.fillWidth: true
+                                text: "my_comp_report_" + Qt.formatDateTime(new Date(), "yyyyMMdd")
+                            }
+                            ComboBox {
+                                id: formatCombo
+                                model: ["JSON", "Markdown", "HTML"]
+                                Layout.preferredWidth: 120
+                            }
+                        }
+                        
+                        RowLayout {
+                            spacing: 10
+                            TextField {
+                                id: exportPathField
+                                placeholderText: "Pasta de destino..."
+                                Layout.fillWidth: true
+                                readOnly: true
+                            }
+                            Button {
+                                text: "Escolher Pasta"
+                                onClicked: exportFolderDialog.open()
+                            }
+                        }
+                        
+                        Item { Layout.preferredHeight: 20 }
+                        
+                        Button {
+                            text: "🚀 Gerar Relatório Agora"
+                            Layout.alignment: Qt.AlignHCenter
+                            highlighted: true
+                            enabled: !exportViewModel.isBusy && exportPathField.text !== ""
+                            onClicked: {
+                                let ext = formatCombo.currentText === "JSON" ? ".json" : (formatCombo.currentText === "Markdown" ? ".md" : ".html")
+                                let fullPath = exportPathField.text + "/" + fileNameField.text + ext
+                                exportViewModel.exportReport(formatCombo.currentIndex, fullPath)
+                            }
+                        }
+                        
+                        Text {
+                            id: statusMsg
+                            text: ""
+                            color: "#2ecc71"
+                            Layout.alignment: Qt.AlignHCenter
+                            font.pixelSize: 12
+                        }
+                        
+                        BusyIndicator {
+                            running: exportViewModel.isBusy
+                            Layout.alignment: Qt.AlignHCenter
+                        }
+                    }
+                }
+                
+                Connections {
+                    target: exportViewModel
+                    function onExportFinished(success, message) {
+                        statusMsg.text = message
+                        statusMsg.color = success ? "#2ecc71" : root.criticalColor
+                    }
+                }
+                
+                Item { Layout.fillHeight: true }
+            }
 
             // ABA 9 - Installation
             InstallationView { id: installView; anchors.margins: 25 }

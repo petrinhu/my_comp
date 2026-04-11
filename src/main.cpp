@@ -28,8 +28,12 @@
 #include "presentation/viewmodels/service_viewmodel.h"
 #include "presentation/viewmodels/process_viewmodel.h"
 #include "presentation/viewmodels/dev_stack_viewmodel.h"
-
+#include "presentation/viewmodels/export_viewmodel.h"
+#include "infrastructure/exporters/json_export_provider.h"
+#include "infrastructure/exporters/markdown_export_provider.h"
+#include "infrastructure/exporters/html_export_provider.h"
 #include "infrastructure/collectors/linux_cpu_provider.h"
+
 #include "infrastructure/collectors/linux_memory_provider.h"
 #include "infrastructure/collectors/dbus_firmware_provider.h"
 #include "infrastructure/collectors/linux_storage_provider.h"
@@ -110,6 +114,12 @@ int main(int argc, char *argv[])
     auto dev_stack_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxDevStackProvider>(shell);
     my_comp::presentation::viewmodels::DevStackViewModel dev_stack_vm(dev_stack_provider);
 
+    my_comp::presentation::viewmodels::ExportViewModel export_vm;
+    export_vm.add_provider(std::make_unique<my_comp::infrastructure::exporters::JsonExportProvider>());
+    export_vm.add_provider(std::make_unique<my_comp::infrastructure::exporters::MarkdownExportProvider>());
+    export_vm.add_provider(std::make_unique<my_comp::infrastructure::exporters::HtmlExportProvider>());
+    export_vm.set_vms(&system_info_vm, &cpu_vm, &memory_vm, &user_metadata_vm, &hardware_vm, &dev_stack_vm);
+
     QQmlApplicationEngine engine;
     
     // Injeção de Contexto
@@ -125,6 +135,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("serviceViewModel", &service_vm);
     engine.rootContext()->setContextProperty("processViewModel", &process_vm);
     engine.rootContext()->setContextProperty("devStackViewModel", &dev_stack_vm);
+    engine.rootContext()->setContextProperty("exportViewModel", &export_vm);
     engine.rootContext()->setContextProperty("installationViewModel", &installation_vm);
     engine.rootContext()->setContextProperty("gpuViewModel", &gpu_vm);
     engine.rootContext()->setContextProperty("powerViewModel", &power_vm);
