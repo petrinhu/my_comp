@@ -32,7 +32,7 @@
 | 27 | Export: Multi-format (MD/HTML/JSON) | Baixa | Média | ✅ | **Auditado: Gerador de relatórios (Strategy Pattern).** |
 | 28 | Segurança: AES-256-GCM Vault | Alta | Alta | ✅ | Auditado via OpenSSL (100% offline). |
 | 29 | Gerenciador: Cargo/Snap/APT/Pacman | Alta | Alta | ✅ | **Auditado: Expansão Multi-distro completa.** |
-| 30 | Áudio: FFT Waveform (Real-time) | Média | Alta | ❌ | Visualizador de ondas (QtMultimedia). |
+| 30 | Áudio: FFT Waveform (Real-time) | Média | Alta | ✅ | **Auditado: Monitor Waveform (QtMultimedia) integrado.** |
 | 31 | UI/UX: Refatoração de DashboardCards | Alta | Baixa | ✅ | **Auditado: Layout responsivo (2-4 colunas) e 8 cards integrados.** |
 | 32 | Infra: Sistema de Refresh em Tempo Real | Alta | Média | ✅ | Atualização dinâmica integrada. |
 | 33 | Journal: Searchbar e Filtros Dinâmicos | Alta | Média | ✅ | **Auditado: Busca por texto unificada a categorias (journalctl -g).** |

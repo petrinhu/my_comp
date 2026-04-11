@@ -34,6 +34,8 @@
 #include "presentation/viewmodels/process_viewmodel.h"
 #include "presentation/viewmodels/dev_stack_viewmodel.h"
 #include "presentation/viewmodels/export_viewmodel.h"
+#include "presentation/viewmodels/audio_viewmodel.h"
+#include "infrastructure/audio/qt_audio_provider.h"
 #include "infrastructure/exporters/json_export_provider.h"
 #include "infrastructure/exporters/markdown_export_provider.h"
 #include "infrastructure/exporters/html_export_provider.h"
@@ -136,22 +138,28 @@ int main(int argc, char *argv[])
 
     auto dev_stack_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxDevStackProvider>(shell);
     my_comp::presentation::viewmodels::DevStackViewModel dev_stack_vm(dev_stack_provider);
+my_comp::presentation::viewmodels::ExportViewModel export_vm;
+export_vm.add_provider(std::make_unique<my_comp::infrastructure::exporters::JsonExportProvider>());
+export_vm.add_provider(std::make_unique<my_comp::infrastructure::exporters::MarkdownExportProvider>());
+export_vm.add_provider(std::make_unique<my_comp::infrastructure::exporters::HtmlExportProvider>());
+export_vm.set_vms(&system_info_vm, &cpu_vm, &memory_vm, &user_metadata_vm, &hardware_vm, &dev_stack_vm);
 
-    my_comp::presentation::viewmodels::ExportViewModel export_vm;
-    export_vm.add_provider(std::make_unique<my_comp::infrastructure::exporters::JsonExportProvider>());
-    export_vm.add_provider(std::make_unique<my_comp::infrastructure::exporters::MarkdownExportProvider>());
-    export_vm.add_provider(std::make_unique<my_comp::infrastructure::exporters::HtmlExportProvider>());
-    export_vm.set_vms(&system_info_vm, &cpu_vm, &memory_vm, &user_metadata_vm, &hardware_vm, &dev_stack_vm);
+auto audio_provider = std::make_shared<my_comp::infrastructure::audio::QtAudioProvider>();
+my_comp::presentation::viewmodels::AudioViewModel audio_vm(audio_provider);
+audio_vm.start();
 
-    QQmlApplicationEngine engine;
-    
-    // Injeção de Contexto
-    engine.rootContext()->setContextProperty("isSystemDarkInitial", is_system_dark);
-    engine.rootContext()->setContextProperty("updateViewModel", &update_vm);
-    engine.rootContext()->setContextProperty("diagnosticViewModel", &diagnostic_vm);
-    engine.rootContext()->setContextProperty("cpuViewModel", &cpu_vm);
-    engine.rootContext()->setContextProperty("memoryViewModel", &memory_vm);
-    engine.rootContext()->setContextProperty("firmwareViewModel", &firmware_vm);
+QQmlApplicationEngine engine;
+
+// Injeção de Contexto
+engine.rootContext()->setContextProperty("isSystemDarkInitial", is_system_dark);
+engine.rootContext()->setContextProperty("updateViewModel", &update_vm);
+...
+engine.rootContext()->setContextProperty("processViewModel", &process_vm);
+engine.rootContext()->setContextProperty("devStackViewModel", &dev_stack_vm);
+engine.rootContext()->setContextProperty("exportViewModel", &export_vm);
+engine.rootContext()->setContextProperty("audioViewModel", &audio_vm);
+engine.rootContext()->setContextProperty("installationViewModel", &installation_vm);
+
     engine.rootContext()->setContextProperty("systemInfoViewModel", &system_info_vm);
     engine.rootContext()->setContextProperty("userMetadataViewModel", &user_metadata_vm);
     engine.rootContext()->setContextProperty("hardwareViewModel", &hardware_vm);

@@ -64,6 +64,8 @@ set(PROJECT_SOURCES
     src/presentation/viewmodels/process_viewmodel.cpp
     src/presentation/viewmodels/dev_stack_viewmodel.cpp
     src/presentation/viewmodels/export_viewmodel.cpp
+    src/presentation/viewmodels/audio_viewmodel.cpp
+    src/infrastructure/audio/qt_audio_provider.cpp
     src/infrastructure/exporters/json_export_provider.cpp
     src/infrastructure/exporters/markdown_export_provider.cpp
     src/infrastructure/exporters/html_export_provider.cpp
@@ -133,6 +135,7 @@ add_executable(acceptance_tests
     tests/acceptance/process_monitor_test.cpp
     tests/acceptance/dev_stack_test.cpp
     tests/acceptance/export_system_test.cpp
+    tests/acceptance/audio_capture_test.cpp
     src/infrastructure/collectors/linux_memory_provider.cpp
     src/infrastructure/security/openssl_vault.cpp
     src/infrastructure/collectors/dbus_firmware_provider.cpp
@@ -158,6 +161,8 @@ add_executable(acceptance_tests
     src/presentation/viewmodels/cpu_viewmodel.cpp
     src/presentation/viewmodels/memory_viewmodel.cpp
     src/presentation/viewmodels/system_info_viewmodel.cpp
+    src/presentation/viewmodels/audio_viewmodel.cpp
+    src/infrastructure/audio/qt_audio_provider.cpp
 )
-target_link_libraries(acceptance_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::DBus Qt6::Concurrent Qt6::Test OpenSSL::Crypto)
+target_link_libraries(acceptance_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::DBus Qt6::Concurrent Qt6::Test Qt6::Multimedia OpenSSL::Crypto)
 add_test(NAME acceptance_tests COMMAND acceptance_tests)

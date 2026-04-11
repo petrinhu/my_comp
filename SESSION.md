@@ -21,8 +21,9 @@ A tabela completa de 43 itens agora reside em um arquivo exclusivo para evitar i
 - [x] Implementado Collector de Dev Stacks (Item 26) com detecção de compiladores e containers.
 - [x] Implementado Sistema de Exportação Multi-formato (Item 27) para JSON, Markdown e HTML.
 - [x] Expandido suporte de gerenciadores de pacotes (Item 29) para Cargo, Snap, APT e Pacman com detecção dinâmica.
+- [x] Implementado Visualizador de Áudio Real-time (Item 30) via QtMultimedia com gráfico de onda.
 - [x] Implementado Cofre Digital AES-256-GCM com OpenSSL.
 
 ## 🚀 Próximos Passos Recomendados
-1. Implementar Áudio FFT Waveform (Item 30) via QtMultimedia.
+1. Implementar Busca no Navegador para erros do Journal (Item 35).
 2. Iniciar auditoria de UI/UX e Acessibilidade (Item A3).

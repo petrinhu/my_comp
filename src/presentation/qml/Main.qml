@@ -239,6 +239,64 @@ Window {
                         DashboardCard { title: "CORE"; value: systemInfoViewModel.kernel.split("-")[0] }
                     }
 
+                    // Audio Waveform Visualizer
+                    Rectangle {
+                        Layout.fillWidth: true; height: 120; color: root.cardColor; radius: 8; border.color: root.borderColor
+                        clip: true
+                        RowLayout {
+                            anchors.fill: parent; anchors.margins: 15; spacing: 20
+                            
+                            ColumnLayout {
+                                Layout.preferredWidth: 100
+                                Text { text: "AUDIO REAL-TIME"; color: root.highlightColor; font.bold: true; font.pixelSize: 10 }
+                                RowLayout {
+                                    spacing: 8
+                                    Rectangle { width: 8; height: 40; color: "#2ecc71"; opacity: 0.3; radius: 2 
+                                        Rectangle { anchors.bottom: parent.bottom; width: 8; height: parent.height * audioViewModel.rms; color: "#2ecc71"; radius: 2 }
+                                    }
+                                    Rectangle { width: 8; height: 40; color: root.criticalColor; opacity: 0.3; radius: 2 
+                                        Rectangle { anchors.bottom: parent.bottom; width: 8; height: parent.height * audioViewModel.peak; color: root.criticalColor; radius: 2 }
+                                    }
+                                }
+                                Text { text: "RMS: " + (audioViewModel.rms * 100).toFixed(1) + "%"; color: root.textColor; font.pixelSize: 9 }
+                            }
+
+                            Canvas {
+                                id: audioCanvas
+                                Layout.fillWidth: true; Layout.fillHeight: true
+                                onPaint: {
+                                    var ctx = getContext("2d");
+                                    ctx.clearRect(0, 0, width, height);
+                                    ctx.strokeStyle = root.highlightColor;
+                                    ctx.lineWidth = 2;
+                                    ctx.beginPath();
+                                    
+                                    var data = audioViewModel.waveform;
+                                    if (data.length === 0) return;
+                                    
+                                    var sliceWidth = width / data.length;
+                                    var x = 0;
+                                    
+                                    for (var i = 0; i < data.length; i++) {
+                                        var v = data[i]; // -1 a 1
+                                        var y = (v + 1) / 2 * height;
+                                        
+                                        if (i === 0) ctx.moveTo(x, y);
+                                        else ctx.lineTo(x, y);
+                                        
+                                        x += sliceWidth;
+                                    }
+                                    ctx.stroke();
+                                }
+                                
+                                Connections {
+                                    target: audioViewModel
+                                    function onAudioDataChanged() { audioCanvas.requestPaint(); }
+                                }
+                            }
+                        }
+                    }
+
                     // Process Explorer (Estilo htop)
                     ColumnLayout {
                         Layout.fillWidth: true
