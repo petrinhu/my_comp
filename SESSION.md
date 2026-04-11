@@ -17,10 +17,9 @@ A tabela completa de 43 itens agora reside em um arquivo exclusivo para evitar i
 - [x] Implementado Collector de Hardware Topology (Item 23) via Sysfs, lsusb e bluetoothctl.
 - [x] Implementado Collector de Systemd Services (Item 24) com controle de ciclo de vida e criador de daemons.
 - [x] Implementado Collector de Process List (Item 25) com interface estilo htop, ordenação dinâmica e kill.
+- [x] Finalizada orquestração do botão "Atualizar Tudo" (Item 37) e Instalação Individual (Item 36) via Terminal Interativo.
 - [x] Implementado Cofre Digital AES-256-GCM com OpenSSL.
-- [x] Criada e instalada a Skill Global `pendencias`.
-- [🟡] Em andamento: Orquestrador do botão "Atualizar Tudo" (Item 37).
 
 ## 🚀 Próximos Passos Recomendados
-1. Finalizar o orquestrador de atualizações (Item 37).
-2. Iniciar o Monitor de GPU Real-time (Item 16).
+1. Implementar Coletor de Dev Stacks (Item 26).
+2. Implementar Exportação Multi-formato (Item 27).

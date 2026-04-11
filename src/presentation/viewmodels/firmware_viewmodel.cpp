@@ -32,7 +32,7 @@ void FirmwareViewModel::refresh() {
     emit busyChanged();
 
     // Executar em thread separada para não travar a UI (especialmente DBus pode demorar)
-    QtConcurrent::run([this]() {
+    (void)QtConcurrent::run([this]() {
         auto result = m_provider->get_devices();
         
         // Simular atualização de contagem (no futuro usar check_updates)

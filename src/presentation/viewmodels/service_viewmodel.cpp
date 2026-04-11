@@ -34,7 +34,8 @@ void ServiceViewModel::refresh() {
     if (m_isBusy) return;
     setBusy(true);
     
-    QtConcurrent::run([this]() {
+    (void)QtConcurrent::run(
+[this]() {
         auto result = m_provider->get_services();
         QMetaObject::invokeMethod(this, [this, result]() {
             m_data = result;
@@ -46,7 +47,8 @@ void ServiceViewModel::refresh() {
 
 void ServiceViewModel::startService(const QString& name) {
     setBusy(true);
-    QtConcurrent::run([this, name]() {
+    (void)QtConcurrent::run(
+[this, name]() {
         bool ok = m_provider->start_service(name);
         QMetaObject::invokeMethod(this, [this, ok, name]() {
             setBusy(false);
@@ -58,7 +60,8 @@ void ServiceViewModel::startService(const QString& name) {
 
 void ServiceViewModel::pauseService(const QString& name) {
     setBusy(true);
-    QtConcurrent::run([this, name]() {
+    (void)QtConcurrent::run(
+[this, name]() {
         bool ok = m_provider->pause_service(name);
         QMetaObject::invokeMethod(this, [this, ok, name]() {
             setBusy(false);
@@ -70,7 +73,8 @@ void ServiceViewModel::pauseService(const QString& name) {
 
 void ServiceViewModel::stopService(const QString& name) {
     setBusy(true);
-    QtConcurrent::run([this, name]() {
+    (void)QtConcurrent::run(
+[this, name]() {
         bool ok = m_provider->stop_service(name);
         QMetaObject::invokeMethod(this, [this, ok, name]() {
             setBusy(false);
@@ -82,7 +86,8 @@ void ServiceViewModel::stopService(const QString& name) {
 
 void ServiceViewModel::createDaemon(const QString& exe_path, const QString& params) {
     setBusy(true);
-    QtConcurrent::run([this, exe_path, params]() {
+    (void)QtConcurrent::run(
+[this, exe_path, params]() {
         bool ok = m_provider->create_daemon(exe_path, params);
         QMetaObject::invokeMethod(this, [this, ok]() {
             setBusy(false);

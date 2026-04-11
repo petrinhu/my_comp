@@ -38,7 +38,7 @@
 | 33 | Journal: Searchbar e Filtros Dinâmicos | Alta | Média | ✅ | **Auditado: Busca por texto unificada a categorias (journalctl -g).** |
 | 34 | Journal: Numeração de Linhas (Texto Original) | Alta | Baixa | ✅ | **Auditado: Índice sequencial integrado ao modelo LogEntry.** |
 | 35 | Journal: Double-Click Search (Navegador) | Média | Baixa | ❌ | Abrir busca no Google. |
-| 36 | Updates: Instalação Individual (Double-Click) | Alta | Alta | ❌ | Fluxo de instalação com terminal/verbose. |
+| 36 | Updates: Instalação Individual (Double-Click) | Alta | Alta | ✅ | **Auditado: Terminal interativo integrado.** |
 | 37 | Updates: Botão "Atualizar Tudo" | Alta | Alta | ✅ | **Auditado: Orquestração interativa via InstallerAdapter.** |
 | T1 | Testes Unitários (QtTest/GTest) | Alta | Alta | 🟡 | Em execução (Novos testes para Memory/Net). |
 | T2 | Análise Estática (Clang-Tidy/CppCheck) | Alta | Média | ❌ | Mandato Final. |

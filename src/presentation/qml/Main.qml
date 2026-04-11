@@ -293,15 +293,38 @@ Window {
             // ABA 1 - Updates
             ColumnLayout {
                 anchors.margins: 25; spacing: 15
-                Text { text: "Central de Atualizações"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                RowLayout {
+                    Text { text: "Central de Atualizações"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                    Item { Layout.fillWidth: true }
+                    Button { 
+                        text: "Atualizar Tudo"
+                        highlighted: true
+                        onClicked: {
+                            installationViewModel.startUpgradeAll()
+                            root.currentView = 8 // ABA de Instalação
+                        }
+                    }
+                    Button { text: "🔄"; onClicked: updateViewModel.refresh() }
+                }
                 Rectangle {
                     Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
                     ListView {
                         anchors.fill: parent; anchors.margins: 10; clip: true; model: updateViewModel.updateModel
                         delegate: ItemDelegate {
                             width: parent.width; height: 50
+                            onDoubleClicked: {
+                                let providerInt = 0
+                                if (source === "dnf") providerInt = 0
+                                else if (source === "flatpak") providerInt = 1
+                                else if (source === "npm") providerInt = 2
+                                else if (source === "snap") providerInt = 3
+                                
+                                installationViewModel.startInstallation(name, providerInt)
+                                root.currentView = 8 // ABA de Instalação
+                            }
                             contentItem: RowLayout {
                                 Text { text: name; color: root.textColor; font.bold: true; Layout.fillWidth: true }
+                                Text { text: source; color: "#7f8c8d"; font.pixelSize: 10; Layout.preferredWidth: 60 }
                                 Text { text: newVersion; color: root.highlightColor }
                             }
                         }

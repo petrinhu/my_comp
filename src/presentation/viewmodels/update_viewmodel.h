@@ -27,7 +27,7 @@ public:
 
     Q_INVOKABLE void upgradeAll() {
         qDebug() << "[UpdateVM] Requesting full upgrade...";
-        manager_->upgrade_all();
+        // A orquestração agora é feita via InstallationViewModel para manter o log centralizado
     }
 
     Q_INVOKABLE void refresh() {

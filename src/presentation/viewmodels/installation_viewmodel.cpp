@@ -30,6 +30,12 @@ void InstallationViewModel::startInstallation(const QString& name, int providerT
     m_installer->install(pkg);
 }
 
+void InstallationViewModel::startUpgradeAll() {
+    m_log = "Iniciando atualização completa do sistema (dnf upgrade)...\n";
+    emit logOutputChanged();
+    m_installer->upgradeAll();
+}
+
 void InstallationViewModel::respond(bool confirmed) {
     m_log += (confirmed ? "Respondendo: Sim (y)\n" : "Respondendo: Não (n)\n");
     emit logOutputChanged();

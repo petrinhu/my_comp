@@ -26,8 +26,8 @@ QVariantList ProcessViewModel::processes() const {
         map["user"] = p.user;
         map["priority"] = p.priority;
         map["nice"] = p.nice;
-        map["virt"] = p.virt;
-        map["res"] = p.res;
+        map["virt"] = static_cast<qulonglong>(p.virt);
+        map["res"] = static_cast<qulonglong>(p.res);
         map["cpu"] = p.cpuPercent;
         map["mem"] = p.memPercent;
         map["time"] = p.timeStr;
