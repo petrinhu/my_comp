@@ -2,6 +2,7 @@
   /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/acceptance_tests_autogen/moc_predefs.h \
   /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_gpu_provider.h \
   /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/gpu_stats.h \
+  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/i_shell_executor.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/bitsperlong.h \
   /usr/include/asm-generic/errno-base.h \
@@ -318,6 +319,7 @@
   /usr/include/qt6/QtCore/QList \
   /usr/include/qt6/QtCore/QObject \
   /usr/include/qt6/QtCore/QString \
+  /usr/include/qt6/QtCore/QStringList \
   /usr/include/qt6/QtCore/QTimer \
   /usr/include/qt6/QtCore/QVariant \
   /usr/include/qt6/QtCore/QVariantList \

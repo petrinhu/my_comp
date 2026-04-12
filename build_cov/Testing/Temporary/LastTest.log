@@ -1,108 +1,13 @@
-Start testing: Apr 11 18:06 -03
+Start testing: Apr 12 20:05 -03
 ----------------------------------------------------------
-1/2 Testing: unit_tests
-1/2 Test: unit_tests
-Command: "/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests"
-Directory: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov
-"unit_tests" start time: Apr 11 18:06 -03
-Output:
-----------------------------------------------------------
-[==========] Running 12 tests from 9 test suites.
-[----------] Global test environment set-up.
-[----------] 1 test from PlaceholderTest
-[ RUN      ] PlaceholderTest.InitialSetup
-[       OK ] PlaceholderTest.InitialSetup (0 ms)
-[----------] 1 test from PlaceholderTest (0 ms total)
-
-[----------] 1 test from DnfUpdateProviderTest
-[ RUN      ] DnfUpdateProviderTest.ShouldIdentifyUpdatesFromDnfOutput
-[       OK ] DnfUpdateProviderTest.ShouldIdentifyUpdatesFromDnfOutput (0 ms)
-[----------] 1 test from DnfUpdateProviderTest (0 ms total)
-
-[----------] 1 test from FlatpakUpdateProviderTest
-[ RUN      ] FlatpakUpdateProviderTest.ShouldIdentifyUpdatesFromFlatpakOutput
-[       OK ] FlatpakUpdateProviderTest.ShouldIdentifyUpdatesFromFlatpakOutput (0 ms)
-[----------] 1 test from FlatpakUpdateProviderTest (0 ms total)
-
-[----------] 1 test from NpmUpdateProviderTest
-[ RUN      ] NpmUpdateProviderTest.ShouldIdentifyUpdatesFromNpmJsonOutput
-[       OK ] NpmUpdateProviderTest.ShouldIdentifyUpdatesFromNpmJsonOutput (0 ms)
-[----------] 1 test from NpmUpdateProviderTest (0 ms total)
-
-[----------] 1 test from UpdateViewModelTest
-[ RUN      ] UpdateViewModelTest.ShouldRefreshUpdatesFromManager
-[       OK ] UpdateViewModelTest.ShouldRefreshUpdatesFromManager (0 ms)
-[----------] 1 test from UpdateViewModelTest (0 ms total)
-
-[----------] 1 test from JournalProviderTest
-[ RUN      ] JournalProviderTest.ShouldParseJournalErrorOutput
-[       OK ] JournalProviderTest.ShouldParseJournalErrorOutput (0 ms)
-[----------] 1 test from JournalProviderTest (0 ms total)
-
-[----------] 2 tests from LinuxMemoryProviderTest
-[ RUN      ] LinuxMemoryProviderTest.ShouldParseMeminfo
-[       OK ] LinuxMemoryProviderTest.ShouldParseMeminfo (0 ms)
-[ RUN      ] LinuxMemoryProviderTest.ShouldHandleSwap
-[       OK ] LinuxMemoryProviderTest.ShouldHandleSwap (0 ms)
-[----------] 2 tests from LinuxMemoryProviderTest (0 ms total)
-
-[----------] 3 tests from UserMetadataProviderTest
-[ RUN      ] UserMetadataProviderTest.ShouldCollectCurrentUserInfo
-
-GMOCK WARNING:
-Uninteresting mock function call - returning default value.
-    Function call: execute(@0x7ffdd8f63d80 { 2-byte object <62-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <68-00> }, @0x7ffdd8f63d30 { { 2-byte object <2D-00>, 2-byte object <63-00> }, { 2-byte object <75-00>, 2-byte object <6C-00>, 2-byte object <69-00>, 2-byte object <6D-00>, 2-byte object <69-00>, 2-byte object <74-00>, 2-byte object <20-00>, 2-byte object <2D-00>, 2-byte object <61-00> } }, @0x7ffdd8f63d10 {})
-          Returns: 0
-NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
-
-GMOCK WARNING:
-Uninteresting mock function call - returning default value.
-    Function call: execute(@0x7ffdd8f63d80 { 2-byte object <6C-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <74-00> }, @0x7ffdd8f63d30 { { 2-byte object <2D-00>, 2-byte object <6E-00> }, { 2-byte object <32-00>, 2-byte object <30-00> } }, @0x7ffdd8f63d10 {})
-          Returns: 0
-NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
-[       OK ] UserMetadataProviderTest.ShouldCollectCurrentUserInfo (4 ms)
-[ RUN      ] UserMetadataProviderTest.ShouldCallShellForLimitsAndHistory
-[       OK ] UserMetadataProviderTest.ShouldCallShellForLimitsAndHistory (4 ms)
-[ RUN      ] UserMetadataProviderTest.ShouldCollectEnvVars
-
-GMOCK WARNING:
-Uninteresting mock function call - returning default value.
-    Function call: execute(@0x7ffdd8f63d90 { 2-byte object <62-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <68-00> }, @0x7ffdd8f63d40 { { 2-byte object <2D-00>, 2-byte object <63-00> }, { 2-byte object <75-00>, 2-byte object <6C-00>, 2-byte object <69-00>, 2-byte object <6D-00>, 2-byte object <69-00>, 2-byte object <74-00>, 2-byte object <20-00>, 2-byte object <2D-00>, 2-byte object <61-00> } }, @0x7ffdd8f63d20 {})
-          Returns: 0
-NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
-
-GMOCK WARNING:
-Uninteresting mock function call - returning default value.
-    Function call: execute(@0x7ffdd8f63d90 { 2-byte object <6C-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <74-00> }, @0x7ffdd8f63d40 { { 2-byte object <2D-00>, 2-byte object <6E-00> }, { 2-byte object <32-00>, 2-byte object <30-00> } }, @0x7ffdd8f63d20 {})
-          Returns: 0
-NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
-[       OK ] UserMetadataProviderTest.ShouldCollectEnvVars (3 ms)
-[----------] 3 tests from UserMetadataProviderTest (13 ms total)
-
-[----------] 1 test from DiagnosticViewModelTest
-[ RUN      ] DiagnosticViewModelTest.ShouldGenerateSearchUrl
-[       OK ] DiagnosticViewModelTest.ShouldGenerateSearchUrl (0 ms)
-[----------] 1 test from DiagnosticViewModelTest (0 ms total)
-
-[----------] Global test environment tear-down
-[==========] 12 tests from 9 test suites ran. (14 ms total)
-[  PASSED  ] 12 tests.
-<end of output>
-Test time =   0.03 sec
-----------------------------------------------------------
-Test Passed.
-"unit_tests" end time: Apr 11 18:06 -03
-"unit_tests" time elapsed: 00:00:00
-----------------------------------------------------------
-
 2/2 Testing: acceptance_tests
 2/2 Test: acceptance_tests
 Command: "/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/acceptance_tests"
 Directory: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov
-"acceptance_tests" start time: Apr 11 18:06 -03
+"acceptance_tests" start time: Apr 12 20:05 -03
 Output:
 ----------------------------------------------------------
-[==========] Running 34 tests from 20 test suites.
+[==========] Running 35 tests from 20 test suites.
 [----------] Global test environment set-up.
 [----------] 1 test from PlaceholderAcceptance
 [ RUN      ] PlaceholderAcceptance.SystemReportGeneration
@@ -123,8 +28,8 @@ Output:
 
 [----------] 1 test from JournalSearchAcceptance
 [ RUN      ] JournalSearchAcceptance.ShouldFilterLogsByQuery
-[       OK ] JournalSearchAcceptance.ShouldFilterLogsByQuery (11 ms)
-[----------] 1 test from JournalSearchAcceptance (11 ms total)
+[       OK ] JournalSearchAcceptance.ShouldFilterLogsByQuery (15 ms)
+[----------] 1 test from JournalSearchAcceptance (15 ms total)
 
 [----------] 4 tests from JournalHardwareAcceptanceTest
 [ RUN      ] JournalHardwareAcceptanceTest.FiltersHardwareFirmwareLogs
@@ -179,8 +84,8 @@ QDBusArgument: write from a read-only object
 
 [----------] 2 tests from StorageMonitorAcceptance
 [ RUN      ] StorageMonitorAcceptance.ShouldCollectFromRealSystem
-[Storage Test] Total Read: 59.0625 MB/s, Write: 24.707 MB/s
-  - nvme0n1: R=59.0625, W=24.707
+[Storage Test] Total Read: 224.062 MB/s, Write: 23.1641 MB/s
+  - nvme0n1: R=224.062, W=23.1641
 [       OK ] StorageMonitorAcceptance.ShouldCollectFromRealSystem (200 ms)
 [ RUN      ] StorageMonitorAcceptance.ShouldCollectRealisticStorageData
 [       OK ] StorageMonitorAcceptance.ShouldCollectRealisticStorageData (0 ms)
@@ -188,11 +93,11 @@ QDBusArgument: write from a read-only object
 
 [----------] 2 tests from NetworkMonitorAcceptance
 [ RUN      ] NetworkMonitorAcceptance.ShouldCollectFromRealSystem
-[Network Test] Active: wlp0s20f3, RX: 0.0254885 Mbps, TX: 0.00794371 Mbps, Latency: 65.3 ms
-[       OK ] NetworkMonitorAcceptance.ShouldCollectFromRealSystem (335 ms)
+[Network Test] Active: wlp0s20f3, RX: 0.00512795 Mbps, TX: 0.0192611 Mbps, Latency: 42.8 ms
+[       OK ] NetworkMonitorAcceptance.ShouldCollectFromRealSystem (288 ms)
 [ RUN      ] NetworkMonitorAcceptance.ShouldCollectRealisticNetworkData
 [       OK ] NetworkMonitorAcceptance.ShouldCollectRealisticNetworkData (0 ms)
-[----------] 2 tests from NetworkMonitorAcceptance (335 ms total)
+[----------] 2 tests from NetworkMonitorAcceptance (288 ms total)
 
 [----------] 1 test from SecurityVaultAcceptanceTest
 [ RUN      ] SecurityVaultAcceptanceTest.EncryptDecryptGCM_IntegrityCheck
@@ -205,15 +110,15 @@ QDBusArgument: write from a read-only object
   - Load: 0%
   - Temp: 53°C
   - VRAM: 4/4096 MB
-[       OK ] GpuMonitorAcceptanceTest.DetectsNvidiaGpuAndReturnsStats (31 ms)
-[----------] 1 test from GpuMonitorAcceptanceTest (31 ms total)
+[       OK ] GpuMonitorAcceptanceTest.DetectsNvidiaGpuAndReturnsStats (33 ms)
+[----------] 1 test from GpuMonitorAcceptanceTest (33 ms total)
 
 [----------] 2 tests from PowerMonitorAcceptanceTest
 [ RUN      ] PowerMonitorAcceptanceTest.DetectsBatteryOnRealSystem
 [Power Test] Status: Full
   - Level: 100%
   - Usage: 0 Watts
-  - Health: 69.5637%
+  - Health: 78.0838%
   - Cycles: 0
 [       OK ] PowerMonitorAcceptanceTest.DetectsBatteryOnRealSystem (0 ms)
 [ RUN      ] PowerMonitorAcceptanceTest.ShouldCollectBatteryData
@@ -254,22 +159,330 @@ QDBusArgument: write from a read-only object
 [       OK ] ExportSystemAcceptance.ShouldConsolidateAndExportData (0 ms)
 [----------] 1 test from ExportSystemAcceptance (0 ms total)
 
-[----------] 2 tests from AudioCaptureAcceptance
+[----------] 3 tests from AudioCaptureAcceptance
 [ RUN      ] AudioCaptureAcceptance.ShouldManageCaptureLifecycle
 [       OK ] AudioCaptureAcceptance.ShouldManageCaptureLifecycle (0 ms)
 [ RUN      ] AudioCaptureAcceptance.ShouldReceiveDataViaCallback
 [       OK ] AudioCaptureAcceptance.ShouldReceiveDataViaCallback (0 ms)
-[----------] 2 tests from AudioCaptureAcceptance (0 ms total)
+[ RUN      ] AudioCaptureAcceptance.ShouldGenerateFFTSpectrum
+qt.multimedia.plugin: Qt Multimedia requires a QCoreApplication instance
+qt.multimedia.ffmpeg: Using Qt multimedia with FFmpeg version 7.1.2 GPL version 3 or later
+Invalid MIT-MAGIC-COOKIE-1 key
+libva info: VA-API version 1.22.0
+libva info: Trying to open /usr/lib64/dri-nonfree/iHD_drv_video.so
+libva info: Found init function __vaDriverInit_1_22
+libva info: va_openDriver() returns 0
+libva info: VA-API version 1.22.0
+libva info: Trying to open /usr/lib64/dri-nonfree/iHD_drv_video.so
+libva info: Found init function __vaDriverInit_1_22
+libva info: va_openDriver() returns 0
+Invalid MIT-MAGIC-COOKIE-1 key
+qt.core.qobject.connect: QObject::connect(QObject, Unknown): invalid nullptr parameter
+[       OK ] AudioCaptureAcceptance.ShouldGenerateFFTSpectrum (443 ms)
+[----------] 3 tests from AudioCaptureAcceptance (443 ms total)
 
 [----------] Global test environment tear-down
-[==========] 34 tests from 20 test suites ran. (585 ms total)
-[  PASSED  ] 34 tests.
+[==========] 35 tests from 20 test suites ran. (990 ms total)
+[  PASSED  ] 35 tests.
 <end of output>
-Test time =   0.61 sec
+Test time =   1.04 sec
 ----------------------------------------------------------
 Test Passed.
-"acceptance_tests" end time: Apr 11 18:06 -03
-"acceptance_tests" time elapsed: 00:00:00
+"acceptance_tests" end time: Apr 12 20:05 -03
+"acceptance_tests" time elapsed: 00:00:01
 ----------------------------------------------------------
 
-End testing: Apr 11 18:06 -03
+1/2 Testing: unit_tests
+1/2 Test: unit_tests
+Command: "/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests"
+Directory: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov
+"unit_tests" start time: Apr 12 20:05 -03
+Output:
+----------------------------------------------------------
+[==========] Running 56 tests from 43 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from PlaceholderTest
+[ RUN      ] PlaceholderTest.InitialSetup
+[       OK ] PlaceholderTest.InitialSetup (0 ms)
+[----------] 1 test from PlaceholderTest (0 ms total)
+
+[----------] 1 test from DnfUpdateProviderTest
+[ RUN      ] DnfUpdateProviderTest.ShouldIdentifyUpdatesFromDnfOutput
+[       OK ] DnfUpdateProviderTest.ShouldIdentifyUpdatesFromDnfOutput (0 ms)
+[----------] 1 test from DnfUpdateProviderTest (0 ms total)
+
+[----------] 1 test from FlatpakUpdateProviderTest
+[ RUN      ] FlatpakUpdateProviderTest.ShouldIdentifyUpdatesFromFlatpakOutput
+[       OK ] FlatpakUpdateProviderTest.ShouldIdentifyUpdatesFromFlatpakOutput (0 ms)
+[----------] 1 test from FlatpakUpdateProviderTest (0 ms total)
+
+[----------] 1 test from NpmUpdateProviderTest
+[ RUN      ] NpmUpdateProviderTest.ShouldIdentifyUpdatesFromNpmJsonOutput
+[       OK ] NpmUpdateProviderTest.ShouldIdentifyUpdatesFromNpmJsonOutput (0 ms)
+[----------] 1 test from NpmUpdateProviderTest (0 ms total)
+
+[----------] 1 test from UpdateViewModelTest
+[ RUN      ] UpdateViewModelTest.ShouldRefreshUpdatesFromManager
+[       OK ] UpdateViewModelTest.ShouldRefreshUpdatesFromManager (0 ms)
+[----------] 1 test from UpdateViewModelTest (0 ms total)
+
+[----------] 1 test from JournalProviderTest
+[ RUN      ] JournalProviderTest.ShouldParseJournalErrorOutput
+[       OK ] JournalProviderTest.ShouldParseJournalErrorOutput (0 ms)
+[----------] 1 test from JournalProviderTest (0 ms total)
+
+[----------] 2 tests from LinuxMemoryProviderTest
+[ RUN      ] LinuxMemoryProviderTest.ShouldParseMeminfo
+[       OK ] LinuxMemoryProviderTest.ShouldParseMeminfo (0 ms)
+[ RUN      ] LinuxMemoryProviderTest.ShouldHandleSwap
+[       OK ] LinuxMemoryProviderTest.ShouldHandleSwap (0 ms)
+[----------] 2 tests from LinuxMemoryProviderTest (0 ms total)
+
+[----------] 3 tests from UserMetadataProviderTest
+[ RUN      ] UserMetadataProviderTest.ShouldCollectCurrentUserInfo
+
+GMOCK WARNING:
+Uninteresting mock function call - returning default value.
+    Function call: execute(@0x7ffdd215e1b0 { 2-byte object <62-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <68-00> }, @0x7ffdd215e160 { { 2-byte object <2D-00>, 2-byte object <63-00> }, { 2-byte object <75-00>, 2-byte object <6C-00>, 2-byte object <69-00>, 2-byte object <6D-00>, 2-byte object <69-00>, 2-byte object <74-00>, 2-byte object <20-00>, 2-byte object <2D-00>, 2-byte object <61-00> } }, @0x7ffdd215e140 {})
+          Returns: 0
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
+
+GMOCK WARNING:
+Uninteresting mock function call - returning default value.
+    Function call: execute(@0x7ffdd215e1b0 { 2-byte object <6C-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <74-00> }, @0x7ffdd215e160 { { 2-byte object <2D-00>, 2-byte object <6E-00> }, { 2-byte object <32-00>, 2-byte object <30-00> } }, @0x7ffdd215e140 {})
+          Returns: 0
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
+[       OK ] UserMetadataProviderTest.ShouldCollectCurrentUserInfo (5 ms)
+[ RUN      ] UserMetadataProviderTest.ShouldCallShellForLimitsAndHistory
+[       OK ] UserMetadataProviderTest.ShouldCallShellForLimitsAndHistory (4 ms)
+[ RUN      ] UserMetadataProviderTest.ShouldCollectEnvVars
+
+GMOCK WARNING:
+Uninteresting mock function call - returning default value.
+    Function call: execute(@0x7ffdd215e1c0 { 2-byte object <62-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <68-00> }, @0x7ffdd215e170 { { 2-byte object <2D-00>, 2-byte object <63-00> }, { 2-byte object <75-00>, 2-byte object <6C-00>, 2-byte object <69-00>, 2-byte object <6D-00>, 2-byte object <69-00>, 2-byte object <74-00>, 2-byte object <20-00>, 2-byte object <2D-00>, 2-byte object <61-00> } }, @0x7ffdd215e150 {})
+          Returns: 0
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
+
+GMOCK WARNING:
+Uninteresting mock function call - returning default value.
+    Function call: execute(@0x7ffdd215e1c0 { 2-byte object <6C-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <74-00> }, @0x7ffdd215e170 { { 2-byte object <2D-00>, 2-byte object <6E-00> }, { 2-byte object <32-00>, 2-byte object <30-00> } }, @0x7ffdd215e150 {})
+          Returns: 0
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
+[       OK ] UserMetadataProviderTest.ShouldCollectEnvVars (4 ms)
+[----------] 3 tests from UserMetadataProviderTest (14 ms total)
+
+[----------] 1 test from DiagnosticViewModelTest
+[ RUN      ] DiagnosticViewModelTest.ShouldGenerateSearchUrl
+[       OK ] DiagnosticViewModelTest.ShouldGenerateSearchUrl (0 ms)
+[----------] 1 test from DiagnosticViewModelTest (0 ms total)
+
+[----------] 2 tests from LinuxCpuProviderTest
+[ RUN      ] LinuxCpuProviderTest.ShouldCollectStatsFromRealSystem
+[       OK ] LinuxCpuProviderTest.ShouldCollectStatsFromRealSystem (0 ms)
+[ RUN      ] LinuxCpuProviderTest.ShouldCollectArchitectureFromRealSystem
+[       OK ] LinuxCpuProviderTest.ShouldCollectArchitectureFromRealSystem (16 ms)
+[----------] 2 tests from LinuxCpuProviderTest (17 ms total)
+
+[----------] 1 test from LinuxSystemInfoProviderTest
+[ RUN      ] LinuxSystemInfoProviderTest.ShouldCollectSystemInfoFromRealSystem
+[       OK ] LinuxSystemInfoProviderTest.ShouldCollectSystemInfoFromRealSystem (26 ms)
+[----------] 1 test from LinuxSystemInfoProviderTest (26 ms total)
+
+[----------] 1 test from LinuxStorageProviderTest
+[ RUN      ] LinuxStorageProviderTest.ShouldCollectStorageStatsFromRealSystem
+[       OK ] LinuxStorageProviderTest.ShouldCollectStorageStatsFromRealSystem (0 ms)
+[----------] 1 test from LinuxStorageProviderTest (0 ms total)
+
+[----------] 1 test from LinuxNetworkProviderTest
+[ RUN      ] LinuxNetworkProviderTest.ShouldCollectNetworkStatsFromRealSystem
+[       OK ] LinuxNetworkProviderTest.ShouldCollectNetworkStatsFromRealSystem (0 ms)
+[----------] 1 test from LinuxNetworkProviderTest (0 ms total)
+
+[----------] 1 test from LinuxPowerProviderTest
+[ RUN      ] LinuxPowerProviderTest.ShouldCollectPowerStatsFromRealSystem
+[       OK ] LinuxPowerProviderTest.ShouldCollectPowerStatsFromRealSystem (0 ms)
+[----------] 1 test from LinuxPowerProviderTest (0 ms total)
+
+[----------] 1 test from LinuxHardwareProviderTest
+[ RUN      ] LinuxHardwareProviderTest.ShouldCollectHardwareTopologyFromRealSystem
+[       OK ] LinuxHardwareProviderTest.ShouldCollectHardwareTopologyFromRealSystem (11 ms)
+[----------] 1 test from LinuxHardwareProviderTest (11 ms total)
+
+[----------] 2 tests from LinuxProcessProviderTest
+[ RUN      ] LinuxProcessProviderTest.ShouldCollectProcessesFromRealSystem
+[       OK ] LinuxProcessProviderTest.ShouldCollectProcessesFromRealSystem (18 ms)
+[ RUN      ] LinuxProcessProviderTest.ShouldHandleKillAndPriorityGracefully
+[       OK ] LinuxProcessProviderTest.ShouldHandleKillAndPriorityGracefully (0 ms)
+[----------] 2 tests from LinuxProcessProviderTest (18 ms total)
+
+[----------] 3 tests from SystemdServiceProviderTest
+[ RUN      ] SystemdServiceProviderTest.ShouldCollectServicesFromRealSystem
+[       OK ] SystemdServiceProviderTest.ShouldCollectServicesFromRealSystem (1682 ms)
+[ RUN      ] SystemdServiceProviderTest.ShouldHandleCommandsGracefully
+[       OK ] SystemdServiceProviderTest.ShouldHandleCommandsGracefully (6157 ms)
+[ RUN      ] SystemdServiceProviderTest.ShouldHandleDaemonCreation
+[       OK ] SystemdServiceProviderTest.ShouldHandleDaemonCreation (598 ms)
+[----------] 3 tests from SystemdServiceProviderTest (8438 ms total)
+
+[----------] 1 test from LinuxDevStackProviderTest
+[ RUN      ] LinuxDevStackProviderTest.ShouldCollectDevStacksFromRealSystem
+[       OK ] LinuxDevStackProviderTest.ShouldCollectDevStacksFromRealSystem (65 ms)
+[----------] 1 test from LinuxDevStackProviderTest (65 ms total)
+
+[----------] 1 test from CpuViewModelTest
+[ RUN      ] CpuViewModelTest.ShouldRefreshStatsFromProvider
+
+GMOCK WARNING:
+Uninteresting mock function call - returning default value.
+    Function call: collect_stats()
+          Returns: 48-byte object <00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00>
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
+[       OK ] CpuViewModelTest.ShouldRefreshStatsFromProvider (0 ms)
+[----------] 1 test from CpuViewModelTest (0 ms total)
+
+[----------] 3 tests from OpenSslVaultTest
+[ RUN      ] OpenSslVaultTest.ShouldEncryptAndDecryptData
+[       OK ] OpenSslVaultTest.ShouldEncryptAndDecryptData (1 ms)
+[ RUN      ] OpenSslVaultTest.ShouldFailWithWrongKey
+[       OK ] OpenSslVaultTest.ShouldFailWithWrongKey (0 ms)
+[ RUN      ] OpenSslVaultTest.ShouldFailIfDataTampered
+[       OK ] OpenSslVaultTest.ShouldFailIfDataTampered (0 ms)
+[----------] 3 tests from OpenSslVaultTest (1 ms total)
+
+[----------] 3 tests from ExportersTest
+[ RUN      ] ExportersTest.JsonExportShouldCreateFile
+[       OK ] ExportersTest.JsonExportShouldCreateFile (0 ms)
+[ RUN      ] ExportersTest.MarkdownExportShouldCreateFile
+[       OK ] ExportersTest.MarkdownExportShouldCreateFile (0 ms)
+[ RUN      ] ExportersTest.HtmlExportShouldCreateFile
+[       OK ] ExportersTest.HtmlExportShouldCreateFile (0 ms)
+[----------] 3 tests from ExportersTest (0 ms total)
+
+[----------] 1 test from MemoryViewModelTest
+[ RUN      ] MemoryViewModelTest.ShouldRefreshStatsFromProvider
+[       OK ] MemoryViewModelTest.ShouldRefreshStatsFromProvider (0 ms)
+[----------] 1 test from MemoryViewModelTest (0 ms total)
+
+[----------] 1 test from GpuViewModelTest
+[ RUN      ] GpuViewModelTest.ShouldRefreshStatsFromProviders
+[       OK ] GpuViewModelTest.ShouldRefreshStatsFromProviders (0 ms)
+[----------] 1 test from GpuViewModelTest (0 ms total)
+
+[----------] 1 test from PowerViewModelTest
+[ RUN      ] PowerViewModelTest.ShouldRefreshStatsFromProvider
+[       OK ] PowerViewModelTest.ShouldRefreshStatsFromProvider (0 ms)
+[----------] 1 test from PowerViewModelTest (0 ms total)
+
+[----------] 1 test from NetworkViewModelTest
+[ RUN      ] NetworkViewModelTest.ShouldRefreshStatsFromProvider
+[       OK ] NetworkViewModelTest.ShouldRefreshStatsFromProvider (0 ms)
+[----------] 1 test from NetworkViewModelTest (0 ms total)
+
+[----------] 1 test from StorageViewModelTest
+[ RUN      ] StorageViewModelTest.ShouldRefreshStatsFromProvider
+[       OK ] StorageViewModelTest.ShouldRefreshStatsFromProvider (0 ms)
+[----------] 1 test from StorageViewModelTest (0 ms total)
+
+[----------] 1 test from FirmwareViewModelTest
+[ RUN      ] FirmwareViewModelTest.ShouldRefreshData
+[       OK ] FirmwareViewModelTest.ShouldRefreshData (0 ms)
+[----------] 1 test from FirmwareViewModelTest (0 ms total)
+
+[----------] 1 test from SystemInfoViewModelTest
+[ RUN      ] SystemInfoViewModelTest.ShouldLoadDataInConstructor
+[       OK ] SystemInfoViewModelTest.ShouldLoadDataInConstructor (0 ms)
+[----------] 1 test from SystemInfoViewModelTest (0 ms total)
+
+[----------] 1 test from UserMetadataViewModelTest
+[ RUN      ] UserMetadataViewModelTest.ShouldRefreshData
+[       OK ] UserMetadataViewModelTest.ShouldRefreshData (0 ms)
+[----------] 1 test from UserMetadataViewModelTest (0 ms total)
+
+[----------] 1 test from HardwareViewModelTest
+[ RUN      ] HardwareViewModelTest.ShouldRefreshData
+[       OK ] HardwareViewModelTest.ShouldRefreshData (0 ms)
+[----------] 1 test from HardwareViewModelTest (0 ms total)
+
+[----------] 1 test from ServiceViewModelTest
+[ RUN      ] ServiceViewModelTest.ShouldRefreshDataAndHandleCommands
+[       OK ] ServiceViewModelTest.ShouldRefreshDataAndHandleCommands (0 ms)
+[----------] 1 test from ServiceViewModelTest (0 ms total)
+
+[----------] 1 test from ProcessViewModelTest
+[ RUN      ] ProcessViewModelTest.ShouldFilterAndSort
+[       OK ] ProcessViewModelTest.ShouldFilterAndSort (0 ms)
+[----------] 1 test from ProcessViewModelTest (0 ms total)
+
+[----------] 1 test from DevStackViewModelTest
+[ RUN      ] DevStackViewModelTest.ShouldRefresh
+[       OK ] DevStackViewModelTest.ShouldRefresh (0 ms)
+[----------] 1 test from DevStackViewModelTest (0 ms total)
+
+[----------] 1 test from AudioViewModelTest
+[ RUN      ] AudioViewModelTest.ShouldControlCapture
+[       OK ] AudioViewModelTest.ShouldControlCapture (0 ms)
+[----------] 1 test from AudioViewModelTest (0 ms total)
+
+[----------] 1 test from InstallationViewModelTest
+[ RUN      ] InstallationViewModelTest.ShouldForwardCommands
+[       OK ] InstallationViewModelTest.ShouldForwardCommands (0 ms)
+[----------] 1 test from InstallationViewModelTest (0 ms total)
+
+[----------] 1 test from ExportViewModelTest
+[ RUN      ] ExportViewModelTest.ShouldHandleExport
+[       OK ] ExportViewModelTest.ShouldHandleExport (0 ms)
+[----------] 1 test from ExportViewModelTest (0 ms total)
+
+[----------] 1 test from UpdateManagerTest
+[ RUN      ] UpdateManagerTest.ShouldCollectFromProviders
+[       OK ] UpdateManagerTest.ShouldCollectFromProviders (0 ms)
+[----------] 1 test from UpdateManagerTest (0 ms total)
+
+[----------] 1 test from DiagnosticManagerTest
+[ RUN      ] DiagnosticManagerTest.ShouldCollectFromProviders
+[       OK ] DiagnosticManagerTest.ShouldCollectFromProviders (0 ms)
+[----------] 1 test from DiagnosticManagerTest (0 ms total)
+
+[----------] 3 tests from AptUpdateProviderTest
+[ RUN      ] AptUpdateProviderTest.ShouldIdentifyUpdatesFromAptOutput
+[       OK ] AptUpdateProviderTest.ShouldIdentifyUpdatesFromAptOutput (0 ms)
+[ RUN      ] AptUpdateProviderTest.ShouldReturnEmptyIfAptFails
+[       OK ] AptUpdateProviderTest.ShouldReturnEmptyIfAptFails (0 ms)
+[ RUN      ] AptUpdateProviderTest.ShouldCheckAvailability
+[       OK ] AptUpdateProviderTest.ShouldCheckAvailability (0 ms)
+[----------] 3 tests from AptUpdateProviderTest (0 ms total)
+
+[----------] 1 test from CargoUpdateProviderTest
+[ RUN      ] CargoUpdateProviderTest.ShouldIdentifyUpdatesFromCargoOutput
+[       OK ] CargoUpdateProviderTest.ShouldIdentifyUpdatesFromCargoOutput (0 ms)
+[----------] 1 test from CargoUpdateProviderTest (0 ms total)
+
+[----------] 1 test from PacmanUpdateProviderTest
+[ RUN      ] PacmanUpdateProviderTest.ShouldIdentifyUpdatesFromPacmanOutput
+[       OK ] PacmanUpdateProviderTest.ShouldIdentifyUpdatesFromPacmanOutput (0 ms)
+[----------] 1 test from PacmanUpdateProviderTest (0 ms total)
+
+[----------] 1 test from SnapUpdateProviderTest
+[ RUN      ] SnapUpdateProviderTest.ShouldIdentifyUpdatesFromSnapOutput
+[       OK ] SnapUpdateProviderTest.ShouldIdentifyUpdatesFromSnapOutput (0 ms)
+[----------] 1 test from SnapUpdateProviderTest (0 ms total)
+
+[----------] 1 test from NvidiaGpuProviderTest
+[ RUN      ] NvidiaGpuProviderTest.ShouldParseNvidiaSmiOutput
+[       OK ] NvidiaGpuProviderTest.ShouldParseNvidiaSmiOutput (0 ms)
+[----------] 1 test from NvidiaGpuProviderTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 56 tests from 43 test suites ran. (8598 ms total)
+[  PASSED  ] 56 tests.
+libgcov profiling error:/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.gcda:overwriting an existing profile data with a different checksum
+libgcov profiling error:/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles/unit_tests.dir/unit_tests_autogen/mocs_compilation.cpp.gcda:overwriting an existing profile data with a different checksum
+<end of output>
+Test time =   8.64 sec
+----------------------------------------------------------
+Test Passed.
+"unit_tests" end time: Apr 12 20:05 -03
+"unit_tests" time elapsed: 00:00:08
+----------------------------------------------------------
+
+End testing: Apr 12 20:05 -03

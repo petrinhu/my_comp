@@ -4,6 +4,7 @@
 #define __UINT_LEAST16_MAX__ 0xffff
 #define __FLT16_HAS_QUIET_NAN__ 1
 #define __ATOMIC_ACQUIRE 2
+#define QT_TESTCASE_BUILDDIR "/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov"
 #define __FLT128_MAX_10_EXP__ 4932
 #define __FLT_MIN__ 1.17549435082228750796873653722224568e-38F
 #define __GCC_IEC_559_COMPLEX 2
@@ -66,6 +67,7 @@
 #define __BFLT16_MAX_EXP__ 128
 #define __LDBL_IS_IEC_60559__ 1
 #define __FLT64X_HAS_QUIET_NAN__ 1
+#define QT_TESTLIB_LIB 1
 #define __UINT_LEAST8_MAX__ 0xff
 #define __GCC_ATOMIC_BOOL_LOCK_FREE 2
 #define __FLT128_DENORM_MIN__ 6.47517511943802511092443895822764655e-4966F128
@@ -188,6 +190,7 @@
 #define __SIZEOF_WINT_T__ 4
 #define __FLT32X_DIG__ 15
 #define __LONG_LONG_WIDTH__ 64
+#define QT_TESTCASE_SOURCEDIR "/home/petrus/IDrive/Documentos/projetos_dev/my_comp"
 #define __cpp_initializer_lists 200806L
 #define __FLT32_MAX_EXP__ 128
 #define ABI_ID "ELF"
@@ -254,6 +257,7 @@
 #define __DEC128_MAX__ 9.999999999999999999999999999999999E6144DL
 #define __cpp_constinit 201907L
 #define __INT_FAST32_TYPE__ long int
+#define QT_CONCURRENT_LIB 1
 #define __UINT_LEAST16_TYPE__ short unsigned int
 #define __DEC64X_MANT_DIG__ 34
 #define __DEC128_MAX_EXP__ 6145
@@ -277,6 +281,7 @@
 #define __GNUC_RH_RELEASE__ 7
 #define __FLT16_DIG__ 3
 #define __k8 1
+#define QT_MULTIMEDIA_LIB 1
 #define __FLT32X_MIN__ 2.22507385850720138309023271733240406e-308F32x
 #define __SIG_ATOMIC_MAX__ 0x7fffffff
 #define __cpp_constexpr 202002L

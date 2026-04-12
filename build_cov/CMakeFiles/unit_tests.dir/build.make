@@ -218,10 +218,374 @@ CMakeFiles/unit_tests.dir/tests/unit/diagnostic_viewmodel_test.cpp.s: cmake_forc
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/diagnostic_viewmodel_test.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/diagnostic_viewmodel_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/diagnostic_viewmodel_test.cpp.s
 
+CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_cpu_provider_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_cpu_provider_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_cpu_provider_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_cpu_provider_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_system_info_provider_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_system_info_provider_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_system_info_provider_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_system_info_provider_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_storage_provider_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_storage_provider_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_storage_provider_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_storage_provider_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_network_provider_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_network_provider_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_network_provider_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_network_provider_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_power_provider_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_power_provider_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_power_provider_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_power_provider_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_hardware_provider_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_hardware_provider_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_hardware_provider_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_hardware_provider_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_process_provider_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_process_provider_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_process_provider_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_process_provider_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/systemd_service_provider_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/systemd_service_provider_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/systemd_service_provider_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/systemd_service_provider_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_dev_stack_provider_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_dev_stack_provider_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_dev_stack_provider_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_dev_stack_provider_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/cpu_viewmodel_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/cpu_viewmodel_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/cpu_viewmodel_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/cpu_viewmodel_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/openssl_vault_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/openssl_vault_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/openssl_vault_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/openssl_vault_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/exporters_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/exporters_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/exporters_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/exporters_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/memory_viewmodel_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/memory_viewmodel_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/memory_viewmodel_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/memory_viewmodel_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/gpu_viewmodel_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/gpu_viewmodel_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/gpu_viewmodel_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/gpu_viewmodel_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/power_viewmodel_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/power_viewmodel_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/power_viewmodel_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/power_viewmodel_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/network_viewmodel_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/network_viewmodel_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/network_viewmodel_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/network_viewmodel_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/storage_viewmodel_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/storage_viewmodel_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/storage_viewmodel_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/storage_viewmodel_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/more_viewmodels_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/more_viewmodels_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/more_viewmodels_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/more_viewmodels_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/final_viewmodels_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/final_viewmodels_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/final_viewmodels_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/final_viewmodels_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/export_viewmodel_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/export_viewmodel_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/export_viewmodel_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/export_viewmodel_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/managers_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/managers_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/managers_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/managers_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/apt_update_provider_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/apt_update_provider_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/apt_update_provider_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/apt_update_provider_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/cargo_update_provider_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/cargo_update_provider_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/cargo_update_provider_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/cargo_update_provider_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/pacman_update_provider_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/pacman_update_provider_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/pacman_update_provider_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/pacman_update_provider_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/snap_update_provider_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/snap_update_provider_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/snap_update_provider_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/snap_update_provider_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.s
+
+CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/nvidia_gpu_provider_test.cpp
+CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.o -MF CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.o.d -o CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/nvidia_gpu_provider_test.cpp
+
+CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/nvidia_gpu_provider_test.cpp > CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.i
+
+CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/nvidia_gpu_provider_test.cpp -o CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.s
+
 CMakeFiles/unit_tests.dir/src/infrastructure/collectors/qprocess_shell_executor.cpp.o: CMakeFiles/unit_tests.dir/flags.make
 CMakeFiles/unit_tests.dir/src/infrastructure/collectors/qprocess_shell_executor.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/qprocess_shell_executor.cpp
 CMakeFiles/unit_tests.dir/src/infrastructure/collectors/qprocess_shell_executor.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/qprocess_shell_executor.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/qprocess_shell_executor.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/qprocess_shell_executor.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/qprocess_shell_executor.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/qprocess_shell_executor.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/qprocess_shell_executor.cpp
 
 CMakeFiles/unit_tests.dir/src/infrastructure/collectors/qprocess_shell_executor.cpp.i: cmake_force
@@ -235,7 +599,7 @@ CMakeFiles/unit_tests.dir/src/infrastructure/collectors/qprocess_shell_executor.
 CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_memory_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
 CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_memory_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_memory_provider.cpp
 CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_memory_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_memory_provider.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_memory_provider.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_memory_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_memory_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_memory_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_memory_provider.cpp
 
 CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_memory_provider.cpp.i: cmake_force
@@ -249,7 +613,7 @@ CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_memory_provider.cp
 CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_user_metadata_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
 CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_user_metadata_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_user_metadata_provider.cpp
 CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_user_metadata_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_user_metadata_provider.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_user_metadata_provider.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_user_metadata_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_user_metadata_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_user_metadata_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_user_metadata_provider.cpp
 
 CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_user_metadata_provider.cpp.i: cmake_force
@@ -260,10 +624,332 @@ CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_user_metadata_prov
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_user_metadata_provider.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_user_metadata_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_user_metadata_provider.cpp.s
 
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_cpu_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_cpu_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_cpu_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_cpu_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_system_info_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_system_info_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_system_info_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_system_info_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_storage_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_storage_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_storage_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_storage_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_network_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_network_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_network_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_network_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_power_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_power_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_power_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_power_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_hardware_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_hardware_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_hardware_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_hardware_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_process_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_47) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_process_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_process_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_process_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/systemd_service_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_48) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/systemd_service_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/systemd_service_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/systemd_service_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_dev_stack_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_49) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_dev_stack_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_dev_stack_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_dev_stack_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/nvidia_gpu_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_50) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/nvidia_gpu_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/nvidia_gpu_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/nvidia_gpu_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/sysfs_gpu_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_51) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/sysfs_gpu_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/sysfs_gpu_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/sysfs_gpu_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/apt_update_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_52) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/apt_update_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/apt_update_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/apt_update_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/pacman_update_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_53) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/pacman_update_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/pacman_update_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/pacman_update_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/snap_update_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_54) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/snap_update_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/snap_update_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/snap_update_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/cargo_update_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_55) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/cargo_update_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/cargo_update_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/cargo_update_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/dbus_firmware_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_56) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/dbus_firmware_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/dbus_firmware_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/dbus_firmware_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/installer_adapter.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_57) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/installer_adapter.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/installer_adapter.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/installer_adapter.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/interactive_process_runner.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_58) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/interactive_process_runner.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/interactive_process_runner.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/interactive_process_runner.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/security/openssl_vault.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_59) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/security/openssl_vault.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/security/openssl_vault.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/security/openssl_vault.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/json_export_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_60) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/json_export_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/json_export_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/json_export_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/markdown_export_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_61) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/markdown_export_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/markdown_export_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/markdown_export_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/html_export_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_62) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/html_export_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/html_export_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/html_export_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.s
+
+CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/audio/qt_audio_provider.cpp
+CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_63) "Building CXX object CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.o -MF CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.o.d -o CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/audio/qt_audio_provider.cpp
+
+CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/audio/qt_audio_provider.cpp > CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.i
+
+CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/audio/qt_audio_provider.cpp -o CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.s
+
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/update_viewmodel.cpp
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_viewmodel.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_64) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_viewmodel.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/update_viewmodel.cpp
 
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_viewmodel.cpp.i: cmake_force
@@ -277,7 +963,7 @@ CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_viewmodel.cpp.s: cm
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_package_model.cpp.o: CMakeFiles/unit_tests.dir/flags.make
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_package_model.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/update_package_model.cpp
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_package_model.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_package_model.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_65) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_package_model.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_package_model.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_package_model.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_package_model.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/update_package_model.cpp
 
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_package_model.cpp.i: cmake_force
@@ -291,7 +977,7 @@ CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_package_model.cpp.s
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/diagnostic_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/diagnostic_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/diagnostic_viewmodel.cpp
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/diagnostic_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/diagnostic_viewmodel.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_66) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/diagnostic_viewmodel.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/diagnostic_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/diagnostic_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/diagnostic_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/diagnostic_viewmodel.cpp
 
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/diagnostic_viewmodel.cpp.i: cmake_force
@@ -305,7 +991,7 @@ CMakeFiles/unit_tests.dir/src/presentation/viewmodels/diagnostic_viewmodel.cpp.s
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.o: CMakeFiles/unit_tests.dir/flags.make
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/log_entry_model.cpp
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_67) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/log_entry_model.cpp
 
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.i: cmake_force
@@ -315,6 +1001,230 @@ CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.i: cma
 CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/log_entry_model.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/cpu_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_68) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/cpu_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/cpu_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/cpu_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/memory_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_69) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/memory_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/memory_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/memory_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/firmware_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_70) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/firmware_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/firmware_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/firmware_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/gpu_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_71) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/gpu_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/gpu_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/gpu_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/power_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_72) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/power_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/power_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/power_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/network_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_73) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/network_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/network_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/network_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/storage_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_74) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/storage_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/storage_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/storage_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/system_info_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_75) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/system_info_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/system_info_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/system_info_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/user_metadata_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_76) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/user_metadata_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/user_metadata_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/user_metadata_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/hardware_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_77) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/hardware_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/hardware_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/hardware_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/service_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_78) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/service_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/service_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/service_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/process_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_79) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/process_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/process_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/process_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/dev_stack_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_80) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/dev_stack_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/dev_stack_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/dev_stack_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/export_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_81) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/export_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/export_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/export_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/audio_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_82) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/audio_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/audio_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/audio_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.s
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/flags.make
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.o: /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/installation_viewmodel.cpp
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.o: CMakeFiles/unit_tests.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_83) "Building CXX object CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.o -MF CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.o.d -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.o -c /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/installation_viewmodel.cpp
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/installation_viewmodel.cpp > CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.i
+
+CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/installation_viewmodel.cpp -o CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.s
 
 # Object files for target unit_tests
 unit_tests_OBJECTS = \
@@ -328,13 +1238,78 @@ unit_tests_OBJECTS = \
 "CMakeFiles/unit_tests.dir/tests/unit/memory_provider_test.cpp.o" \
 "CMakeFiles/unit_tests.dir/tests/unit/user_metadata_provider_test.cpp.o" \
 "CMakeFiles/unit_tests.dir/tests/unit/diagnostic_viewmodel_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.o" \
+"CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.o" \
 "CMakeFiles/unit_tests.dir/src/infrastructure/collectors/qprocess_shell_executor.cpp.o" \
 "CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_memory_provider.cpp.o" \
 "CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_user_metadata_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.o" \
 "CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_viewmodel.cpp.o" \
 "CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_package_model.cpp.o" \
 "CMakeFiles/unit_tests.dir/src/presentation/viewmodels/diagnostic_viewmodel.cpp.o" \
-"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.o"
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.o" \
+"CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.o"
 
 # External object files for target unit_tests
 unit_tests_EXTERNAL_OBJECTS =
@@ -349,26 +1324,96 @@ unit_tests: CMakeFiles/unit_tests.dir/tests/unit/journal_provider_test.cpp.o
 unit_tests: CMakeFiles/unit_tests.dir/tests/unit/memory_provider_test.cpp.o
 unit_tests: CMakeFiles/unit_tests.dir/tests/unit/user_metadata_provider_test.cpp.o
 unit_tests: CMakeFiles/unit_tests.dir/tests/unit/diagnostic_viewmodel_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.o
 unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/qprocess_shell_executor.cpp.o
 unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_memory_provider.cpp.o
 unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_user_metadata_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.o
 unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_viewmodel.cpp.o
 unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/update_package_model.cpp.o
 unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/diagnostic_viewmodel.cpp.o
 unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/log_entry_model.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.o
+unit_tests: CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.o
 unit_tests: CMakeFiles/unit_tests.dir/build.make
 unit_tests: CMakeFiles/unit_tests.dir/compiler_depend.ts
 unit_tests: lib/libgtest_main.a
 unit_tests: lib/libgmock.a
-unit_tests: /usr/lib64/libQt6Gui.so.6.10.2
-unit_tests: /usr/lib64/libQt6DBus.so.6.10.2
-unit_tests: /usr/lib64/libQt6Network.so.6.10.2
+unit_tests: /usr/lib64/libQt6Multimedia.so.6.10.2
+unit_tests: /usr/lib64/libQt6Concurrent.so.6.10.2
+unit_tests: /usr/lib64/libQt6Test.so.6.10.2
+unit_tests: /usr/lib64/libssl.so
+unit_tests: /usr/lib64/libcrypto.so
 unit_tests: lib/libgtest.a
+unit_tests: /usr/lib64/libQt6Gui.so.6.10.2
 unit_tests: /usr/lib64/libGLX.so
 unit_tests: /usr/lib64/libOpenGL.so
+unit_tests: /usr/lib64/libQt6DBus.so.6.10.2
+unit_tests: /usr/lib64/libQt6Network.so.6.10.2
 unit_tests: /usr/lib64/libQt6Core.so.6.10.2
 unit_tests: CMakeFiles/unit_tests.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Linking CXX executable unit_tests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles --progress-num=$(CMAKE_PROGRESS_84) "Linking CXX executable unit_tests"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/unit_tests.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

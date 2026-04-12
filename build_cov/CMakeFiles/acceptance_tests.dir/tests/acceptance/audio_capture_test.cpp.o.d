@@ -369,4 +369,54 @@ CMakeFiles/acceptance_tests.dir/tests/acceptance/audio_capture_test.cpp.o: \
  /usr/include/qt6/QtCore/qstringbuilder.h \
  /usr/include/qt6/QtCore/qstring.h \
  /usr/include/qt6/QtCore/qstringconverter.h \
- /usr/include/qt6/QtCore/qstringconverter_base.h
+ /usr/include/qt6/QtCore/qstringconverter_base.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/acceptance/../../src/infrastructure/audio/qt_audio_provider.h \
+ /usr/include/qt6/QtCore/QObject /usr/include/qt6/QtCore/qobject.h \
+ /usr/include/qt6/QtCore/qobjectdefs.h \
+ /usr/include/qt6/QtCore/qobjectdefs_impl.h \
+ /usr/include/qt6/QtCore/qfunctionaltools_impl.h \
+ /usr/include/qt6/QtCore/qlist.h /usr/include/qt6/QtCore/qhashfunctions.h \
+ /usr/include/c++/15/numeric /usr/include/c++/15/bits/stl_numeric.h \
+ /usr/include/c++/15/pstl/glue_numeric_defs.h \
+ /usr/include/qt6/QtCore/qiterator.h /usr/include/c++/15/ranges \
+ /usr/include/qt6/QtCore/qbytearraylist.h \
+ /usr/include/qt6/QtCore/qstringlist.h \
+ /usr/include/qt6/QtCore/qalgorithms.h \
+ /usr/include/qt6/QtCore/qstringmatcher.h \
+ /usr/include/qt6/QtCore/qscopedpointer.h \
+ /usr/include/qt6/QtCore/qmetatype.h \
+ /usr/include/qt6/QtCore/qdatastream.h \
+ /usr/include/qt6/QtCore/qiodevicebase.h \
+ /usr/include/qt6/QtCore/qfloat16.h /usr/include/qt6/QtCore/qmath.h \
+ /usr/include/qt6/QtCore/qtformat_impl.h /usr/include/c++/15/format \
+ /usr/include/c++/15/charconv /usr/include/c++/15/bits/formatfwd.h \
+ /usr/include/c++/15/bits/unicode.h \
+ /usr/include/c++/15/bits/unicode-data.h \
+ /usr/include/qt6/QtCore/qiterable.h \
+ /usr/include/qt6/QtCore/qtaggedpointer.h \
+ /usr/include/qt6/QtCore/qmetacontainer.h \
+ /usr/include/qt6/QtCore/qcontainerinfo.h \
+ /usr/include/qt6/QtCore/qscopeguard.h /usr/include/c++/15/list \
+ /usr/include/c++/15/bits/stl_list.h /usr/include/c++/15/bits/list.tcc \
+ /usr/include/qt6/QtCore/qobject_impl.h \
+ /usr/include/qt6/QtCore/qbindingstorage.h /usr/include/c++/15/chrono \
+ /usr/include/c++/15/bits/chrono_io.h /usr/include/c++/15/iomanip \
+ /usr/include/c++/15/bits/quoted_string.h \
+ /usr/include/qt6/QtMultimedia/QAudioSource \
+ /usr/include/qt6/QtMultimedia/qaudiosource.h \
+ /usr/include/qt6/QtCore/qiodevice.h /usr/include/qt6/QtCore/qobject.h \
+ /usr/include/qt6/QtCore/qspan.h /usr/include/qt6/QtCore/q20iterator.h \
+ /usr/include/qt6/QtMultimedia/qtmultimediaglobal.h \
+ /usr/include/qt6/QtGui/qtguiglobal.h \
+ /usr/include/qt6/QtGui/qtgui-config.h \
+ /usr/include/qt6/QtGui/qtguiexports.h \
+ /usr/include/qt6/QtMultimedia/qtmultimedia-config.h \
+ /usr/include/qt6/QtMultimedia/qtmultimediaexports.h \
+ /usr/include/qt6/QtMultimedia/qtaudio.h \
+ /usr/include/qt6/QtMultimedia/qaudio.h \
+ /usr/include/qt6/QtMultimedia/qaudioformat.h \
+ /usr/include/qt6/QtCore/qshareddata.h \
+ /usr/include/qt6/QtMultimedia/qaudiodevice.h \
+ /usr/include/qt6/QtCore/QIODevice /usr/include/qt6/QtCore/qiodevice.h \
+ /usr/include/qt6/QtMultimedia/QAudioFormat \
+ /usr/include/qt6/QtMultimedia/qaudioformat.h

@@ -461,13 +461,13 @@ CMakeFiles/my_comp.dir/src/main.cpp.o: \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/gpu_viewmodel.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../domain/interfaces/i_gpu_provider.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../domain/interfaces/../models/gpu_stats.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../infrastructure/collectors/i_shell_executor.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/system_info_viewmodel.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../domain/interfaces/i_system_info_provider.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../domain/interfaces/../models/system_info.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/power_viewmodel.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../infrastructure/collectors/linux_power_provider.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../infrastructure/collectors/../../domain/interfaces/i_power_provider.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../infrastructure/collectors/../../domain/interfaces/../models/power_stats.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../domain/interfaces/i_power_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../domain/interfaces/../models/power_stats.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/storage_viewmodel.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../domain/interfaces/i_storage_provider.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../domain/interfaces/../models/storage_stats.h \

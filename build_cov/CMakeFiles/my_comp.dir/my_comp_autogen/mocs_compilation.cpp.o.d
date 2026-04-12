@@ -439,6 +439,7 @@ CMakeFiles/my_comp.dir/my_comp_autogen/mocs_compilation.cpp.o: \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/../../../src/presentation/viewmodels/gpu_viewmodel.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_gpu_provider.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/gpu_stats.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../infrastructure/collectors/i_shell_executor.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/moc_hardware_viewmodel.cpp \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/moc_installation_viewmodel.cpp \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/../../../src/presentation/viewmodels/installation_viewmodel.h \
@@ -451,9 +452,8 @@ CMakeFiles/my_comp.dir/my_comp_autogen/mocs_compilation.cpp.o: \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/network_stats.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/moc_power_viewmodel.cpp \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/../../../src/presentation/viewmodels/power_viewmodel.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../infrastructure/collectors/linux_power_provider.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../infrastructure/collectors/../../domain/interfaces/i_power_provider.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../infrastructure/collectors/../../domain/interfaces/../models/power_stats.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_power_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/power_stats.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/moc_process_viewmodel.cpp \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/../../../src/presentation/viewmodels/process_viewmodel.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_process_provider.h \

@@ -29,6 +29,7 @@ private:
 
     void process_samples(const float* samples, int count);
     void stop_capture_impl();
+    std::vector<float> calculate_fft(const float* samples, int count);
 };
 
 } // namespace my_comp::infrastructure::audio

@@ -2,6 +2,7 @@
 #include <sstream>
 #include <regex>
 #include <iostream>
+#include <QRegularExpression>
 
 namespace my_comp::infrastructure::collectors {
 
@@ -91,11 +92,10 @@ double LinuxNetworkProvider::measure_latency() {
     // Em ambiente offline, isso falhará graciosamente retornando 0 ou alto.
     QStringList args = {"-c", "1", "-W", "1", "1.1.1.1"};
     if (m_shell->execute("ping", args, output) == 0) {
-        std::regex regex("(?:time|tempo)=([\\d.]+) ms");
-        std::smatch match;
-        std::string out_std = output.toStdString();
-        if (std::regex_search(out_std, match, regex)) {
-            return std::stod(match[1]);
+        QRegularExpression regex("(?:time|tempo)=([\\d.]+) ms");
+        auto match = regex.match(output);
+        if (match.hasMatch()) {
+            return match.captured(1).toDouble();
         }
     }
     return 0.0;

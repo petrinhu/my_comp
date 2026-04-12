@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
     my_comp::presentation::viewmodels::CpuViewModel cpu_vm(cpu_provider);
     my_comp::presentation::viewmodels::MemoryViewModel memory_vm(memory_provider);
     my_comp::presentation::viewmodels::FirmwareViewModel firmware_vm(firmware_provider);
-    my_comp::presentation::viewmodels::GpuViewModel gpu_vm;
+    my_comp::presentation::viewmodels::GpuViewModel gpu_vm(shell);
     my_comp::presentation::viewmodels::PowerViewModel power_vm;
     my_comp::presentation::viewmodels::StorageViewModel storage_vm(storage_provider);
     my_comp::presentation::viewmodels::NetworkViewModel network_vm(network_provider);

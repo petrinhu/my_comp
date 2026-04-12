@@ -109,18 +109,83 @@ set(UNIT_TEST_SOURCES
     tests/unit/memory_provider_test.cpp
     tests/unit/user_metadata_provider_test.cpp
     tests/unit/diagnostic_viewmodel_test.cpp
+    tests/unit/linux_cpu_provider_test.cpp
+    tests/unit/linux_system_info_provider_test.cpp
+    tests/unit/linux_storage_provider_test.cpp
+    tests/unit/linux_network_provider_test.cpp
+    tests/unit/linux_power_provider_test.cpp
+    tests/unit/linux_hardware_provider_test.cpp
+    tests/unit/linux_process_provider_test.cpp
+    tests/unit/systemd_service_provider_test.cpp
+    tests/unit/linux_dev_stack_provider_test.cpp
+    tests/unit/cpu_viewmodel_test.cpp
+    tests/unit/openssl_vault_test.cpp
+    tests/unit/exporters_test.cpp
+    tests/unit/memory_viewmodel_test.cpp
+    tests/unit/gpu_viewmodel_test.cpp
+    tests/unit/power_viewmodel_test.cpp
+    tests/unit/network_viewmodel_test.cpp
+    tests/unit/storage_viewmodel_test.cpp
+    tests/unit/more_viewmodels_test.cpp
+    tests/unit/final_viewmodels_test.cpp
+    tests/unit/export_viewmodel_test.cpp
+    tests/unit/managers_test.cpp
+    tests/unit/apt_update_provider_test.cpp
+    tests/unit/cargo_update_provider_test.cpp
+    tests/unit/pacman_update_provider_test.cpp
+    tests/unit/snap_update_provider_test.cpp
+    tests/unit/nvidia_gpu_provider_test.cpp
     
     src/infrastructure/collectors/qprocess_shell_executor.cpp
     src/infrastructure/collectors/linux_memory_provider.cpp
     src/infrastructure/collectors/linux_user_metadata_provider.cpp
+    src/infrastructure/collectors/linux_cpu_provider.cpp
+    src/infrastructure/collectors/linux_system_info_provider.cpp
+    src/infrastructure/collectors/linux_storage_provider.cpp
+    src/infrastructure/collectors/linux_network_provider.cpp
+    src/infrastructure/collectors/linux_power_provider.cpp
+    src/infrastructure/collectors/linux_hardware_provider.cpp
+    src/infrastructure/collectors/linux_process_provider.cpp
+    src/infrastructure/collectors/systemd_service_provider.cpp
+    src/infrastructure/collectors/linux_dev_stack_provider.cpp
+    src/infrastructure/collectors/nvidia_gpu_provider.cpp
+    src/infrastructure/collectors/sysfs_gpu_provider.cpp
+    src/infrastructure/collectors/apt_update_provider.cpp
+    src/infrastructure/collectors/pacman_update_provider.cpp
+    src/infrastructure/collectors/snap_update_provider.cpp
+    src/infrastructure/collectors/cargo_update_provider.cpp
+    src/infrastructure/collectors/dbus_firmware_provider.cpp
+    src/infrastructure/collectors/installer_adapter.cpp
+    src/infrastructure/collectors/interactive_process_runner.cpp
+    src/infrastructure/security/openssl_vault.cpp
+    src/infrastructure/exporters/json_export_provider.cpp
+    src/infrastructure/exporters/markdown_export_provider.cpp
+    src/infrastructure/exporters/html_export_provider.cpp
+    src/infrastructure/audio/qt_audio_provider.cpp
     src/presentation/viewmodels/update_viewmodel.cpp
     src/presentation/viewmodels/update_package_model.cpp
     src/presentation/viewmodels/diagnostic_viewmodel.cpp
     src/presentation/viewmodels/log_entry_model.cpp
+    src/presentation/viewmodels/cpu_viewmodel.cpp
+    src/presentation/viewmodels/memory_viewmodel.cpp
+    src/presentation/viewmodels/firmware_viewmodel.cpp
+    src/presentation/viewmodels/gpu_viewmodel.cpp
+    src/presentation/viewmodels/power_viewmodel.cpp
+    src/presentation/viewmodels/network_viewmodel.cpp
+    src/presentation/viewmodels/storage_viewmodel.cpp
+    src/presentation/viewmodels/system_info_viewmodel.cpp
+    src/presentation/viewmodels/user_metadata_viewmodel.cpp
+    src/presentation/viewmodels/hardware_viewmodel.cpp
+    src/presentation/viewmodels/service_viewmodel.cpp
+    src/presentation/viewmodels/process_viewmodel.cpp
+    src/presentation/viewmodels/dev_stack_viewmodel.cpp
+    src/presentation/viewmodels/export_viewmodel.cpp
+    src/presentation/viewmodels/audio_viewmodel.cpp
+    src/presentation/viewmodels/installation_viewmodel.cpp
 )
 
 add_executable(unit_tests ${UNIT_TEST_SOURCES})
-target_link_libraries(unit_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::Gui Qt6::DBus Qt6::Network)
+target_link_libraries(unit_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::Gui Qt6::DBus Qt6::Network Qt6::Multimedia Qt6::Concurrent Qt6::Test OpenSSL::SSL OpenSSL::Crypto)
 add_test(NAME unit_tests COMMAND unit_tests)
 
 # Acceptance Tests Target

@@ -329,7 +329,7 @@ CMakeFiles/my_comp.dir/src/presentation/viewmodels/power_viewmodel.cpp.o: \
  /usr/include/qt6/QtCore/qabstracteventdispatcher.h \
  /usr/include/qt6/QtCore/qobject.h /usr/include/qt6/QtCore/qeventloop.h \
  /usr/include/qt6/QtCore/qdeadlinetimer.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../infrastructure/collectors/linux_power_provider.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../infrastructure/collectors/../../domain/interfaces/i_power_provider.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../infrastructure/collectors/../../domain/interfaces/../models/power_stats.h \
- /usr/include/qt6/QtCore/QString /usr/include/qt6/QtCore/qstring.h
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../domain/interfaces/i_power_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../domain/interfaces/../models/power_stats.h \
+ /usr/include/qt6/QtCore/QString /usr/include/qt6/QtCore/qstring.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../infrastructure/collectors/linux_power_provider.h

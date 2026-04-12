@@ -350,4 +350,5 @@ CMakeFiles/acceptance_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.o
  /usr/include/qt6/QtMultimedia/QAudioDevice \
  /usr/include/qt6/QtMultimedia/qaudiodevice.h \
  /usr/include/qt6/QtMultimedia/QMediaDevices \
- /usr/include/qt6/QtMultimedia/qmediadevices.h
+ /usr/include/qt6/QtMultimedia/qmediadevices.h \
+ /usr/include/c++/15/complex

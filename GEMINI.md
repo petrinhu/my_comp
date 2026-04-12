@@ -53,6 +53,7 @@ Atue como Engenheiro de Sistemas Sênior especializado em C++20.
 ## 8. Memória JIT (Aprendizados e Decisões)
 - **UpdateManager v2.0:** Implementado com arquitetura de provedores plugáveis. Suporta DNF, Flatpak e NPM. O parser utiliza `QProcess` e regex para lidar com diferentes formatos.
 - **Journal Filters:** Definidos para centralização do diagnóstico (Firmware, Kernel, Hardware, KDE).
+- **Cobertura de Código (lcov):** Use `--ignore-errors mismatch,source,gcov` ao rodar o lcov para evitar falhas com gtest.
 
 ---
 ## 9. Repositório e Links

@@ -3,6 +3,9 @@
 #include <QMediaDevices>
 #include <cmath>
 #include <algorithm>
+#include <complex>
+#include <vector>
+#include <bit>
 
 namespace my_comp::infrastructure::audio {
 
@@ -68,12 +71,59 @@ void QtAudioProvider::process_samples(const float* samples, int count) {
     audioData.rms = std::sqrt(sumSq / count);
     audioData.peak = peak;
     
-    // Simplificação: FFT (Espectro) será implementado em próxima iteração se necessário
-    // Por enquanto focado na Waveform real-time exigida.
+    // Gerar espectro de frequência via FFT
+    audioData.spectrum = calculate_fft(samples, count);
     
     if (on_data_ready) {
         on_data_ready(audioData);
     }
+}
+
+std::vector<float> QtAudioProvider::calculate_fft(const float* samples, int count) {
+    if (count < 2) return {};
+
+    // Forçar potência de 2 para o algoritmo Radix-2
+    size_t n = std::bit_floor(static_cast<size_t>(count));
+    std::vector<std::complex<double>> data(n);
+    for (size_t i = 0; i < n; ++i) {
+        data[i] = static_cast<double>(samples[i]);
+    }
+
+    // Bit-reversal permutation
+    for (size_t i = 1, j = 0; i < n; ++i) {
+        size_t bit = n >> 1;
+        for (; j & bit; bit >>= 1) {
+            j ^= bit;
+        }
+        j ^= bit;
+        if (i < j) {
+            std::swap(data[i], data[j]);
+        }
+    }
+
+    // Cooley-Tukey iterative
+    for (size_t len = 2; len <= n; len <<= 1) {
+        double ang = 2.0 * M_PI / len;
+        std::complex<double> wlen(std::cos(ang), std::sin(ang));
+        for (size_t i = 0; i < n; i += len) {
+            std::complex<double> w(1);
+            for (size_t j = 0; j < len / 2; ++j) {
+                std::complex<double> u = data[i + j];
+                std::complex<double> v = data[i + j + len / 2] * w;
+                data[i + j] = u + v;
+                data[i + j + len / 2] = u - v;
+                w *= wlen;
+            }
+        }
+    }
+
+    // Extrair magnitudes da metade do espectro (Nyquist)
+    std::vector<float> spectrum(n / 2);
+    for (size_t i = 0; i < n / 2; ++i) {
+        spectrum[i] = static_cast<float>(std::abs(data[i]) / n);
+    }
+    
+    return spectrum;
 }
 
 } // namespace my_comp::infrastructure::audio

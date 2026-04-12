@@ -1,7 +1,8 @@
 #pragma once
 #include <QObject>
 #include <QTimer>
-#include "../../infrastructure/collectors/linux_power_provider.h"
+#include "../../domain/interfaces/i_power_provider.h"
+#include <memory>
 
 namespace my_comp::presentation::viewmodels {
 class PowerViewModel : public QObject {
@@ -9,7 +10,8 @@ class PowerViewModel : public QObject {
     Q_PROPERTY(double powerWatts READ powerWatts NOTIFY dataChanged)
     Q_PROPERTY(double batteryPercent READ batteryPercent NOTIFY dataChanged)
 public:
-    PowerViewModel(QObject* parent = nullptr);
+    PowerViewModel(std::shared_ptr<domain::interfaces::IPowerProvider> provider, QObject* parent = nullptr);
+    explicit PowerViewModel(QObject* parent = nullptr);
     double powerWatts() const { return m_power; }
     double batteryPercent() const { return m_percent; }
 signals:
@@ -17,7 +19,7 @@ signals:
 private slots:
     void update();
 private:
-    infrastructure::collectors::LinuxPowerProvider m_provider;
+    std::shared_ptr<domain::interfaces::IPowerProvider> m_provider;
     double m_power = 0.0;
     double m_percent = 0.0;
     QTimer* m_timer;

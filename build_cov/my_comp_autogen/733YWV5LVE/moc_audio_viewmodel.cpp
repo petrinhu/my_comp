@@ -46,6 +46,7 @@ template <> constexpr inline auto my_comp::presentation::viewmodels::AudioViewMo
         "stop",
         "waveform",
         "QVariantList",
+        "spectrum",
         "rms",
         "peak",
         "isCapturing"
@@ -64,12 +65,14 @@ template <> constexpr inline auto my_comp::presentation::viewmodels::AudioViewMo
     QtMocHelpers::UintData qt_properties {
         // property 'waveform'
         QtMocHelpers::PropertyData<QVariantList>(6, 0x80000000 | 7, QMC::DefaultPropertyFlags | QMC::EnumOrFlag, 0),
+        // property 'spectrum'
+        QtMocHelpers::PropertyData<QVariantList>(8, 0x80000000 | 7, QMC::DefaultPropertyFlags | QMC::EnumOrFlag, 0),
         // property 'rms'
-        QtMocHelpers::PropertyData<float>(8, QMetaType::Float, QMC::DefaultPropertyFlags, 0),
-        // property 'peak'
         QtMocHelpers::PropertyData<float>(9, QMetaType::Float, QMC::DefaultPropertyFlags, 0),
+        // property 'peak'
+        QtMocHelpers::PropertyData<float>(10, QMetaType::Float, QMC::DefaultPropertyFlags, 0),
         // property 'isCapturing'
-        QtMocHelpers::PropertyData<bool>(10, QMetaType::Bool, QMC::DefaultPropertyFlags, 1),
+        QtMocHelpers::PropertyData<bool>(11, QMetaType::Bool, QMC::DefaultPropertyFlags, 1),
     };
     QtMocHelpers::UintData qt_enums {
     };
@@ -108,9 +111,10 @@ void my_comp::presentation::viewmodels::AudioViewModel::qt_static_metacall(QObje
         void *_v = _a[0];
         switch (_id) {
         case 0: *reinterpret_cast<QVariantList*>(_v) = _t->waveform(); break;
-        case 1: *reinterpret_cast<float*>(_v) = _t->rms(); break;
-        case 2: *reinterpret_cast<float*>(_v) = _t->peak(); break;
-        case 3: *reinterpret_cast<bool*>(_v) = _t->isCapturing(); break;
+        case 1: *reinterpret_cast<QVariantList*>(_v) = _t->spectrum(); break;
+        case 2: *reinterpret_cast<float*>(_v) = _t->rms(); break;
+        case 3: *reinterpret_cast<float*>(_v) = _t->peak(); break;
+        case 4: *reinterpret_cast<bool*>(_v) = _t->isCapturing(); break;
         default: break;
         }
     }
@@ -148,7 +152,7 @@ int my_comp::presentation::viewmodels::AudioViewModel::qt_metacall(QMetaObject::
             || _c == QMetaObject::ResetProperty || _c == QMetaObject::BindableProperty
             || _c == QMetaObject::RegisterPropertyMetaType) {
         qt_static_metacall(this, _c, _id, _a);
-        _id -= 4;
+        _id -= 5;
     }
     return _id;
 }

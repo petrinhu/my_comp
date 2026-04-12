@@ -1,21 +1,23 @@
 #include "nvidia_gpu_provider.h"
-#include <QProcess>
 #include <QStringList>
+#include <algorithm>
+#include <iterator>
 
 namespace my_comp::infrastructure::collectors {
 
+NvidiaGpuProvider::NvidiaGpuProvider(std::shared_ptr<IShellExecutor> executor)
+    : m_executor(std::move(executor)) {}
+
 std::vector<domain::models::GpuStats> NvidiaGpuProvider::collect_stats() {
     std::vector<domain::models::GpuStats> results;
-    QProcess process;
+    QString output;
     
     QStringList args;
     args << "--query-gpu=gpu_name,utilization.gpu,temperature.gpu,memory.total,memory.used"
          << "--format=csv,noheader,nounits";
 
-    process.start("nvidia-smi", args);
-    if (!process.waitForFinished()) return results;
+    if (m_executor->execute("nvidia-smi", args, output) != 0) return results;
 
-    QString output = QString::fromUtf8(process.readAllStandardOutput());
     QStringList lines = output.split('\n', Qt::SkipEmptyParts);
 
     std::transform(lines.begin(), lines.end(), std::back_inserter(results), 

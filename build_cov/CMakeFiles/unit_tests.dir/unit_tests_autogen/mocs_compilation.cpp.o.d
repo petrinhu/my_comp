@@ -1,8 +1,8 @@
 CMakeFiles/unit_tests.dir/unit_tests_autogen/mocs_compilation.cpp.o: \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/mocs_compilation.cpp \
  /usr/include/stdc-predef.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_diagnostic_viewmodel.cpp \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/diagnostic_viewmodel.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/O2VQMWCWGM/moc_qt_audio_provider.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/O2VQMWCWGM/../../../src/infrastructure/audio/qt_audio_provider.h \
  /usr/include/qt6/QtCore/QObject /usr/include/qt6/QtCore/qobject.h \
  /usr/include/qt6/QtCore/qobjectdefs.h \
  /usr/include/qt6/QtCore/qnamespace.h /usr/include/qt6/QtCore/qglobal.h \
@@ -326,23 +326,46 @@ CMakeFiles/unit_tests.dir/unit_tests_autogen/mocs_compilation.cpp.o: \
  /usr/include/c++/15/bits/sstream.tcc \
  /usr/include/c++/15/bits/chrono_io.h /usr/include/c++/15/iomanip \
  /usr/include/c++/15/bits/quoted_string.h \
- /usr/include/qt6/QtGui/QDesktopServices \
- /usr/include/qt6/QtGui/qdesktopservices.h \
+ /usr/include/qt6/QtMultimedia/QAudioSource \
+ /usr/include/qt6/QtMultimedia/qaudiosource.h \
+ /usr/include/qt6/QtCore/qiodevice.h /usr/include/qt6/QtCore/qobject.h \
+ /usr/include/qt6/QtCore/qspan.h /usr/include/c++/15/cassert \
+ /usr/include/qt6/QtCore/q20iterator.h \
+ /usr/include/qt6/QtMultimedia/qtmultimediaglobal.h \
  /usr/include/qt6/QtGui/qtguiglobal.h \
  /usr/include/qt6/QtGui/qtgui-config.h \
- /usr/include/qt6/QtGui/qtguiexports.h /usr/include/qt6/QtCore/QUrl \
- /usr/include/qt6/QtCore/qurl.h /usr/include/qt6/QtCore/QUrlQuery \
- /usr/include/qt6/QtCore/qurlquery.h \
- /usr/include/qt6/QtCore/qshareddata.h /usr/include/qt6/QtCore/qurl.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/diagnostic_manager.h \
+ /usr/include/qt6/QtGui/qtguiexports.h \
+ /usr/include/qt6/QtMultimedia/qtmultimedia-config.h \
+ /usr/include/qt6/QtMultimedia/qtmultimediaexports.h \
+ /usr/include/qt6/QtMultimedia/qtaudio.h \
+ /usr/include/qt6/QtMultimedia/qaudio.h \
+ /usr/include/qt6/QtMultimedia/qaudioformat.h \
+ /usr/include/qt6/QtCore/qshareddata.h \
+ /usr/include/qt6/QtMultimedia/qaudiodevice.h \
+ /usr/include/qt6/QtCore/QIODevice /usr/include/qt6/QtCore/qiodevice.h \
+ /usr/include/qt6/QtMultimedia/QAudioFormat \
+ /usr/include/qt6/QtMultimedia/qaudioformat.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/O2VQMWCWGM/../../../src/infrastructure/audio/../../domain/interfaces/i_audio_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/O2VQMWCWGM/../../../src/infrastructure/audio/../../domain/interfaces/../models/audio_data.h \
  /usr/include/qt6/QtCore/QString /usr/include/qt6/QtCore/qstring.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_diagnostic_provider.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/log_entry.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/models/log_entry.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/log_entry_model.h \
- /usr/include/qt6/QtCore/QAbstractListModel \
- /usr/include/qt6/QtCore/qabstractitemmodel.h \
- /usr/include/qt6/QtCore/qhash.h /usr/include/qt6/QtCore/qobject.h \
+ /usr/include/qt6/QtCore/qtmochelpers.h \
+ /usr/include/qt6/QtCore/qtmocconstants.h \
+ /usr/include/qt6/QtCore/q20algorithm.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/IXNFZ6QNBC/moc_installer_adapter.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/IXNFZ6QNBC/../../../src/infrastructure/collectors/installer_adapter.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/IXNFZ6QNBC/../../../src/infrastructure/collectors/../../domain/interfaces/i_installer.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/IXNFZ6QNBC/../../../src/infrastructure/collectors/../../domain/interfaces/../models/update_package.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/IXNFZ6QNBC/../../../src/infrastructure/collectors/../../domain/interfaces/i_interactive_runner.h \
+ /usr/include/qt6/QtCore/QStringList \
+ /usr/include/qt6/QtCore/qstringlist.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/IXNFZ6QNBC/moc_interactive_process_runner.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/IXNFZ6QNBC/../../../src/infrastructure/collectors/interactive_process_runner.h \
+ /usr/include/qt6/QtCore/QProcess /usr/include/qt6/QtCore/qprocess.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_audio_viewmodel.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/audio_viewmodel.h \
+ /usr/include/qt6/QtCore/QVariantList \
+ /usr/include/qt6/QtCore/qvariantlist.h /usr/include/qt6/QtCore/QList \
+ /usr/include/qt6/QtCore/qlist.h /usr/include/qt6/QtCore/QVariant \
  /usr/include/qt6/QtCore/qvariant.h /usr/include/qt6/QtCore/qdebug.h \
  /usr/include/qt6/QtCore/qtextstream.h \
  /usr/include/qt6/QtCore/qcontiguouscache.h \
@@ -353,15 +376,97 @@ CMakeFiles/unit_tests.dir/unit_tests_autogen/mocs_compilation.cpp.o: \
  /usr/include/c++/15/unordered_set \
  /usr/include/c++/15/bits/unordered_set.h /usr/include/qt6/QtCore/qmap.h \
  /usr/include/qt6/QtCore/qshareddata_impl.h \
- /usr/include/qt6/QtCore/qset.h /usr/include/qt6/QtCore/qvarlengtharray.h \
+ /usr/include/qt6/QtCore/qset.h /usr/include/qt6/QtCore/qhash.h \
+ /usr/include/qt6/QtCore/qvarlengtharray.h \
  /usr/include/qt6/QtCore/qalloc.h /usr/include/qt6/QtCore/q23utility.h \
  /usr/include/qt6/QtCore/q20utility.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_cpu_viewmodel.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/cpu_viewmodel.h \
+ /usr/include/qt6/QtCore/QTimer /usr/include/qt6/QtCore/qtimer.h \
+ /usr/include/qt6/QtCore/qbasictimer.h \
+ /usr/include/qt6/QtCore/qabstracteventdispatcher.h \
+ /usr/include/qt6/QtCore/qeventloop.h \
+ /usr/include/qt6/QtCore/qdeadlinetimer.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_cpu_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/cpu_stats.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/cpu_architecture.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_dev_stack_viewmodel.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/dev_stack_viewmodel.h \
+ /usr/include/qt6/QtCore/QVariantMap \
+ /usr/include/qt6/QtCore/qvariantmap.h /usr/include/qt6/QtCore/QMap \
+ /usr/include/qt6/QtCore/qmap.h /usr/include/qt6/QtCore/QString \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_dev_stack_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/dev_stack_info.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_diagnostic_viewmodel.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/diagnostic_viewmodel.h \
+ /usr/include/qt6/QtGui/QDesktopServices \
+ /usr/include/qt6/QtGui/qdesktopservices.h /usr/include/qt6/QtCore/QUrl \
+ /usr/include/qt6/QtCore/qurl.h /usr/include/qt6/QtCore/QUrlQuery \
+ /usr/include/qt6/QtCore/qurlquery.h /usr/include/qt6/QtCore/qurl.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/diagnostic_manager.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_diagnostic_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/log_entry.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/models/log_entry.h \
- /usr/include/qt6/QtCore/qtmochelpers.h \
- /usr/include/qt6/QtCore/qtmocconstants.h \
- /usr/include/qt6/QtCore/q20algorithm.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/log_entry_model.h \
+ /usr/include/qt6/QtCore/QAbstractListModel \
+ /usr/include/qt6/QtCore/qabstractitemmodel.h \
+ /usr/include/qt6/QtCore/qvariant.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/models/log_entry.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_export_viewmodel.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/export_viewmodel.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_export_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/report_data.h \
+ /usr/include/qt6/QtCore/QDateTime /usr/include/qt6/QtCore/qdatetime.h \
+ /usr/include/qt6/QtCore/qcalendar.h /usr/include/qt6/QtCore/qlocale.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../viewmodels/memory_viewmodel.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../viewmodels/../../domain/interfaces/i_memory_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../viewmodels/../../domain/interfaces/../models/memory_stats.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../viewmodels/system_info_viewmodel.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../viewmodels/../../domain/interfaces/i_system_info_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../viewmodels/../../domain/interfaces/../models/system_info.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../viewmodels/user_metadata_viewmodel.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../viewmodels/../../domain/interfaces/i_user_metadata_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../viewmodels/../../domain/interfaces/../models/user_metadata.h \
+ /usr/include/qt6/QtCore/QMap \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../viewmodels/hardware_viewmodel.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../viewmodels/../../domain/interfaces/i_hardware_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../viewmodels/../../domain/interfaces/../models/hardware_topology.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_firmware_viewmodel.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/firmware_viewmodel.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_firmware_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/firmware_device.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_gpu_viewmodel.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/gpu_viewmodel.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_gpu_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/gpu_stats.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../infrastructure/collectors/i_shell_executor.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_hardware_viewmodel.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_installation_viewmodel.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/installation_viewmodel.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_log_entry_model.cpp \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/log_entry_model.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_memory_viewmodel.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_network_viewmodel.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/network_viewmodel.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_network_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/network_stats.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_power_viewmodel.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/power_viewmodel.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_power_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/power_stats.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_process_viewmodel.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/process_viewmodel.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_process_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/process_info.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_service_viewmodel.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/service_viewmodel.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_service_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/service_info.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_storage_viewmodel.cpp \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/storage_viewmodel.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_storage_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/storage_stats.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_system_info_viewmodel.cpp \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_update_package_model.cpp \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/update_package_model.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/models/update_package.h \
@@ -371,6 +476,6 @@ CMakeFiles/unit_tests.dir/unit_tests_autogen/mocs_compilation.cpp.o: \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/update_manager.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_update_provider.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/../models/update_package.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/interfaces/i_installer.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/../../domain/models/update_package.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/update_package_model.h
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/../../../src/presentation/viewmodels/update_package_model.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/733YWV5LVE/moc_user_metadata_viewmodel.cpp

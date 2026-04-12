@@ -11,15 +11,24 @@ AudioViewModel::AudioViewModel(std::shared_ptr<domain::interfaces::IAudioProvide
 }
 
 void AudioViewModel::update_data(const domain::models::AudioData& data) {
-    // Reduzir resolução para o QML (ex: pegar a cada 10 amostras se for muito denso)
-    // Para visualização, 256 ou 512 pontos costumam ser suficientes.
-    QVariantList list;
-    int step = std::max(1, (int)data.waveform.size() / 256);
-    for (size_t i = 0; i < data.waveform.size(); i += step) {
-        list.append(data.waveform[i]);
+    // Reduzir resolução para o QML
+    QVariantList waveList;
+    int waveStep = std::max(1, (int)data.waveform.size() / 256);
+    for (size_t i = 0; i < data.waveform.size(); i += waveStep) {
+        waveList.append(data.waveform[i]);
     }
 
-    m_waveform = list;
+    QVariantList specList;
+    if (!data.spectrum.empty()) {
+        // Para o espectro, 128 barras costumam ser suficientes
+        int specStep = std::max(1, (int)data.spectrum.size() / 128);
+        for (size_t i = 0; i < data.spectrum.size(); i += specStep) {
+            specList.append(data.spectrum[i]);
+        }
+    }
+
+    m_waveform = waveList;
+    m_spectrum = specList;
     m_rms = data.rms;
     m_peak = data.peak;
     

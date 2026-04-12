@@ -334,4 +334,37 @@ CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_network_prov
  /usr/include/c++/15/bits/regex_compiler.tcc \
  /usr/include/c++/15/bits/regex.h /usr/include/c++/15/bits/regex.tcc \
  /usr/include/c++/15/bits/regex_executor.h \
- /usr/include/c++/15/bits/regex_executor.tcc /usr/include/c++/15/iostream
+ /usr/include/c++/15/bits/regex_executor.tcc /usr/include/c++/15/iostream \
+ /usr/include/qt6/QtCore/QRegularExpression \
+ /usr/include/qt6/QtCore/qregularexpression.h \
+ /usr/include/qt6/QtCore/qshareddata.h /usr/include/qt6/QtCore/qvariant.h \
+ /usr/include/qt6/QtCore/qmetatype.h \
+ /usr/include/qt6/QtCore/qdatastream.h \
+ /usr/include/qt6/QtCore/qiodevicebase.h \
+ /usr/include/qt6/QtCore/qscopedpointer.h \
+ /usr/include/qt6/QtCore/qfloat16.h /usr/include/qt6/QtCore/qmath.h \
+ /usr/include/qt6/QtCore/qtformat_impl.h \
+ /usr/include/qt6/QtCore/qiterable.h \
+ /usr/include/qt6/QtCore/qtaggedpointer.h \
+ /usr/include/qt6/QtCore/qmetacontainer.h \
+ /usr/include/qt6/QtCore/qcontainerinfo.h \
+ /usr/include/qt6/QtCore/qobjectdefs.h \
+ /usr/include/qt6/QtCore/qobjectdefs_impl.h \
+ /usr/include/qt6/QtCore/qfunctionaltools_impl.h \
+ /usr/include/qt6/QtCore/qscopeguard.h /usr/include/c++/15/list \
+ /usr/include/c++/15/bits/stl_list.h /usr/include/c++/15/bits/list.tcc \
+ /usr/include/qt6/QtCore/qdebug.h /usr/include/qt6/QtCore/qtextstream.h \
+ /usr/include/qt6/QtCore/qcontiguouscache.h \
+ /usr/include/qt6/QtCore/qsharedpointer.h \
+ /usr/include/qt6/QtCore/qsharedpointer_impl.h /usr/include/c++/15/set \
+ /usr/include/c++/15/bits/stl_set.h \
+ /usr/include/c++/15/bits/stl_multiset.h \
+ /usr/include/c++/15/unordered_set \
+ /usr/include/c++/15/bits/unordered_set.h /usr/include/qt6/QtCore/qmap.h \
+ /usr/include/qt6/QtCore/qshareddata_impl.h \
+ /usr/include/qt6/QtCore/qset.h /usr/include/qt6/QtCore/qhash.h \
+ /usr/include/qt6/QtCore/qvarlengtharray.h \
+ /usr/include/qt6/QtCore/qalloc.h /usr/include/qt6/QtCore/q23utility.h \
+ /usr/include/qt6/QtCore/q20utility.h /usr/include/qt6/QtCore/qobject.h \
+ /usr/include/qt6/QtCore/qobject_impl.h \
+ /usr/include/qt6/QtCore/qbindingstorage.h

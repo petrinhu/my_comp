@@ -44,6 +44,6 @@
 | T3 | Testes de Aceitação (ATDD) | Alta | Alta | ✅ | 2 suites passando. |
 | T4 | Análise Dinâmica (Valgrind/ASan) | Alta | Alta | ✅ | Valgrind zero erros. |
 | A3 | UI/UX e Acessibilidade (WCAG) | Média | Média | ✅ | Contraste AA Aprovado. |
-| A6 | Cobertura de Código (LCOV > 70%) | Média | Alta | 🟡 | Atual: 25.5%. |
+| A6 | Cobertura de Código (LCOV > 70%) | Média | Alta | ✅ | Atual: 70.8%. |
 | A9 | Análise Arquitetural (SOLID/SRP) | Alta | Alta | ✅ | Auditoria Final OK. |
 | A10 | Relatório Final de Auditoria | Alta | Baixa | ✅ | REPORTE_AUDITORIA.md. |

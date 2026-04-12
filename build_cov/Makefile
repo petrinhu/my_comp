@@ -522,6 +522,7 @@ src/infrastructure/audio/qt_audio_provider.o: src/infrastructure/audio/qt_audio_
 # target to build an object file
 src/infrastructure/audio/qt_audio_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/audio/qt_audio_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.o
 .PHONY : src/infrastructure/audio/qt_audio_provider.cpp.o
 
@@ -531,6 +532,7 @@ src/infrastructure/audio/qt_audio_provider.i: src/infrastructure/audio/qt_audio_
 # target to preprocess a source file
 src/infrastructure/audio/qt_audio_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/audio/qt_audio_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.i
 .PHONY : src/infrastructure/audio/qt_audio_provider.cpp.i
 
@@ -540,6 +542,7 @@ src/infrastructure/audio/qt_audio_provider.s: src/infrastructure/audio/qt_audio_
 # target to generate assembly for a file
 src/infrastructure/audio/qt_audio_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/audio/qt_audio_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/audio/qt_audio_provider.cpp.s
 .PHONY : src/infrastructure/audio/qt_audio_provider.cpp.s
 
@@ -549,6 +552,7 @@ src/infrastructure/collectors/apt_update_provider.o: src/infrastructure/collecto
 # target to build an object file
 src/infrastructure/collectors/apt_update_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/apt_update_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.o
 .PHONY : src/infrastructure/collectors/apt_update_provider.cpp.o
 
@@ -558,6 +562,7 @@ src/infrastructure/collectors/apt_update_provider.i: src/infrastructure/collecto
 # target to preprocess a source file
 src/infrastructure/collectors/apt_update_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/apt_update_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.i
 .PHONY : src/infrastructure/collectors/apt_update_provider.cpp.i
 
@@ -567,6 +572,7 @@ src/infrastructure/collectors/apt_update_provider.s: src/infrastructure/collecto
 # target to generate assembly for a file
 src/infrastructure/collectors/apt_update_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/apt_update_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/apt_update_provider.cpp.s
 .PHONY : src/infrastructure/collectors/apt_update_provider.cpp.s
 
@@ -576,6 +582,7 @@ src/infrastructure/collectors/cargo_update_provider.o: src/infrastructure/collec
 # target to build an object file
 src/infrastructure/collectors/cargo_update_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/cargo_update_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.o
 .PHONY : src/infrastructure/collectors/cargo_update_provider.cpp.o
 
@@ -585,6 +592,7 @@ src/infrastructure/collectors/cargo_update_provider.i: src/infrastructure/collec
 # target to preprocess a source file
 src/infrastructure/collectors/cargo_update_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/cargo_update_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.i
 .PHONY : src/infrastructure/collectors/cargo_update_provider.cpp.i
 
@@ -594,6 +602,7 @@ src/infrastructure/collectors/cargo_update_provider.s: src/infrastructure/collec
 # target to generate assembly for a file
 src/infrastructure/collectors/cargo_update_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/cargo_update_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/cargo_update_provider.cpp.s
 .PHONY : src/infrastructure/collectors/cargo_update_provider.cpp.s
 
@@ -603,6 +612,7 @@ src/infrastructure/collectors/dbus_firmware_provider.o: src/infrastructure/colle
 # target to build an object file
 src/infrastructure/collectors/dbus_firmware_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.o
 .PHONY : src/infrastructure/collectors/dbus_firmware_provider.cpp.o
 
@@ -612,6 +622,7 @@ src/infrastructure/collectors/dbus_firmware_provider.i: src/infrastructure/colle
 # target to preprocess a source file
 src/infrastructure/collectors/dbus_firmware_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.i
 .PHONY : src/infrastructure/collectors/dbus_firmware_provider.cpp.i
 
@@ -621,6 +632,7 @@ src/infrastructure/collectors/dbus_firmware_provider.s: src/infrastructure/colle
 # target to generate assembly for a file
 src/infrastructure/collectors/dbus_firmware_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/dbus_firmware_provider.cpp.s
 .PHONY : src/infrastructure/collectors/dbus_firmware_provider.cpp.s
 
@@ -630,6 +642,7 @@ src/infrastructure/collectors/installer_adapter.o: src/infrastructure/collectors
 # target to build an object file
 src/infrastructure/collectors/installer_adapter.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/installer_adapter.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.o
 .PHONY : src/infrastructure/collectors/installer_adapter.cpp.o
 
@@ -639,6 +652,7 @@ src/infrastructure/collectors/installer_adapter.i: src/infrastructure/collectors
 # target to preprocess a source file
 src/infrastructure/collectors/installer_adapter.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/installer_adapter.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.i
 .PHONY : src/infrastructure/collectors/installer_adapter.cpp.i
 
@@ -648,6 +662,7 @@ src/infrastructure/collectors/installer_adapter.s: src/infrastructure/collectors
 # target to generate assembly for a file
 src/infrastructure/collectors/installer_adapter.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/installer_adapter.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/installer_adapter.cpp.s
 .PHONY : src/infrastructure/collectors/installer_adapter.cpp.s
 
@@ -657,6 +672,7 @@ src/infrastructure/collectors/interactive_process_runner.o: src/infrastructure/c
 # target to build an object file
 src/infrastructure/collectors/interactive_process_runner.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/interactive_process_runner.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.o
 .PHONY : src/infrastructure/collectors/interactive_process_runner.cpp.o
 
@@ -666,6 +682,7 @@ src/infrastructure/collectors/interactive_process_runner.i: src/infrastructure/c
 # target to preprocess a source file
 src/infrastructure/collectors/interactive_process_runner.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/interactive_process_runner.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.i
 .PHONY : src/infrastructure/collectors/interactive_process_runner.cpp.i
 
@@ -675,6 +692,7 @@ src/infrastructure/collectors/interactive_process_runner.s: src/infrastructure/c
 # target to generate assembly for a file
 src/infrastructure/collectors/interactive_process_runner.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/interactive_process_runner.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/interactive_process_runner.cpp.s
 .PHONY : src/infrastructure/collectors/interactive_process_runner.cpp.s
 
@@ -684,6 +702,7 @@ src/infrastructure/collectors/linux_cpu_provider.o: src/infrastructure/collector
 # target to build an object file
 src/infrastructure/collectors/linux_cpu_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.o
 .PHONY : src/infrastructure/collectors/linux_cpu_provider.cpp.o
 
@@ -693,6 +712,7 @@ src/infrastructure/collectors/linux_cpu_provider.i: src/infrastructure/collector
 # target to preprocess a source file
 src/infrastructure/collectors/linux_cpu_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.i
 .PHONY : src/infrastructure/collectors/linux_cpu_provider.cpp.i
 
@@ -702,6 +722,7 @@ src/infrastructure/collectors/linux_cpu_provider.s: src/infrastructure/collector
 # target to generate assembly for a file
 src/infrastructure/collectors/linux_cpu_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_cpu_provider.cpp.s
 .PHONY : src/infrastructure/collectors/linux_cpu_provider.cpp.s
 
@@ -711,6 +732,7 @@ src/infrastructure/collectors/linux_dev_stack_provider.o: src/infrastructure/col
 # target to build an object file
 src/infrastructure/collectors/linux_dev_stack_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.o
 .PHONY : src/infrastructure/collectors/linux_dev_stack_provider.cpp.o
 
@@ -720,6 +742,7 @@ src/infrastructure/collectors/linux_dev_stack_provider.i: src/infrastructure/col
 # target to preprocess a source file
 src/infrastructure/collectors/linux_dev_stack_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.i
 .PHONY : src/infrastructure/collectors/linux_dev_stack_provider.cpp.i
 
@@ -729,6 +752,7 @@ src/infrastructure/collectors/linux_dev_stack_provider.s: src/infrastructure/col
 # target to generate assembly for a file
 src/infrastructure/collectors/linux_dev_stack_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_dev_stack_provider.cpp.s
 .PHONY : src/infrastructure/collectors/linux_dev_stack_provider.cpp.s
 
@@ -738,6 +762,7 @@ src/infrastructure/collectors/linux_hardware_provider.o: src/infrastructure/coll
 # target to build an object file
 src/infrastructure/collectors/linux_hardware_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.o
 .PHONY : src/infrastructure/collectors/linux_hardware_provider.cpp.o
 
@@ -747,6 +772,7 @@ src/infrastructure/collectors/linux_hardware_provider.i: src/infrastructure/coll
 # target to preprocess a source file
 src/infrastructure/collectors/linux_hardware_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.i
 .PHONY : src/infrastructure/collectors/linux_hardware_provider.cpp.i
 
@@ -756,6 +782,7 @@ src/infrastructure/collectors/linux_hardware_provider.s: src/infrastructure/coll
 # target to generate assembly for a file
 src/infrastructure/collectors/linux_hardware_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_hardware_provider.cpp.s
 .PHONY : src/infrastructure/collectors/linux_hardware_provider.cpp.s
 
@@ -795,6 +822,7 @@ src/infrastructure/collectors/linux_network_provider.o: src/infrastructure/colle
 # target to build an object file
 src/infrastructure/collectors/linux_network_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_network_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.o
 .PHONY : src/infrastructure/collectors/linux_network_provider.cpp.o
 
@@ -804,6 +832,7 @@ src/infrastructure/collectors/linux_network_provider.i: src/infrastructure/colle
 # target to preprocess a source file
 src/infrastructure/collectors/linux_network_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_network_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.i
 .PHONY : src/infrastructure/collectors/linux_network_provider.cpp.i
 
@@ -813,6 +842,7 @@ src/infrastructure/collectors/linux_network_provider.s: src/infrastructure/colle
 # target to generate assembly for a file
 src/infrastructure/collectors/linux_network_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_network_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_network_provider.cpp.s
 .PHONY : src/infrastructure/collectors/linux_network_provider.cpp.s
 
@@ -822,6 +852,7 @@ src/infrastructure/collectors/linux_power_provider.o: src/infrastructure/collect
 # target to build an object file
 src/infrastructure/collectors/linux_power_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_power_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.o
 .PHONY : src/infrastructure/collectors/linux_power_provider.cpp.o
 
@@ -831,6 +862,7 @@ src/infrastructure/collectors/linux_power_provider.i: src/infrastructure/collect
 # target to preprocess a source file
 src/infrastructure/collectors/linux_power_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_power_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.i
 .PHONY : src/infrastructure/collectors/linux_power_provider.cpp.i
 
@@ -840,6 +872,7 @@ src/infrastructure/collectors/linux_power_provider.s: src/infrastructure/collect
 # target to generate assembly for a file
 src/infrastructure/collectors/linux_power_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_power_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_power_provider.cpp.s
 .PHONY : src/infrastructure/collectors/linux_power_provider.cpp.s
 
@@ -849,6 +882,7 @@ src/infrastructure/collectors/linux_process_provider.o: src/infrastructure/colle
 # target to build an object file
 src/infrastructure/collectors/linux_process_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_process_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.o
 .PHONY : src/infrastructure/collectors/linux_process_provider.cpp.o
 
@@ -858,6 +892,7 @@ src/infrastructure/collectors/linux_process_provider.i: src/infrastructure/colle
 # target to preprocess a source file
 src/infrastructure/collectors/linux_process_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_process_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.i
 .PHONY : src/infrastructure/collectors/linux_process_provider.cpp.i
 
@@ -867,6 +902,7 @@ src/infrastructure/collectors/linux_process_provider.s: src/infrastructure/colle
 # target to generate assembly for a file
 src/infrastructure/collectors/linux_process_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_process_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_process_provider.cpp.s
 .PHONY : src/infrastructure/collectors/linux_process_provider.cpp.s
 
@@ -876,6 +912,7 @@ src/infrastructure/collectors/linux_storage_provider.o: src/infrastructure/colle
 # target to build an object file
 src/infrastructure/collectors/linux_storage_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_storage_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.o
 .PHONY : src/infrastructure/collectors/linux_storage_provider.cpp.o
 
@@ -885,6 +922,7 @@ src/infrastructure/collectors/linux_storage_provider.i: src/infrastructure/colle
 # target to preprocess a source file
 src/infrastructure/collectors/linux_storage_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_storage_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.i
 .PHONY : src/infrastructure/collectors/linux_storage_provider.cpp.i
 
@@ -894,6 +932,7 @@ src/infrastructure/collectors/linux_storage_provider.s: src/infrastructure/colle
 # target to generate assembly for a file
 src/infrastructure/collectors/linux_storage_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_storage_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_storage_provider.cpp.s
 .PHONY : src/infrastructure/collectors/linux_storage_provider.cpp.s
 
@@ -903,6 +942,7 @@ src/infrastructure/collectors/linux_system_info_provider.o: src/infrastructure/c
 # target to build an object file
 src/infrastructure/collectors/linux_system_info_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.o
 .PHONY : src/infrastructure/collectors/linux_system_info_provider.cpp.o
 
@@ -912,6 +952,7 @@ src/infrastructure/collectors/linux_system_info_provider.i: src/infrastructure/c
 # target to preprocess a source file
 src/infrastructure/collectors/linux_system_info_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.i
 .PHONY : src/infrastructure/collectors/linux_system_info_provider.cpp.i
 
@@ -921,6 +962,7 @@ src/infrastructure/collectors/linux_system_info_provider.s: src/infrastructure/c
 # target to generate assembly for a file
 src/infrastructure/collectors/linux_system_info_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/linux_system_info_provider.cpp.s
 .PHONY : src/infrastructure/collectors/linux_system_info_provider.cpp.s
 
@@ -960,6 +1002,7 @@ src/infrastructure/collectors/nvidia_gpu_provider.o: src/infrastructure/collecto
 # target to build an object file
 src/infrastructure/collectors/nvidia_gpu_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.o
 .PHONY : src/infrastructure/collectors/nvidia_gpu_provider.cpp.o
 
@@ -969,6 +1012,7 @@ src/infrastructure/collectors/nvidia_gpu_provider.i: src/infrastructure/collecto
 # target to preprocess a source file
 src/infrastructure/collectors/nvidia_gpu_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.i
 .PHONY : src/infrastructure/collectors/nvidia_gpu_provider.cpp.i
 
@@ -978,6 +1022,7 @@ src/infrastructure/collectors/nvidia_gpu_provider.s: src/infrastructure/collecto
 # target to generate assembly for a file
 src/infrastructure/collectors/nvidia_gpu_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/nvidia_gpu_provider.cpp.s
 .PHONY : src/infrastructure/collectors/nvidia_gpu_provider.cpp.s
 
@@ -987,6 +1032,7 @@ src/infrastructure/collectors/pacman_update_provider.o: src/infrastructure/colle
 # target to build an object file
 src/infrastructure/collectors/pacman_update_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/pacman_update_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.o
 .PHONY : src/infrastructure/collectors/pacman_update_provider.cpp.o
 
@@ -996,6 +1042,7 @@ src/infrastructure/collectors/pacman_update_provider.i: src/infrastructure/colle
 # target to preprocess a source file
 src/infrastructure/collectors/pacman_update_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/pacman_update_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.i
 .PHONY : src/infrastructure/collectors/pacman_update_provider.cpp.i
 
@@ -1005,6 +1052,7 @@ src/infrastructure/collectors/pacman_update_provider.s: src/infrastructure/colle
 # target to generate assembly for a file
 src/infrastructure/collectors/pacman_update_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/pacman_update_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/pacman_update_provider.cpp.s
 .PHONY : src/infrastructure/collectors/pacman_update_provider.cpp.s
 
@@ -1044,6 +1092,7 @@ src/infrastructure/collectors/snap_update_provider.o: src/infrastructure/collect
 # target to build an object file
 src/infrastructure/collectors/snap_update_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/snap_update_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.o
 .PHONY : src/infrastructure/collectors/snap_update_provider.cpp.o
 
@@ -1053,6 +1102,7 @@ src/infrastructure/collectors/snap_update_provider.i: src/infrastructure/collect
 # target to preprocess a source file
 src/infrastructure/collectors/snap_update_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/snap_update_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.i
 .PHONY : src/infrastructure/collectors/snap_update_provider.cpp.i
 
@@ -1062,6 +1112,7 @@ src/infrastructure/collectors/snap_update_provider.s: src/infrastructure/collect
 # target to generate assembly for a file
 src/infrastructure/collectors/snap_update_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/snap_update_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/snap_update_provider.cpp.s
 .PHONY : src/infrastructure/collectors/snap_update_provider.cpp.s
 
@@ -1071,6 +1122,7 @@ src/infrastructure/collectors/sysfs_gpu_provider.o: src/infrastructure/collector
 # target to build an object file
 src/infrastructure/collectors/sysfs_gpu_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.o
 .PHONY : src/infrastructure/collectors/sysfs_gpu_provider.cpp.o
 
@@ -1080,6 +1132,7 @@ src/infrastructure/collectors/sysfs_gpu_provider.i: src/infrastructure/collector
 # target to preprocess a source file
 src/infrastructure/collectors/sysfs_gpu_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.i
 .PHONY : src/infrastructure/collectors/sysfs_gpu_provider.cpp.i
 
@@ -1089,6 +1142,7 @@ src/infrastructure/collectors/sysfs_gpu_provider.s: src/infrastructure/collector
 # target to generate assembly for a file
 src/infrastructure/collectors/sysfs_gpu_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/sysfs_gpu_provider.cpp.s
 .PHONY : src/infrastructure/collectors/sysfs_gpu_provider.cpp.s
 
@@ -1098,6 +1152,7 @@ src/infrastructure/collectors/systemd_service_provider.o: src/infrastructure/col
 # target to build an object file
 src/infrastructure/collectors/systemd_service_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/systemd_service_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.o
 .PHONY : src/infrastructure/collectors/systemd_service_provider.cpp.o
 
@@ -1107,6 +1162,7 @@ src/infrastructure/collectors/systemd_service_provider.i: src/infrastructure/col
 # target to preprocess a source file
 src/infrastructure/collectors/systemd_service_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/systemd_service_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.i
 .PHONY : src/infrastructure/collectors/systemd_service_provider.cpp.i
 
@@ -1116,6 +1172,7 @@ src/infrastructure/collectors/systemd_service_provider.s: src/infrastructure/col
 # target to generate assembly for a file
 src/infrastructure/collectors/systemd_service_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/collectors/systemd_service_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/systemd_service_provider.cpp.s
 .PHONY : src/infrastructure/collectors/systemd_service_provider.cpp.s
 
@@ -1125,6 +1182,7 @@ src/infrastructure/exporters/html_export_provider.o: src/infrastructure/exporter
 # target to build an object file
 src/infrastructure/exporters/html_export_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/exporters/html_export_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.o
 .PHONY : src/infrastructure/exporters/html_export_provider.cpp.o
 
@@ -1134,6 +1192,7 @@ src/infrastructure/exporters/html_export_provider.i: src/infrastructure/exporter
 # target to preprocess a source file
 src/infrastructure/exporters/html_export_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/exporters/html_export_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.i
 .PHONY : src/infrastructure/exporters/html_export_provider.cpp.i
 
@@ -1143,6 +1202,7 @@ src/infrastructure/exporters/html_export_provider.s: src/infrastructure/exporter
 # target to generate assembly for a file
 src/infrastructure/exporters/html_export_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/exporters/html_export_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/exporters/html_export_provider.cpp.s
 .PHONY : src/infrastructure/exporters/html_export_provider.cpp.s
 
@@ -1152,6 +1212,7 @@ src/infrastructure/exporters/json_export_provider.o: src/infrastructure/exporter
 # target to build an object file
 src/infrastructure/exporters/json_export_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/exporters/json_export_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.o
 .PHONY : src/infrastructure/exporters/json_export_provider.cpp.o
 
@@ -1161,6 +1222,7 @@ src/infrastructure/exporters/json_export_provider.i: src/infrastructure/exporter
 # target to preprocess a source file
 src/infrastructure/exporters/json_export_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/exporters/json_export_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.i
 .PHONY : src/infrastructure/exporters/json_export_provider.cpp.i
 
@@ -1170,6 +1232,7 @@ src/infrastructure/exporters/json_export_provider.s: src/infrastructure/exporter
 # target to generate assembly for a file
 src/infrastructure/exporters/json_export_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/exporters/json_export_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/exporters/json_export_provider.cpp.s
 .PHONY : src/infrastructure/exporters/json_export_provider.cpp.s
 
@@ -1179,6 +1242,7 @@ src/infrastructure/exporters/markdown_export_provider.o: src/infrastructure/expo
 # target to build an object file
 src/infrastructure/exporters/markdown_export_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/exporters/markdown_export_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.o
 .PHONY : src/infrastructure/exporters/markdown_export_provider.cpp.o
 
@@ -1188,6 +1252,7 @@ src/infrastructure/exporters/markdown_export_provider.i: src/infrastructure/expo
 # target to preprocess a source file
 src/infrastructure/exporters/markdown_export_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/exporters/markdown_export_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.i
 .PHONY : src/infrastructure/exporters/markdown_export_provider.cpp.i
 
@@ -1197,6 +1262,7 @@ src/infrastructure/exporters/markdown_export_provider.s: src/infrastructure/expo
 # target to generate assembly for a file
 src/infrastructure/exporters/markdown_export_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/exporters/markdown_export_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/exporters/markdown_export_provider.cpp.s
 .PHONY : src/infrastructure/exporters/markdown_export_provider.cpp.s
 
@@ -1206,6 +1272,7 @@ src/infrastructure/security/openssl_vault.o: src/infrastructure/security/openssl
 # target to build an object file
 src/infrastructure/security/openssl_vault.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/security/openssl_vault.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/security/openssl_vault.cpp.o
 .PHONY : src/infrastructure/security/openssl_vault.cpp.o
 
@@ -1215,6 +1282,7 @@ src/infrastructure/security/openssl_vault.i: src/infrastructure/security/openssl
 # target to preprocess a source file
 src/infrastructure/security/openssl_vault.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/security/openssl_vault.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/security/openssl_vault.cpp.i
 .PHONY : src/infrastructure/security/openssl_vault.cpp.i
 
@@ -1224,6 +1292,7 @@ src/infrastructure/security/openssl_vault.s: src/infrastructure/security/openssl
 # target to generate assembly for a file
 src/infrastructure/security/openssl_vault.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/infrastructure/security/openssl_vault.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/infrastructure/security/openssl_vault.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/infrastructure/security/openssl_vault.cpp.s
 .PHONY : src/infrastructure/security/openssl_vault.cpp.s
 
@@ -1257,6 +1326,7 @@ src/presentation/viewmodels/audio_viewmodel.o: src/presentation/viewmodels/audio
 # target to build an object file
 src/presentation/viewmodels/audio_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/audio_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/audio_viewmodel.cpp.o
 
@@ -1266,6 +1336,7 @@ src/presentation/viewmodels/audio_viewmodel.i: src/presentation/viewmodels/audio
 # target to preprocess a source file
 src/presentation/viewmodels/audio_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/audio_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/audio_viewmodel.cpp.i
 
@@ -1275,6 +1346,7 @@ src/presentation/viewmodels/audio_viewmodel.s: src/presentation/viewmodels/audio
 # target to generate assembly for a file
 src/presentation/viewmodels/audio_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/audio_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/audio_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/audio_viewmodel.cpp.s
 
@@ -1284,6 +1356,7 @@ src/presentation/viewmodels/cpu_viewmodel.o: src/presentation/viewmodels/cpu_vie
 # target to build an object file
 src/presentation/viewmodels/cpu_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/cpu_viewmodel.cpp.o
 
@@ -1293,6 +1366,7 @@ src/presentation/viewmodels/cpu_viewmodel.i: src/presentation/viewmodels/cpu_vie
 # target to preprocess a source file
 src/presentation/viewmodels/cpu_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/cpu_viewmodel.cpp.i
 
@@ -1302,6 +1376,7 @@ src/presentation/viewmodels/cpu_viewmodel.s: src/presentation/viewmodels/cpu_vie
 # target to generate assembly for a file
 src/presentation/viewmodels/cpu_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/cpu_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/cpu_viewmodel.cpp.s
 
@@ -1311,6 +1386,7 @@ src/presentation/viewmodels/dev_stack_viewmodel.o: src/presentation/viewmodels/d
 # target to build an object file
 src/presentation/viewmodels/dev_stack_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/dev_stack_viewmodel.cpp.o
 
@@ -1320,6 +1396,7 @@ src/presentation/viewmodels/dev_stack_viewmodel.i: src/presentation/viewmodels/d
 # target to preprocess a source file
 src/presentation/viewmodels/dev_stack_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/dev_stack_viewmodel.cpp.i
 
@@ -1329,6 +1406,7 @@ src/presentation/viewmodels/dev_stack_viewmodel.s: src/presentation/viewmodels/d
 # target to generate assembly for a file
 src/presentation/viewmodels/dev_stack_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/dev_stack_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/dev_stack_viewmodel.cpp.s
 
@@ -1368,6 +1446,7 @@ src/presentation/viewmodels/export_viewmodel.o: src/presentation/viewmodels/expo
 # target to build an object file
 src/presentation/viewmodels/export_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/export_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/export_viewmodel.cpp.o
 
@@ -1377,6 +1456,7 @@ src/presentation/viewmodels/export_viewmodel.i: src/presentation/viewmodels/expo
 # target to preprocess a source file
 src/presentation/viewmodels/export_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/export_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/export_viewmodel.cpp.i
 
@@ -1386,6 +1466,7 @@ src/presentation/viewmodels/export_viewmodel.s: src/presentation/viewmodels/expo
 # target to generate assembly for a file
 src/presentation/viewmodels/export_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/export_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/export_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/export_viewmodel.cpp.s
 
@@ -1395,6 +1476,7 @@ src/presentation/viewmodels/firmware_viewmodel.o: src/presentation/viewmodels/fi
 # target to build an object file
 src/presentation/viewmodels/firmware_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/firmware_viewmodel.cpp.o
 
@@ -1404,6 +1486,7 @@ src/presentation/viewmodels/firmware_viewmodel.i: src/presentation/viewmodels/fi
 # target to preprocess a source file
 src/presentation/viewmodels/firmware_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/firmware_viewmodel.cpp.i
 
@@ -1413,6 +1496,7 @@ src/presentation/viewmodels/firmware_viewmodel.s: src/presentation/viewmodels/fi
 # target to generate assembly for a file
 src/presentation/viewmodels/firmware_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/firmware_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/firmware_viewmodel.cpp.s
 
@@ -1422,6 +1506,7 @@ src/presentation/viewmodels/gpu_viewmodel.o: src/presentation/viewmodels/gpu_vie
 # target to build an object file
 src/presentation/viewmodels/gpu_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/gpu_viewmodel.cpp.o
 
@@ -1431,6 +1516,7 @@ src/presentation/viewmodels/gpu_viewmodel.i: src/presentation/viewmodels/gpu_vie
 # target to preprocess a source file
 src/presentation/viewmodels/gpu_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/gpu_viewmodel.cpp.i
 
@@ -1440,6 +1526,7 @@ src/presentation/viewmodels/gpu_viewmodel.s: src/presentation/viewmodels/gpu_vie
 # target to generate assembly for a file
 src/presentation/viewmodels/gpu_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/gpu_viewmodel.cpp.s
 
@@ -1449,6 +1536,7 @@ src/presentation/viewmodels/hardware_viewmodel.o: src/presentation/viewmodels/ha
 # target to build an object file
 src/presentation/viewmodels/hardware_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/hardware_viewmodel.cpp.o
 
@@ -1458,6 +1546,7 @@ src/presentation/viewmodels/hardware_viewmodel.i: src/presentation/viewmodels/ha
 # target to preprocess a source file
 src/presentation/viewmodels/hardware_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/hardware_viewmodel.cpp.i
 
@@ -1467,6 +1556,7 @@ src/presentation/viewmodels/hardware_viewmodel.s: src/presentation/viewmodels/ha
 # target to generate assembly for a file
 src/presentation/viewmodels/hardware_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/hardware_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/hardware_viewmodel.cpp.s
 
@@ -1476,6 +1566,7 @@ src/presentation/viewmodels/installation_viewmodel.o: src/presentation/viewmodel
 # target to build an object file
 src/presentation/viewmodels/installation_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/installation_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/installation_viewmodel.cpp.o
 
@@ -1485,6 +1576,7 @@ src/presentation/viewmodels/installation_viewmodel.i: src/presentation/viewmodel
 # target to preprocess a source file
 src/presentation/viewmodels/installation_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/installation_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/installation_viewmodel.cpp.i
 
@@ -1494,6 +1586,7 @@ src/presentation/viewmodels/installation_viewmodel.s: src/presentation/viewmodel
 # target to generate assembly for a file
 src/presentation/viewmodels/installation_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/installation_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/installation_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/installation_viewmodel.cpp.s
 
@@ -1533,6 +1626,7 @@ src/presentation/viewmodels/memory_viewmodel.o: src/presentation/viewmodels/memo
 # target to build an object file
 src/presentation/viewmodels/memory_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/memory_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/memory_viewmodel.cpp.o
 
@@ -1542,6 +1636,7 @@ src/presentation/viewmodels/memory_viewmodel.i: src/presentation/viewmodels/memo
 # target to preprocess a source file
 src/presentation/viewmodels/memory_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/memory_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/memory_viewmodel.cpp.i
 
@@ -1551,6 +1646,7 @@ src/presentation/viewmodels/memory_viewmodel.s: src/presentation/viewmodels/memo
 # target to generate assembly for a file
 src/presentation/viewmodels/memory_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/memory_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/memory_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/memory_viewmodel.cpp.s
 
@@ -1560,6 +1656,7 @@ src/presentation/viewmodels/network_viewmodel.o: src/presentation/viewmodels/net
 # target to build an object file
 src/presentation/viewmodels/network_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/network_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/network_viewmodel.cpp.o
 
@@ -1569,6 +1666,7 @@ src/presentation/viewmodels/network_viewmodel.i: src/presentation/viewmodels/net
 # target to preprocess a source file
 src/presentation/viewmodels/network_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/network_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/network_viewmodel.cpp.i
 
@@ -1578,6 +1676,7 @@ src/presentation/viewmodels/network_viewmodel.s: src/presentation/viewmodels/net
 # target to generate assembly for a file
 src/presentation/viewmodels/network_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/network_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/network_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/network_viewmodel.cpp.s
 
@@ -1587,6 +1686,7 @@ src/presentation/viewmodels/power_viewmodel.o: src/presentation/viewmodels/power
 # target to build an object file
 src/presentation/viewmodels/power_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/power_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/power_viewmodel.cpp.o
 
@@ -1596,6 +1696,7 @@ src/presentation/viewmodels/power_viewmodel.i: src/presentation/viewmodels/power
 # target to preprocess a source file
 src/presentation/viewmodels/power_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/power_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/power_viewmodel.cpp.i
 
@@ -1605,6 +1706,7 @@ src/presentation/viewmodels/power_viewmodel.s: src/presentation/viewmodels/power
 # target to generate assembly for a file
 src/presentation/viewmodels/power_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/power_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/power_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/power_viewmodel.cpp.s
 
@@ -1614,6 +1716,7 @@ src/presentation/viewmodels/process_viewmodel.o: src/presentation/viewmodels/pro
 # target to build an object file
 src/presentation/viewmodels/process_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/process_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/process_viewmodel.cpp.o
 
@@ -1623,6 +1726,7 @@ src/presentation/viewmodels/process_viewmodel.i: src/presentation/viewmodels/pro
 # target to preprocess a source file
 src/presentation/viewmodels/process_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/process_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/process_viewmodel.cpp.i
 
@@ -1632,6 +1736,7 @@ src/presentation/viewmodels/process_viewmodel.s: src/presentation/viewmodels/pro
 # target to generate assembly for a file
 src/presentation/viewmodels/process_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/process_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/process_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/process_viewmodel.cpp.s
 
@@ -1641,6 +1746,7 @@ src/presentation/viewmodels/service_viewmodel.o: src/presentation/viewmodels/ser
 # target to build an object file
 src/presentation/viewmodels/service_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/service_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/service_viewmodel.cpp.o
 
@@ -1650,6 +1756,7 @@ src/presentation/viewmodels/service_viewmodel.i: src/presentation/viewmodels/ser
 # target to preprocess a source file
 src/presentation/viewmodels/service_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/service_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/service_viewmodel.cpp.i
 
@@ -1659,6 +1766,7 @@ src/presentation/viewmodels/service_viewmodel.s: src/presentation/viewmodels/ser
 # target to generate assembly for a file
 src/presentation/viewmodels/service_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/service_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/service_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/service_viewmodel.cpp.s
 
@@ -1668,6 +1776,7 @@ src/presentation/viewmodels/storage_viewmodel.o: src/presentation/viewmodels/sto
 # target to build an object file
 src/presentation/viewmodels/storage_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/storage_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/storage_viewmodel.cpp.o
 
@@ -1677,6 +1786,7 @@ src/presentation/viewmodels/storage_viewmodel.i: src/presentation/viewmodels/sto
 # target to preprocess a source file
 src/presentation/viewmodels/storage_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/storage_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/storage_viewmodel.cpp.i
 
@@ -1686,6 +1796,7 @@ src/presentation/viewmodels/storage_viewmodel.s: src/presentation/viewmodels/sto
 # target to generate assembly for a file
 src/presentation/viewmodels/storage_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/storage_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/storage_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/storage_viewmodel.cpp.s
 
@@ -1695,6 +1806,7 @@ src/presentation/viewmodels/system_info_viewmodel.o: src/presentation/viewmodels
 # target to build an object file
 src/presentation/viewmodels/system_info_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/system_info_viewmodel.cpp.o
 
@@ -1704,6 +1816,7 @@ src/presentation/viewmodels/system_info_viewmodel.i: src/presentation/viewmodels
 # target to preprocess a source file
 src/presentation/viewmodels/system_info_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/system_info_viewmodel.cpp.i
 
@@ -1713,6 +1826,7 @@ src/presentation/viewmodels/system_info_viewmodel.s: src/presentation/viewmodels
 # target to generate assembly for a file
 src/presentation/viewmodels/system_info_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/system_info_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/system_info_viewmodel.cpp.s
 
@@ -1782,6 +1896,7 @@ src/presentation/viewmodels/user_metadata_viewmodel.o: src/presentation/viewmode
 # target to build an object file
 src/presentation/viewmodels/user_metadata_viewmodel.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.o
 .PHONY : src/presentation/viewmodels/user_metadata_viewmodel.cpp.o
 
@@ -1791,6 +1906,7 @@ src/presentation/viewmodels/user_metadata_viewmodel.i: src/presentation/viewmode
 # target to preprocess a source file
 src/presentation/viewmodels/user_metadata_viewmodel.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.i
 .PHONY : src/presentation/viewmodels/user_metadata_viewmodel.cpp.i
 
@@ -1800,6 +1916,7 @@ src/presentation/viewmodels/user_metadata_viewmodel.s: src/presentation/viewmode
 # target to generate assembly for a file
 src/presentation/viewmodels/user_metadata_viewmodel.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/my_comp.dir/build.make CMakeFiles/my_comp.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/src/presentation/viewmodels/user_metadata_viewmodel.cpp.s
 .PHONY : src/presentation/viewmodels/user_metadata_viewmodel.cpp.s
 
@@ -2259,6 +2376,78 @@ tests/acceptance/user_metadata_test.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/acceptance_tests.dir/build.make CMakeFiles/acceptance_tests.dir/tests/acceptance/user_metadata_test.cpp.s
 .PHONY : tests/acceptance/user_metadata_test.cpp.s
 
+tests/unit/apt_update_provider_test.o: tests/unit/apt_update_provider_test.cpp.o
+.PHONY : tests/unit/apt_update_provider_test.o
+
+# target to build an object file
+tests/unit/apt_update_provider_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.o
+.PHONY : tests/unit/apt_update_provider_test.cpp.o
+
+tests/unit/apt_update_provider_test.i: tests/unit/apt_update_provider_test.cpp.i
+.PHONY : tests/unit/apt_update_provider_test.i
+
+# target to preprocess a source file
+tests/unit/apt_update_provider_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.i
+.PHONY : tests/unit/apt_update_provider_test.cpp.i
+
+tests/unit/apt_update_provider_test.s: tests/unit/apt_update_provider_test.cpp.s
+.PHONY : tests/unit/apt_update_provider_test.s
+
+# target to generate assembly for a file
+tests/unit/apt_update_provider_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/apt_update_provider_test.cpp.s
+.PHONY : tests/unit/apt_update_provider_test.cpp.s
+
+tests/unit/cargo_update_provider_test.o: tests/unit/cargo_update_provider_test.cpp.o
+.PHONY : tests/unit/cargo_update_provider_test.o
+
+# target to build an object file
+tests/unit/cargo_update_provider_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.o
+.PHONY : tests/unit/cargo_update_provider_test.cpp.o
+
+tests/unit/cargo_update_provider_test.i: tests/unit/cargo_update_provider_test.cpp.i
+.PHONY : tests/unit/cargo_update_provider_test.i
+
+# target to preprocess a source file
+tests/unit/cargo_update_provider_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.i
+.PHONY : tests/unit/cargo_update_provider_test.cpp.i
+
+tests/unit/cargo_update_provider_test.s: tests/unit/cargo_update_provider_test.cpp.s
+.PHONY : tests/unit/cargo_update_provider_test.s
+
+# target to generate assembly for a file
+tests/unit/cargo_update_provider_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/cargo_update_provider_test.cpp.s
+.PHONY : tests/unit/cargo_update_provider_test.cpp.s
+
+tests/unit/cpu_viewmodel_test.o: tests/unit/cpu_viewmodel_test.cpp.o
+.PHONY : tests/unit/cpu_viewmodel_test.o
+
+# target to build an object file
+tests/unit/cpu_viewmodel_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.o
+.PHONY : tests/unit/cpu_viewmodel_test.cpp.o
+
+tests/unit/cpu_viewmodel_test.i: tests/unit/cpu_viewmodel_test.cpp.i
+.PHONY : tests/unit/cpu_viewmodel_test.i
+
+# target to preprocess a source file
+tests/unit/cpu_viewmodel_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.i
+.PHONY : tests/unit/cpu_viewmodel_test.cpp.i
+
+tests/unit/cpu_viewmodel_test.s: tests/unit/cpu_viewmodel_test.cpp.s
+.PHONY : tests/unit/cpu_viewmodel_test.s
+
+# target to generate assembly for a file
+tests/unit/cpu_viewmodel_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/cpu_viewmodel_test.cpp.s
+.PHONY : tests/unit/cpu_viewmodel_test.cpp.s
+
 tests/unit/diagnostic_viewmodel_test.o: tests/unit/diagnostic_viewmodel_test.cpp.o
 .PHONY : tests/unit/diagnostic_viewmodel_test.o
 
@@ -2307,6 +2496,78 @@ tests/unit/dnf_update_provider_test.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/dnf_update_provider_test.cpp.s
 .PHONY : tests/unit/dnf_update_provider_test.cpp.s
 
+tests/unit/export_viewmodel_test.o: tests/unit/export_viewmodel_test.cpp.o
+.PHONY : tests/unit/export_viewmodel_test.o
+
+# target to build an object file
+tests/unit/export_viewmodel_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.o
+.PHONY : tests/unit/export_viewmodel_test.cpp.o
+
+tests/unit/export_viewmodel_test.i: tests/unit/export_viewmodel_test.cpp.i
+.PHONY : tests/unit/export_viewmodel_test.i
+
+# target to preprocess a source file
+tests/unit/export_viewmodel_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.i
+.PHONY : tests/unit/export_viewmodel_test.cpp.i
+
+tests/unit/export_viewmodel_test.s: tests/unit/export_viewmodel_test.cpp.s
+.PHONY : tests/unit/export_viewmodel_test.s
+
+# target to generate assembly for a file
+tests/unit/export_viewmodel_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/export_viewmodel_test.cpp.s
+.PHONY : tests/unit/export_viewmodel_test.cpp.s
+
+tests/unit/exporters_test.o: tests/unit/exporters_test.cpp.o
+.PHONY : tests/unit/exporters_test.o
+
+# target to build an object file
+tests/unit/exporters_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.o
+.PHONY : tests/unit/exporters_test.cpp.o
+
+tests/unit/exporters_test.i: tests/unit/exporters_test.cpp.i
+.PHONY : tests/unit/exporters_test.i
+
+# target to preprocess a source file
+tests/unit/exporters_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.i
+.PHONY : tests/unit/exporters_test.cpp.i
+
+tests/unit/exporters_test.s: tests/unit/exporters_test.cpp.s
+.PHONY : tests/unit/exporters_test.s
+
+# target to generate assembly for a file
+tests/unit/exporters_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/exporters_test.cpp.s
+.PHONY : tests/unit/exporters_test.cpp.s
+
+tests/unit/final_viewmodels_test.o: tests/unit/final_viewmodels_test.cpp.o
+.PHONY : tests/unit/final_viewmodels_test.o
+
+# target to build an object file
+tests/unit/final_viewmodels_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.o
+.PHONY : tests/unit/final_viewmodels_test.cpp.o
+
+tests/unit/final_viewmodels_test.i: tests/unit/final_viewmodels_test.cpp.i
+.PHONY : tests/unit/final_viewmodels_test.i
+
+# target to preprocess a source file
+tests/unit/final_viewmodels_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.i
+.PHONY : tests/unit/final_viewmodels_test.cpp.i
+
+tests/unit/final_viewmodels_test.s: tests/unit/final_viewmodels_test.cpp.s
+.PHONY : tests/unit/final_viewmodels_test.s
+
+# target to generate assembly for a file
+tests/unit/final_viewmodels_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/final_viewmodels_test.cpp.s
+.PHONY : tests/unit/final_viewmodels_test.cpp.s
+
 tests/unit/flatpak_update_provider_test.o: tests/unit/flatpak_update_provider_test.cpp.o
 .PHONY : tests/unit/flatpak_update_provider_test.o
 
@@ -2330,6 +2591,30 @@ tests/unit/flatpak_update_provider_test.s: tests/unit/flatpak_update_provider_te
 tests/unit/flatpak_update_provider_test.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/flatpak_update_provider_test.cpp.s
 .PHONY : tests/unit/flatpak_update_provider_test.cpp.s
+
+tests/unit/gpu_viewmodel_test.o: tests/unit/gpu_viewmodel_test.cpp.o
+.PHONY : tests/unit/gpu_viewmodel_test.o
+
+# target to build an object file
+tests/unit/gpu_viewmodel_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.o
+.PHONY : tests/unit/gpu_viewmodel_test.cpp.o
+
+tests/unit/gpu_viewmodel_test.i: tests/unit/gpu_viewmodel_test.cpp.i
+.PHONY : tests/unit/gpu_viewmodel_test.i
+
+# target to preprocess a source file
+tests/unit/gpu_viewmodel_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.i
+.PHONY : tests/unit/gpu_viewmodel_test.cpp.i
+
+tests/unit/gpu_viewmodel_test.s: tests/unit/gpu_viewmodel_test.cpp.s
+.PHONY : tests/unit/gpu_viewmodel_test.s
+
+# target to generate assembly for a file
+tests/unit/gpu_viewmodel_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/gpu_viewmodel_test.cpp.s
+.PHONY : tests/unit/gpu_viewmodel_test.cpp.s
 
 tests/unit/journal_provider_test.o: tests/unit/journal_provider_test.cpp.o
 .PHONY : tests/unit/journal_provider_test.o
@@ -2355,6 +2640,222 @@ tests/unit/journal_provider_test.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/journal_provider_test.cpp.s
 .PHONY : tests/unit/journal_provider_test.cpp.s
 
+tests/unit/linux_cpu_provider_test.o: tests/unit/linux_cpu_provider_test.cpp.o
+.PHONY : tests/unit/linux_cpu_provider_test.o
+
+# target to build an object file
+tests/unit/linux_cpu_provider_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.o
+.PHONY : tests/unit/linux_cpu_provider_test.cpp.o
+
+tests/unit/linux_cpu_provider_test.i: tests/unit/linux_cpu_provider_test.cpp.i
+.PHONY : tests/unit/linux_cpu_provider_test.i
+
+# target to preprocess a source file
+tests/unit/linux_cpu_provider_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.i
+.PHONY : tests/unit/linux_cpu_provider_test.cpp.i
+
+tests/unit/linux_cpu_provider_test.s: tests/unit/linux_cpu_provider_test.cpp.s
+.PHONY : tests/unit/linux_cpu_provider_test.s
+
+# target to generate assembly for a file
+tests/unit/linux_cpu_provider_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_cpu_provider_test.cpp.s
+.PHONY : tests/unit/linux_cpu_provider_test.cpp.s
+
+tests/unit/linux_dev_stack_provider_test.o: tests/unit/linux_dev_stack_provider_test.cpp.o
+.PHONY : tests/unit/linux_dev_stack_provider_test.o
+
+# target to build an object file
+tests/unit/linux_dev_stack_provider_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.o
+.PHONY : tests/unit/linux_dev_stack_provider_test.cpp.o
+
+tests/unit/linux_dev_stack_provider_test.i: tests/unit/linux_dev_stack_provider_test.cpp.i
+.PHONY : tests/unit/linux_dev_stack_provider_test.i
+
+# target to preprocess a source file
+tests/unit/linux_dev_stack_provider_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.i
+.PHONY : tests/unit/linux_dev_stack_provider_test.cpp.i
+
+tests/unit/linux_dev_stack_provider_test.s: tests/unit/linux_dev_stack_provider_test.cpp.s
+.PHONY : tests/unit/linux_dev_stack_provider_test.s
+
+# target to generate assembly for a file
+tests/unit/linux_dev_stack_provider_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_dev_stack_provider_test.cpp.s
+.PHONY : tests/unit/linux_dev_stack_provider_test.cpp.s
+
+tests/unit/linux_hardware_provider_test.o: tests/unit/linux_hardware_provider_test.cpp.o
+.PHONY : tests/unit/linux_hardware_provider_test.o
+
+# target to build an object file
+tests/unit/linux_hardware_provider_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.o
+.PHONY : tests/unit/linux_hardware_provider_test.cpp.o
+
+tests/unit/linux_hardware_provider_test.i: tests/unit/linux_hardware_provider_test.cpp.i
+.PHONY : tests/unit/linux_hardware_provider_test.i
+
+# target to preprocess a source file
+tests/unit/linux_hardware_provider_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.i
+.PHONY : tests/unit/linux_hardware_provider_test.cpp.i
+
+tests/unit/linux_hardware_provider_test.s: tests/unit/linux_hardware_provider_test.cpp.s
+.PHONY : tests/unit/linux_hardware_provider_test.s
+
+# target to generate assembly for a file
+tests/unit/linux_hardware_provider_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_hardware_provider_test.cpp.s
+.PHONY : tests/unit/linux_hardware_provider_test.cpp.s
+
+tests/unit/linux_network_provider_test.o: tests/unit/linux_network_provider_test.cpp.o
+.PHONY : tests/unit/linux_network_provider_test.o
+
+# target to build an object file
+tests/unit/linux_network_provider_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.o
+.PHONY : tests/unit/linux_network_provider_test.cpp.o
+
+tests/unit/linux_network_provider_test.i: tests/unit/linux_network_provider_test.cpp.i
+.PHONY : tests/unit/linux_network_provider_test.i
+
+# target to preprocess a source file
+tests/unit/linux_network_provider_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.i
+.PHONY : tests/unit/linux_network_provider_test.cpp.i
+
+tests/unit/linux_network_provider_test.s: tests/unit/linux_network_provider_test.cpp.s
+.PHONY : tests/unit/linux_network_provider_test.s
+
+# target to generate assembly for a file
+tests/unit/linux_network_provider_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_network_provider_test.cpp.s
+.PHONY : tests/unit/linux_network_provider_test.cpp.s
+
+tests/unit/linux_power_provider_test.o: tests/unit/linux_power_provider_test.cpp.o
+.PHONY : tests/unit/linux_power_provider_test.o
+
+# target to build an object file
+tests/unit/linux_power_provider_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.o
+.PHONY : tests/unit/linux_power_provider_test.cpp.o
+
+tests/unit/linux_power_provider_test.i: tests/unit/linux_power_provider_test.cpp.i
+.PHONY : tests/unit/linux_power_provider_test.i
+
+# target to preprocess a source file
+tests/unit/linux_power_provider_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.i
+.PHONY : tests/unit/linux_power_provider_test.cpp.i
+
+tests/unit/linux_power_provider_test.s: tests/unit/linux_power_provider_test.cpp.s
+.PHONY : tests/unit/linux_power_provider_test.s
+
+# target to generate assembly for a file
+tests/unit/linux_power_provider_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_power_provider_test.cpp.s
+.PHONY : tests/unit/linux_power_provider_test.cpp.s
+
+tests/unit/linux_process_provider_test.o: tests/unit/linux_process_provider_test.cpp.o
+.PHONY : tests/unit/linux_process_provider_test.o
+
+# target to build an object file
+tests/unit/linux_process_provider_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.o
+.PHONY : tests/unit/linux_process_provider_test.cpp.o
+
+tests/unit/linux_process_provider_test.i: tests/unit/linux_process_provider_test.cpp.i
+.PHONY : tests/unit/linux_process_provider_test.i
+
+# target to preprocess a source file
+tests/unit/linux_process_provider_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.i
+.PHONY : tests/unit/linux_process_provider_test.cpp.i
+
+tests/unit/linux_process_provider_test.s: tests/unit/linux_process_provider_test.cpp.s
+.PHONY : tests/unit/linux_process_provider_test.s
+
+# target to generate assembly for a file
+tests/unit/linux_process_provider_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_process_provider_test.cpp.s
+.PHONY : tests/unit/linux_process_provider_test.cpp.s
+
+tests/unit/linux_storage_provider_test.o: tests/unit/linux_storage_provider_test.cpp.o
+.PHONY : tests/unit/linux_storage_provider_test.o
+
+# target to build an object file
+tests/unit/linux_storage_provider_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.o
+.PHONY : tests/unit/linux_storage_provider_test.cpp.o
+
+tests/unit/linux_storage_provider_test.i: tests/unit/linux_storage_provider_test.cpp.i
+.PHONY : tests/unit/linux_storage_provider_test.i
+
+# target to preprocess a source file
+tests/unit/linux_storage_provider_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.i
+.PHONY : tests/unit/linux_storage_provider_test.cpp.i
+
+tests/unit/linux_storage_provider_test.s: tests/unit/linux_storage_provider_test.cpp.s
+.PHONY : tests/unit/linux_storage_provider_test.s
+
+# target to generate assembly for a file
+tests/unit/linux_storage_provider_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_storage_provider_test.cpp.s
+.PHONY : tests/unit/linux_storage_provider_test.cpp.s
+
+tests/unit/linux_system_info_provider_test.o: tests/unit/linux_system_info_provider_test.cpp.o
+.PHONY : tests/unit/linux_system_info_provider_test.o
+
+# target to build an object file
+tests/unit/linux_system_info_provider_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.o
+.PHONY : tests/unit/linux_system_info_provider_test.cpp.o
+
+tests/unit/linux_system_info_provider_test.i: tests/unit/linux_system_info_provider_test.cpp.i
+.PHONY : tests/unit/linux_system_info_provider_test.i
+
+# target to preprocess a source file
+tests/unit/linux_system_info_provider_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.i
+.PHONY : tests/unit/linux_system_info_provider_test.cpp.i
+
+tests/unit/linux_system_info_provider_test.s: tests/unit/linux_system_info_provider_test.cpp.s
+.PHONY : tests/unit/linux_system_info_provider_test.s
+
+# target to generate assembly for a file
+tests/unit/linux_system_info_provider_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/linux_system_info_provider_test.cpp.s
+.PHONY : tests/unit/linux_system_info_provider_test.cpp.s
+
+tests/unit/managers_test.o: tests/unit/managers_test.cpp.o
+.PHONY : tests/unit/managers_test.o
+
+# target to build an object file
+tests/unit/managers_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.o
+.PHONY : tests/unit/managers_test.cpp.o
+
+tests/unit/managers_test.i: tests/unit/managers_test.cpp.i
+.PHONY : tests/unit/managers_test.i
+
+# target to preprocess a source file
+tests/unit/managers_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.i
+.PHONY : tests/unit/managers_test.cpp.i
+
+tests/unit/managers_test.s: tests/unit/managers_test.cpp.s
+.PHONY : tests/unit/managers_test.s
+
+# target to generate assembly for a file
+tests/unit/managers_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/managers_test.cpp.s
+.PHONY : tests/unit/managers_test.cpp.s
+
 tests/unit/memory_provider_test.o: tests/unit/memory_provider_test.cpp.o
 .PHONY : tests/unit/memory_provider_test.o
 
@@ -2378,6 +2879,78 @@ tests/unit/memory_provider_test.s: tests/unit/memory_provider_test.cpp.s
 tests/unit/memory_provider_test.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/memory_provider_test.cpp.s
 .PHONY : tests/unit/memory_provider_test.cpp.s
+
+tests/unit/memory_viewmodel_test.o: tests/unit/memory_viewmodel_test.cpp.o
+.PHONY : tests/unit/memory_viewmodel_test.o
+
+# target to build an object file
+tests/unit/memory_viewmodel_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.o
+.PHONY : tests/unit/memory_viewmodel_test.cpp.o
+
+tests/unit/memory_viewmodel_test.i: tests/unit/memory_viewmodel_test.cpp.i
+.PHONY : tests/unit/memory_viewmodel_test.i
+
+# target to preprocess a source file
+tests/unit/memory_viewmodel_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.i
+.PHONY : tests/unit/memory_viewmodel_test.cpp.i
+
+tests/unit/memory_viewmodel_test.s: tests/unit/memory_viewmodel_test.cpp.s
+.PHONY : tests/unit/memory_viewmodel_test.s
+
+# target to generate assembly for a file
+tests/unit/memory_viewmodel_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/memory_viewmodel_test.cpp.s
+.PHONY : tests/unit/memory_viewmodel_test.cpp.s
+
+tests/unit/more_viewmodels_test.o: tests/unit/more_viewmodels_test.cpp.o
+.PHONY : tests/unit/more_viewmodels_test.o
+
+# target to build an object file
+tests/unit/more_viewmodels_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.o
+.PHONY : tests/unit/more_viewmodels_test.cpp.o
+
+tests/unit/more_viewmodels_test.i: tests/unit/more_viewmodels_test.cpp.i
+.PHONY : tests/unit/more_viewmodels_test.i
+
+# target to preprocess a source file
+tests/unit/more_viewmodels_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.i
+.PHONY : tests/unit/more_viewmodels_test.cpp.i
+
+tests/unit/more_viewmodels_test.s: tests/unit/more_viewmodels_test.cpp.s
+.PHONY : tests/unit/more_viewmodels_test.s
+
+# target to generate assembly for a file
+tests/unit/more_viewmodels_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/more_viewmodels_test.cpp.s
+.PHONY : tests/unit/more_viewmodels_test.cpp.s
+
+tests/unit/network_viewmodel_test.o: tests/unit/network_viewmodel_test.cpp.o
+.PHONY : tests/unit/network_viewmodel_test.o
+
+# target to build an object file
+tests/unit/network_viewmodel_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.o
+.PHONY : tests/unit/network_viewmodel_test.cpp.o
+
+tests/unit/network_viewmodel_test.i: tests/unit/network_viewmodel_test.cpp.i
+.PHONY : tests/unit/network_viewmodel_test.i
+
+# target to preprocess a source file
+tests/unit/network_viewmodel_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.i
+.PHONY : tests/unit/network_viewmodel_test.cpp.i
+
+tests/unit/network_viewmodel_test.s: tests/unit/network_viewmodel_test.cpp.s
+.PHONY : tests/unit/network_viewmodel_test.s
+
+# target to generate assembly for a file
+tests/unit/network_viewmodel_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/network_viewmodel_test.cpp.s
+.PHONY : tests/unit/network_viewmodel_test.cpp.s
 
 tests/unit/npm_update_provider_test.o: tests/unit/npm_update_provider_test.cpp.o
 .PHONY : tests/unit/npm_update_provider_test.o
@@ -2403,6 +2976,78 @@ tests/unit/npm_update_provider_test.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/npm_update_provider_test.cpp.s
 .PHONY : tests/unit/npm_update_provider_test.cpp.s
 
+tests/unit/nvidia_gpu_provider_test.o: tests/unit/nvidia_gpu_provider_test.cpp.o
+.PHONY : tests/unit/nvidia_gpu_provider_test.o
+
+# target to build an object file
+tests/unit/nvidia_gpu_provider_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.o
+.PHONY : tests/unit/nvidia_gpu_provider_test.cpp.o
+
+tests/unit/nvidia_gpu_provider_test.i: tests/unit/nvidia_gpu_provider_test.cpp.i
+.PHONY : tests/unit/nvidia_gpu_provider_test.i
+
+# target to preprocess a source file
+tests/unit/nvidia_gpu_provider_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.i
+.PHONY : tests/unit/nvidia_gpu_provider_test.cpp.i
+
+tests/unit/nvidia_gpu_provider_test.s: tests/unit/nvidia_gpu_provider_test.cpp.s
+.PHONY : tests/unit/nvidia_gpu_provider_test.s
+
+# target to generate assembly for a file
+tests/unit/nvidia_gpu_provider_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/nvidia_gpu_provider_test.cpp.s
+.PHONY : tests/unit/nvidia_gpu_provider_test.cpp.s
+
+tests/unit/openssl_vault_test.o: tests/unit/openssl_vault_test.cpp.o
+.PHONY : tests/unit/openssl_vault_test.o
+
+# target to build an object file
+tests/unit/openssl_vault_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.o
+.PHONY : tests/unit/openssl_vault_test.cpp.o
+
+tests/unit/openssl_vault_test.i: tests/unit/openssl_vault_test.cpp.i
+.PHONY : tests/unit/openssl_vault_test.i
+
+# target to preprocess a source file
+tests/unit/openssl_vault_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.i
+.PHONY : tests/unit/openssl_vault_test.cpp.i
+
+tests/unit/openssl_vault_test.s: tests/unit/openssl_vault_test.cpp.s
+.PHONY : tests/unit/openssl_vault_test.s
+
+# target to generate assembly for a file
+tests/unit/openssl_vault_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/openssl_vault_test.cpp.s
+.PHONY : tests/unit/openssl_vault_test.cpp.s
+
+tests/unit/pacman_update_provider_test.o: tests/unit/pacman_update_provider_test.cpp.o
+.PHONY : tests/unit/pacman_update_provider_test.o
+
+# target to build an object file
+tests/unit/pacman_update_provider_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.o
+.PHONY : tests/unit/pacman_update_provider_test.cpp.o
+
+tests/unit/pacman_update_provider_test.i: tests/unit/pacman_update_provider_test.cpp.i
+.PHONY : tests/unit/pacman_update_provider_test.i
+
+# target to preprocess a source file
+tests/unit/pacman_update_provider_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.i
+.PHONY : tests/unit/pacman_update_provider_test.cpp.i
+
+tests/unit/pacman_update_provider_test.s: tests/unit/pacman_update_provider_test.cpp.s
+.PHONY : tests/unit/pacman_update_provider_test.s
+
+# target to generate assembly for a file
+tests/unit/pacman_update_provider_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/pacman_update_provider_test.cpp.s
+.PHONY : tests/unit/pacman_update_provider_test.cpp.s
+
 tests/unit/placeholder_test.o: tests/unit/placeholder_test.cpp.o
 .PHONY : tests/unit/placeholder_test.o
 
@@ -2426,6 +3071,102 @@ tests/unit/placeholder_test.s: tests/unit/placeholder_test.cpp.s
 tests/unit/placeholder_test.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/placeholder_test.cpp.s
 .PHONY : tests/unit/placeholder_test.cpp.s
+
+tests/unit/power_viewmodel_test.o: tests/unit/power_viewmodel_test.cpp.o
+.PHONY : tests/unit/power_viewmodel_test.o
+
+# target to build an object file
+tests/unit/power_viewmodel_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.o
+.PHONY : tests/unit/power_viewmodel_test.cpp.o
+
+tests/unit/power_viewmodel_test.i: tests/unit/power_viewmodel_test.cpp.i
+.PHONY : tests/unit/power_viewmodel_test.i
+
+# target to preprocess a source file
+tests/unit/power_viewmodel_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.i
+.PHONY : tests/unit/power_viewmodel_test.cpp.i
+
+tests/unit/power_viewmodel_test.s: tests/unit/power_viewmodel_test.cpp.s
+.PHONY : tests/unit/power_viewmodel_test.s
+
+# target to generate assembly for a file
+tests/unit/power_viewmodel_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/power_viewmodel_test.cpp.s
+.PHONY : tests/unit/power_viewmodel_test.cpp.s
+
+tests/unit/snap_update_provider_test.o: tests/unit/snap_update_provider_test.cpp.o
+.PHONY : tests/unit/snap_update_provider_test.o
+
+# target to build an object file
+tests/unit/snap_update_provider_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.o
+.PHONY : tests/unit/snap_update_provider_test.cpp.o
+
+tests/unit/snap_update_provider_test.i: tests/unit/snap_update_provider_test.cpp.i
+.PHONY : tests/unit/snap_update_provider_test.i
+
+# target to preprocess a source file
+tests/unit/snap_update_provider_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.i
+.PHONY : tests/unit/snap_update_provider_test.cpp.i
+
+tests/unit/snap_update_provider_test.s: tests/unit/snap_update_provider_test.cpp.s
+.PHONY : tests/unit/snap_update_provider_test.s
+
+# target to generate assembly for a file
+tests/unit/snap_update_provider_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/snap_update_provider_test.cpp.s
+.PHONY : tests/unit/snap_update_provider_test.cpp.s
+
+tests/unit/storage_viewmodel_test.o: tests/unit/storage_viewmodel_test.cpp.o
+.PHONY : tests/unit/storage_viewmodel_test.o
+
+# target to build an object file
+tests/unit/storage_viewmodel_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.o
+.PHONY : tests/unit/storage_viewmodel_test.cpp.o
+
+tests/unit/storage_viewmodel_test.i: tests/unit/storage_viewmodel_test.cpp.i
+.PHONY : tests/unit/storage_viewmodel_test.i
+
+# target to preprocess a source file
+tests/unit/storage_viewmodel_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.i
+.PHONY : tests/unit/storage_viewmodel_test.cpp.i
+
+tests/unit/storage_viewmodel_test.s: tests/unit/storage_viewmodel_test.cpp.s
+.PHONY : tests/unit/storage_viewmodel_test.s
+
+# target to generate assembly for a file
+tests/unit/storage_viewmodel_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/storage_viewmodel_test.cpp.s
+.PHONY : tests/unit/storage_viewmodel_test.cpp.s
+
+tests/unit/systemd_service_provider_test.o: tests/unit/systemd_service_provider_test.cpp.o
+.PHONY : tests/unit/systemd_service_provider_test.o
+
+# target to build an object file
+tests/unit/systemd_service_provider_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.o
+.PHONY : tests/unit/systemd_service_provider_test.cpp.o
+
+tests/unit/systemd_service_provider_test.i: tests/unit/systemd_service_provider_test.cpp.i
+.PHONY : tests/unit/systemd_service_provider_test.i
+
+# target to preprocess a source file
+tests/unit/systemd_service_provider_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.i
+.PHONY : tests/unit/systemd_service_provider_test.cpp.i
+
+tests/unit/systemd_service_provider_test.s: tests/unit/systemd_service_provider_test.cpp.s
+.PHONY : tests/unit/systemd_service_provider_test.s
+
+# target to generate assembly for a file
+tests/unit/systemd_service_provider_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/unit_tests.dir/build.make CMakeFiles/unit_tests.dir/tests/unit/systemd_service_provider_test.cpp.s
+.PHONY : tests/unit/systemd_service_provider_test.cpp.s
 
 tests/unit/update_viewmodel_test.o: tests/unit/update_viewmodel_test.cpp.o
 .PHONY : tests/unit/update_viewmodel_test.o
@@ -2740,27 +3481,105 @@ help:
 	@echo "... tests/acceptance/user_metadata_test.o"
 	@echo "... tests/acceptance/user_metadata_test.i"
 	@echo "... tests/acceptance/user_metadata_test.s"
+	@echo "... tests/unit/apt_update_provider_test.o"
+	@echo "... tests/unit/apt_update_provider_test.i"
+	@echo "... tests/unit/apt_update_provider_test.s"
+	@echo "... tests/unit/cargo_update_provider_test.o"
+	@echo "... tests/unit/cargo_update_provider_test.i"
+	@echo "... tests/unit/cargo_update_provider_test.s"
+	@echo "... tests/unit/cpu_viewmodel_test.o"
+	@echo "... tests/unit/cpu_viewmodel_test.i"
+	@echo "... tests/unit/cpu_viewmodel_test.s"
 	@echo "... tests/unit/diagnostic_viewmodel_test.o"
 	@echo "... tests/unit/diagnostic_viewmodel_test.i"
 	@echo "... tests/unit/diagnostic_viewmodel_test.s"
 	@echo "... tests/unit/dnf_update_provider_test.o"
 	@echo "... tests/unit/dnf_update_provider_test.i"
 	@echo "... tests/unit/dnf_update_provider_test.s"
+	@echo "... tests/unit/export_viewmodel_test.o"
+	@echo "... tests/unit/export_viewmodel_test.i"
+	@echo "... tests/unit/export_viewmodel_test.s"
+	@echo "... tests/unit/exporters_test.o"
+	@echo "... tests/unit/exporters_test.i"
+	@echo "... tests/unit/exporters_test.s"
+	@echo "... tests/unit/final_viewmodels_test.o"
+	@echo "... tests/unit/final_viewmodels_test.i"
+	@echo "... tests/unit/final_viewmodels_test.s"
 	@echo "... tests/unit/flatpak_update_provider_test.o"
 	@echo "... tests/unit/flatpak_update_provider_test.i"
 	@echo "... tests/unit/flatpak_update_provider_test.s"
+	@echo "... tests/unit/gpu_viewmodel_test.o"
+	@echo "... tests/unit/gpu_viewmodel_test.i"
+	@echo "... tests/unit/gpu_viewmodel_test.s"
 	@echo "... tests/unit/journal_provider_test.o"
 	@echo "... tests/unit/journal_provider_test.i"
 	@echo "... tests/unit/journal_provider_test.s"
+	@echo "... tests/unit/linux_cpu_provider_test.o"
+	@echo "... tests/unit/linux_cpu_provider_test.i"
+	@echo "... tests/unit/linux_cpu_provider_test.s"
+	@echo "... tests/unit/linux_dev_stack_provider_test.o"
+	@echo "... tests/unit/linux_dev_stack_provider_test.i"
+	@echo "... tests/unit/linux_dev_stack_provider_test.s"
+	@echo "... tests/unit/linux_hardware_provider_test.o"
+	@echo "... tests/unit/linux_hardware_provider_test.i"
+	@echo "... tests/unit/linux_hardware_provider_test.s"
+	@echo "... tests/unit/linux_network_provider_test.o"
+	@echo "... tests/unit/linux_network_provider_test.i"
+	@echo "... tests/unit/linux_network_provider_test.s"
+	@echo "... tests/unit/linux_power_provider_test.o"
+	@echo "... tests/unit/linux_power_provider_test.i"
+	@echo "... tests/unit/linux_power_provider_test.s"
+	@echo "... tests/unit/linux_process_provider_test.o"
+	@echo "... tests/unit/linux_process_provider_test.i"
+	@echo "... tests/unit/linux_process_provider_test.s"
+	@echo "... tests/unit/linux_storage_provider_test.o"
+	@echo "... tests/unit/linux_storage_provider_test.i"
+	@echo "... tests/unit/linux_storage_provider_test.s"
+	@echo "... tests/unit/linux_system_info_provider_test.o"
+	@echo "... tests/unit/linux_system_info_provider_test.i"
+	@echo "... tests/unit/linux_system_info_provider_test.s"
+	@echo "... tests/unit/managers_test.o"
+	@echo "... tests/unit/managers_test.i"
+	@echo "... tests/unit/managers_test.s"
 	@echo "... tests/unit/memory_provider_test.o"
 	@echo "... tests/unit/memory_provider_test.i"
 	@echo "... tests/unit/memory_provider_test.s"
+	@echo "... tests/unit/memory_viewmodel_test.o"
+	@echo "... tests/unit/memory_viewmodel_test.i"
+	@echo "... tests/unit/memory_viewmodel_test.s"
+	@echo "... tests/unit/more_viewmodels_test.o"
+	@echo "... tests/unit/more_viewmodels_test.i"
+	@echo "... tests/unit/more_viewmodels_test.s"
+	@echo "... tests/unit/network_viewmodel_test.o"
+	@echo "... tests/unit/network_viewmodel_test.i"
+	@echo "... tests/unit/network_viewmodel_test.s"
 	@echo "... tests/unit/npm_update_provider_test.o"
 	@echo "... tests/unit/npm_update_provider_test.i"
 	@echo "... tests/unit/npm_update_provider_test.s"
+	@echo "... tests/unit/nvidia_gpu_provider_test.o"
+	@echo "... tests/unit/nvidia_gpu_provider_test.i"
+	@echo "... tests/unit/nvidia_gpu_provider_test.s"
+	@echo "... tests/unit/openssl_vault_test.o"
+	@echo "... tests/unit/openssl_vault_test.i"
+	@echo "... tests/unit/openssl_vault_test.s"
+	@echo "... tests/unit/pacman_update_provider_test.o"
+	@echo "... tests/unit/pacman_update_provider_test.i"
+	@echo "... tests/unit/pacman_update_provider_test.s"
 	@echo "... tests/unit/placeholder_test.o"
 	@echo "... tests/unit/placeholder_test.i"
 	@echo "... tests/unit/placeholder_test.s"
+	@echo "... tests/unit/power_viewmodel_test.o"
+	@echo "... tests/unit/power_viewmodel_test.i"
+	@echo "... tests/unit/power_viewmodel_test.s"
+	@echo "... tests/unit/snap_update_provider_test.o"
+	@echo "... tests/unit/snap_update_provider_test.i"
+	@echo "... tests/unit/snap_update_provider_test.s"
+	@echo "... tests/unit/storage_viewmodel_test.o"
+	@echo "... tests/unit/storage_viewmodel_test.i"
+	@echo "... tests/unit/storage_viewmodel_test.s"
+	@echo "... tests/unit/systemd_service_provider_test.o"
+	@echo "... tests/unit/systemd_service_provider_test.i"
+	@echo "... tests/unit/systemd_service_provider_test.s"
 	@echo "... tests/unit/update_viewmodel_test.o"
 	@echo "... tests/unit/update_viewmodel_test.i"
 	@echo "... tests/unit/update_viewmodel_test.s"

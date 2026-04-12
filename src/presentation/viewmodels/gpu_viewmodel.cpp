@@ -6,18 +6,24 @@
 
 namespace my_comp::presentation::viewmodels {
 
-GpuViewModel::GpuViewModel(QObject* parent) : QObject(parent) {
-    // Tenta detectar NVIDIA primeiro
-    QProcess checkProcess;
-    checkProcess.start("which", {"nvidia-smi"});
-    checkProcess.waitForFinished();
-    
-    if (checkProcess.exitCode() == 0) {
-        m_providers.push_back(std::make_unique<infrastructure::collectors::NvidiaGpuProvider>());
+GpuViewModel::GpuViewModel(std::shared_ptr<IShellExecutor> executor, QObject* parent) : QObject(parent) {
+    // Tenta detectar NVIDIA primeiro via IShellExecutor
+    QString output;
+    if (executor->execute("which", {"nvidia-smi"}, output) == 0) {
+        m_providers.push_back(std::make_unique<infrastructure::collectors::NvidiaGpuProvider>(executor));
     } else {
         m_providers.push_back(std::make_unique<infrastructure::collectors::SysfsGpuProvider>());
     }
 
+    m_timer = new QTimer(this);
+    connect(m_timer, &QTimer::timeout, this, &GpuViewModel::update_stats);
+    m_timer->start(2000);
+    
+    update_stats();
+}
+
+GpuViewModel::GpuViewModel(std::vector<std::unique_ptr<IGpuProvider>> providers, QObject* parent)
+    : QObject(parent), m_providers(std::move(providers)) {
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &GpuViewModel::update_stats);
     m_timer->start(2000);

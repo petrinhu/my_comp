@@ -370,4 +370,16 @@ CMakeFiles/acceptance_tests.dir/tests/acceptance/gpu_monitor_test.cpp.o: \
  /usr/include/qt6/QtCore/qstring.h \
  /usr/include/qt6/QtCore/qstringconverter.h \
  /usr/include/qt6/QtCore/qstringconverter_base.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/acceptance/../../src/infrastructure/collectors/nvidia_gpu_provider.h
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/acceptance/../../src/infrastructure/collectors/nvidia_gpu_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/acceptance/../../src/infrastructure/collectors/i_shell_executor.h \
+ /usr/include/qt6/QtCore/QStringList \
+ /usr/include/qt6/QtCore/qstringlist.h /usr/include/qt6/QtCore/qlist.h \
+ /usr/include/qt6/QtCore/qhashfunctions.h /usr/include/c++/15/numeric \
+ /usr/include/c++/15/bits/stl_numeric.h \
+ /usr/include/c++/15/pstl/glue_numeric_defs.h \
+ /usr/include/qt6/QtCore/qiterator.h /usr/include/c++/15/ranges \
+ /usr/include/qt6/QtCore/qbytearraylist.h \
+ /usr/include/qt6/QtCore/qstringlist.h \
+ /usr/include/qt6/QtCore/qalgorithms.h \
+ /usr/include/qt6/QtCore/qstringmatcher.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/acceptance/../../src/infrastructure/collectors/qprocess_shell_executor.h

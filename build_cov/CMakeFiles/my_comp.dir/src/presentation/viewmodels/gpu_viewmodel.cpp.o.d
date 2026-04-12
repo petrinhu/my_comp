@@ -350,7 +350,11 @@ CMakeFiles/my_comp.dir/src/presentation/viewmodels/gpu_viewmodel.cpp.o: \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../domain/interfaces/i_gpu_provider.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../domain/interfaces/../models/gpu_stats.h \
  /usr/include/qt6/QtCore/QString /usr/include/qt6/QtCore/qstring.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../infrastructure/collectors/i_shell_executor.h \
+ /usr/include/qt6/QtCore/QStringList \
+ /usr/include/qt6/QtCore/qstringlist.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../infrastructure/collectors/nvidia_gpu_provider.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../infrastructure/collectors/i_shell_executor.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/../../infrastructure/collectors/sysfs_gpu_provider.h \
  /usr/include/qt6/QtCore/QVariantMap \
  /usr/include/qt6/QtCore/qvariantmap.h /usr/include/qt6/QtCore/QMap \

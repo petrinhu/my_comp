@@ -258,4 +258,137 @@ CMakeFiles/unit_tests.dir/tests/unit/placeholder_test.cpp.o: \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/_deps/googletest-src/googletest/include/gtest/gtest-test-part.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/_deps/googletest-src/googletest/include/gtest/gtest-typed-test.h \
  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/_deps/googletest-src/googletest/include/gtest/gtest_pred_impl.h \
- /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/_deps/googletest-src/googletest/include/gtest/gtest_prod.h
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/_deps/googletest-src/googletest/include/gtest/gtest_prod.h \
+ /usr/include/qt6/QtCore/QCoreApplication \
+ /usr/include/qt6/QtCore/qcoreapplication.h \
+ /usr/include/qt6/QtCore/qglobal.h \
+ /usr/lib/gcc/x86_64-redhat-linux/15/include/stdbool.h \
+ /usr/include/qt6/QtCore/qtcoreglobal.h \
+ /usr/include/qt6/QtCore/qtversionchecks.h \
+ /usr/include/qt6/QtCore/qtconfiginclude.h \
+ /usr/include/qt6/QtCore/qconfig.h /usr/include/qt6/QtCore/qconfig-64.h \
+ /usr/include/qt6/QtCore/qtcore-config.h \
+ /usr/include/qt6/QtCore/qtconfigmacros.h \
+ /usr/include/qt6/QtCore/qtdeprecationdefinitions.h \
+ /usr/include/qt6/QtCore/qcompilerdetection.h \
+ /usr/include/qt6/QtCore/qprocessordetection.h \
+ /usr/include/qt6/QtCore/qsystemdetection.h \
+ /usr/include/qt6/QtCore/qtcoreexports.h \
+ /usr/include/qt6/QtCore/qtdeprecationmarkers.h \
+ /usr/include/qt6/QtCore/qtclasshelpermacros.h \
+ /usr/include/qt6/QtCore/qtpreprocessorsupport.h \
+ /usr/include/qt6/QtCore/qassert.h /usr/include/qt6/QtCore/qtnoop.h \
+ /usr/include/qt6/QtCore/qtypes.h /usr/include/qt6/QtCore/qtversion.h \
+ /usr/include/qt6/QtCore/qtypeinfo.h \
+ /usr/include/qt6/QtCore/qcontainerfwd.h \
+ /usr/include/qt6/QtCore/qsysinfo.h /usr/include/qt6/QtCore/qlogging.h \
+ /usr/include/qt6/QtCore/qflags.h /usr/include/qt6/QtCore/qcompare_impl.h \
+ /usr/include/c++/15/algorithm /usr/include/c++/15/bits/stl_algo.h \
+ /usr/include/c++/15/bits/algorithmfwd.h \
+ /usr/include/c++/15/bits/stl_heap.h \
+ /usr/include/c++/15/bits/uniform_int_dist.h \
+ /usr/include/c++/15/bits/ranges_algo.h \
+ /usr/include/c++/15/pstl/glue_algorithm_defs.h \
+ /usr/include/qt6/QtCore/qatomic.h /usr/include/qt6/QtCore/qbasicatomic.h \
+ /usr/include/qt6/QtCore/qatomic_cxx11.h \
+ /usr/include/qt6/QtCore/qgenericatomic.h \
+ /usr/include/qt6/QtCore/qyieldcpu.h \
+ /usr/include/qt6/QtCore/qconstructormacros.h \
+ /usr/include/qt6/QtCore/qdarwinhelpers.h \
+ /usr/include/qt6/QtCore/qexceptionhandling.h \
+ /usr/include/qt6/QtCore/qforeach.h \
+ /usr/include/qt6/QtCore/qttypetraits.h \
+ /usr/include/qt6/QtCore/qfunctionpointer.h \
+ /usr/include/qt6/QtCore/qglobalstatic.h \
+ /usr/include/qt6/QtCore/qmalloc.h /usr/include/qt6/QtCore/qminmax.h \
+ /usr/include/qt6/QtCore/qnumeric.h /usr/include/c++/15/cmath \
+ /usr/include/math.h /usr/include/bits/math-vector.h \
+ /usr/include/bits/libm-simd-decl-stubs.h \
+ /usr/include/bits/flt-eval-method.h /usr/include/bits/fp-logb.h \
+ /usr/include/bits/fp-fast.h /usr/include/bits/mathcalls-macros.h \
+ /usr/include/bits/mathcalls-helper-functions.h \
+ /usr/include/bits/mathcalls.h /usr/include/bits/mathcalls-narrow.h \
+ /usr/include/bits/iscanonical.h /usr/include/c++/15/bits/specfun.h \
+ /usr/include/c++/15/tr1/gamma.tcc \
+ /usr/include/c++/15/tr1/special_function_util.h \
+ /usr/include/c++/15/tr1/bessel_function.tcc \
+ /usr/include/c++/15/tr1/beta_function.tcc \
+ /usr/include/c++/15/tr1/ell_integral.tcc \
+ /usr/include/c++/15/tr1/exp_integral.tcc \
+ /usr/include/c++/15/tr1/hypergeometric.tcc \
+ /usr/include/c++/15/tr1/legendre_function.tcc \
+ /usr/include/c++/15/tr1/modified_bessel_func.tcc \
+ /usr/include/c++/15/tr1/poly_hermite.tcc \
+ /usr/include/c++/15/tr1/poly_laguerre.tcc \
+ /usr/include/c++/15/tr1/riemann_zeta.tcc \
+ /usr/include/qt6/QtCore/q20type_traits.h \
+ /usr/include/qt6/QtCore/qoverload.h /usr/include/qt6/QtCore/qswap.h \
+ /usr/include/qt6/QtCore/qtenvironmentvariables.h \
+ /usr/include/qt6/QtCore/qtresource.h \
+ /usr/include/qt6/QtCore/qttranslation.h \
+ /usr/include/qt6/QtCore/qversiontagging.h \
+ /usr/include/qt6/QtCore/qstring.h /usr/include/qt6/QtCore/qchar.h \
+ /usr/include/qt6/QtCore/qcompare.h \
+ /usr/include/qt6/QtCore/qstdlibdetection.h \
+ /usr/include/qt6/QtCore/qcomparehelpers.h \
+ /usr/include/qt6/QtCore/qstringview.h \
+ /usr/include/qt6/QtCore/qbytearray.h /usr/include/qt6/QtCore/qrefcount.h \
+ /usr/include/qt6/QtCore/qnamespace.h \
+ /usr/include/qt6/QtCore/qtmetamacros.h \
+ /usr/include/qt6/QtCore/qarraydata.h /usr/include/qt6/QtCore/qpair.h \
+ /usr/include/qt6/QtCore/qarraydatapointer.h \
+ /usr/include/qt6/QtCore/qarraydataops.h \
+ /usr/include/qt6/QtCore/qcontainertools_impl.h \
+ /usr/include/qt6/QtCore/qxptype_traits.h /usr/include/c++/15/cstring \
+ /usr/include/qt6/QtCore/q20functional.h \
+ /usr/include/qt6/QtCore/q20memory.h /usr/include/qt6/QtCore/q17memory.h \
+ /usr/include/qt6/QtCore/qbytearrayalgorithms.h \
+ /usr/include/qt6/QtCore/qbytearrayview.h \
+ /usr/include/qt6/QtCore/qstringfwd.h \
+ /usr/include/qt6/QtCore/qstringalgorithms.h \
+ /usr/include/qt6/QtCore/qlatin1stringview.h \
+ /usr/include/qt6/QtCore/qanystringview.h \
+ /usr/include/qt6/QtCore/qutf8stringview.h \
+ /usr/include/qt6/QtCore/qstringtokenizer.h \
+ /usr/include/qt6/QtCore/q23type_traits.h \
+ /usr/include/qt6/QtCore/qstringbuilder.h \
+ /usr/include/qt6/QtCore/qstringconverter.h \
+ /usr/include/qt6/QtCore/qstringconverter_base.h \
+ /usr/include/qt6/QtCore/qcoreevent.h \
+ /usr/include/qt6/QtCore/qbasictimer.h \
+ /usr/include/qt6/QtCore/qabstracteventdispatcher.h \
+ /usr/include/qt6/QtCore/qobject.h /usr/include/qt6/QtCore/qobjectdefs.h \
+ /usr/include/qt6/QtCore/qobjectdefs_impl.h \
+ /usr/include/qt6/QtCore/qfunctionaltools_impl.h \
+ /usr/include/qt6/QtCore/qlist.h /usr/include/qt6/QtCore/qhashfunctions.h \
+ /usr/include/c++/15/numeric /usr/include/c++/15/bits/stl_numeric.h \
+ /usr/include/c++/15/pstl/glue_numeric_defs.h \
+ /usr/include/qt6/QtCore/qiterator.h /usr/include/c++/15/ranges \
+ /usr/include/qt6/QtCore/qbytearraylist.h \
+ /usr/include/qt6/QtCore/qstringlist.h \
+ /usr/include/qt6/QtCore/qalgorithms.h \
+ /usr/include/qt6/QtCore/qstringmatcher.h \
+ /usr/include/qt6/QtCore/qscopedpointer.h \
+ /usr/include/qt6/QtCore/qmetatype.h \
+ /usr/include/qt6/QtCore/qdatastream.h \
+ /usr/include/qt6/QtCore/qiodevicebase.h \
+ /usr/include/qt6/QtCore/qfloat16.h /usr/include/qt6/QtCore/qmath.h \
+ /usr/include/qt6/QtCore/qtformat_impl.h /usr/include/c++/15/format \
+ /usr/include/c++/15/charconv /usr/include/c++/15/bits/formatfwd.h \
+ /usr/include/c++/15/bits/unicode.h \
+ /usr/include/c++/15/bits/unicode-data.h \
+ /usr/include/qt6/QtCore/qiterable.h \
+ /usr/include/qt6/QtCore/qtaggedpointer.h \
+ /usr/include/qt6/QtCore/qmetacontainer.h \
+ /usr/include/qt6/QtCore/qcontainerinfo.h \
+ /usr/include/qt6/QtCore/qscopeguard.h /usr/include/c++/15/list \
+ /usr/include/c++/15/bits/stl_list.h /usr/include/c++/15/bits/list.tcc \
+ /usr/include/qt6/QtCore/qobject_impl.h \
+ /usr/include/qt6/QtCore/qbindingstorage.h /usr/include/c++/15/chrono \
+ /usr/include/c++/15/bits/chrono_io.h /usr/include/c++/15/iomanip \
+ /usr/include/c++/15/bits/quoted_string.h \
+ /usr/include/qt6/QtCore/qeventloop.h \
+ /usr/include/qt6/QtCore/qdeadlinetimer.h \
+ /usr/include/qt6/QtCore/qnativeinterface.h \
+ /usr/include/qt6/QtCore/qcoreapplication_platform.h \
+ /usr/include/qt6/QtCore/qcoreapplication.h

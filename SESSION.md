@@ -14,6 +14,6 @@ Finalizar auditoria técnica, corrigir bugs de estabilidade (uninitialized vars)
 - [x] **Documentação**: Gerado `REPORTE_AUDITORIA.md` com scores de qualidade.
 
 ## 🚀 Próximos Passos Recomendados
-1. Aumentar cobertura de testes (A6) de 25.5% para 70%.
-2. Implementar FFT para o monitor de áudio.
-3. Preparar release Beta v2.0.
+1. Implementar FFT para o monitor de áudio.
+2. Preparar release Beta v2.0.
+3. Fuzzing e testes de carga.

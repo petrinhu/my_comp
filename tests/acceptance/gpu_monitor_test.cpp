@@ -2,7 +2,9 @@
 #include <gmock/gmock.h>
 #include "../../src/domain/interfaces/i_gpu_provider.h"
 #include "../../src/infrastructure/collectors/nvidia_gpu_provider.h"
+#include "../../src/infrastructure/collectors/qprocess_shell_executor.h"
 #include <iostream>
+#include <memory>
 
 using namespace my_comp::domain::interfaces;
 using namespace my_comp::domain::models;
@@ -10,7 +12,8 @@ using namespace my_comp::infrastructure::collectors;
 using namespace testing;
 
 TEST(GpuMonitorAcceptanceTest, DetectsNvidiaGpuAndReturnsStats) {
-    NvidiaGpuProvider provider;
+    auto executor = std::make_shared<QProcessShellExecutor>();
+    NvidiaGpuProvider provider(executor);
     auto stats = provider.collect_stats();
     
     // Como estamos rodando em uma máquina com RTX 3050, 

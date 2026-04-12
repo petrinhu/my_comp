@@ -286,53 +286,14 @@ CMakeFiles/acceptance_tests.dir/src/infrastructure/collectors/nvidia_gpu_provide
  /usr/include/qt6/QtCore/qstring.h \
  /usr/include/qt6/QtCore/qstringconverter.h \
  /usr/include/qt6/QtCore/qstringconverter_base.h \
- /usr/include/qt6/QtCore/QProcess /usr/include/qt6/QtCore/qprocess.h \
- /usr/include/qt6/QtCore/qiodevice.h \
- /usr/include/qt6/QtCore/qiodevicebase.h \
- /usr/include/qt6/QtCore/qobject.h /usr/include/qt6/QtCore/qobjectdefs.h \
- /usr/include/qt6/QtCore/qobjectdefs_impl.h \
- /usr/include/qt6/QtCore/qfunctionaltools_impl.h \
- /usr/include/qt6/QtCore/qlist.h /usr/include/qt6/QtCore/qhashfunctions.h \
- /usr/include/c++/15/numeric /usr/include/c++/15/bits/stl_numeric.h \
+ /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/i_shell_executor.h \
+ /usr/include/qt6/QtCore/QStringList \
+ /usr/include/qt6/QtCore/qstringlist.h /usr/include/qt6/QtCore/qlist.h \
+ /usr/include/qt6/QtCore/qhashfunctions.h /usr/include/c++/15/numeric \
+ /usr/include/c++/15/bits/stl_numeric.h \
  /usr/include/c++/15/pstl/glue_numeric_defs.h \
  /usr/include/qt6/QtCore/qiterator.h /usr/include/c++/15/ranges \
  /usr/include/c++/15/span /usr/include/qt6/QtCore/qbytearraylist.h \
  /usr/include/qt6/QtCore/qstringlist.h \
  /usr/include/qt6/QtCore/qalgorithms.h \
- /usr/include/qt6/QtCore/qstringmatcher.h \
- /usr/include/qt6/QtCore/qscopedpointer.h \
- /usr/include/qt6/QtCore/qmetatype.h \
- /usr/include/qt6/QtCore/qdatastream.h /usr/include/qt6/QtCore/qfloat16.h \
- /usr/include/qt6/QtCore/qmath.h /usr/include/qt6/QtCore/qtformat_impl.h \
- /usr/include/c++/15/format /usr/include/c++/15/charconv \
- /usr/include/c++/15/locale \
- /usr/include/c++/15/bits/locale_facets_nonio.h /usr/include/c++/15/ctime \
- /usr/include/c++/15/x86_64-redhat-linux/bits/time_members.h \
- /usr/include/c++/15/x86_64-redhat-linux/bits/messages_members.h \
- /usr/include/libintl.h /usr/include/c++/15/bits/codecvt.h \
- /usr/include/c++/15/bits/locale_facets_nonio.tcc \
- /usr/include/c++/15/bits/locale_conv.h \
- /usr/include/c++/15/bits/formatfwd.h /usr/include/c++/15/bits/unicode.h \
- /usr/include/c++/15/bits/unicode-data.h \
- /usr/include/qt6/QtCore/qiterable.h \
- /usr/include/qt6/QtCore/qtaggedpointer.h \
- /usr/include/qt6/QtCore/qmetacontainer.h \
- /usr/include/qt6/QtCore/qcontainerinfo.h \
- /usr/include/qt6/QtCore/qscopeguard.h /usr/include/c++/15/list \
- /usr/include/c++/15/bits/stl_list.h /usr/include/c++/15/bits/list.tcc \
- /usr/include/c++/15/map /usr/include/c++/15/bits/stl_tree.h \
- /usr/include/c++/15/bits/stl_map.h \
- /usr/include/c++/15/bits/stl_multimap.h \
- /usr/include/qt6/QtCore/qobject_impl.h \
- /usr/include/qt6/QtCore/qbindingstorage.h /usr/include/c++/15/chrono \
- /usr/include/c++/15/bits/chrono.h /usr/include/c++/15/ratio \
- /usr/include/c++/15/sstream /usr/include/c++/15/istream \
- /usr/include/c++/15/ostream /usr/include/c++/15/bits/ostream.tcc \
- /usr/include/c++/15/bits/istream.tcc \
- /usr/include/c++/15/bits/sstream.tcc \
- /usr/include/c++/15/bits/chrono_io.h /usr/include/c++/15/iomanip \
- /usr/include/c++/15/bits/quoted_string.h /usr/include/qt6/QtCore/qspan.h \
- /usr/include/c++/15/cassert /usr/include/qt6/QtCore/q20iterator.h \
- /usr/include/qt6/QtCore/qshareddata.h \
- /usr/include/qt6/QtCore/QStringList \
- /usr/include/qt6/QtCore/qstringlist.h
+ /usr/include/qt6/QtCore/qstringmatcher.h

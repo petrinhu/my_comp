@@ -4,34 +4,171 @@ unit_tests_autogen/timestamp: \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/CMakeFiles/3.31.11/CMakeSystem.cmake \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/unit_tests_autogen/moc_predefs.h \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/diagnostic_manager.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_audio_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_cpu_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_dev_stack_provider.h \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_diagnostic_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_export_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_firmware_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_gpu_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_hardware_provider.h \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_installer.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_interactive_runner.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_memory_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_network_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_power_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_process_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_service_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_storage_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_system_info_provider.h \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_update_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_user_metadata_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/audio_data.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/cpu_architecture.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/cpu_stats.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/dev_stack_info.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/firmware_device.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/gpu_stats.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/hardware_topology.h \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/log_entry.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/memory_stats.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/network_stats.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/power_stats.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/process_info.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/report_data.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/service_info.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/storage_stats.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/system_info.h \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/update_package.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/user_metadata.h \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/update_manager.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/audio/qt_audio_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/audio/qt_audio_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/apt_update_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/apt_update_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/cargo_update_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/cargo_update_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/dbus_firmware_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/dbus_firmware_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/i_shell_executor.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/installer_adapter.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/installer_adapter.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/interactive_process_runner.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/interactive_process_runner.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_cpu_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_cpu_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_dev_stack_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_dev_stack_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_hardware_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_hardware_provider.h \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_memory_provider.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_memory_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_network_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_network_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_power_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_power_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_process_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_process_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_storage_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_storage_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_system_info_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_system_info_provider.h \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_user_metadata_provider.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_user_metadata_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/nvidia_gpu_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/nvidia_gpu_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/pacman_update_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/pacman_update_provider.h \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/qprocess_shell_executor.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/qprocess_shell_executor.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/snap_update_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/snap_update_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/sysfs_gpu_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/sysfs_gpu_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/systemd_service_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/systemd_service_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/html_export_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/html_export_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/json_export_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/json_export_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/markdown_export_provider.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/exporters/markdown_export_provider.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/security/openssl_vault.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/security/openssl_vault.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/audio_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/audio_viewmodel.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/cpu_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/cpu_viewmodel.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/dev_stack_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/dev_stack_viewmodel.h \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/diagnostic_viewmodel.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/diagnostic_viewmodel.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/export_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/export_viewmodel.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/firmware_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/firmware_viewmodel.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/gpu_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/gpu_viewmodel.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/hardware_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/hardware_viewmodel.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/installation_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/installation_viewmodel.h \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/log_entry_model.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/log_entry_model.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/memory_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/memory_viewmodel.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/network_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/network_viewmodel.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/power_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/power_viewmodel.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/process_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/process_viewmodel.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/service_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/service_viewmodel.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/storage_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/storage_viewmodel.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/system_info_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/system_info_viewmodel.h \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/update_package_model.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/update_package_model.h \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/update_viewmodel.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/update_viewmodel.h \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/user_metadata_viewmodel.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/presentation/viewmodels/user_metadata_viewmodel.h \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/resources.qrc \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/apt_update_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/cargo_update_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/cpu_viewmodel_test.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/diagnostic_viewmodel_test.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/dnf_update_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/export_viewmodel_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/exporters_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/final_viewmodels_test.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/flatpak_update_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/gpu_viewmodel_test.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/journal_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_cpu_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_dev_stack_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_hardware_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_network_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_power_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_process_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_storage_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/linux_system_info_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/managers_test.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/memory_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/memory_viewmodel_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/more_viewmodels_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/network_viewmodel_test.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/npm_update_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/nvidia_gpu_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/openssl_vault_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/pacman_update_provider_test.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/placeholder_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/power_viewmodel_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/snap_update_provider_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/storage_viewmodel_test.cpp \
+	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/systemd_service_provider_test.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/update_viewmodel_test.cpp \
 	/home/petrus/IDrive/Documentos/projetos_dev/my_comp/tests/unit/user_metadata_provider_test.cpp \
 	/usr/include/alloca.h \
@@ -240,6 +377,7 @@ unit_tests_autogen/timestamp: \
 	/usr/include/c++/15/bits/utility.h \
 	/usr/include/c++/15/bits/vector.tcc \
 	/usr/include/c++/15/bits/version.h \
+	/usr/include/c++/15/cassert \
 	/usr/include/c++/15/cctype \
 	/usr/include/c++/15/cerrno \
 	/usr/include/c++/15/charconv \
@@ -348,18 +486,30 @@ unit_tests_autogen/timestamp: \
 	/usr/include/locale.h \
 	/usr/include/pthread.h \
 	/usr/include/qt6/QtCore/QAbstractListModel \
+	/usr/include/qt6/QtCore/QDateTime \
 	/usr/include/qt6/QtCore/QDebug \
+	/usr/include/qt6/QtCore/QIODevice \
+	/usr/include/qt6/QtCore/QList \
+	/usr/include/qt6/QtCore/QMap \
 	/usr/include/qt6/QtCore/QObject \
+	/usr/include/qt6/QtCore/QProcess \
 	/usr/include/qt6/QtCore/QString \
+	/usr/include/qt6/QtCore/QStringList \
+	/usr/include/qt6/QtCore/QTimer \
 	/usr/include/qt6/QtCore/QUrl \
 	/usr/include/qt6/QtCore/QUrlQuery \
+	/usr/include/qt6/QtCore/QVariant \
+	/usr/include/qt6/QtCore/QVariantList \
+	/usr/include/qt6/QtCore/QVariantMap \
 	/usr/include/qt6/QtCore/q17memory.h \
 	/usr/include/qt6/QtCore/q20functional.h \
+	/usr/include/qt6/QtCore/q20iterator.h \
 	/usr/include/qt6/QtCore/q20memory.h \
 	/usr/include/qt6/QtCore/q20type_traits.h \
 	/usr/include/qt6/QtCore/q20utility.h \
 	/usr/include/qt6/QtCore/q23type_traits.h \
 	/usr/include/qt6/QtCore/q23utility.h \
+	/usr/include/qt6/QtCore/qabstracteventdispatcher.h \
 	/usr/include/qt6/QtCore/qabstractitemmodel.h \
 	/usr/include/qt6/QtCore/qalgorithms.h \
 	/usr/include/qt6/QtCore/qalloc.h \
@@ -371,11 +521,13 @@ unit_tests_autogen/timestamp: \
 	/usr/include/qt6/QtCore/qatomic.h \
 	/usr/include/qt6/QtCore/qatomic_cxx11.h \
 	/usr/include/qt6/QtCore/qbasicatomic.h \
+	/usr/include/qt6/QtCore/qbasictimer.h \
 	/usr/include/qt6/QtCore/qbindingstorage.h \
 	/usr/include/qt6/QtCore/qbytearray.h \
 	/usr/include/qt6/QtCore/qbytearrayalgorithms.h \
 	/usr/include/qt6/QtCore/qbytearraylist.h \
 	/usr/include/qt6/QtCore/qbytearrayview.h \
+	/usr/include/qt6/QtCore/qcalendar.h \
 	/usr/include/qt6/QtCore/qchar.h \
 	/usr/include/qt6/QtCore/qcompare.h \
 	/usr/include/qt6/QtCore/qcompare_impl.h \
@@ -390,7 +542,10 @@ unit_tests_autogen/timestamp: \
 	/usr/include/qt6/QtCore/qcontiguouscache.h \
 	/usr/include/qt6/QtCore/qdarwinhelpers.h \
 	/usr/include/qt6/QtCore/qdatastream.h \
+	/usr/include/qt6/QtCore/qdatetime.h \
+	/usr/include/qt6/QtCore/qdeadlinetimer.h \
 	/usr/include/qt6/QtCore/qdebug.h \
+	/usr/include/qt6/QtCore/qeventloop.h \
 	/usr/include/qt6/QtCore/qexceptionhandling.h \
 	/usr/include/qt6/QtCore/qflags.h \
 	/usr/include/qt6/QtCore/qfloat16.h \
@@ -402,11 +557,13 @@ unit_tests_autogen/timestamp: \
 	/usr/include/qt6/QtCore/qglobalstatic.h \
 	/usr/include/qt6/QtCore/qhash.h \
 	/usr/include/qt6/QtCore/qhashfunctions.h \
+	/usr/include/qt6/QtCore/qiodevice.h \
 	/usr/include/qt6/QtCore/qiodevicebase.h \
 	/usr/include/qt6/QtCore/qiterable.h \
 	/usr/include/qt6/QtCore/qiterator.h \
 	/usr/include/qt6/QtCore/qlatin1stringview.h \
 	/usr/include/qt6/QtCore/qlist.h \
+	/usr/include/qt6/QtCore/qlocale.h \
 	/usr/include/qt6/QtCore/qlogging.h \
 	/usr/include/qt6/QtCore/qmalloc.h \
 	/usr/include/qt6/QtCore/qmap.h \
@@ -422,6 +579,7 @@ unit_tests_autogen/timestamp: \
 	/usr/include/qt6/QtCore/qobjectdefs_impl.h \
 	/usr/include/qt6/QtCore/qoverload.h \
 	/usr/include/qt6/QtCore/qpair.h \
+	/usr/include/qt6/QtCore/qprocess.h \
 	/usr/include/qt6/QtCore/qprocessordetection.h \
 	/usr/include/qt6/QtCore/qrefcount.h \
 	/usr/include/qt6/QtCore/qscopedpointer.h \
@@ -431,6 +589,7 @@ unit_tests_autogen/timestamp: \
 	/usr/include/qt6/QtCore/qshareddata_impl.h \
 	/usr/include/qt6/QtCore/qsharedpointer.h \
 	/usr/include/qt6/QtCore/qsharedpointer_impl.h \
+	/usr/include/qt6/QtCore/qspan.h \
 	/usr/include/qt6/QtCore/qstdlibdetection.h \
 	/usr/include/qt6/QtCore/qstring.h \
 	/usr/include/qt6/QtCore/qstringalgorithms.h \
@@ -457,6 +616,7 @@ unit_tests_autogen/timestamp: \
 	/usr/include/qt6/QtCore/qtenvironmentvariables.h \
 	/usr/include/qt6/QtCore/qtextstream.h \
 	/usr/include/qt6/QtCore/qtformat_impl.h \
+	/usr/include/qt6/QtCore/qtimer.h \
 	/usr/include/qt6/QtCore/qtmetamacros.h \
 	/usr/include/qt6/QtCore/qtnoop.h \
 	/usr/include/qt6/QtCore/qtpreprocessorsupport.h \
@@ -471,6 +631,8 @@ unit_tests_autogen/timestamp: \
 	/usr/include/qt6/QtCore/qurlquery.h \
 	/usr/include/qt6/QtCore/qutf8stringview.h \
 	/usr/include/qt6/QtCore/qvariant.h \
+	/usr/include/qt6/QtCore/qvariantlist.h \
+	/usr/include/qt6/QtCore/qvariantmap.h \
 	/usr/include/qt6/QtCore/qvarlengtharray.h \
 	/usr/include/qt6/QtCore/qversiontagging.h \
 	/usr/include/qt6/QtCore/qxptype_traits.h \
@@ -480,6 +642,16 @@ unit_tests_autogen/timestamp: \
 	/usr/include/qt6/QtGui/qtgui-config.h \
 	/usr/include/qt6/QtGui/qtguiexports.h \
 	/usr/include/qt6/QtGui/qtguiglobal.h \
+	/usr/include/qt6/QtMultimedia/QAudioFormat \
+	/usr/include/qt6/QtMultimedia/QAudioSource \
+	/usr/include/qt6/QtMultimedia/qaudio.h \
+	/usr/include/qt6/QtMultimedia/qaudiodevice.h \
+	/usr/include/qt6/QtMultimedia/qaudioformat.h \
+	/usr/include/qt6/QtMultimedia/qaudiosource.h \
+	/usr/include/qt6/QtMultimedia/qtaudio.h \
+	/usr/include/qt6/QtMultimedia/qtmultimedia-config.h \
+	/usr/include/qt6/QtMultimedia/qtmultimediaexports.h \
+	/usr/include/qt6/QtMultimedia/qtmultimediaglobal.h \
 	/usr/include/sched.h \
 	/usr/include/stdc-predef.h \
 	/usr/include/stdint.h \
@@ -1201,79 +1373,22 @@ unit_tests_autogen/timestamp: \
 	/usr/lib64/cmake/Qt6WaylandScannerTools/Qt6WaylandScannerToolsTargets-relwithdebinfo.cmake \
 	/usr/lib64/cmake/Qt6WaylandScannerTools/Qt6WaylandScannerToolsTargets.cmake \
 	/usr/lib64/cmake/Qt6WaylandScannerTools/Qt6WaylandScannerToolsVersionlessTargets.cmake \
-	/usr/share/cmake/Modules/CMakeCXXCompiler.cmake.in \
-	/usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp \
 	/usr/share/cmake/Modules/CMakeCXXInformation.cmake \
 	/usr/share/cmake/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake \
 	/usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
-	/usr/share/cmake/Modules/CMakeCompilerIdDetection.cmake \
-	/usr/share/cmake/Modules/CMakeDetermineCXXCompiler.cmake \
-	/usr/share/cmake/Modules/CMakeDetermineCompiler.cmake \
-	/usr/share/cmake/Modules/CMakeDetermineCompilerABI.cmake \
-	/usr/share/cmake/Modules/CMakeDetermineCompilerId.cmake \
-	/usr/share/cmake/Modules/CMakeDetermineCompilerSupport.cmake \
-	/usr/share/cmake/Modules/CMakeDetermineSystem.cmake \
-	/usr/share/cmake/Modules/CMakeFindBinUtils.cmake \
 	/usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake \
 	/usr/share/cmake/Modules/CMakeGenericSystem.cmake \
 	/usr/share/cmake/Modules/CMakeInitializeConfigs.cmake \
 	/usr/share/cmake/Modules/CMakeLanguageInformation.cmake \
-	/usr/share/cmake/Modules/CMakeParseImplicitIncludeInfo.cmake \
-	/usr/share/cmake/Modules/CMakeParseImplicitLinkInfo.cmake \
-	/usr/share/cmake/Modules/CMakeParseLibraryArchitecture.cmake \
-	/usr/share/cmake/Modules/CMakeSystem.cmake.in \
 	/usr/share/cmake/Modules/CMakeSystemSpecificInformation.cmake \
 	/usr/share/cmake/Modules/CMakeSystemSpecificInitialize.cmake \
-	/usr/share/cmake/Modules/CMakeTestCXXCompiler.cmake \
-	/usr/share/cmake/Modules/CMakeTestCompilerCommon.cmake \
-	/usr/share/cmake/Modules/CMakeUnixFindMake.cmake \
 	/usr/share/cmake/Modules/CheckCXXCompilerFlag.cmake \
 	/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake \
 	/usr/share/cmake/Modules/CheckIncludeFileCXX.cmake \
 	/usr/share/cmake/Modules/CheckLibraryExists.cmake \
-	/usr/share/cmake/Modules/Compiler/ADSP-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/ARMCC-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/ARMClang-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/AppleClang-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/Borland-DetermineCompiler.cmake \
 	/usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
-	/usr/share/cmake/Modules/Compiler/Clang-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/Clang-DetermineCompilerInternal.cmake \
-	/usr/share/cmake/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/Cray-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/CrayClang-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/Embarcadero-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/Fujitsu-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/GHS-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake \
 	/usr/share/cmake/Modules/Compiler/GNU-CXX.cmake \
-	/usr/share/cmake/Modules/Compiler/GNU-FindBinUtils.cmake \
 	/usr/share/cmake/Modules/Compiler/GNU.cmake \
-	/usr/share/cmake/Modules/Compiler/HP-CXX-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/IAR-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake \
-	/usr/share/cmake/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/Intel-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/MSVC-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/NVHPC-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/NVIDIA-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/OrangeC-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/PGI-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/PathScale-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/SCO-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/TI-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/TIClang-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/Tasking-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/Watcom-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/XL-CXX-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake \
-	/usr/share/cmake/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake \
 	/usr/share/cmake/Modules/ExternalProject/shared_internal_commands.cmake \
 	/usr/share/cmake/Modules/FeatureSummary.cmake \
 	/usr/share/cmake/Modules/FetchContent.cmake \
@@ -1288,19 +1403,15 @@ unit_tests_autogen/timestamp: \
 	/usr/share/cmake/Modules/GNUInstallDirs.cmake \
 	/usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
 	/usr/share/cmake/Modules/Internal/CMakeCommonLinkerInformation.cmake \
-	/usr/share/cmake/Modules/Internal/CMakeDetermineLinkerId.cmake \
-	/usr/share/cmake/Modules/Internal/CMakeInspectCXXLinker.cmake \
 	/usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake \
 	/usr/share/cmake/Modules/Internal/CheckFlagCommonConfig.cmake \
 	/usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake \
-	/usr/share/cmake/Modules/Internal/FeatureTesting.cmake \
 	/usr/share/cmake/Modules/Linker/GNU-CXX.cmake \
 	/usr/share/cmake/Modules/Linker/GNU.cmake \
 	/usr/share/cmake/Modules/MacroAddFileDependencies.cmake \
 	/usr/share/cmake/Modules/Platform/Linker/GNU.cmake \
 	/usr/share/cmake/Modules/Platform/Linker/Linux-GNU-CXX.cmake \
 	/usr/share/cmake/Modules/Platform/Linker/Linux-GNU.cmake \
-	/usr/share/cmake/Modules/Platform/Linux-Determine-CXX.cmake \
 	/usr/share/cmake/Modules/Platform/Linux-GNU-CXX.cmake \
 	/usr/share/cmake/Modules/Platform/Linux-GNU.cmake \
 	/usr/share/cmake/Modules/Platform/Linux-Initialize.cmake \

@@ -2,7 +2,6 @@
   /home/petrus/IDrive/Documentos/projetos_dev/my_comp/build_cov/my_comp_autogen/moc_predefs.h \
   /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/interfaces/i_power_provider.h \
   /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/domain/models/power_stats.h \
-  /home/petrus/IDrive/Documentos/projetos_dev/my_comp/src/infrastructure/collectors/linux_power_provider.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/bitsperlong.h \
   /usr/include/asm-generic/errno-base.h \
