@@ -10,6 +10,7 @@ Finalizar auditoria técnica, corrigir bugs de estabilidade (uninitialized vars)
 - [x] **Segurança**: Removidas chamadas virtuais de construtores/destrutores em classes de infraestrutura (T2).
 - [x] **Funcionalidade**: Refinada busca online no Journal (Item 35) com suporte a Source e Message.
 - [x] **Audio**: Implementada FFT (Fast Fourier Transform) com janela de Hann e visualizador de espectro em tempo real no Dashboard.
+- [x] **Fuzzing & Carga**: Validada resistência a inputs malformados (NaN/Inf) e performance de 10k logs/ms.
 - [x] **Auditoria**: Executado `CppCheck` (100% OK), `Valgrind` (100% OK), `WCAG Contrast` (Aprovado).
 - [x] **Acessibilidade**: Tooltips adicionadas e paleta de cores corrigida para conformidade WCAG AA.
 - [x] **Documentação**: Gerado `REPORTE_AUDITORIA.md` com scores de qualidade.

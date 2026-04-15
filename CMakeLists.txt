@@ -135,6 +135,8 @@ set(UNIT_TEST_SOURCES
     tests/unit/pacman_update_provider_test.cpp
     tests/unit/snap_update_provider_test.cpp
     tests/unit/nvidia_gpu_provider_test.cpp
+    tests/unit/audio_fuzz_test.cpp
+    tests/unit/journal_load_test.cpp
     
     src/infrastructure/collectors/qprocess_shell_executor.cpp
     src/infrastructure/collectors/linux_memory_provider.cpp
