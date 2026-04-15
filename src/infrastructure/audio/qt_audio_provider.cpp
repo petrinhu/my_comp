@@ -85,8 +85,11 @@ std::vector<float> QtAudioProvider::calculate_fft(const float* samples, int coun
     // Forçar potência de 2 para o algoritmo Radix-2
     size_t n = std::bit_floor(static_cast<size_t>(count));
     std::vector<std::complex<double>> data(n);
+    
+    // Aplicar Janela de Hann para reduzir spectral leakage
     for (size_t i = 0; i < n; ++i) {
-        data[i] = static_cast<double>(samples[i]);
+        double multiplier = 0.5 * (1.0 - std::cos(2.0 * M_PI * i / (n - 1)));
+        data[i] = static_cast<double>(samples[i]) * multiplier;
     }
 
     // Bit-reversal permutation
@@ -118,9 +121,10 @@ std::vector<float> QtAudioProvider::calculate_fft(const float* samples, int coun
     }
 
     // Extrair magnitudes da metade do espectro (Nyquist)
+    // Usar normalização por 2/n para compensar a perda da janela e normalizar magnitude
     std::vector<float> spectrum(n / 2);
     for (size_t i = 0; i < n / 2; ++i) {
-        spectrum[i] = static_cast<float>(std::abs(data[i]) / n);
+        spectrum[i] = static_cast<float>(std::abs(data[i]) * 2.0 / n);
     }
     
     return spectrum;

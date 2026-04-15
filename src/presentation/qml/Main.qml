@@ -241,28 +241,29 @@ Window {
                         DashboardCard { title: "CORE"; value: systemInfoViewModel.kernel.split("-")[0] }
                     }
 
-                    // Audio Waveform Visualizer
+                    // Audio Waveform & Spectrum Visualizer
                     Rectangle {
-                        Layout.fillWidth: true; height: 120; color: root.cardColor; radius: 8; border.color: root.borderColor
+                        Layout.fillWidth: true; height: 140; color: root.cardColor; radius: 8; border.color: root.borderColor
                         clip: true
                         RowLayout {
-                            anchors.fill: parent; anchors.margins: 15; spacing: 20
+                            anchors.fill: parent; anchors.margins: 15; spacing: 15
                             
                             ColumnLayout {
-                                Layout.preferredWidth: 100
-                                Text { text: "AUDIO REAL-TIME"; color: root.highlightColor; font.bold: true; font.pixelSize: 10 }
+                                Layout.preferredWidth: 80
+                                Text { text: "AUDIO"; color: root.highlightColor; font.bold: true; font.pixelSize: 10 }
                                 RowLayout {
-                                    spacing: 8
-                                    Rectangle { width: 8; height: 40; color: "#2ecc71"; opacity: 0.3; radius: 2 
-                                        Rectangle { anchors.bottom: parent.bottom; width: 8; height: parent.height * audioViewModel.rms; color: "#2ecc71"; radius: 2 }
+                                    spacing: 4
+                                    Rectangle { width: 6; height: 50; color: "#2ecc71"; opacity: 0.2; radius: 2 
+                                        Rectangle { anchors.bottom: parent.bottom; width: 6; height: parent.height * Math.min(1.0, audioViewModel.rms * 2); color: "#2ecc71"; radius: 2 }
                                     }
-                                    Rectangle { width: 8; height: 40; color: root.criticalColor; opacity: 0.3; radius: 2 
-                                        Rectangle { anchors.bottom: parent.bottom; width: 8; height: parent.height * audioViewModel.peak; color: root.criticalColor; radius: 2 }
+                                    Rectangle { width: 6; height: 50; color: root.criticalColor; opacity: 0.2; radius: 2 
+                                        Rectangle { anchors.bottom: parent.bottom; width: 6; height: parent.height * Math.min(1.0, audioViewModel.peak); color: root.criticalColor; radius: 2 }
                                     }
                                 }
-                                Text { text: "RMS: " + (audioViewModel.rms * 100).toFixed(1) + "%"; color: root.textColor; font.pixelSize: 9 }
+                                Text { text: (audioViewModel.rms * 100).toFixed(0) + "%"; color: root.textColor; font.pixelSize: 9; Layout.alignment: Qt.AlignHCenter }
                             }
 
+                            // Waveform
                             Canvas {
                                 id: audioCanvas
                                 Layout.fillWidth: true; Layout.fillHeight: true
@@ -270,7 +271,8 @@ Window {
                                     var ctx = getContext("2d");
                                     ctx.clearRect(0, 0, width, height);
                                     ctx.strokeStyle = root.highlightColor;
-                                    ctx.lineWidth = 2;
+                                    ctx.globalAlpha = 0.6;
+                                    ctx.lineWidth = 1.5;
                                     ctx.beginPath();
                                     
                                     var data = audioViewModel.waveform;
@@ -278,14 +280,10 @@ Window {
                                     
                                     var sliceWidth = width / data.length;
                                     var x = 0;
-                                    
                                     for (var i = 0; i < data.length; i++) {
-                                        var v = data[i]; // -1 a 1
+                                        var v = data[i]; 
                                         var y = (v + 1) / 2 * height;
-                                        
-                                        if (i === 0) ctx.moveTo(x, y);
-                                        else ctx.lineTo(x, y);
-                                        
+                                        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
                                         x += sliceWidth;
                                     }
                                     ctx.stroke();
@@ -293,7 +291,29 @@ Window {
                                 
                                 Connections {
                                     target: audioViewModel
-                                    function onAudioDataChanged() { audioCanvas.requestPaint(); }
+                                    function onAudioDataChanged() { audioCanvas.requestPaint(); spectrumCanvas.requestPaint(); }
+                                }
+                            }
+
+                            // Spectrum (FFT)
+                            Canvas {
+                                id: spectrumCanvas
+                                Layout.fillWidth: true; Layout.fillHeight: true
+                                onPaint: {
+                                    var ctx = getContext("2d");
+                                    ctx.clearRect(0, 0, width, height);
+                                    var data = audioViewModel.spectrum;
+                                    if (data.length === 0) return;
+                                    
+                                    var barWidth = width / data.length;
+                                    ctx.fillStyle = root.highlightColor;
+                                    
+                                    for (var i = 0; i < data.length; i++) {
+                                        // Magnitude logarítmica básica para melhor visualização
+                                        var magnitude = Math.sqrt(data[i]) * 5; 
+                                        var h = Math.min(height, magnitude * height);
+                                        ctx.fillRect(i * barWidth, height - h, barWidth - 1, h);
+                                    }
                                 }
                             }
                         }
