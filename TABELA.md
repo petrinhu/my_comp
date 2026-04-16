@@ -43,8 +43,8 @@
 | 38 | Dashboard: Interatividade (Click em Cards) | Média | Baixa | ❌ | Sem reação ao clique. |
 | 39 | Dashboard: Audio real-time e FFT | Alta | Média | ❌ | Vazio/Inerte. |
 | 40 | UI/UX: Barra de Rolagem em Listas Longas | Alta | Baixa | ✅ | ScrollViews implementados. |
-| 41 | UI/UX: Seletor de Pasta Nativo (KDE) | Alta | Média | ❌ | Atualmente confuso/horrível. |
-| 42 | Export: Pasta Padrão e Histórico | Média | Baixa | ❌ | Sem pasta default definida. |
+| 41 | UI/UX: Seletor de Pasta Nativo (KDE) | Alta | Média | ✅ | Integrado com StandardPaths. |
+| 42 | Export: Pasta Padrão e Histórico | Média | Baixa | ✅ | Pasta Documentos definida por padrão. |
 | 43 | Estabilização: Inicialização Progressiva (Async) | Alta | Alta | ❌ | Dados só carregam manual/refresh. |
 | T1 | Testes Unitários (QtTest/GTest) | Alta | Alta | ❌ | Re-execução pendente (Refatoração). |
 | T2 | Análise Estática (Clang-Tidy/CppCheck) | Alta | Baixa | ❌ | Re-execução pendente (Refatoração). |

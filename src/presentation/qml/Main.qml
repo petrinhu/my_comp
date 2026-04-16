@@ -2,9 +2,10 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
+import QtCore
 
 Window {
-    id: root
+...
     width: 1024
     height: 768
     visible: true
@@ -97,22 +98,20 @@ Window {
     FileDialog {
         id: fileDialog
         title: "Selecionar Executável"
-        currentFolder: "file:///usr/bin"
+        currentFolder: StandardPaths.writableLocation(StandardPaths.ApplicationsLocation)
         onAccepted: {
-            // Converter URL para caminho local
-            let path = selectedFile.toString()
-            if (path.startsWith("file://")) path = path.substring(7)
-            exePathField.text = path
+            let path = selectedFile.toString().replace("file://", "")
+            exePathField.text = decodeURIComponent(path)
         }
     }
 
     FolderDialog {
         id: exportFolderDialog
         title: "Selecionar Pasta para Exportação"
+        currentFolder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: {
-            let path = selectedFolder.toString()
-            if (path.startsWith("file://")) path = path.substring(7)
-            exportPathField.text = path
+            let path = selectedFolder.toString().replace("file://", "")
+            exportPathField.text = decodeURIComponent(path)
         }
     }
 
@@ -620,6 +619,7 @@ Window {
                                 placeholderText: "Pasta de destino..."
                                 Layout.fillWidth: true
                                 readOnly: true
+                                text: StandardPaths.writableLocation(StandardPaths.DocumentsLocation).toString().replace("file://", "")
                             }
                             Button {
                                 text: "Escolher Pasta"
