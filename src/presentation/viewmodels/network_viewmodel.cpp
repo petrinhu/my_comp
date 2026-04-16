@@ -7,12 +7,12 @@ NetworkViewModel::NetworkViewModel(std::shared_ptr<domain::interfaces::INetworkP
     
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &NetworkViewModel::refresh);
-    m_timer->start(1500); // 1.5s para rede é um bom equilíbrio
-    
-    refresh();
 }
 
 void NetworkViewModel::refresh() {
+    if (!m_timer->isActive()) {
+        m_timer->start(1500);
+    }
     m_stats = m_provider->collect_stats();
     emit statsChanged();
 }

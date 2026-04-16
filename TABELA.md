@@ -39,7 +39,7 @@
 | 34 | Services: Criador de Daemons (Interface) | Alta | Alta | ✅ | OK |
 | 35 | Journal: Double-Click Search (Navegador) | Média | Baixa | ✅ | Implementado e Refinado. |
 | 36 | DevStack: Detecção de Compiladores/Containers | Média | Média | ✅ | OK |
-| 37 | Dashboard: Auto-refresh de CPU/MEM/Disk/Net | Alta | Média | ❌ | Vazio na inicialização. |
+| 37 | Dashboard: Auto-refresh de CPU/MEM/Disk/Net | Alta | Média | ✅ | Timers e sequenciador ativos. |
 | 38 | Dashboard: Interatividade (Click em Cards) | Média | Baixa | ❌ | Sem reação ao clique. |
 | 39 | Dashboard: Audio real-time e FFT | Alta | Média | ❌ | Vazio/Inerte. |
 | 40 | UI/UX: Barra de Rolagem em Listas Longas | Alta | Baixa | ✅ | ScrollViews implementados. |

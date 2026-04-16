@@ -50,12 +50,14 @@ Window {
                 case 1: userMetadataViewModel.refresh(); break;
                 case 2: cpuViewModel.refresh(); break;
                 case 3: memoryViewModel.refresh(); break;
-                case 4: processViewModel.refresh(); break;
-                case 5: serviceViewModel.refresh(); break;
-                case 6: devStackViewModel.refresh(); break;
-                case 7: updateViewModel.refresh(); break;
-                case 8: if (firmwareViewModel) firmwareViewModel.refresh(); break;
-                case 9: 
+                case 4: storageViewModel.refresh(); break;
+                case 5: networkViewModel.refresh(); break;
+                case 6: processViewModel.refresh(); break;
+                case 7: serviceViewModel.refresh(); break;
+                case 8: devStackViewModel.refresh(); break;
+                case 9: updateViewModel.refresh(); break;
+                case 10: if (firmwareViewModel) firmwareViewModel.refresh(); break;
+                case 11: 
                     if (audioViewModel) {
                         console.log("[Main] Starting audio...");
                         audioViewModel.start();

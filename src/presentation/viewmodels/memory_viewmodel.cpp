@@ -8,12 +8,12 @@ MemoryViewModel::MemoryViewModel(std::shared_ptr<domain::interfaces::IMemoryProv
     
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &MemoryViewModel::refresh);
-    m_timer->start(2000); // 2 segundos para memória é suficiente e economiza CPU
-    
-    refresh();
 }
 
 void MemoryViewModel::refresh() {
+    if (!m_timer->isActive()) {
+        m_timer->start(2000);
+    }
     m_stats = m_provider->collect_stats();
     emit statsChanged();
 }

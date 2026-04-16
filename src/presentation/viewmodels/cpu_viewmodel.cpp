@@ -6,19 +6,17 @@ namespace my_comp::presentation::viewmodels {
 CpuViewModel::CpuViewModel(std::shared_ptr<domain::interfaces::ICpuProvider> provider, QObject *parent)
     : QObject(parent), m_provider(provider) {
     
-    // Coleta inicial de arquitetura (estática)
+    // Coleta inicial de arquitetura (estática e rápida)
     m_arch = m_provider->collect_architecture();
     
-    // Timer para atualização periódica (1s)
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &CpuViewModel::refresh);
-    m_timer->start(1000);
-    
-    // Primeira coleta
-    refresh();
 }
 
 void CpuViewModel::refresh() {
+    if (!m_timer->isActive()) {
+        m_timer->start(1000);
+    }
     m_stats = m_provider->collect_stats();
     emit statsChanged();
 }

@@ -8,12 +8,12 @@ StorageViewModel::StorageViewModel(std::shared_ptr<domain::interfaces::IStorageP
     
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &StorageViewModel::refresh);
-    m_timer->start(1000);
-    
-    refresh();
 }
 
 void StorageViewModel::refresh() {
+    if (!m_timer->isActive()) {
+        m_timer->start(1000);
+    }
     m_stats = m_provider->collect_stats();
     emit statsChanged();
 }
