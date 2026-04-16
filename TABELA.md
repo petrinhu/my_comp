@@ -42,7 +42,7 @@
 | 37 | Dashboard: Auto-refresh de CPU/MEM/Disk/Net | Alta | Média | ❌ | Vazio na inicialização. |
 | 38 | Dashboard: Interatividade (Click em Cards) | Média | Baixa | ❌ | Sem reação ao clique. |
 | 39 | Dashboard: Audio real-time e FFT | Alta | Média | ❌ | Vazio/Inerte. |
-| 40 | UI/UX: Barra de Rolagem em Listas Longas | Alta | Baixa | ❌ | Não aparece no Explorador. |
+| 40 | UI/UX: Barra de Rolagem em Listas Longas | Alta | Baixa | ✅ | ScrollViews implementados. |
 | 41 | UI/UX: Seletor de Pasta Nativo (KDE) | Alta | Média | ❌ | Atualmente confuso/horrível. |
 | 42 | Export: Pasta Padrão e Histórico | Média | Baixa | ❌ | Sem pasta default definida. |
 | 43 | Estabilização: Inicialização Progressiva (Async) | Alta | Alta | ❌ | Dados só carregam manual/refresh. |
