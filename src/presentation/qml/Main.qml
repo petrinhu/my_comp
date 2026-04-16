@@ -38,9 +38,40 @@ Window {
 
     property int currentView: 0
 
+    // Sequenciador de Carga Inicial (Item 43)
+    Timer {
+        id: startupSequencer
+        interval: 300 // Aumentado para 300ms para maior estabilidade
+        repeat: true
+        property int step: 0
+        onTriggered: {
+            switch(step) {
+                case 0: systemInfoViewModel.refresh(); break;
+                case 1: userMetadataViewModel.refresh(); break;
+                case 2: cpuViewModel.refresh(); break;
+                case 3: memoryViewModel.refresh(); break;
+                case 4: processViewModel.refresh(); break;
+                case 5: serviceViewModel.refresh(); break;
+                case 6: devStackViewModel.refresh(); break;
+                case 7: updateViewModel.refresh(); break;
+                case 8: if (firmwareViewModel) firmwareViewModel.refresh(); break;
+                case 9: 
+                    if (audioViewModel) {
+                        console.log("[Main] Starting audio...");
+                        audioViewModel.start();
+                    }
+                    break;
+                default: 
+                    stop();
+                    console.log("[Main] Startup sequence completed.");
+                    return;
+            }
+            step++;
+        }
+    }
+
     Component.onCompleted: {
-        // systemInfoViewModel.refresh()
-        // diagnosticViewModel.refresh()
+        startupSequencer.start();
     }
 
     CpuDetailDialog { id: cpuDetailDialog }
