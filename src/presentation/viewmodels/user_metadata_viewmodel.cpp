@@ -4,7 +4,6 @@ namespace my_comp::presentation::viewmodels {
 
 UserMetadataViewModel::UserMetadataViewModel(std::shared_ptr<domain::interfaces::IUserMetadataProvider> provider, QObject* parent)
     : QObject(parent), m_provider(std::move(provider)) {
-    refresh();
 }
 
 QVariantMap UserMetadataViewModel::envVars() const {

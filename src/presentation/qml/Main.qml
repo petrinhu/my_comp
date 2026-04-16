@@ -37,6 +37,11 @@ Window {
 
     property int currentView: 0
 
+    Component.onCompleted: {
+        // systemInfoViewModel.refresh()
+        // diagnosticViewModel.refresh()
+    }
+
     CpuDetailDialog { id: cpuDetailDialog }
 
     // Dialog para Criar Daemon
@@ -355,24 +360,28 @@ Window {
                                     }
                                 }
 
-                                ListView {
-                                    id: processList
+                                ScrollView {
                                     Layout.fillWidth: true; Layout.fillHeight: true; clip: true
-                                    model: processViewModel.processes
-                                    delegate: ItemDelegate {
-                                        width: processList.width; height: 30
-                                        padding: 0
-                                        contentItem: RowLayout {
-                                            anchors.fill: parent; anchors.leftMargin: 10; anchors.rightMargin: 10
-                                            Text { text: modelData.pid; Layout.preferredWidth: 60; color: root.highlightColor; font.family: "Monospace" }
-                                            Text { text: modelData.user; Layout.preferredWidth: 100; color: root.textColor; font.pixelSize: 11 }
-                                            Text { text: modelData.cpu.toFixed(1); Layout.preferredWidth: 60; color: modelData.cpu > 50 ? root.criticalColor : "#2ecc71"; font.bold: true; font.family: "Monospace" }
-                                            Text { text: modelData.mem.toFixed(1); Layout.preferredWidth: 60; color: root.highlightColor; font.family: "Monospace" }
-                                            Text { text: modelData.state; Layout.preferredWidth: 50; color: modelData.state === "R" ? "#2ecc71" : "#7f8c8d"; font.bold: true }
-                                            Text { text: modelData.command; Layout.fillWidth: true; color: root.textColor; elide: Text.ElideRight; font.family: "Monospace"; font.pixelSize: 11 }
+                                    ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+
+                                    ListView {
+                                        id: processList
+                                        model: processViewModel.processes
+                                        delegate: ItemDelegate {
+                                            width: processList.width; height: 30
+                                            padding: 0
+                                            contentItem: RowLayout {
+                                                anchors.fill: parent; anchors.leftMargin: 10; anchors.rightMargin: 10
+                                                Text { text: modelData.pid; Layout.preferredWidth: 60; color: root.highlightColor; font.family: "Monospace" }
+                                                Text { text: modelData.user; Layout.preferredWidth: 100; color: root.textColor; font.pixelSize: 11 }
+                                                Text { text: modelData.cpu.toFixed(1); Layout.preferredWidth: 60; color: modelData.cpu > 50 ? root.criticalColor : "#2ecc71"; font.bold: true; font.family: "Monospace" }
+                                                Text { text: modelData.mem.toFixed(1); Layout.preferredWidth: 60; color: root.highlightColor; font.family: "Monospace" }
+                                                Text { text: modelData.state; Layout.preferredWidth: 50; color: modelData.state === "R" ? "#2ecc71" : "#7f8c8d"; font.bold: true }
+                                                Text { text: modelData.command; Layout.fillWidth: true; color: root.textColor; elide: Text.ElideRight; font.family: "Monospace"; font.pixelSize: 11 }
+                                            }
+                                            
+                                            onDoubleClicked: killConfirmDialog.openWith(modelData.pid, modelData.command)
                                         }
-                                        
-                                        onDoubleClicked: killConfirmDialog.openWith(modelData.pid, modelData.command)
                                     }
                                 }
                             }
@@ -399,24 +408,27 @@ Window {
                 }
                 Rectangle {
                     Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
-                    ListView {
-                        anchors.fill: parent; anchors.margins: 10; clip: true; model: updateViewModel.updateModel
-                        delegate: ItemDelegate {
-                            width: parent.width; height: 50
-                            onDoubleClicked: {
-                                let providerInt = 0
-                                if (source === "dnf") providerInt = 0
-                                else if (source === "flatpak") providerInt = 1
-                                else if (source === "npm") providerInt = 2
-                                else if (source === "snap") providerInt = 3
-                                
-                                installationViewModel.startInstallation(name, providerInt)
-                                root.currentView = 8 // ABA de Instalação
-                            }
-                            contentItem: RowLayout {
-                                Text { text: name; color: root.textColor; font.bold: true; Layout.fillWidth: true }
-                                Text { text: source; color: "#7f8c8d"; font.pixelSize: 10; Layout.preferredWidth: 60 }
-                                Text { text: newVersion; color: root.highlightColor }
+                    ScrollView {
+                        anchors.fill: parent; anchors.margins: 10; clip: true
+                        ListView {
+                            model: updateViewModel.updateModel
+                            delegate: ItemDelegate {
+                                width: parent.width; height: 50
+                                onDoubleClicked: {
+                                    let providerInt = 0
+                                    if (source === "dnf") providerInt = 0
+                                    else if (source === "flatpak") providerInt = 1
+                                    else if (source === "npm") providerInt = 2
+                                    else if (source === "snap") providerInt = 3
+                                    
+                                    installationViewModel.startInstallation(name, providerInt)
+                                    root.currentView = 8 // ABA de Instalação
+                                }
+                                contentItem: RowLayout {
+                                    Text { text: name; color: root.textColor; font.bold: true; Layout.fillWidth: true }
+                                    Text { text: source; color: "#7f8c8d"; font.pixelSize: 10; Layout.preferredWidth: 60 }
+                                    Text { text: newVersion; color: root.highlightColor }
+                                }
                             }
                         }
                     }
@@ -429,12 +441,15 @@ Window {
                 Text { text: "Analisador de Journal"; color: root.textColor; font.pixelSize: 24; font.bold: true }
                 Rectangle {
                     Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
-                    ListView {
-                        anchors.fill: parent; anchors.margins: 10; clip: true; model: diagnosticViewModel.logModel
-                        delegate: ItemDelegate {
-                            width: parent.width; height: 40
-                            onDoubleClicked: diagnosticViewModel.searchOnline(source + " " + message)
-                            contentItem: Text { text: message; color: root.textColor; elide: Text.ElideRight }
+                    ScrollView {
+                        anchors.fill: parent; anchors.margins: 10; clip: true
+                        ListView {
+                            model: diagnosticViewModel.logModel
+                            delegate: ItemDelegate {
+                                width: parent.width; height: 40
+                                onDoubleClicked: diagnosticViewModel.searchOnline(source + " " + message)
+                                contentItem: Text { text: message; color: root.textColor; elide: Text.ElideRight }
+                            }
                         }
                     }
                 }
@@ -451,23 +466,26 @@ Window {
                 }
                 Rectangle {
                     Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
-                    ListView {
-                        id: serviceList
-                        anchors.fill: parent; anchors.margins: 10; clip: true; model: serviceViewModel.services
-                        delegate: ItemDelegate {
-                            width: serviceList.width; height: 60
-                            onDoubleClicked: (modelData.activeState === "active") ? serviceViewModel.pauseService(modelData.name) : serviceViewModel.startService(modelData.name)
-                            contentItem: RowLayout {
-                                spacing: 15
-                                Rectangle { width: 10; height: 10; radius: 5; color: modelData.activeState === "active" ? "#2ecc71" : "#95a5a6" }
-                                ColumnLayout { spacing: 2; Layout.fillWidth: true
-                                    Text { text: modelData.name; color: root.textColor; font.bold: true; elide: Text.ElideRight; Layout.fillWidth: true }
-                                    Text { text: modelData.description; color: "#7f8c8d"; font.pixelSize: 10; elide: Text.ElideRight; Layout.fillWidth: true }
-                                }
-                                RowLayout {
-                                    Button { text: "▶️"; flat: true; visible: modelData.activeState !== "active"; onClicked: serviceViewModel.startService(modelData.name) }
-                                    Button { text: "⏸️"; flat: true; visible: modelData.activeState === "active"; onClicked: serviceViewModel.pauseService(modelData.name) }
-                                    Button { text: "⏹️"; flat: true; onClicked: serviceViewModel.stopService(modelData.name) }
+                    ScrollView {
+                        anchors.fill: parent; anchors.margins: 10; clip: true
+                        ListView {
+                            id: serviceList
+                            model: serviceViewModel.services
+                            delegate: ItemDelegate {
+                                width: serviceList.width; height: 60
+                                onDoubleClicked: (modelData.activeState === "active") ? serviceViewModel.pauseService(modelData.name) : serviceViewModel.startService(modelData.name)
+                                contentItem: RowLayout {
+                                    spacing: 15
+                                    Rectangle { width: 10; height: 10; radius: 5; color: modelData.activeState === "active" ? "#2ecc71" : "#95a5a6" }
+                                    ColumnLayout { spacing: 2; Layout.fillWidth: true
+                                        Text { text: modelData.name; color: root.textColor; font.bold: true; elide: Text.ElideRight; Layout.fillWidth: true }
+                                        Text { text: modelData.description; color: "#7f8c8d"; font.pixelSize: 10; elide: Text.ElideRight; Layout.fillWidth: true }
+                                    }
+                                    RowLayout {
+                                        Button { text: "▶️"; flat: true; visible: modelData.activeState !== "active"; onClicked: serviceViewModel.startService(modelData.name) }
+                                        Button { text: "⏸️"; flat: true; visible: modelData.activeState === "active"; onClicked: serviceViewModel.pauseService(modelData.name) }
+                                        Button { text: "⏹️"; flat: true; onClicked: serviceViewModel.stopService(modelData.name) }
+                                    }
                                 }
                             }
                         }
@@ -485,11 +503,14 @@ Window {
                 Text { text: "Hardware"; color: root.textColor; font.pixelSize: 24; font.bold: true }
                 Rectangle {
                     Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
-                    ListView {
-                        anchors.fill: parent; anchors.margins: 10; clip: true; model: firmwareViewModel.devices
-                        delegate: ItemDelegate {
-                            width: parent.width; height: 40
-                            contentItem: Text { text: modelData.name; color: root.textColor }
+                    ScrollView {
+                        anchors.fill: parent; anchors.margins: 10; clip: true
+                        ListView {
+                            model: firmwareViewModel.devices
+                            delegate: ItemDelegate {
+                                width: parent.width; height: 40
+                                contentItem: Text { text: modelData.name; color: root.textColor }
+                            }
                         }
                     }
                 }
@@ -555,9 +576,12 @@ Window {
                 Text { text: "Segurança"; color: root.textColor; font.pixelSize: 24; font.bold: true }
                 Rectangle {
                     Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
-                    ListView {
-                        anchors.fill: parent; anchors.margins: 10; clip: true; model: userMetadataViewModel.loginHistory
-                        delegate: Text { text: modelData; color: root.textColor; font.family: "Monospace"; font.pixelSize: 10 }
+                    ScrollView {
+                        anchors.fill: parent; anchors.margins: 10; clip: true
+                        ListView {
+                            model: userMetadataViewModel.loginHistory
+                            delegate: Text { text: modelData; color: root.textColor; font.family: "Monospace"; font.pixelSize: 10 }
+                        }
                     }
                 }
             }

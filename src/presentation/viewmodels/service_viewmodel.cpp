@@ -5,7 +5,6 @@ namespace my_comp::presentation::viewmodels {
 
 ServiceViewModel::ServiceViewModel(std::shared_ptr<domain::interfaces::IServiceProvider> provider, QObject* parent)
     : QObject(parent), m_provider(std::move(provider)) {
-    refresh();
 }
 
 QVariantList ServiceViewModel::services() const {

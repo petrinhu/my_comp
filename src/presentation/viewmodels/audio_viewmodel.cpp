@@ -6,7 +6,10 @@ AudioViewModel::AudioViewModel(std::shared_ptr<domain::interfaces::IAudioProvide
     : QObject(parent), m_provider(std::move(provider)) {
     
     m_provider->on_data_ready = [this](const domain::models::AudioData& data) {
-        update_data(data);
+        // Garantir que a atualização ocorra na thread da UI (Main Thread)
+        QMetaObject::invokeMethod(this, [this, data]() {
+            update_data(data);
+        }, Qt::QueuedConnection);
     };
 }
 
@@ -36,12 +39,14 @@ void AudioViewModel::update_data(const domain::models::AudioData& data) {
 }
 
 void AudioViewModel::start() {
+    if (!m_provider) return;
     if (m_provider->start_capture()) {
         emit isCapturingChanged();
     }
 }
 
 void AudioViewModel::stop() {
+    if (!m_provider) return;
     m_provider->stop_capture();
     emit isCapturingChanged();
 }

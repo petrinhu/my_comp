@@ -1,6 +1,7 @@
 #include "qt_audio_provider.h"
 #include <QAudioDevice>
 #include <QMediaDevices>
+#include <QDebug>
 #include <cmath>
 #include <algorithm>
 #include <complex>
@@ -9,50 +10,68 @@
 
 namespace my_comp::infrastructure::audio {
 
-QtAudioProvider::QtAudioProvider(QObject* parent) : QIODevice(parent) {
+// --- AudioSink Implementation ---
+
+AudioSink::AudioSink(std::function<void(const char*, qint64)> on_data, QObject* parent)
+    : QIODevice(parent), m_callback(std::move(on_data)) {
+    open(QIODevice::WriteOnly);
+}
+
+qint64 AudioSink::writeData(const char* data, qint64 len) {
+    if (m_callback) m_callback(data, len);
+    return len;
+}
+
+// --- QtAudioProvider Implementation ---
+
+QtAudioProvider::QtAudioProvider(QObject* parent) : QObject(parent) {
     m_format.setSampleRate(44100);
     m_format.setChannelCount(1);
     m_format.setSampleFormat(QAudioFormat::Float);
 
     auto device = QMediaDevices::defaultAudioInput();
-    m_audioSource = std::make_unique<QAudioSource>(device, m_format);
+    if (!device.isNull()) {
+        m_audioSource = std::make_unique<QAudioSource>(device, m_format);
+    } else {
+        qWarning() << "[Audio] No default audio input device found!";
+    }
+
+    // Criar o sink que servirá como alvo para o áudio
+    m_sink = std::make_unique<AudioSink>([this](const char* data, qint64 len) {
+        process_raw_data(data, len);
+    }, this);
 }
 
 QtAudioProvider::~QtAudioProvider() {
-    stop_capture_impl();
+    stop_capture();
 }
 
 bool QtAudioProvider::start_capture() {
     if (m_capturing) return true;
+    if (!m_audioSource || !m_sink) return false;
     
-    if (open(QIODevice::WriteOnly)) {
-        m_audioSource->start(this);
-        m_capturing = true;
-        return true;
-    }
-    return false;
+    m_audioSource->start(m_sink.get());
+    m_capturing = true;
+    return true;
 }
 
 void QtAudioProvider::stop_capture() {
-    stop_capture_impl();
-}
-
-void QtAudioProvider::stop_capture_impl() {
     if (!m_capturing) return;
-    m_audioSource->stop();
-    close();
+    if (m_audioSource) m_audioSource->stop();
     m_capturing = false;
 }
 
-qint64 QtAudioProvider::writeData(const char *data, qint64 len) {
+void QtAudioProvider::writeData(const char* data, qint64 len) {
+    process_raw_data(data, len);
+}
+
+void QtAudioProvider::process_raw_data(const char* data, qint64 len) {
     int sampleCount = static_cast<int>(len / sizeof(float));
     const float* samples = reinterpret_cast<const float*>(data);
     
     if (sampleCount > 0) {
         process_samples(samples, sampleCount);
     }
-    
-    return len;
 }
 
 void QtAudioProvider::process_samples(const float* samples, int count) {
@@ -70,8 +89,6 @@ void QtAudioProvider::process_samples(const float* samples, int count) {
     
     audioData.rms = std::sqrt(sumSq / count);
     audioData.peak = peak;
-    
-    // Gerar espectro de frequência via FFT
     audioData.spectrum = calculate_fft(samples, count);
     
     if (on_data_ready) {
@@ -81,30 +98,21 @@ void QtAudioProvider::process_samples(const float* samples, int count) {
 
 std::vector<float> QtAudioProvider::calculate_fft(const float* samples, int count) {
     if (count < 2) return {};
-
-    // Forçar potência de 2 para o algoritmo Radix-2
     size_t n = std::bit_floor(static_cast<size_t>(count));
     std::vector<std::complex<double>> data(n);
     
-    // Aplicar Janela de Hann para reduzir spectral leakage
     for (size_t i = 0; i < n; ++i) {
         double multiplier = 0.5 * (1.0 - std::cos(2.0 * M_PI * i / (n - 1)));
         data[i] = static_cast<double>(samples[i]) * multiplier;
     }
 
-    // Bit-reversal permutation
     for (size_t i = 1, j = 0; i < n; ++i) {
         size_t bit = n >> 1;
-        for (; j & bit; bit >>= 1) {
-            j ^= bit;
-        }
+        for (; j & bit; bit >>= 1) j ^= bit;
         j ^= bit;
-        if (i < j) {
-            std::swap(data[i], data[j]);
-        }
+        if (i < j) std::swap(data[i], data[j]);
     }
 
-    // Cooley-Tukey iterative
     for (size_t len = 2; len <= n; len <<= 1) {
         double ang = 2.0 * M_PI / len;
         std::complex<double> wlen(std::cos(ang), std::sin(ang));
@@ -120,13 +128,10 @@ std::vector<float> QtAudioProvider::calculate_fft(const float* samples, int coun
         }
     }
 
-    // Extrair magnitudes da metade do espectro (Nyquist)
-    // Usar normalização por 2/n para compensar a perda da janela e normalizar magnitude
     std::vector<float> spectrum(n / 2);
     for (size_t i = 0; i < n / 2; ++i) {
         spectrum[i] = static_cast<float>(std::abs(data[i]) * 2.0 / n);
     }
-    
     return spectrum;
 }
 

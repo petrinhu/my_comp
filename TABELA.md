@@ -39,11 +39,18 @@
 | 34 | Services: Criador de Daemons (Interface) | Alta | Alta | ✅ | OK |
 | 35 | Journal: Double-Click Search (Navegador) | Média | Baixa | ✅ | Implementado e Refinado. |
 | 36 | DevStack: Detecção de Compiladores/Containers | Média | Média | ✅ | OK |
-| T1 | Testes Unitários (QtTest/GTest) | Alta | Alta | ✅ | 12 testes passando. |
-| T2 | Análise Estática (Clang-Tidy/CppCheck) | Alta | Baixa | ✅ | CppCheck zero erros. |
-| T3 | Testes de Aceitação (ATDD) | Alta | Alta | ✅ | 2 suites passando. |
-| T4 | Análise Dinâmica (Valgrind/ASan) | Alta | Alta | ✅ | Valgrind zero erros. |
-| A3 | UI/UX e Acessibilidade (WCAG) | Média | Média | ✅ | Contraste AA Aprovado. |
-| A6 | Cobertura de Código (LCOV > 70%) | Média | Alta | ✅ | Atual: 70.8%. |
-| A9 | Análise Arquitetural (SOLID/SRP) | Alta | Alta | ✅ | Auditoria Final OK. |
-| A10 | Relatório Final de Auditoria | Alta | Baixa | ✅ | REPORTE_AUDITORIA.md. |
+| 37 | Dashboard: Auto-refresh de CPU/MEM/Disk/Net | Alta | Média | ❌ | Vazio na inicialização. |
+| 38 | Dashboard: Interatividade (Click em Cards) | Média | Baixa | ❌ | Sem reação ao clique. |
+| 39 | Dashboard: Audio real-time e FFT | Alta | Média | ❌ | Vazio/Inerte. |
+| 40 | UI/UX: Barra de Rolagem em Listas Longas | Alta | Baixa | ❌ | Não aparece no Explorador. |
+| 41 | UI/UX: Seletor de Pasta Nativo (KDE) | Alta | Média | ❌ | Atualmente confuso/horrível. |
+| 42 | Export: Pasta Padrão e Histórico | Média | Baixa | ❌ | Sem pasta default definida. |
+| 43 | Estabilização: Inicialização Progressiva (Async) | Alta | Alta | ❌ | Dados só carregam manual/refresh. |
+| T1 | Testes Unitários (QtTest/GTest) | Alta | Alta | ❌ | Re-execução pendente (Refatoração). |
+| T2 | Análise Estática (Clang-Tidy/CppCheck) | Alta | Baixa | ❌ | Re-execução pendente (Refatoração). |
+| T3 | Testes de Aceitação (ATDD) | Alta | Alta | ❌ | Re-execução pendente (Refatoração). |
+| T4 | Análise Dinâmica (Valgrind/ASan) | Alta | Alta | ❌ | Re-execução pendente (Refatoração). |
+| A3 | UI/UX e Acessibilidade (WCAG) | Média | Média | ❌ | Re-execução pendente (Refatoração). |
+| A6 | Cobertura de Código (LCOV > 70%) | Média | Alta | ❌ | Re-execução pendente (Refatoração). |
+| A9 | Análise Arquitetural (SOLID/SRP) | Alta | Alta | ❌ | Re-execução pendente (Refatoração). |
+| A10 | Relatório Final de Auditoria | Alta | Baixa | ❌ | Re-execução pendente (Refatoração). |

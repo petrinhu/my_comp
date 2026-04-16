@@ -5,7 +5,6 @@ namespace my_comp::presentation::viewmodels {
 
 DevStackViewModel::DevStackViewModel(std::shared_ptr<domain::interfaces::IDevStackProvider> provider, QObject* parent)
     : QObject(parent), m_provider(std::move(provider)) {
-    refresh();
 }
 
 QVariantList DevStackViewModel::toolchains() const {

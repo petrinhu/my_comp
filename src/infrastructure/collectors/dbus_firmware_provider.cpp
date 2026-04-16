@@ -46,18 +46,36 @@ std::vector<domain::models::FirmwareDevice> DBusFirmwareProvider::get_devices() 
 
     dbusArg.beginArray();
     while (!dbusArg.atEnd()) {
-        QMap<QString, QVariant> map;
-        dbusArg >> map;
+        // FWUPD retorna uma lista de dicionários: aa{sv}
+        // Cada elemento é um QDBusArgument que representa o dicionário {sv}
+        QVariant element;
+        dbusArg >> element;
         
-        domain::models::FirmwareDevice dev;
-        dev.id = map.value("DeviceId").toString();
-        dev.name = map.value("Name").toString();
-        dev.vendor = map.value("Vendor").toString();
-        dev.version = map.value("Version").toString();
-        
-        if (dev.name.isEmpty()) dev.name = dev.id.left(8);
-        
-        devices.push_back(dev);
+        if (element.canConvert<QDBusArgument>()) {
+            QDBusArgument mapArg = element.value<QDBusArgument>();
+            if (mapArg.currentType() == QDBusArgument::MapType) {
+                QMap<QString, QVariant> map;
+                mapArg.beginMap();
+                while (!mapArg.atEnd()) {
+                    QString key;
+                    QVariant value;
+                    mapArg.beginMapEntry();
+                    mapArg >> key >> value;
+                    mapArg.endMapEntry();
+                    map[key] = value;
+                }
+                mapArg.endMap();
+
+                domain::models::FirmwareDevice dev;
+                dev.id = map.value("DeviceId").toString();
+                dev.name = map.value("Name").toString();
+                dev.vendor = map.value("Vendor").toString();
+                dev.version = map.value("Version").toString();
+                
+                if (dev.name.isEmpty()) dev.name = dev.id.left(8);
+                devices.push_back(dev);
+            }
+        }
     }
     dbusArg.endArray();
 

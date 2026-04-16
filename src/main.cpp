@@ -4,6 +4,9 @@
 #include <QStyleHints>
 #include <QDebug>
 #include <QFile>
+#include <QMediaDevices>
+#include <QAudioDevice>
+#include <QTimer>
 #include <memory>
 
 #include "domain/update_manager.h"
@@ -58,18 +61,13 @@
 
 int main(int argc, char *argv[])
 {
-    // Mandato Wayland Nativo
     qputenv("QT_QPA_PLATFORM", "wayland");
 
     QGuiApplication app(argc, argv);
-    qDebug() << "[Main] my_comp v2.0 Alpha starting...";
-
     app.setOrganizationName("my_comp");
     app.setApplicationName("my_comp");
 
-    // Detecção de Tema do Sistema
     bool is_system_dark = (app.styleHints()->colorScheme() == Qt::ColorScheme::Dark);
-    qDebug() << "[Main] System Color Scheme is" << (is_system_dark ? "Dark" : "Light");
 
     // 1. Infraestrutura
     auto shell = std::make_shared<my_comp::infrastructure::collectors::QProcessShellExecutor>();
@@ -81,105 +79,76 @@ int main(int argc, char *argv[])
     auto system_info_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxSystemInfoProvider>(shell);
     auto interactive_runner = std::make_shared<my_comp::infrastructure::collectors::InteractiveProcessRunner>();
     auto installer_adapter = std::make_shared<my_comp::infrastructure::collectors::InstallerAdapter>(interactive_runner);
+    auto audio_provider = std::make_shared<my_comp::infrastructure::audio::QtAudioProvider>();
 
     // 2. Domínio
     auto update_manager = std::make_shared<my_comp::domain::UpdateManager>();
     auto diagnostic_manager = std::make_shared<my_comp::domain::DiagnosticManager>();
-    
     update_manager->set_installer(installer_adapter);
 
-    // Provedores de Sistema (Detectar Distro)
-    if (QFile::exists("/usr/bin/dnf"))
-        update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::DnfUpdateProvider>(shell));
-    else if (QFile::exists("/usr/bin/apt"))
-        update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::AptUpdateProvider>(shell));
-    else if (QFile::exists("/usr/bin/pacman"))
-        update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::PacmanUpdateProvider>(shell));
-
-    // Provedores Universais/Dev
-    if (QFile::exists("/usr/bin/flatpak"))
-        update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::FlatpakUpdateProvider>(shell));
-    
-    if (QFile::exists("/usr/bin/snap"))
-        update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::SnapUpdateProvider>(shell));
-    
-    if (QFile::exists("/usr/bin/npm"))
-        update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::NpmUpdateProvider>(shell));
-    
-    if (QFile::exists("/usr/bin/cargo"))
-        update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::CargoUpdateProvider>(shell));
+    if (QFile::exists("/usr/bin/dnf")) update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::DnfUpdateProvider>(shell));
+    if (QFile::exists("/usr/bin/apt")) update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::AptUpdateProvider>(shell));
+    if (QFile::exists("/usr/bin/pacman")) update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::PacmanUpdateProvider>(shell));
+    if (QFile::exists("/usr/bin/flatpak")) update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::FlatpakUpdateProvider>(shell));
+    if (QFile::exists("/usr/bin/snap")) update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::SnapUpdateProvider>(shell));
+    if (QFile::exists("/usr/bin/npm")) update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::NpmUpdateProvider>(shell));
+    if (QFile::exists("/usr/bin/cargo")) update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::CargoUpdateProvider>(shell));
 
     diagnostic_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::JournalDiagnosticProvider>(shell));
 
-    // 3. Apresentação
-    my_comp::presentation::viewmodels::UpdateViewModel update_vm(update_manager);
-    my_comp::presentation::viewmodels::DiagnosticViewModel diagnostic_vm(diagnostic_manager);
-    my_comp::presentation::viewmodels::CpuViewModel cpu_vm(cpu_provider);
-    my_comp::presentation::viewmodels::MemoryViewModel memory_vm(memory_provider);
-    my_comp::presentation::viewmodels::FirmwareViewModel firmware_vm(firmware_provider);
-    my_comp::presentation::viewmodels::GpuViewModel gpu_vm(shell);
-    my_comp::presentation::viewmodels::PowerViewModel power_vm;
-    my_comp::presentation::viewmodels::StorageViewModel storage_vm(storage_provider);
-    my_comp::presentation::viewmodels::NetworkViewModel network_vm(network_provider);
-    my_comp::presentation::viewmodels::SystemInfoViewModel system_info_vm(system_info_provider);
-    my_comp::presentation::viewmodels::InstallationViewModel installation_vm(installer_adapter);
-
+    // 3. Apresentação (Heap)
+    auto update_vm = std::make_unique<my_comp::presentation::viewmodels::UpdateViewModel>(update_manager);
+    auto diagnostic_vm = std::make_unique<my_comp::presentation::viewmodels::DiagnosticViewModel>(diagnostic_manager);
+    auto cpu_vm = std::make_unique<my_comp::presentation::viewmodels::CpuViewModel>(cpu_provider);
+    auto memory_vm = std::make_unique<my_comp::presentation::viewmodels::MemoryViewModel>(memory_provider);
+    auto firmware_vm = std::make_unique<my_comp::presentation::viewmodels::FirmwareViewModel>(firmware_provider);
+    auto gpu_vm = std::make_unique<my_comp::presentation::viewmodels::GpuViewModel>(shell);
+    auto power_vm = std::make_unique<my_comp::presentation::viewmodels::PowerViewModel>();
+    auto storage_vm = std::make_unique<my_comp::presentation::viewmodels::StorageViewModel>(storage_provider);
+    auto network_vm = std::make_unique<my_comp::presentation::viewmodels::NetworkViewModel>(network_provider);
+    auto system_info_vm = std::make_unique<my_comp::presentation::viewmodels::SystemInfoViewModel>(system_info_provider);
+    auto installation_vm = std::make_unique<my_comp::presentation::viewmodels::InstallationViewModel>(installer_adapter);
+    auto audio_vm = std::make_unique<my_comp::presentation::viewmodels::AudioViewModel>(audio_provider);
     auto user_metadata_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxUserMetadataProvider>(shell);
-    my_comp::presentation::viewmodels::UserMetadataViewModel user_metadata_vm(user_metadata_provider);
-
+    auto user_metadata_vm = std::make_unique<my_comp::presentation::viewmodels::UserMetadataViewModel>(user_metadata_provider);
     auto hardware_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxHardwareProvider>(shell);
-    my_comp::presentation::viewmodels::HardwareViewModel hardware_vm(hardware_provider);
-
+    auto hardware_vm = std::make_unique<my_comp::presentation::viewmodels::HardwareViewModel>(hardware_provider);
     auto service_provider = std::make_shared<my_comp::infrastructure::collectors::SystemdServiceProvider>(shell);
-    my_comp::presentation::viewmodels::ServiceViewModel service_vm(service_provider);
-
+    auto service_vm = std::make_unique<my_comp::presentation::viewmodels::ServiceViewModel>(service_provider);
     auto process_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxProcessProvider>();
-    my_comp::presentation::viewmodels::ProcessViewModel process_vm(process_provider);
-
+    auto process_vm = std::make_unique<my_comp::presentation::viewmodels::ProcessViewModel>(process_provider);
     auto dev_stack_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxDevStackProvider>(shell);
-    my_comp::presentation::viewmodels::DevStackViewModel dev_stack_vm(dev_stack_provider);
-my_comp::presentation::viewmodels::ExportViewModel export_vm;
-export_vm.add_provider(std::make_unique<my_comp::infrastructure::exporters::JsonExportProvider>());
-export_vm.add_provider(std::make_unique<my_comp::infrastructure::exporters::MarkdownExportProvider>());
-export_vm.add_provider(std::make_unique<my_comp::infrastructure::exporters::HtmlExportProvider>());
-export_vm.set_vms(&system_info_vm, &cpu_vm, &memory_vm, &user_metadata_vm, &hardware_vm, &dev_stack_vm);
-
-auto audio_provider = std::make_shared<my_comp::infrastructure::audio::QtAudioProvider>();
-my_comp::presentation::viewmodels::AudioViewModel audio_vm(audio_provider);
-audio_vm.start();
-
-QQmlApplicationEngine engine;
-
-// Injeção de Contexto
-    engine.rootContext()->setContextProperty("isSystemDarkInitial", is_system_dark);
-    engine.rootContext()->setContextProperty("updateViewModel", &update_vm);
-    engine.rootContext()->setContextProperty("diagnosticViewModel", &diagnostic_vm);
-    engine.rootContext()->setContextProperty("cpuViewModel", &cpu_vm);
-    engine.rootContext()->setContextProperty("memoryViewModel", &memory_vm);
-    engine.rootContext()->setContextProperty("firmwareViewModel", &firmware_vm);
-    engine.rootContext()->setContextProperty("gpuViewModel", &gpu_vm);
-    engine.rootContext()->setContextProperty("powerViewModel", &power_vm);
-    engine.rootContext()->setContextProperty("systemInfoViewModel", &system_info_vm);
-    engine.rootContext()->setContextProperty("userMetadataViewModel", &user_metadata_vm);
-    engine.rootContext()->setContextProperty("hardwareViewModel", &hardware_vm);
-    engine.rootContext()->setContextProperty("serviceViewModel", &service_vm);
-    engine.rootContext()->setContextProperty("processViewModel", &process_vm);
-    engine.rootContext()->setContextProperty("devStackViewModel", &dev_stack_vm);
-    engine.rootContext()->setContextProperty("exportViewModel", &export_vm);
-    engine.rootContext()->setContextProperty("audioViewModel", &audio_vm);
-    engine.rootContext()->setContextProperty("installationViewModel", &installation_vm);
-    engine.rootContext()->setContextProperty("storageViewModel", &storage_vm);
-    engine.rootContext()->setContextProperty("networkViewModel", &network_vm);
-
-    const QUrl url(u"qrc:/my_comp/src/presentation/qml/Main.qml"_qs);
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-        &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl) {
-            qCritical() << "[Main] Failed to create QML object!";
-            QCoreApplication::exit(-1);
-        }
-    }, Qt::QueuedConnection);
+    auto dev_stack_vm = std::make_unique<my_comp::presentation::viewmodels::DevStackViewModel>(dev_stack_provider);
+    auto export_vm = std::make_unique<my_comp::presentation::viewmodels::ExportViewModel>();
     
+    export_vm->add_provider(std::make_unique<my_comp::infrastructure::exporters::JsonExportProvider>());
+    export_vm->add_provider(std::make_unique<my_comp::infrastructure::exporters::MarkdownExportProvider>());
+    export_vm->add_provider(std::make_unique<my_comp::infrastructure::exporters::HtmlExportProvider>());
+    export_vm->set_vms(system_info_vm.get(), cpu_vm.get(), memory_vm.get(), user_metadata_vm.get(), hardware_vm.get(), dev_stack_vm.get());
+
+    QQmlApplicationEngine engine;
+    auto ctx = engine.rootContext();
+    ctx->setContextProperty("isSystemDarkInitial", is_system_dark);
+    ctx->setContextProperty("updateViewModel", update_vm.get());
+    ctx->setContextProperty("diagnosticViewModel", diagnostic_vm.get());
+    ctx->setContextProperty("cpuViewModel", cpu_vm.get());
+    ctx->setContextProperty("memoryViewModel", memory_vm.get());
+    ctx->setContextProperty("firmwareViewModel", firmware_vm.get());
+    ctx->setContextProperty("gpuViewModel", gpu_vm.get());
+    ctx->setContextProperty("powerViewModel", power_vm.get());
+    ctx->setContextProperty("systemInfoViewModel", system_info_vm.get());
+    ctx->setContextProperty("userMetadataViewModel", user_metadata_vm.get());
+    ctx->setContextProperty("hardwareViewModel", hardware_vm.get());
+    ctx->setContextProperty("serviceViewModel", service_vm.get());
+    ctx->setContextProperty("processViewModel", process_vm.get());
+    ctx->setContextProperty("devStackViewModel", dev_stack_vm.get());
+    ctx->setContextProperty("exportViewModel", export_vm.get());
+    ctx->setContextProperty("audioViewModel", audio_vm.get());
+    ctx->setContextProperty("installationViewModel", installation_vm.get());
+    ctx->setContextProperty("storageViewModel", storage_vm.get());
+    ctx->setContextProperty("networkViewModel", network_vm.get());
+
+    const QUrl url(u"qrc:/Main.qml"_qs);
     engine.load(url);
 
     return app.exec();

@@ -21,7 +21,7 @@ public:
     QVariantList spectrum() const { return m_spectrum; }
     float rms() const { return m_rms; }
     float peak() const { return m_peak; }
-    bool isCapturing() const { return m_provider->is_capturing(); }
+    bool isCapturing() const { return m_provider ? m_provider->is_capturing() : false; }
 
     Q_INVOKABLE void start();
     Q_INVOKABLE void stop();

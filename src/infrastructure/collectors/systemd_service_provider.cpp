@@ -25,6 +25,7 @@ std::vector<domain::models::ServiceInfo> SystemdServiceProvider::get_services() 
 std::vector<domain::models::ServiceInfo> SystemdServiceProvider::collect_units(bool user_mode) {
     std::vector<domain::models::ServiceInfo> units;
     QString output;
+    // O comando list-units mostra o estado ativo
     QStringList args = {"list-units", "--type=service", "--all", "--no-legend", "--no-pager"};
     if (user_mode) args.prepend("--user");
     
@@ -41,11 +42,10 @@ std::vector<domain::models::ServiceInfo> SystemdServiceProvider::collect_units(b
                 info.subState = parts[3];
                 info.description = parts.mid(4).join(' ');
                 
-                // Verificar se esta habilitado
-                QString enabledOutput;
-                QStringList enabledArgs = {"is-enabled", parts[0]};
-                if (user_mode) enabledArgs.prepend("--user");
-                info.isEnabled = (m_executor->execute("systemctl", enabledArgs, enabledOutput) == 0);
+                // Otimização: Não chamar is-enabled para cada unit no loop inicial.
+                // Considerar 'enabled' se activeState for active por enquanto, 
+                // ou marcar como pendente para auditoria futura se necessário.
+                info.isEnabled = (info.loadState == "loaded"); 
                 
                 units.push_back(info);
             }

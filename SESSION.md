@@ -1,21 +1,25 @@
 # Registro de Sessão — my_comp v2.0 Alpha
-**Data:** 11 de abril de 2026
+**Data:** 16 de abril de 2026
 
 ## 🎯 Objetivo da Sessão
-Finalizar auditoria técnica, corrigir bugs de estabilidade (uninitialized vars), refatorar build system e implementar busca online no Journal.
+Resolver instabilidade de memória (SEGV) e estabilizar a inicialização do sistema em ambiente Fedora/Wayland.
 
 ## ✅ Progresso Realizado
-- [x] **Build System**: CMakeLists.txt refatorado para suportar testes unitários e de aceitação de forma robusta.
-- [x] **Estabilidade**: Corrigidas variáveis não inicializadas em `LinuxCpuProvider` e `LinuxHardwareProvider` (T2).
-- [x] **Segurança**: Removidas chamadas virtuais de construtores/destrutores em classes de infraestrutura (T2).
-- [x] **Funcionalidade**: Refinada busca online no Journal (Item 35) com suporte a Source e Message.
-- [x] **Audio**: Implementada FFT (Fast Fourier Transform) com janela de Hann e visualizador de espectro em tempo real no Dashboard.
-- [x] **Fuzzing & Carga**: Validada resistência a inputs malformados (NaN/Inf) e performance de 10k logs/ms.
-- [x] **Auditoria**: Executado `CppCheck` (100% OK), `Valgrind` (100% OK), `WCAG Contrast` (Aprovado).
-- [x] **Acessibilidade**: Tooltips adicionadas e paleta de cores corrigida para conformidade WCAG AA.
-- [x] **Documentação**: Gerado `REPORTE_AUDITORIA.md` com scores de qualidade.
+- [x] **Estabilidade**: Resolvida corrupção de heap causada por chamadas inseguras ao DBus (Firmware).
+- [x] **Estabilidade**: Resolvida condição de corrida no Áudio usando `QMetaObject::invokeMethod`.
+- [x] **Estabilidade**: Resolvida corrupção de heap no Parsing de Processos (Remoção de substrings inseguras).
+- [x] **Estabilidade**: Blindagem de funções libc não reentrantes (`getpwuid_r`, `getgrgid_r`).
+- [x] **Arquitetura**: Implementada inicialização progressiva (Lazy Init) para evitar sobrecarga de processos.
+- [x] **Audio**: Refatorado `QtAudioProvider` usando composição para isolar ciclo de vida do backend Pipewire.
 
-## 🚀 Próximos Passos Recomendados
-1. Preparar release Beta v2.0.
-2. Fuzzing e testes de carga.
-3. Revisão final de conformidade com Wayland nativo.
+## 🛑 Diagnóstico de UI/UX (Avaliação Manual v1)
+1. **Dados Vazios**: Dashboard, Journal e Hardware não carregam automaticamente (requerem refresh manual).
+2. **Interatividade Nula**: Cliques nos cards do Dashboard não geram ações.
+3. **UX Crítica (0/10)**: O seletor de pasta de exportação está confuso, sem árvore de arquivos e não nativo do KDE.
+4. **Layout**: Falta de barras de rolagem em listas longas (Explorador de Processos).
+
+## 🚀 Próximos Passos (Sprint de UX e Integração)
+1. **Item 43**: Implementar sequenciador de carga assíncrona para que os dados apareçam sozinhos sem crashar.
+2. **Item 41**: Integrar `StandardFileDialog` ou `KDE Portal` para seletor de pastas nativo.
+3. **Item 40**: Corrigir Scrollbars e UX de navegação interna.
+4. **Item 37/39**: Reativar monitoramento em tempo real de CPU/Audio de forma segura.

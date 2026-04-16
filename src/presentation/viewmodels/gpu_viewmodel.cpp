@@ -6,20 +6,11 @@
 
 namespace my_comp::presentation::viewmodels {
 
-GpuViewModel::GpuViewModel(std::shared_ptr<IShellExecutor> executor, QObject* parent) : QObject(parent) {
-    // Tenta detectar NVIDIA primeiro via IShellExecutor
-    QString output;
-    if (executor->execute("which", {"nvidia-smi"}, output) == 0) {
-        m_providers.push_back(std::make_unique<infrastructure::collectors::NvidiaGpuProvider>(executor));
-    } else {
-        m_providers.push_back(std::make_unique<infrastructure::collectors::SysfsGpuProvider>());
-    }
-
+GpuViewModel::GpuViewModel(std::shared_ptr<IShellExecutor> executor, QObject* parent) 
+    : QObject(parent), m_executor(executor) {
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &GpuViewModel::update_stats);
     m_timer->start(2000);
-    
-    update_stats();
 }
 
 GpuViewModel::GpuViewModel(std::vector<std::unique_ptr<IGpuProvider>> providers, QObject* parent)
@@ -27,13 +18,21 @@ GpuViewModel::GpuViewModel(std::vector<std::unique_ptr<IGpuProvider>> providers,
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &GpuViewModel::update_stats);
     m_timer->start(2000);
-    
     update_stats();
 }
 
 void GpuViewModel::update_stats() {
+    // Inicialização tardia (Lazy Init) para evitar shell no construtor
+    if (m_providers.empty() && m_executor) {
+        QString output;
+        if (m_executor->execute("which", {"nvidia-smi"}, output) == 0) {
+            m_providers.push_back(std::make_unique<infrastructure::collectors::NvidiaGpuProvider>(m_executor));
+        } else {
+            m_providers.push_back(std::make_unique<infrastructure::collectors::SysfsGpuProvider>());
+        }
+    }
+
     QVariantList newList;
-    
     for (const auto& provider : m_providers) {
         auto stats_list = provider->collect_stats();
         for (const auto& stats : stats_list) {

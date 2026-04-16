@@ -1,4 +1,5 @@
 #include "diagnostic_viewmodel.h"
+#include <QtConcurrent>
 
 namespace my_comp::presentation::viewmodels {
 
@@ -10,14 +11,21 @@ void DiagnosticViewModel::refresh() {
     is_busy_ = true;
     emit isBusyChanged();
     
-    auto logs = manager_->fetch_all_logs(
-        static_cast<my_comp::domain::DiagnosticFilter>(m_current_filter), 
-        search_query_
-    );
-    
-    model_->setLogs(std::move(logs));
-    is_busy_ = false;
-    emit isBusyChanged();
+    int filter = m_current_filter;
+    QString query = search_query_;
+
+    (void)QtConcurrent::run([this, filter, query]() {
+        auto logs = manager_->fetch_all_logs(
+            static_cast<my_comp::domain::DiagnosticFilter>(filter), 
+            query
+        );
+        
+        QMetaObject::invokeMethod(this, [this, logs]() mutable {
+            model_->setLogs(std::move(logs));
+            is_busy_ = false;
+            emit isBusyChanged();
+        }, Qt::QueuedConnection);
+    });
 }
 
 void DiagnosticViewModel::performSearch() {

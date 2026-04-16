@@ -24,13 +24,13 @@ public:
 
     QVariantList gpus() const { return m_gpus; }
 
+    Q_INVOKABLE void update_stats();
+
 signals:
     void gpusChanged();
 
-private slots:
-    void update_stats();
-
 private:
+    std::shared_ptr<IShellExecutor> m_executor;
     std::vector<std::unique_ptr<IGpuProvider>> m_providers;
     QVariantList m_gpus;
     QTimer* m_timer;

@@ -6,7 +6,6 @@ namespace my_comp::presentation::viewmodels {
 
 FirmwareViewModel::FirmwareViewModel(std::shared_ptr<domain::interfaces::IFirmwareProvider> provider, QObject *parent)
     : QObject(parent), m_provider(provider) {
-    refresh();
 }
 
 QVariantList FirmwareViewModel::devices() const {

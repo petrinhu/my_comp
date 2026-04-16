@@ -9,9 +9,6 @@ ProcessViewModel::ProcessViewModel(std::shared_ptr<domain::interfaces::IProcessP
     
     m_refreshTimer = new QTimer(this);
     connect(m_refreshTimer, &QTimer::timeout, this, &ProcessViewModel::refresh);
-    m_refreshTimer->start(2000); // 2 segundos (estilo htop default)
-    
-    refresh();
 }
 
 QVariantList ProcessViewModel::processes() const {
@@ -76,9 +73,33 @@ void ProcessViewModel::setSortAscending(bool asc) {
 }
 
 void ProcessViewModel::refresh() {
-    m_data = m_provider->collect_processes();
-    sortData();
-    emit processesChanged();
+    if (m_isBusy) return;
+    m_isBusy = true; // Necessário adicionar este membro
+
+    if (m_refreshTimer && !m_refreshTimer->isActive()) {
+        m_refreshTimer->start(2000);
+    }
+
+    (void)QtConcurrent::run([this]() {
+        auto raw_data = m_provider->collect_processes();
+        
+        // Ordenar na thread separada
+        std::sort(raw_data.begin(), raw_data.end(), [this](const auto& a, const auto& b) {
+            bool result = false;
+            if (m_sortField == "cpu") result = a.cpuPercent < b.cpuPercent;
+            else if (m_sortField == "mem") result = a.memPercent < b.memPercent;
+            else if (m_sortField == "pid") result = a.pid < b.pid;
+            else if (m_sortField == "user") result = a.user < b.user;
+            else result = a.cpuPercent < b.cpuPercent;
+            return m_sortAscending ? result : !result;
+        });
+
+        QMetaObject::invokeMethod(this, [this, raw_data]() {
+            m_data = raw_data;
+            m_isBusy = false;
+            emit processesChanged();
+        }, Qt::QueuedConnection);
+    });
 }
 
 void ProcessViewModel::killProcess(int pid, int signal) {

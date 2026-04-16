@@ -1,0 +1,277 @@
+Note: Google Test filter = -AudioFuzzTest*:JournalLoadTest*
+[==========] Running 56 tests from 43 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from PlaceholderTest
+[ RUN      ] PlaceholderTest.InitialSetup
+[       OK ] PlaceholderTest.InitialSetup (13 ms)
+[----------] 1 test from PlaceholderTest (21 ms total)
+
+[----------] 1 test from DnfUpdateProviderTest
+[ RUN      ] DnfUpdateProviderTest.ShouldIdentifyUpdatesFromDnfOutput
+[       OK ] DnfUpdateProviderTest.ShouldIdentifyUpdatesFromDnfOutput (1549 ms)
+[----------] 1 test from DnfUpdateProviderTest (1550 ms total)
+
+[----------] 1 test from FlatpakUpdateProviderTest
+[ RUN      ] FlatpakUpdateProviderTest.ShouldIdentifyUpdatesFromFlatpakOutput
+[       OK ] FlatpakUpdateProviderTest.ShouldIdentifyUpdatesFromFlatpakOutput (18 ms)
+[----------] 1 test from FlatpakUpdateProviderTest (18 ms total)
+
+[----------] 1 test from NpmUpdateProviderTest
+[ RUN      ] NpmUpdateProviderTest.ShouldIdentifyUpdatesFromNpmJsonOutput
+[       OK ] NpmUpdateProviderTest.ShouldIdentifyUpdatesFromNpmJsonOutput (43 ms)
+[----------] 1 test from NpmUpdateProviderTest (43 ms total)
+
+[----------] 1 test from UpdateViewModelTest
+[ RUN      ] UpdateViewModelTest.ShouldRefreshUpdatesFromManager
+[       OK ] UpdateViewModelTest.ShouldRefreshUpdatesFromManager (81 ms)
+[----------] 1 test from UpdateViewModelTest (81 ms total)
+
+[----------] 1 test from JournalProviderTest
+[ RUN      ] JournalProviderTest.ShouldParseJournalErrorOutput
+[       OK ] JournalProviderTest.ShouldParseJournalErrorOutput (47 ms)
+[----------] 1 test from JournalProviderTest (47 ms total)
+
+[----------] 2 tests from LinuxMemoryProviderTest
+[ RUN      ] LinuxMemoryProviderTest.ShouldParseMeminfo
+[       OK ] LinuxMemoryProviderTest.ShouldParseMeminfo (149 ms)
+[ RUN      ] LinuxMemoryProviderTest.ShouldHandleSwap
+[       OK ] LinuxMemoryProviderTest.ShouldHandleSwap (12 ms)
+[----------] 2 tests from LinuxMemoryProviderTest (162 ms total)
+
+[----------] 3 tests from UserMetadataProviderTest
+[ RUN      ] UserMetadataProviderTest.ShouldCollectCurrentUserInfo
+
+GMOCK WARNING:
+Uninteresting mock function call - returning default value.
+    Function call: execute(@0x1ffeffe9d0 { 2-byte object <62-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <68-00> }, @0x1ffeffe980 { { 2-byte object <2D-00>, 2-byte object <63-00> }, { 2-byte object <75-00>, 2-byte object <6C-00>, 2-byte object <69-00>, 2-byte object <6D-00>, 2-byte object <69-00>, 2-byte object <74-00>, 2-byte object <20-00>, 2-byte object <2D-00>, 2-byte object <61-00> } }, @0x1ffeffe960 {})
+          Returns: 0
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
+
+GMOCK WARNING:
+Uninteresting mock function call - returning default value.
+    Function call: execute(@0x1ffeffe9d0 { 2-byte object <6C-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <74-00> }, @0x1ffeffe980 { { 2-byte object <2D-00>, 2-byte object <6E-00> }, { 2-byte object <32-00>, 2-byte object <30-00> } }, @0x1ffeffe960 {})
+          Returns: 0
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
+[       OK ] UserMetadataProviderTest.ShouldCollectCurrentUserInfo (1755 ms)
+[ RUN      ] UserMetadataProviderTest.ShouldCallShellForLimitsAndHistory
+[       OK ] UserMetadataProviderTest.ShouldCallShellForLimitsAndHistory (99 ms)
+[ RUN      ] UserMetadataProviderTest.ShouldCollectEnvVars
+
+GMOCK WARNING:
+Uninteresting mock function call - returning default value.
+    Function call: execute(@0x1ffeffe9e0 { 2-byte object <62-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <68-00> }, @0x1ffeffe990 { { 2-byte object <2D-00>, 2-byte object <63-00> }, { 2-byte object <75-00>, 2-byte object <6C-00>, 2-byte object <69-00>, 2-byte object <6D-00>, 2-byte object <69-00>, 2-byte object <74-00>, 2-byte object <20-00>, 2-byte object <2D-00>, 2-byte object <61-00> } }, @0x1ffeffe970 {})
+          Returns: 0
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
+
+GMOCK WARNING:
+Uninteresting mock function call - returning default value.
+    Function call: execute(@0x1ffeffe9e0 { 2-byte object <6C-00>, 2-byte object <61-00>, 2-byte object <73-00>, 2-byte object <74-00> }, @0x1ffeffe990 { { 2-byte object <2D-00>, 2-byte object <6E-00> }, { 2-byte object <32-00>, 2-byte object <30-00> } }, @0x1ffeffe970 {})
+          Returns: 0
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
+[       OK ] UserMetadataProviderTest.ShouldCollectEnvVars (91 ms)
+[----------] 3 tests from UserMetadataProviderTest (1946 ms total)
+
+[----------] 1 test from DiagnosticViewModelTest
+[ RUN      ] DiagnosticViewModelTest.ShouldGenerateSearchUrl
+[       OK ] DiagnosticViewModelTest.ShouldGenerateSearchUrl (10 ms)
+[----------] 1 test from DiagnosticViewModelTest (10 ms total)
+
+[----------] 2 tests from LinuxCpuProviderTest
+[ RUN      ] LinuxCpuProviderTest.ShouldCollectStatsFromRealSystem
+[       OK ] LinuxCpuProviderTest.ShouldCollectStatsFromRealSystem (66 ms)
+[ RUN      ] LinuxCpuProviderTest.ShouldCollectArchitectureFromRealSystem
+[       OK ] LinuxCpuProviderTest.ShouldCollectArchitectureFromRealSystem (1350 ms)
+[----------] 2 tests from LinuxCpuProviderTest (1418 ms total)
+
+[----------] 1 test from LinuxSystemInfoProviderTest
+[ RUN      ] LinuxSystemInfoProviderTest.ShouldCollectSystemInfoFromRealSystem
+[       OK ] LinuxSystemInfoProviderTest.ShouldCollectSystemInfoFromRealSystem (258 ms)
+[----------] 1 test from LinuxSystemInfoProviderTest (259 ms total)
+
+[----------] 1 test from LinuxStorageProviderTest
+[ RUN      ] LinuxStorageProviderTest.ShouldCollectStorageStatsFromRealSystem
+[       OK ] LinuxStorageProviderTest.ShouldCollectStorageStatsFromRealSystem (43 ms)
+[----------] 1 test from LinuxStorageProviderTest (44 ms total)
+
+[----------] 1 test from LinuxNetworkProviderTest
+[ RUN      ] LinuxNetworkProviderTest.ShouldCollectNetworkStatsFromRealSystem
+[       OK ] LinuxNetworkProviderTest.ShouldCollectNetworkStatsFromRealSystem (146 ms)
+[----------] 1 test from LinuxNetworkProviderTest (147 ms total)
+
+[----------] 1 test from LinuxPowerProviderTest
+[ RUN      ] LinuxPowerProviderTest.ShouldCollectPowerStatsFromRealSystem
+[       OK ] LinuxPowerProviderTest.ShouldCollectPowerStatsFromRealSystem (33 ms)
+[----------] 1 test from LinuxPowerProviderTest (33 ms total)
+
+[----------] 1 test from LinuxHardwareProviderTest
+[ RUN      ] LinuxHardwareProviderTest.ShouldCollectHardwareTopologyFromRealSystem
+[       OK ] LinuxHardwareProviderTest.ShouldCollectHardwareTopologyFromRealSystem (109 ms)
+[----------] 1 test from LinuxHardwareProviderTest (109 ms total)
+
+[----------] 2 tests from LinuxProcessProviderTest
+[ RUN      ] LinuxProcessProviderTest.ShouldCollectProcessesFromRealSystem
+[       OK ] LinuxProcessProviderTest.ShouldCollectProcessesFromRealSystem (770 ms)
+[ RUN      ] LinuxProcessProviderTest.ShouldHandleKillAndPriorityGracefully
+[       OK ] LinuxProcessProviderTest.ShouldHandleKillAndPriorityGracefully (2 ms)
+[----------] 2 tests from LinuxProcessProviderTest (773 ms total)
+
+[----------] 3 tests from SystemdServiceProviderTest
+[ RUN      ] SystemdServiceProviderTest.ShouldCollectServicesFromRealSystem
+[       OK ] SystemdServiceProviderTest.ShouldCollectServicesFromRealSystem (13161 ms)
+[ RUN      ] SystemdServiceProviderTest.ShouldHandleCommandsGracefully
+[       OK ] SystemdServiceProviderTest.ShouldHandleCommandsGracefully (7005 ms)
+[ RUN      ] SystemdServiceProviderTest.ShouldHandleDaemonCreation
+[       OK ] SystemdServiceProviderTest.ShouldHandleDaemonCreation (794 ms)
+[----------] 3 tests from SystemdServiceProviderTest (20963 ms total)
+
+[----------] 1 test from LinuxDevStackProviderTest
+[ RUN      ] LinuxDevStackProviderTest.ShouldCollectDevStacksFromRealSystem
+[       OK ] LinuxDevStackProviderTest.ShouldCollectDevStacksFromRealSystem (727 ms)
+[----------] 1 test from LinuxDevStackProviderTest (727 ms total)
+
+[----------] 1 test from CpuViewModelTest
+[ RUN      ] CpuViewModelTest.ShouldRefreshStatsFromProvider
+
+GMOCK WARNING:
+Uninteresting mock function call - returning default value.
+    Function call: collect_stats()
+          Returns: 48-byte object <00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00 00-00>
+NOTE: You can safely ignore the above warning unless this call should not happen.  Do not suppress it by blindly adding an EXPECT_CALL() if you don't mean to enforce the call.  See https://github.com/google/googletest/blob/main/docs/gmock_cook_book.md#knowing-when-to-expect-useoncall for details.
+[       OK ] CpuViewModelTest.ShouldRefreshStatsFromProvider (169 ms)
+[----------] 1 test from CpuViewModelTest (170 ms total)
+
+[----------] 3 tests from OpenSslVaultTest
+[ RUN      ] OpenSslVaultTest.ShouldEncryptAndDecryptData
+[       OK ] OpenSslVaultTest.ShouldEncryptAndDecryptData (421 ms)
+[ RUN      ] OpenSslVaultTest.ShouldFailWithWrongKey
+[       OK ] OpenSslVaultTest.ShouldFailWithWrongKey (5 ms)
+[ RUN      ] OpenSslVaultTest.ShouldFailIfDataTampered
+[       OK ] OpenSslVaultTest.ShouldFailIfDataTampered (2 ms)
+[----------] 3 tests from OpenSslVaultTest (430 ms total)
+
+[----------] 3 tests from ExportersTest
+[ RUN      ] ExportersTest.JsonExportShouldCreateFile
+[       OK ] ExportersTest.JsonExportShouldCreateFile (65 ms)
+[ RUN      ] ExportersTest.MarkdownExportShouldCreateFile
+[       OK ] ExportersTest.MarkdownExportShouldCreateFile (29 ms)
+[ RUN      ] ExportersTest.HtmlExportShouldCreateFile
+[       OK ] ExportersTest.HtmlExportShouldCreateFile (10 ms)
+[----------] 3 tests from ExportersTest (107 ms total)
+
+[----------] 1 test from MemoryViewModelTest
+[ RUN      ] MemoryViewModelTest.ShouldRefreshStatsFromProvider
+[       OK ] MemoryViewModelTest.ShouldRefreshStatsFromProvider (54 ms)
+[----------] 1 test from MemoryViewModelTest (55 ms total)
+
+[----------] 1 test from GpuViewModelTest
+[ RUN      ] GpuViewModelTest.ShouldRefreshStatsFromProviders
+[       OK ] GpuViewModelTest.ShouldRefreshStatsFromProviders (90 ms)
+[----------] 1 test from GpuViewModelTest (90 ms total)
+
+[----------] 1 test from PowerViewModelTest
+[ RUN      ] PowerViewModelTest.ShouldRefreshStatsFromProvider
+[       OK ] PowerViewModelTest.ShouldRefreshStatsFromProvider (54 ms)
+[----------] 1 test from PowerViewModelTest (54 ms total)
+
+[----------] 1 test from NetworkViewModelTest
+[ RUN      ] NetworkViewModelTest.ShouldRefreshStatsFromProvider
+[       OK ] NetworkViewModelTest.ShouldRefreshStatsFromProvider (54 ms)
+[----------] 1 test from NetworkViewModelTest (54 ms total)
+
+[----------] 1 test from StorageViewModelTest
+[ RUN      ] StorageViewModelTest.ShouldRefreshStatsFromProvider
+[       OK ] StorageViewModelTest.ShouldRefreshStatsFromProvider (41 ms)
+[----------] 1 test from StorageViewModelTest (42 ms total)
+
+[----------] 1 test from FirmwareViewModelTest
+[ RUN      ] FirmwareViewModelTest.ShouldRefreshData
+[       OK ] FirmwareViewModelTest.ShouldRefreshData (1946 ms)
+[----------] 1 test from FirmwareViewModelTest (1947 ms total)
+
+[----------] 1 test from SystemInfoViewModelTest
+[ RUN      ] SystemInfoViewModelTest.ShouldLoadDataInConstructor
+[       OK ] SystemInfoViewModelTest.ShouldLoadDataInConstructor (32 ms)
+[----------] 1 test from SystemInfoViewModelTest (33 ms total)
+
+[----------] 1 test from UserMetadataViewModelTest
+[ RUN      ] UserMetadataViewModelTest.ShouldRefreshData
+[       OK ] UserMetadataViewModelTest.ShouldRefreshData (38 ms)
+[----------] 1 test from UserMetadataViewModelTest (38 ms total)
+
+[----------] 1 test from HardwareViewModelTest
+[ RUN      ] HardwareViewModelTest.ShouldRefreshData
+[       OK ] HardwareViewModelTest.ShouldRefreshData (50 ms)
+[----------] 1 test from HardwareViewModelTest (51 ms total)
+
+[----------] 1 test from ServiceViewModelTest
+[ RUN      ] ServiceViewModelTest.ShouldRefreshDataAndHandleCommands
+[       OK ] ServiceViewModelTest.ShouldRefreshDataAndHandleCommands (103 ms)
+[----------] 1 test from ServiceViewModelTest (103 ms total)
+
+[----------] 1 test from ProcessViewModelTest
+[ RUN      ] ProcessViewModelTest.ShouldFilterAndSort
+[       OK ] ProcessViewModelTest.ShouldFilterAndSort (70 ms)
+[----------] 1 test from ProcessViewModelTest (70 ms total)
+
+[----------] 1 test from DevStackViewModelTest
+[ RUN      ] DevStackViewModelTest.ShouldRefresh
+[       OK ] DevStackViewModelTest.ShouldRefresh (56 ms)
+[----------] 1 test from DevStackViewModelTest (56 ms total)
+
+[----------] 1 test from AudioViewModelTest
+[ RUN      ] AudioViewModelTest.ShouldControlCapture
+[       OK ] AudioViewModelTest.ShouldControlCapture (47 ms)
+[----------] 1 test from AudioViewModelTest (47 ms total)
+
+[----------] 1 test from InstallationViewModelTest
+[ RUN      ] InstallationViewModelTest.ShouldForwardCommands
+[       OK ] InstallationViewModelTest.ShouldForwardCommands (54 ms)
+[----------] 1 test from InstallationViewModelTest (54 ms total)
+
+[----------] 1 test from ExportViewModelTest
+[ RUN      ] ExportViewModelTest.ShouldHandleExport
+[       OK ] ExportViewModelTest.ShouldHandleExport (155 ms)
+[----------] 1 test from ExportViewModelTest (156 ms total)
+
+[----------] 1 test from UpdateManagerTest
+[ RUN      ] UpdateManagerTest.ShouldCollectFromProviders
+[       OK ] UpdateManagerTest.ShouldCollectFromProviders (58 ms)
+[----------] 1 test from UpdateManagerTest (58 ms total)
+
+[----------] 1 test from DiagnosticManagerTest
+[ RUN      ] DiagnosticManagerTest.ShouldCollectFromProviders
+[       OK ] DiagnosticManagerTest.ShouldCollectFromProviders (99 ms)
+[----------] 1 test from DiagnosticManagerTest (99 ms total)
+
+[----------] 3 tests from AptUpdateProviderTest
+[ RUN      ] AptUpdateProviderTest.ShouldIdentifyUpdatesFromAptOutput
+[       OK ] AptUpdateProviderTest.ShouldIdentifyUpdatesFromAptOutput (53 ms)
+[ RUN      ] AptUpdateProviderTest.ShouldReturnEmptyIfAptFails
+[       OK ] AptUpdateProviderTest.ShouldReturnEmptyIfAptFails (8 ms)
+[ RUN      ] AptUpdateProviderTest.ShouldCheckAvailability
+[       OK ] AptUpdateProviderTest.ShouldCheckAvailability (8 ms)
+[----------] 3 tests from AptUpdateProviderTest (71 ms total)
+
+[----------] 1 test from CargoUpdateProviderTest
+[ RUN      ] CargoUpdateProviderTest.ShouldIdentifyUpdatesFromCargoOutput
+[       OK ] CargoUpdateProviderTest.ShouldIdentifyUpdatesFromCargoOutput (15 ms)
+[----------] 1 test from CargoUpdateProviderTest (16 ms total)
+
+[----------] 1 test from PacmanUpdateProviderTest
+[ RUN      ] PacmanUpdateProviderTest.ShouldIdentifyUpdatesFromPacmanOutput
+[       OK ] PacmanUpdateProviderTest.ShouldIdentifyUpdatesFromPacmanOutput (17 ms)
+[----------] 1 test from PacmanUpdateProviderTest (17 ms total)
+
+[----------] 1 test from SnapUpdateProviderTest
+[ RUN      ] SnapUpdateProviderTest.ShouldIdentifyUpdatesFromSnapOutput
+[       OK ] SnapUpdateProviderTest.ShouldIdentifyUpdatesFromSnapOutput (19 ms)
+[----------] 1 test from SnapUpdateProviderTest (19 ms total)
+
+[----------] 1 test from NvidiaGpuProviderTest
+[ RUN      ] NvidiaGpuProviderTest.ShouldParseNvidiaSmiOutput
+[       OK ] NvidiaGpuProviderTest.ShouldParseNvidiaSmiOutput (22 ms)
+[----------] 1 test from NvidiaGpuProviderTest (22 ms total)
+
+[----------] Global test environment tear-down
+[==========] 56 tests from 43 test suites ran. (32303 ms total)
+[  PASSED  ] 56 tests.
