@@ -3,9 +3,13 @@
 
 ## 🎯 Objetivo da Sessão
 Resolver instabilidade de memória (SEGV) e estabilizar a inicialização do sistema em ambiente Fedora/Wayland.
-
 ## ✅ Progresso Realizado
+- [x] **Estabilidade**: Corrigido crash (SIGSEGV) no `ProcessViewModel` causado por comparador `std::sort` inválido (violação de strict weak ordering).
+- [x] **Estabilidade**: Blindagem de concorrência no `ProcessViewModel` usando `std::atomic<bool>` para `m_isBusy`.
+- [x] **Estabilidade**: Adicionado mutex no `LinuxProcessProvider` para garantir thread-safety durante coleta assíncrona.
+- [x] **Testes**: Criado `process_sorting_test.cpp` para validar lógica de ordenação e evitar regressões.
 - [x] **Estabilidade**: Resolvida corrupção de heap causada por chamadas inseguras ao DBus (Firmware).
+...
 - [x] **Estabilidade**: Resolvida condição de corrida no Áudio usando `QMetaObject::invokeMethod`.
 - [x] **Estabilidade**: Resolvida corrupção de heap no Parsing de Processos (Remoção de substrings inseguras).
 - [x] **Estabilidade**: Blindagem de funções libc não reentrantes (`getpwuid_r`, `getgrgid_r`).

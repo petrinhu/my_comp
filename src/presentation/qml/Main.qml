@@ -735,7 +735,7 @@ Window {
 
     component PlaceholderView : ColumnLayout {
         property string title; property string icon; property string desc
-        anchors.centerIn: parent; spacing: 10
+        Layout.fillWidth: true; Layout.fillHeight: true; spacing: 10
         Text { text: icon; font.pixelSize: 48; Layout.alignment: Qt.AlignHCenter }
         Text { text: title; color: root.textColor; font.pixelSize: 20; font.bold: true; Layout.alignment: Qt.AlignHCenter }
         Text { text: desc; color: "#7f8c8d"; Layout.alignment: Qt.AlignHCenter }

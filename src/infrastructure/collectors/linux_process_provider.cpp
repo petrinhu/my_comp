@@ -53,6 +53,7 @@ QString LinuxProcessProvider::get_user_from_uid(unsigned int uid) {
 }
 
 std::vector<domain::models::ProcessInfo> LinuxProcessProvider::collect_processes() {
+    std::lock_guard<std::mutex> lock(m_mutex);
     std::vector<domain::models::ProcessInfo> processes;
     double current_uptime = get_system_uptime();
     double delta_uptime = current_uptime - m_last_uptime;

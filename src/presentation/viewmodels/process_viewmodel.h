@@ -3,9 +3,11 @@
 #include <QVariantList>
 #include <QTimer>
 #include <QtConcurrent>
+#include <mutex>
 #include "../../domain/interfaces/i_process_provider.h"
 #include <memory>
 #include <vector>
+#include <atomic>
 
 namespace my_comp::presentation::viewmodels {
 
@@ -43,10 +45,12 @@ signals:
 private:
     std::shared_ptr<domain::interfaces::IProcessProvider> m_provider;
     std::vector<domain::models::ProcessInfo> m_data;
+    QVariantList m_processedList;
+    mutable std::mutex m_dataMutex;
     QString m_filter;
     QString m_sortField = "cpu";
     bool m_sortAscending = false;
-    bool m_isBusy = false;
+    std::atomic<bool> m_isBusy{false};
     QTimer* m_refreshTimer = nullptr;
 
     void sortData();

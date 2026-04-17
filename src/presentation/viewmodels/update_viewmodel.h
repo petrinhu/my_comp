@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QtConcurrent>
 #include <memory>
 #include "../../domain/update_manager.h"
 #include "update_package_model.h"
@@ -37,13 +38,18 @@ public:
         is_busy_ = true;
         emit isBusyChanged();
 
-        auto updates = manager_->check_all_updates();
-        qDebug() << "[UpdateVM] Found" << updates.size() << "updates.";
-        model_->setUpdates(std::move(updates));
+        (void)QtConcurrent::run([this]() {
+            auto updates = manager_->check_all_updates();
+            
+            QMetaObject::invokeMethod(this, [this, updates]() mutable {
+                qDebug() << "[UpdateVM] Found" << updates.size() << "updates.";
+                model_->setUpdates(std::move(updates));
 
-        is_busy_ = false;
-        emit isBusyChanged();
-        emit updatesChanged();
+                is_busy_ = false;
+                emit isBusyChanged();
+                emit updatesChanged();
+            }, Qt::QueuedConnection);
+        });
     }
 
 signals:

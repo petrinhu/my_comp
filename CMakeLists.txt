@@ -101,6 +101,7 @@ enable_testing()
 # Unit Tests Target
 set(UNIT_TEST_SOURCES
     tests/unit/placeholder_test.cpp
+    tests/unit/process_sorting_test.cpp
     tests/unit/dnf_update_provider_test.cpp
     tests/unit/flatpak_update_provider_test.cpp
     tests/unit/npm_update_provider_test.cpp

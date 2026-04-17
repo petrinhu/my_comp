@@ -39,14 +39,14 @@
 | 34 | Services: Criador de Daemons (Interface) | Alta | Alta | ✅ | OK |
 | 35 | Journal: Double-Click Search (Navegador) | Média | Baixa | ✅ | Implementado e Refinado. |
 | 36 | DevStack: Detecção de Compiladores/Containers | Média | Média | ✅ | OK |
-| 37 | Dashboard: Auto-refresh de CPU/MEM/Disk/Net | Alta | Média | ✅ | Timers e sequenciador ativos. |
+| 37 | Dashboard: Auto-refresh de CPU/MEM/Disk/Net | Alta | Média | ✅ | Timers, Mutexes e sequenciador ativos. |
 | 38 | Dashboard: Interatividade (Click em Cards) | Média | Baixa | ✅ | Navegação e efeitos visuais ativos. |
 | 39 | Dashboard: Audio real-time e FFT | Alta | Média | ✅ | Visualização refinada e logs ativos. |
-| 40 | UI/UX: Barra de Rolagem em Listas Longas | Alta | Baixa | ✅ | ScrollViews implementados. |
+| 40 | UI/UX: Barra de Rolagem em Listas Longas | Alta | Baixa | ✅ | ScrollViews implementados e Ordenação Estável. |
 | 41 | UI/UX: Seletor de Pasta Nativo (KDE) | Alta | Média | ✅ | Integrado com StandardPaths. |
 | 42 | Export: Pasta Padrão e Histórico | Média | Baixa | ✅ | Pasta Documentos definida por padrão. |
-| 43 | Estabilização: Inicialização Progressiva (Async) | Alta | Alta | ✅ | Sequenciador QML implementado. |
-| T1 | Testes Unitários (QtTest/GTest) | Alta | Alta | ❌ | Re-execução pendente (Refatoração). |
+| 43 | Estabilização: Inicialização Progressiva (Async) | Alta | Alta | ✅ | Sequenciador QML e Thread-Safety implementados. |
+| T1 | Testes Unitários (QtTest/GTest) | Alta | Alta | 🟡 | Process Sorting OK. Outros em refatoração. |
 | T2 | Análise Estática (Clang-Tidy/CppCheck) | Alta | Baixa | ❌ | Re-execução pendente (Refatoração). |
 | T3 | Testes de Aceitação (ATDD) | Alta | Alta | ❌ | Re-execução pendente (Refatoração). |
 | T4 | Análise Dinâmica (Valgrind/ASan) | Alta | Alta | ❌ | Re-execução pendente (Refatoração). |

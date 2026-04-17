@@ -4,6 +4,7 @@
 #include <QVariantMap>
 #include "../../domain/interfaces/i_service_provider.h"
 #include <memory>
+#include <vector>
 
 namespace my_comp::presentation::viewmodels {
 
@@ -30,11 +31,11 @@ signals:
     void operationFinished(bool success, const QString& message);
 
 private:
+    void setBusy(bool busy);
     std::shared_ptr<domain::interfaces::IServiceProvider> m_provider;
     std::vector<domain::models::ServiceInfo> m_data;
+    QVariantList m_processedList;
     bool m_isBusy = false;
-    
-    void setBusy(bool busy);
 };
 
 }

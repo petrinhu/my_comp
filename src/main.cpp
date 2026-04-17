@@ -151,5 +151,13 @@ int main(int argc, char *argv[])
     const QUrl url(u"qrc:/Main.qml"_qs);
     engine.load(url);
 
-    return app.exec();
+    try {
+        return app.exec();
+    } catch (const std::exception& e) {
+        qCritical() << "[Main] UNHANDLED EXCEPTION:" << e.what();
+        return -1;
+    } catch (...) {
+        qCritical() << "[Main] UNKNOWN ERROR CAUSING CRASH";
+        return -1;
+    }
 }

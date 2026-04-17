@@ -3,6 +3,7 @@
 #include <memory>
 #include <map>
 #include <chrono>
+#include <mutex>
 
 namespace my_comp::infrastructure::collectors {
 
@@ -26,6 +27,7 @@ private:
     double m_last_uptime = 0.0;
     long m_hertz = 100;
     unsigned long long m_total_ram = 0;
+    mutable std::mutex m_mutex;
 
     void update_samples();
     double get_system_uptime();
