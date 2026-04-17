@@ -29,9 +29,16 @@ QtAudioProvider::QtAudioProvider(QObject* parent) : QObject(parent) {
     m_format.setChannelCount(1);
     m_format.setSampleFormat(QAudioFormat::Float);
 
+    auto inputs = QMediaDevices::audioInputs();
+    qDebug() << "[Audio] Detected" << inputs.size() << "audio input devices:";
+    for (const auto& device : inputs) {
+        qDebug() << "  - " << device.description() << (device.isDefault() ? "(DEFAULT)" : "");
+    }
+
     auto device = QMediaDevices::defaultAudioInput();
     if (!device.isNull()) {
         m_audioSource = std::make_unique<QAudioSource>(device, m_format);
+        qDebug() << "[Audio] Using default device:" << device.description();
     } else {
         qWarning() << "[Audio] No default audio input device found!";
     }

@@ -308,17 +308,20 @@ Window {
                                     var ctx = getContext("2d");
                                     ctx.clearRect(0, 0, width, height);
                                     ctx.strokeStyle = root.highlightColor;
-                                    ctx.globalAlpha = 0.6;
-                                    ctx.lineWidth = 1.5;
+                                    ctx.globalAlpha = 0.8;
+                                    ctx.lineWidth = 2.0;
                                     ctx.beginPath();
                                     
                                     var data = audioViewModel.waveform;
-                                    if (data.length === 0) return;
+                                    if (!data || data.length === 0) return;
                                     
                                     var sliceWidth = width / data.length;
                                     var x = 0;
                                     for (var i = 0; i < data.length; i++) {
-                                        var v = data[i]; 
+                                        // Aplicar ganho visual de 2x para a onda
+                                        var v = data[i] * 2.0; 
+                                        if (v > 1.0) v = 1.0; else if (v < -1.0) v = -1.0;
+                                        
                                         var y = (v + 1) / 2 * height;
                                         if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
                                         x += sliceWidth;
@@ -328,7 +331,10 @@ Window {
                                 
                                 Connections {
                                     target: audioViewModel
-                                    function onAudioDataChanged() { audioCanvas.requestPaint(); spectrumCanvas.requestPaint(); }
+                                    function onAudioDataChanged() { 
+                                        audioCanvas.requestPaint(); 
+                                        spectrumCanvas.requestPaint(); 
+                                    }
                                 }
                             }
 
@@ -340,14 +346,14 @@ Window {
                                     var ctx = getContext("2d");
                                     ctx.clearRect(0, 0, width, height);
                                     var data = audioViewModel.spectrum;
-                                    if (data.length === 0) return;
+                                    if (!data || data.length === 0) return;
                                     
                                     var barWidth = width / data.length;
                                     ctx.fillStyle = root.highlightColor;
                                     
                                     for (var i = 0; i < data.length; i++) {
-                                        // Magnitude logarítmica básica para melhor visualização
-                                        var magnitude = Math.sqrt(data[i]) * 5; 
+                                        // Sensibilidade aumentada para o espectro (x10 e sqrt para compressão dinâmica)
+                                        var magnitude = Math.sqrt(data[i]) * 10; 
                                         var h = Math.min(height, magnitude * height);
                                         ctx.fillRect(i * barWidth, height - h, barWidth - 1, h);
                                     }
