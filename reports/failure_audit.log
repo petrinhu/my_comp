@@ -1,0 +1,13 @@
+qt.multimedia.ffmpeg: Using Qt multimedia with FFmpeg version 7.1.2 GPL version 3 or later
+Invalid MIT-MAGIC-COOKIE-1 key
+libva info: VA-API version 1.22.0
+libva info: Trying to open /usr/lib64/dri-nonfree/iHD_drv_video.so
+libva info: Found init function __vaDriverInit_1_22
+libva info: va_openDriver() returns 0
+libva info: VA-API version 1.22.0
+libva info: Trying to open /usr/lib64/dri-nonfree/iHD_drv_video.so
+libva info: Found init function __vaDriverInit_1_22
+libva info: va_openDriver() returns 0
+Invalid MIT-MAGIC-COOKIE-1 key
+QQmlApplicationEngine failed to load component
+qrc:/Main.qml:8:1: Unexpected token `...'

@@ -5,7 +5,7 @@ import QtQuick.Dialogs
 import QtCore
 
 Window {
-...
+    id: root
     width: 1024
     height: 768
     visible: true
