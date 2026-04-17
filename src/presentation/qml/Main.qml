@@ -271,11 +271,11 @@ Window {
                         columns: root.width > 800 ? 3 : 2
                         Layout.fillWidth: true; rowSpacing: 15; columnSpacing: 15
                         DashboardCard { title: "CPU"; value: cpuViewModel.totalLoad.toFixed(1) + "%"; onClicked: cpuDetailDialog.open() }
-                        DashboardCard { title: "MEM"; value: memoryViewModel.ramUsagePercent.toFixed(1) + "%" }
-                        DashboardCard { title: "DISK"; value: storageViewModel.totalThroughput }
-                        DashboardCard { title: "NET"; value: networkViewModel.latency.toFixed(0) + "ms" }
-                        DashboardCard { title: "POWER"; value: powerViewModel.batteryPercent.toFixed(0) + "%" }
-                        DashboardCard { title: "CORE"; value: systemInfoViewModel.kernel.split("-")[0] }
+                        DashboardCard { title: "MEM"; value: memoryViewModel.ramUsagePercent.toFixed(1) + "%"; onClicked: root.currentView = 5 /* Hardware */ }
+                        DashboardCard { title: "DISK"; value: storageViewModel.totalThroughput; onClicked: root.currentView = 5 /* Hardware */ }
+                        DashboardCard { title: "NET"; value: networkViewModel.latency.toFixed(0) + "ms"; onClicked: root.currentView = 4 /* Network */ }
+                        DashboardCard { title: "POWER"; value: powerViewModel.batteryPercent.toFixed(0) + "%"; onClicked: console.log("Power details clicked") }
+                        DashboardCard { title: "CORE"; value: systemInfoViewModel.kernel.split("-")[0]; onClicked: root.currentView = 2 /* Journal */ }
                     }
 
                     // Audio Waveform & Spectrum Visualizer
@@ -708,9 +708,15 @@ Window {
     component DashboardCard : Rectangle {
         property string title; property string value; signal clicked
         Layout.fillWidth: true; Layout.preferredHeight: 100; radius: 10
-        color: root.cardColor; border.color: root.borderColor
+        color: ma.pressed ? (root.isDark ? "#3e444a" : "#e8e8e8") : root.cardColor
+        border.color: root.borderColor
+        scale: ma.pressed ? 0.98 : 1.0
+        Behavior on scale { NumberAnimation { duration: 50 } }
+        Behavior on color { ColorAnimation { duration: 150 } }
+
         MouseArea { 
             id: ma; anchors.fill: parent; onClicked: parent.clicked(); hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
             ToolTip.visible: containsMouse
             ToolTip.text: "Clique para detalhes de " + title
         }
