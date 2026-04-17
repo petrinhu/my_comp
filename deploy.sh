@@ -30,8 +30,6 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-# 3. Mostrar Tabela
-echo -e "${GREEN}[Sucesso] Deploy concluído. Estado atual do projeto:${NC}"
-echo "--------------------------------------------------------"
-cat TABELA.md
-echo "--------------------------------------------------------"
+# 3. Finalização
+echo -e "${GREEN}[Sucesso] Build, Commit e Push concluídos.${NC}"
+

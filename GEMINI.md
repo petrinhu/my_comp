@@ -37,7 +37,8 @@ Atue como Engenheiro de Sistemas Sênior especializado em C++20.
 3. **Refactor**: Limpar o código e garantir conformidade com o guia de estilo.
 4. **Audit**: Valgrind e Clang-Tidy para garantir qualidade.
 5. **Mandatory Implementation Hook** (Finalização):
-    - **Automated Workflow**: Executar obrigatoriamente o script `./deploy.sh "mensagem do commit"` para realizar o build, commit, push e exibir a `TABELA.md` atualizada.
+    - **Automated Workflow**: Executar obrigatoriamente o script `./deploy.sh "mensagem do commit"`.
+    - **Progresso Visual**: Ler o arquivo `TABELA.md` e apresentar a tabela formatada diretamente no chat (como texto na resposta final) para o usuário. O uso de `cat` no terminal não substitui a exibição da tabela na resposta final.
     - **Real-time Memory**: Garantir que as decisões técnicas e progresso imediato estejam registrados em `SESSION.md`.
     - **Next Step**: Perguntar "Como deseja prosseguir?".
 
