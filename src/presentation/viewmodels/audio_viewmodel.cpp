@@ -4,13 +4,13 @@ namespace my_comp::presentation::viewmodels {
 
 AudioViewModel::AudioViewModel(std::shared_ptr<domain::interfaces::IAudioProvider> provider, QObject* parent)
     : QObject(parent), m_provider(std::move(provider)) {
-    
-    m_provider->on_data_ready = [this](const domain::models::AudioData& data) {
-        // Garantir que a atualização ocorra na thread da UI (Main Thread)
-        QMetaObject::invokeMethod(this, [this, data]() {
-            update_data(data);
-        }, Qt::QueuedConnection);
-    };
+
+    // O provider é responsável por marshalar para a thread do consumidor
+    // (ver QtAudioProvider::process_samples), então update_data já chega
+    // na main thread — não precisamos de invokeMethod adicional aqui.
+    m_provider->set_data_callback([this](const domain::models::AudioData& data) {
+        update_data(data);
+    });
 }
 
 void AudioViewModel::update_data(const domain::models::AudioData& data) {

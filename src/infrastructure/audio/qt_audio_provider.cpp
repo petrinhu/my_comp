@@ -54,18 +54,18 @@ QtAudioProvider::~QtAudioProvider() {
 }
 
 bool QtAudioProvider::start_capture() {
-    if (m_capturing) return true;
+    if (m_capturing.load()) return true;
     if (!m_audioSource || !m_sink) return false;
-    
+
     m_audioSource->start(m_sink.get());
-    m_capturing = true;
+    m_capturing.store(true);
     return true;
 }
 
 void QtAudioProvider::stop_capture() {
-    if (!m_capturing) return;
+    if (!m_capturing.load()) return;
     if (m_audioSource) m_audioSource->stop();
-    m_capturing = false;
+    m_capturing.store(false);
 }
 
 void QtAudioProvider::writeData(const char* data, qint64 len) {
@@ -97,10 +97,12 @@ void QtAudioProvider::process_samples(const float* samples, int count) {
     audioData.rms = std::sqrt(sumSq / count);
     audioData.peak = peak;
     audioData.spectrum = calculate_fft(samples, count);
-    
-    if (on_data_ready) {
-        on_data_ready(audioData);
-    }
+
+    // Marshalar para a thread que possui o provider (main thread na app Qt),
+    // desacoplando o consumidor da thread do callback de áudio.
+    QMetaObject::invokeMethod(this, [this, audioData]() {
+        notify_data_ready(audioData);
+    }, Qt::QueuedConnection);
 }
 
 std::vector<float> QtAudioProvider::calculate_fft(const float* samples, int count) {

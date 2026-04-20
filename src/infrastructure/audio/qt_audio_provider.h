@@ -4,6 +4,7 @@
 #include <QIODevice>
 #include <QAudioFormat>
 #include "../../domain/interfaces/i_audio_provider.h"
+#include <atomic>
 #include <memory>
 #include <vector>
 
@@ -28,7 +29,7 @@ public:
 
     bool start_capture() override;
     void stop_capture() override;
-    bool is_capturing() const override { return m_capturing; }
+    bool is_capturing() const override { return m_capturing.load(); }
 
     // Exposto para testes (Simula entrada de dados do hardware)
     void writeData(const char* data, qint64 len);
@@ -36,7 +37,7 @@ public:
 private:
     std::unique_ptr<QAudioSource> m_audioSource;
     std::unique_ptr<AudioSink> m_sink;
-    bool m_capturing = false;
+    std::atomic<bool> m_capturing{false};
     QAudioFormat m_format;
 
     void process_raw_data(const char* data, qint64 len);
