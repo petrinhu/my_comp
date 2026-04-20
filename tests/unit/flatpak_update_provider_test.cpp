@@ -38,3 +38,64 @@ TEST(FlatpakUpdateProviderTest, ShouldIdentifyUpdatesFromFlatpakOutput) {
     EXPECT_EQ(updates[0].new_version, "47");
     EXPECT_EQ(updates[1].name, "Firefox");
 }
+
+// IN-03c: cobertura ampliada.
+TEST(FlatpakUpdateProviderTest, ShouldEnrichCurrentVersionFromFlatpakList) {
+    auto shell = std::make_shared<MockShellExecutor>();
+
+    QString mock_remote =
+        "Firefox\t134.0\torg.mozilla.firefox\n";
+    QString mock_list =
+        "org.mozilla.firefox\t133.0\n";
+
+    EXPECT_CALL(*shell, execute(QString("flatpak"), Contains(QString("remote-ls")), _))
+        .WillOnce(DoAll(SetArgReferee<2>(mock_remote), Return(0)));
+    EXPECT_CALL(*shell, execute(QString("flatpak"), Not(Contains(QString("remote-ls"))), _))
+        .WillOnce(DoAll(SetArgReferee<2>(mock_list), Return(0)));
+
+    FlatpakUpdateProvider provider(shell);
+    auto updates = provider.check_updates();
+
+    ASSERT_EQ(updates.size(), 1);
+    EXPECT_EQ(updates[0].current_version, "133.0");
+    EXPECT_EQ(updates[0].source_repo, "org.mozilla.firefox");
+}
+
+TEST(FlatpakUpdateProviderTest, ShouldReturnEmptyWhenRemoteLsFails) {
+    auto shell = std::make_shared<MockShellExecutor>();
+    EXPECT_CALL(*shell, execute(QString("flatpak"), Contains(QString("remote-ls")), _))
+        .WillOnce(Return(1));
+
+    FlatpakUpdateProvider provider(shell);
+    auto updates = provider.check_updates();
+    EXPECT_TRUE(updates.empty());
+}
+
+TEST(FlatpakUpdateProviderTest, IsAvailableReflectsWhichFlatpakOutput) {
+    auto shell = std::make_shared<MockShellExecutor>();
+    EXPECT_CALL(*shell, execute(QString("which"), QStringList({"flatpak"}), _))
+        .WillOnce(DoAll(SetArgReferee<2>(QString("/usr/bin/flatpak\n")), Return(0)))
+        .WillOnce(DoAll(SetArgReferee<2>(QString("")), Return(1)));
+
+    FlatpakUpdateProvider provider(shell);
+    EXPECT_TRUE(provider.is_available());
+    EXPECT_FALSE(provider.is_available());
+}
+
+TEST(FlatpakUpdateProviderTest, IgnoresMalformedLines) {
+    auto shell = std::make_shared<MockShellExecutor>();
+    QString mock_output =
+        "linha\tincompleta\n"                                     // 2 colunas só
+        "Firefox\t134.0\torg.mozilla.firefox\n";
+
+    EXPECT_CALL(*shell, execute(QString("flatpak"), Contains(QString("remote-ls")), _))
+        .WillOnce(DoAll(SetArgReferee<2>(mock_output), Return(0)));
+    EXPECT_CALL(*shell, execute(QString("flatpak"), Not(Contains(QString("remote-ls"))), _))
+        .WillRepeatedly(Return(0));
+
+    FlatpakUpdateProvider provider(shell);
+    auto updates = provider.check_updates();
+
+    ASSERT_EQ(updates.size(), 1);
+    EXPECT_EQ(updates[0].name, "Firefox");
+}
