@@ -11,7 +11,7 @@
 | ID | Grupo | Descrição Técnica | Prioridade | Pré-requisito | Dificuldade | Status | Estado Auditado |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | AR-01 | Architecture | Camada Domain (Mid) — 20 interfaces + 19 modelos | Alta | — | Alta | ✅ Concluído | ✓ |
-| AR-02 | Architecture | Camada Infrastructure (End) — 26 providers + 3 exporters | Alta | AR-01 | Alta | ✅ Concluído | ⚠ |
+| AR-02 | Architecture | Camada Infrastructure (End) — 26 providers + 3 exporters | Alta | AR-01 | Alta | ✅ Concluído | ✓ |
 | AR-03 | Architecture | Inicialização progressiva assíncrona (sequenciador QML + thread-safety) | Alta | AR-02 | Alta | ✅ Concluído | ✓ |
 | AR-04 | Architecture | Separar use cases (`update_manager.h`, `diagnostic_manager.h`) de `domain/` para nova camada `application/` | Baixa | AR-01 | Média | ✅ Concluído | ✓ |
 | AR-05 | Architecture | Auditoria de signals/slots Qt (disconnect-on-destroy, `Qt::QueuedConnection` cross-thread, múltiplos `connect` redundantes) | Alta | AR-03 | Média | ✅ Concluído | ✓ |
@@ -188,7 +188,7 @@
 | QA-15 | QA | ThreadSanitizer (`-fsanitize=thread`) sobre `unit_tests` para detectar race conditions residuais | Alta | QA-01 | Alta | ⏳ Pendente | — |
 | QA-16 | QA | Diagnóstico final categorizado (CRÍTICO / IMPORTANTE / COSMÉTICO) com estimativas de esforço por item | Alta | QA-08 | Baixa | ⏳ Pendente | — |
 | QA-17 | QA | Migrar literal `_qs` deprecado para `_s` do namespace `Qt::StringLiterals` em `src/main.cpp:151` | Baixa | — | Baixa | ⏳ Pendente | — |
-| QA-18 | QA | Remover `using namespace my_comp::domain::interfaces;` dos headers (dnf, flatpak, npm update providers) — poluição de escopo em consumidores | Baixa | AR-02 | Baixa | ⏳ Pendente | — |
+| QA-18 | QA | `grep -rn "using namespace" src/*.h` confirma zero matches — nenhum provider polui escopo; todos usam qualificação explícita `domain::interfaces::IUpdateProvider` | Baixa | AR-02 | Baixa | ✅ Concluído | ✓ |
 | BT-01 | Beta | FFT real no áudio — Cooley-Tukey iterativo já implementado (Hann window, `std::bit_floor`, bit-reversal); avaliar migração opcional para Kiss FFT/FFTW por performance e spectrum detalhado (bins log-espaçados, smoothing) | Média | DB-07, AU-01 | Média | 🟡 Parcial | ⚠ |
 | BT-02 | Beta | Fuzzing AFL++/libFuzzer em parsers (journal, SMBIOS, D-Bus) | Média | QA-02 | Alta | ⏳ Pendente | — |
 | BT-03 | Beta | Script `scripts/ci.sh` (build + ctest + clang-tidy + cppcheck + valgrind) | Média | QA-02, QA-04 | Média | ⏳ Pendente | — |
