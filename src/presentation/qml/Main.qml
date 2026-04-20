@@ -453,13 +453,7 @@ Window {
                             delegate: ItemDelegate {
                                 width: parent.width; height: 50
                                 onDoubleClicked: {
-                                    let providerInt = 0
-                                    if (source === "dnf") providerInt = 0
-                                    else if (source === "flatpak") providerInt = 1
-                                    else if (source === "npm") providerInt = 2
-                                    else if (source === "snap") providerInt = 3
-                                    
-                                    installationViewModel.startInstallation(name, providerInt)
+                                    installationViewModel.startInstallation(name, provider)
                                     root.currentView = 8 // ABA de Instalação
                                 }
                                 contentItem: RowLayout {

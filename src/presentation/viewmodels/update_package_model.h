@@ -19,7 +19,8 @@ public:
         NewVersionRole,
         SourceRole,
         DescriptionRole,
-        IsCriticalRole
+        IsCriticalRole,
+        ProviderRole
     };
 
     explicit UpdatePackageModel(QObject* parent = nullptr) : QAbstractListModel(parent) {}
@@ -47,6 +48,7 @@ public:
             case SourceRole: return update.source;
             case DescriptionRole: return update.description;
             case IsCriticalRole: return update.is_critical;
+            case ProviderRole: return static_cast<int>(update.provider);
             default: return {};
         }
     }
@@ -59,6 +61,7 @@ public:
         roles[SourceRole] = "source";
         roles[DescriptionRole] = "description";
         roles[IsCriticalRole] = "isCritical";
+        roles[ProviderRole] = "provider";
         return roles;
     }
 
