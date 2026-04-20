@@ -53,12 +53,53 @@ TEST_F(ExportersTest, HtmlExportShouldCreateFile) {
     QString path = "test_report.html";
     EXPECT_TRUE(exporter.export_report(sample_data, path));
     EXPECT_TRUE(QFile::exists(path));
-    
+
     QFile file(path);
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QString content = QTextStream(&file).readAll();
         EXPECT_TRUE(content.contains("<html>"));
         EXPECT_TRUE(content.contains("Unit Test Report"));
     }
+    QFile::remove(path);
+}
+
+TEST_F(ExportersTest, HtmlExportShouldEscapeHtmlEntities) {
+    ReportData payload;
+    payload.title = "<script>alert(1)</script>";
+    payload.timestamp = "2026-04-20 & later";
+    payload.distro = "Distro \"X\"";
+    payload.kernel = "6.12.0";
+    payload.user = "petrus'<img>";
+
+    QVariantMap section;
+    section["<evil key>"] = "<script>steal()</script>";
+    section["amp & quote"] = "a \"b\" 'c' & d";
+    payload.sections["<h1>injected</h1>"] = section;
+
+    QVariantList rows;
+    QVariantMap row;
+    row["col<"] = "<iframe src=x>";
+    rows.append(row);
+    payload.sections["list>section"] = rows;
+
+    HtmlExportProvider exporter;
+    QString path = "test_report_xss.html";
+    EXPECT_TRUE(exporter.export_report(payload, path));
+
+    QFile file(path);
+    ASSERT_TRUE(file.open(QIODevice::ReadOnly | QIODevice::Text));
+    QString content = QTextStream(&file).readAll();
+    file.close();
+
+    EXPECT_FALSE(content.contains("<script>alert(1)</script>"));
+    EXPECT_FALSE(content.contains("<iframe src=x>"));
+    EXPECT_FALSE(content.contains("<img>"));
+    EXPECT_TRUE(content.contains("&lt;script&gt;alert(1)&lt;/script&gt;"));
+    EXPECT_TRUE(content.contains("&lt;iframe src=x&gt;"));
+    EXPECT_TRUE(content.contains("&quot;"));
+    EXPECT_TRUE(content.contains("&#39;"));
+    EXPECT_TRUE(content.contains("amp &amp; quote"));
+    EXPECT_TRUE(content.contains("&lt;h1&gt;injected&lt;/h1&gt;"));
+
     QFile::remove(path);
 }
