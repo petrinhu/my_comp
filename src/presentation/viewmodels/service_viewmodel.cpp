@@ -1,5 +1,6 @@
 #include "service_viewmodel.h"
 #include <QtConcurrent>
+#include <algorithm>
 
 namespace my_comp::presentation::viewmodels {
 
@@ -18,30 +19,57 @@ void ServiceViewModel::setBusy(bool busy) {
     }
 }
 
+void ServiceViewModel::setSortField(const QString& field) {
+    if (m_sortField != field) {
+        m_sortField = field;
+        emit sortFieldChanged();
+        rebuildProcessedList();
+    }
+}
+
+void ServiceViewModel::setSortAscending(bool asc) {
+    if (m_sortAscending != asc) {
+        m_sortAscending = asc;
+        emit sortAscendingChanged();
+        rebuildProcessedList();
+    }
+}
+
+void ServiceViewModel::rebuildProcessedList() {
+    auto sorted = m_data;
+    const QString field = m_sortField;
+    const bool asc = m_sortAscending;
+    std::stable_sort(sorted.begin(), sorted.end(), [field, asc](const auto& a, const auto& b) {
+        if (field == "active") return asc ? (a.activeState < b.activeState) : (a.activeState > b.activeState);
+        if (field == "description") return asc ? (a.description < b.description) : (a.description > b.description);
+        return asc ? (a.name < b.name) : (a.name > b.name);
+    });
+    QVariantList newList;
+    for (const auto& info : sorted) {
+        QVariantMap map;
+        map["name"] = info.name;
+        map["description"] = info.description;
+        map["loadState"] = info.loadState;
+        map["activeState"] = info.activeState;
+        map["subState"] = info.subState;
+        map["isEnabled"] = info.isEnabled;
+        newList.append(map);
+    }
+    m_processedList = newList;
+    emit servicesChanged();
+}
+
 void ServiceViewModel::refresh() {
     if (m_isBusy) return;
     setBusy(true);
-    
+
     (void)QtConcurrent::run([this]() {
         auto result = m_provider->get_services();
-        
-        QVariantList newList;
-        for (const auto& info : result) {
-            QVariantMap map;
-            map["name"] = info.name;
-            map["description"] = info.description;
-            map["loadState"] = info.loadState;
-            map["activeState"] = info.activeState;
-            map["subState"] = info.subState;
-            map["isEnabled"] = info.isEnabled;
-            newList.append(map);
-        }
 
-        QMetaObject::invokeMethod(this, [this, result, newList]() {
+        QMetaObject::invokeMethod(this, [this, result]() {
             m_data = result;
-            m_processedList = newList;
             setBusy(false);
-            emit servicesChanged();
+            rebuildProcessedList();
         }, Qt::QueuedConnection);
     });
 }

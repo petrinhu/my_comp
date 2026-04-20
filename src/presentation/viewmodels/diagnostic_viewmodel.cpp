@@ -1,5 +1,6 @@
 #include "diagnostic_viewmodel.h"
 #include <QtConcurrent>
+#include <algorithm>
 
 namespace my_comp::presentation::viewmodels {
 
@@ -10,22 +11,52 @@ void DiagnosticViewModel::refresh() {
     if (is_busy_) return;
     is_busy_ = true;
     emit isBusyChanged();
-    
+
     int filter = m_current_filter;
     QString query = search_query_;
 
     (void)QtConcurrent::run([this, filter, query]() {
         auto logs = manager_->fetch_all_logs(
-            static_cast<my_comp::domain::DiagnosticFilter>(filter), 
+            static_cast<my_comp::domain::DiagnosticFilter>(filter),
             query
         );
-        
+
         QMetaObject::invokeMethod(this, [this, logs]() mutable {
-            model_->setLogs(std::move(logs));
+            data_ = std::move(logs);
+            applySortAndPush();
             is_busy_ = false;
             emit isBusyChanged();
         }, Qt::QueuedConnection);
     });
+}
+
+void DiagnosticViewModel::setSortField(const QString& f) {
+    if (sort_field_ != f) {
+        sort_field_ = f;
+        emit sortFieldChanged();
+        applySortAndPush();
+    }
+}
+
+void DiagnosticViewModel::setSortAscending(bool a) {
+    if (sort_ascending_ != a) {
+        sort_ascending_ = a;
+        emit sortAscendingChanged();
+        applySortAndPush();
+    }
+}
+
+void DiagnosticViewModel::applySortAndPush() {
+    auto sorted = data_;
+    const QString field = sort_field_;
+    const bool asc = sort_ascending_;
+    std::stable_sort(sorted.begin(), sorted.end(), [field, asc](const auto& a, const auto& b) {
+        if (field == "priority") return asc ? (a.priority < b.priority) : (a.priority > b.priority);
+        if (field == "source")   return asc ? (a.source < b.source)     : (a.source > b.source);
+        if (field == "message")  return asc ? (a.message < b.message)   : (a.message > b.message);
+        return asc ? (a.timestamp < b.timestamp) : (a.timestamp > b.timestamp);
+    });
+    model_->setLogs(std::move(sorted));
 }
 
 void DiagnosticViewModel::performSearch() {
