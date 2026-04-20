@@ -132,6 +132,11 @@ set(UNIT_TEST_SOURCES
     tests/unit/power_viewmodel_test.cpp
     tests/unit/network_viewmodel_test.cpp
     tests/unit/storage_viewmodel_test.cpp
+    tests/unit/linux_disk_inventory_provider_test.cpp
+    tests/unit/linux_smart_provider_test.cpp
+    tests/unit/hdparm_benchmark_provider_test.cpp
+    tests/unit/filesystem_directory_scanner_test.cpp
+    tests/unit/directory_scanner_viewmodel_test.cpp
     tests/unit/more_viewmodels_test.cpp
     tests/unit/final_viewmodels_test.cpp
     tests/unit/export_viewmodel_test.cpp
