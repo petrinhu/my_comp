@@ -18,6 +18,7 @@ class ExportViewModel : public QObject {
     Q_OBJECT
     Q_PROPERTY(bool isBusy READ isBusy NOTIFY isBusyChanged)
     Q_PROPERTY(QString defaultExportPath READ defaultExportPath CONSTANT)
+    Q_PROPERTY(QVariantList exportHistory READ exportHistory NOTIFY exportHistoryChanged)
 
 public:
     explicit ExportViewModel(QObject* parent = nullptr);
@@ -29,15 +30,21 @@ public:
                  UserMetadataViewModel* user, HardwareViewModel* hw, DevStackViewModel* dev);
 
     Q_INVOKABLE void exportReport(int formatIndex, const QString& filePath);
+    Q_INVOKABLE void clearHistory();
 
     bool isBusy() const { return m_isBusy; }
     QString defaultExportPath() const;
+    QVariantList exportHistory() const;
 
 signals:
     void isBusyChanged();
     void exportFinished(bool success, const QString& message);
+    void exportHistoryChanged();
 
 private:
+    static constexpr int MAX_HISTORY_ENTRIES = 50;
+    static constexpr const char* HISTORY_ARRAY_KEY = "export_history";
+
     std::vector<std::unique_ptr<domain::interfaces::IExportProvider>> m_providers;
     bool m_isBusy = false;
 
@@ -50,6 +57,7 @@ private:
     QPointer<DevStackViewModel> m_devVM;
 
     domain::models::ReportData collect_all_data();
+    void append_to_history(const QString& format_name, const QString& filePath);
 };
 
 }

@@ -71,7 +71,8 @@ std::vector<uint8_t> OpenSslVault::decrypt(const domain::models::VaultData& data
     if (EVP_DecryptUpdate(ctx.get(), plaintext.data(), &out_len, data.ciphertext.data(), static_cast<int>(data.ciphertext.size())) != 1)
         return {};
 
-    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, GCM_TAG_SIZE, const_cast<uint8_t*>(data.tag.data())) != 1)
+    std::vector<uint8_t> tag_local(data.tag.begin(), data.tag.end());
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, GCM_TAG_SIZE, tag_local.data()) != 1)
         return {};
 
     int final_len = 0;

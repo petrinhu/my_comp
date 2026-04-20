@@ -55,8 +55,8 @@
 | SC-01 | Security | Cofre AES-256-GCM via `OpenSslVault` (`ISecurityVault`) | Alta | — | Alta | ✅ Concluído | ⚠ |
 | SC-01a | Security | Checar retorno de `RAND_bytes` em `OpenSslVault::encrypt` — se falhar, IV fica todo-zero e reuso de IV em GCM quebra confidencialidade catastroficamente | Alta | SC-01 | Baixa | ✅ Concluído | ✓ |
 | SC-01b | Security | Zerar chave em memória após uso (`OPENSSL_cleanse`) — hoje a chave permanece no buffer do caller, exposta a core dumps e swap | Alta | SC-01 | Baixa | ✅ Concluído | ✓ |
-| SC-01c | Security | Ampliar testes de `OpenSslVault`: chave com tamanho errado (esperar `std::invalid_argument`), tamper de `iv` isolado, tamper de `tag` isolado, plaintext vazio | Média | SC-01 | Baixa | ⏳ Pendente | — |
-| SC-01d | Security | Remover `const_cast<uint8_t*>(data.tag.data())` em `decrypt` — API OpenSSL 3.x aceita const; cast só era necessário em versões antigas | Baixa | SC-01 | Baixa | ⏳ Pendente | — |
+| SC-01c | Security | Ampliar testes de `OpenSslVault`: chave com tamanho errado (esperar `std::invalid_argument`), tamper de `iv` isolado, tamper de `tag` isolado, plaintext vazio | Média | SC-01 | Baixa | ✅ Concluído | ✓ |
+| SC-01d | Security | Remover `const_cast<uint8_t*>(data.tag.data())` em `decrypt` — substituído por cópia local mutável (`tag_local`), mesmo padrão de `key_local` | Baixa | SC-01 | Baixa | ✅ Concluído | ✓ |
 | SC-01e | Security | Avaliar suporte a AAD (*additional authenticated data*) no `ISecurityVault` — permitiria ligar ciphertext a contexto (ID de usuário, versão do vault) sem custo de confidencialidade | Baixa | SC-01 | Média | 🎨 Pendente design | — |
 | EX-01 | Export | Relatório JSON em `JsonExportProvider` | Baixa | AR-01 | Baixa | ✅ Concluído | ✓ |
 | EX-02 | Export | Relatório Markdown em `MarkdownExportProvider` | Baixa | AR-01 | Baixa | ✅ Concluído | ⚠ |
@@ -64,9 +64,9 @@
 | EX-03 | Export | Relatório HTML em `HtmlExportProvider` | Baixa | AR-01 | Baixa | ✅ Concluído | ⚠ |
 | EX-03a | Export | `HtmlExportProvider::to_html_table` e cabeçalho não escapam HTML entities (`<`, `>`, `&`, `"`, `'`) — conteúdo vindo de `/proc`/D-Bus pode injetar markup e quebrar a página (risco XSS mesmo em relatório offline) | Alta | EX-03 | Baixa | ✅ Concluído | ✓ |
 | EX-03b | Export | CSS inline do `HtmlExportProvider` está dentro da string C++ (≈10 linhas) — mover para recurso `.qrc` ou constante estática facilita manutenção e reduz tamanho do `.cpp` | Baixa | EX-03 | Baixa | ✅ Concluído | ✓ |
-| EX-04 | Export | Pasta padrão (Documentos) e histórico no `ExportViewModel` | Média | EX-01 | Baixa | 🟡 Parcial | ⚠ |
+| EX-04 | Export | Pasta padrão (Documentos) e histórico no `ExportViewModel` | Média | EX-01 | Baixa | ✅ Concluído | ✓ |
 | EX-04a | Export | Usar `QStandardPaths::DocumentsLocation` como destino padrão — hoje `ExportViewModel::exportReport` recebe `filePath` cru da UI sem sugestão de diretório | Média | EX-04 | Baixa | ✅ Concluído | ✓ |
-| EX-04b | Export | Persistir histórico de relatórios gerados (data, formato, caminho) via `QSettings` ou `ISecurityVault` — hoje não há rastreabilidade de exports passados | Média | EX-04 | Média | 🎨 Pendente design | — |
+| EX-04b | Export | Persistir histórico de relatórios gerados (timestamp/formato/caminho) via `QSettings` — cap FIFO de 50 entradas; `Q_PROPERTY exportHistory` + `Q_INVOKABLE clearHistory()` | Média | EX-04 | Média | ✅ Concluído | ✓ |
 | EX-04c | Export | Substituir `filePath.startsWith("file://") / mid(7)` ad-hoc por `QUrl::fromUserInput(...).toLocalFile()` em `ExportViewModel::exportReport` | Baixa | EX-04 | Baixa | ✅ Concluído | ✓ |
 | EX-04d | Export | `ExportViewModel::collect_all_data()` roda síncrono na UI thread antes do `QtConcurrent::run` — acessa 6 ViewModels (getter a getter); mover coleta também para dentro da lambda assíncrona | Média | EX-04 | Média | ✅ Concluído | ✓ |
 | EX-04e | Export | `ExportViewModel::set_vms` recebe 6 raw pointers — usar `QPointer<T>` para observação defensiva (se algum VM for destruído antes, o cast atual dá UB) | Baixa | EX-04, AR-06 | Baixa | ✅ Concluído | ✓ |

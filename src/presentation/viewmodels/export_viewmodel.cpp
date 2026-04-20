@@ -3,8 +3,10 @@
 #include <QDateTime>
 #include <QFileInfo>
 #include <QPointer>
+#include <QSettings>
 #include <QStandardPaths>
 #include <QUrl>
+#include <QVariantMap>
 
 namespace my_comp::presentation::viewmodels {
 
@@ -26,6 +28,67 @@ void ExportViewModel::set_vms(SystemInfoViewModel* system, CpuViewModel* cpu, Me
 
 QString ExportViewModel::defaultExportPath() const {
     return QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+}
+
+QVariantList ExportViewModel::exportHistory() const {
+    QSettings settings;
+    QVariantList list;
+    const int size = settings.beginReadArray(HISTORY_ARRAY_KEY);
+    for (int i = 0; i < size; ++i) {
+        settings.setArrayIndex(i);
+        QVariantMap entry;
+        entry.insert("timestamp", settings.value("timestamp").toString());
+        entry.insert("format", settings.value("format").toString());
+        entry.insert("path", settings.value("path").toString());
+        list.append(entry);
+    }
+    settings.endArray();
+    return list;
+}
+
+void ExportViewModel::clearHistory() {
+    QSettings settings;
+    settings.remove(HISTORY_ARRAY_KEY);
+    settings.sync();
+    emit exportHistoryChanged();
+}
+
+void ExportViewModel::append_to_history(const QString& format_name, const QString& filePath) {
+    QSettings settings;
+
+    QVariantList entries;
+    const int size = settings.beginReadArray(HISTORY_ARRAY_KEY);
+    for (int i = 0; i < size; ++i) {
+        settings.setArrayIndex(i);
+        QVariantMap entry;
+        entry.insert("timestamp", settings.value("timestamp").toString());
+        entry.insert("format", settings.value("format").toString());
+        entry.insert("path", settings.value("path").toString());
+        entries.append(entry);
+    }
+    settings.endArray();
+
+    QVariantMap new_entry;
+    new_entry.insert("timestamp", QDateTime::currentDateTime().toString(Qt::ISODate));
+    new_entry.insert("format", format_name);
+    new_entry.insert("path", filePath);
+    entries.append(new_entry);
+
+    while (entries.size() > MAX_HISTORY_ENTRIES) {
+        entries.removeFirst();
+    }
+
+    settings.remove(HISTORY_ARRAY_KEY);
+    settings.beginWriteArray(HISTORY_ARRAY_KEY);
+    for (int i = 0; i < entries.size(); ++i) {
+        settings.setArrayIndex(i);
+        const QVariantMap entry = entries[i].toMap();
+        settings.setValue("timestamp", entry.value("timestamp"));
+        settings.setValue("format", entry.value("format"));
+        settings.setValue("path", entry.value("path"));
+    }
+    settings.endArray();
+    settings.sync();
 }
 
 domain::models::ReportData ExportViewModel::collect_all_data() {
@@ -110,10 +173,15 @@ void ExportViewModel::exportReport(int formatIndex, const QString& filePath) {
         // na main thread, leituras concorrentes aqui retornam snapshot válido.
         auto data = self->collect_all_data();
         bool success = self->m_providers[formatIndex]->export_report(data, cleanPath);
-        QMetaObject::invokeMethod(self.data(), [self, success, cleanPath]() {
+        QString format_name = self->m_providers[formatIndex]->get_format_name();
+        QMetaObject::invokeMethod(self.data(), [self, success, cleanPath, format_name]() {
             if (!self) return;
             self->m_isBusy = false;
             emit self->isBusyChanged();
+            if (success) {
+                self->append_to_history(format_name, cleanPath);
+                emit self->exportHistoryChanged();
+            }
             emit self->exportFinished(success, success ? "Relatório gerado em: " + cleanPath : "Erro ao gerar relatório.");
         }, Qt::QueuedConnection);
     });
