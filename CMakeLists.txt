@@ -136,6 +136,7 @@ set(UNIT_TEST_SOURCES
     tests/unit/pacman_update_provider_test.cpp
     tests/unit/snap_update_provider_test.cpp
     tests/unit/nvidia_gpu_provider_test.cpp
+    tests/unit/sysfs_gpu_provider_test.cpp
     tests/unit/audio_fuzz_test.cpp
     tests/unit/journal_load_test.cpp
     
