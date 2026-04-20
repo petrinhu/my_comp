@@ -1,1 +1,0 @@
-genhtml reports/cobertura_filtrada.info --output-directory reports/cobertura_html --title 'my_comp v2.0 Total Coverage' --ignore-errors source

@@ -1,5 +1,6 @@
 build/
 build_cov/
+reports/
 .cache/
 compile_commands.json
 *.swp
