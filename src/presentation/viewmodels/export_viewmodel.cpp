@@ -1,6 +1,9 @@
 #include "export_viewmodel.h"
 #include <QtConcurrent>
 #include <QDateTime>
+#include <QFileInfo>
+#include <QStandardPaths>
+#include <QUrl>
 
 namespace my_comp::presentation::viewmodels {
 
@@ -10,7 +13,7 @@ void ExportViewModel::add_provider(std::unique_ptr<domain::interfaces::IExportPr
     m_providers.push_back(std::move(provider));
 }
 
-void ExportViewModel::set_vms(SystemInfoViewModel* system, CpuViewModel* cpu, MemoryViewModel* mem, 
+void ExportViewModel::set_vms(SystemInfoViewModel* system, CpuViewModel* cpu, MemoryViewModel* mem,
                              UserMetadataViewModel* user, HardwareViewModel* hw, DevStackViewModel* dev) {
     m_systemVM = system;
     m_cpuVM = cpu;
@@ -20,16 +23,20 @@ void ExportViewModel::set_vms(SystemInfoViewModel* system, CpuViewModel* cpu, Me
     m_devVM = dev;
 }
 
+QString ExportViewModel::defaultExportPath() const {
+    return QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+}
+
 domain::models::ReportData ExportViewModel::collect_all_data() {
     domain::models::ReportData data;
     data.title = "Relatório de Sistema - my_comp v2.0";
     data.timestamp = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
-    
+
     if (m_systemVM) {
         data.distro = m_systemVM->distro();
         data.kernel = m_systemVM->kernel();
     }
-    
+
     if (m_userVM) {
         data.user = m_userVM->currentUser();
         QVariantMap userMap;
@@ -78,20 +85,33 @@ void ExportViewModel::exportReport(int formatIndex, const QString& filePath) {
         return;
     }
 
+    // Normalizar file:// URIs → caminho local via QUrl (evita parsing ad-hoc de percent-encoding).
+    QString cleanPath = filePath;
+    QUrl url(filePath);
+    if (url.isLocalFile()) cleanPath = url.toLocalFile();
+
+    // Valida permissão de escrita no diretório pai antes de disparar o job assíncrono.
+    QFileInfo fi(cleanPath);
+    QFileInfo parent(fi.absolutePath());
+    if (!parent.exists() || !parent.isDir() || !parent.isWritable()) {
+        emit exportFinished(false, "Pasta de destino inválida ou sem permissão de escrita: " + parent.absoluteFilePath());
+        return;
+    }
+
     m_isBusy = true;
     emit isBusyChanged();
 
-    auto data = collect_all_data();
-    QString cleanPath = filePath;
-    if (cleanPath.startsWith("file://")) cleanPath = cleanPath.mid(7);
-
-    (void)QtConcurrent::run([this, formatIndex, data, cleanPath]() {
+    (void)QtConcurrent::run([this, formatIndex, cleanPath]() {
+        // collect_all_data acessa cached getters dos VMs (QString/int/QVariantList são
+        // copy-on-write com refcount atômico); os VMs rodam updates via QueuedConnection
+        // na main thread, leituras concorrentes aqui retornam snapshot válido.
+        auto data = collect_all_data();
         bool success = m_providers[formatIndex]->export_report(data, cleanPath);
         QMetaObject::invokeMethod(this, [this, success, cleanPath]() {
             m_isBusy = false;
             emit isBusyChanged();
             emit exportFinished(success, success ? "Relatório gerado em: " + cleanPath : "Erro ao gerar relatório.");
-        });
+        }, Qt::QueuedConnection);
     });
 }
 

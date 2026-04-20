@@ -879,7 +879,7 @@ Window {
                                 placeholderText: "Pasta de destino..."
                                 Layout.fillWidth: true
                                 readOnly: true
-                                text: StandardPaths.writableLocation(StandardPaths.DocumentsLocation).toString().replace("file://", "")
+                                text: exportViewModel.defaultExportPath
                             }
                             Button {
                                 text: "Escolher Pasta"
