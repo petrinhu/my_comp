@@ -20,14 +20,15 @@ TEST(CpuViewModelTest, ShouldRefreshStatsFromProvider) {
     CpuArchitecture arch;
     arch.model_name = "Test CPU";
     EXPECT_CALL(*provider, collect_architecture()).WillOnce(Return(arch));
-    
-    CpuViewModel vm(provider);
-    EXPECT_EQ(vm.modelName(), "Test CPU");
 
     CpuStats stats;
     stats.total_load = 50.0;
-    EXPECT_CALL(*provider, collect_stats()).WillOnce(Return(stats));
+    EXPECT_CALL(*provider, collect_stats()).WillRepeatedly(Return(stats));
 
-    vm.refresh();
+    CpuViewModel vm(provider);
+    // CLAUDE.md §4 + AR-07: ctor não faz I/O. initialize() lê arquitetura e dispara 1º refresh.
+    vm.initialize();
+
+    EXPECT_EQ(vm.modelName(), "Test CPU");
     EXPECT_DOUBLE_EQ(vm.totalLoad(), 50.0);
 }

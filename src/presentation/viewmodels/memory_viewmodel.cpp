@@ -1,11 +1,13 @@
 #include "memory_viewmodel.h"
 #include <QLocale>
+#include <QtConcurrent/QtConcurrent>
+#include <QPointer>
 
 namespace my_comp::presentation::viewmodels {
 
 MemoryViewModel::MemoryViewModel(std::shared_ptr<domain::interfaces::IMemoryProvider> provider, QObject *parent)
     : QObject(parent), m_provider(provider) {
-    
+
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &MemoryViewModel::refresh);
 }
@@ -14,8 +16,20 @@ void MemoryViewModel::refresh() {
     if (!m_timer->isActive()) {
         m_timer->start(2000);
     }
-    m_stats = m_provider->collect_stats();
-    emit statsChanged();
+    if (m_busy) return;
+    m_busy = true;
+
+    QPointer<MemoryViewModel> self(this);
+    auto provider = m_provider;
+    (void)QtConcurrent::run([self, provider]() {
+        auto stats = provider->collect_stats();
+        QMetaObject::invokeMethod(self.data(), [self, stats]() {
+            if (!self) return;
+            self->m_stats = stats;
+            self->m_busy = false;
+            emit self->statsChanged();
+        }, Qt::QueuedConnection);
+    });
 }
 
 QString MemoryViewModel::format_kb(uint64_t kb) const {

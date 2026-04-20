@@ -37,6 +37,7 @@ private:
     std::shared_ptr<domain::interfaces::INetworkProvider> m_provider;
     domain::models::NetworkStats m_stats;
     QTimer *m_timer;
+    bool m_busy = false;
 };
 
 } // namespace my_comp::presentation::viewmodels

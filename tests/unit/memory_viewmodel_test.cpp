@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <QtTest/QSignalSpy>
 #include "../../src/presentation/viewmodels/memory_viewmodel.h"
 #include "../../src/domain/interfaces/i_memory_provider.h"
 
@@ -23,8 +24,11 @@ TEST(MemoryViewModelTest, ShouldRefreshStatsFromProvider) {
     EXPECT_CALL(*provider, collect_stats()).WillRepeatedly(Return(stats));
     
     MemoryViewModel vm(provider);
+    // AR-08: refresh() agora é async via QtConcurrent.
+    QSignalSpy spy(&vm, &MemoryViewModel::statsChanged);
     vm.refresh();
-    
+    ASSERT_TRUE(spy.wait(2000));
+
     EXPECT_DOUBLE_EQ(vm.ramUsagePercent(), 50.0);
     EXPECT_FALSE(vm.ramTotal().isEmpty());
 }

@@ -21,6 +21,7 @@ public:
 
     QVariantList gpus() const { return m_gpus; }
 
+    Q_INVOKABLE void initialize();
     Q_INVOKABLE void update_stats();
 
 signals:
@@ -31,6 +32,7 @@ private:
     std::vector<std::unique_ptr<domain::interfaces::IGpuProvider>> m_providers;
     QVariantList m_gpus;
     QTimer* m_timer;
+    bool m_initialized = false;
 };
 
 } // namespace my_comp::presentation::viewmodels

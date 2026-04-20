@@ -4,20 +4,24 @@
 
 namespace my_comp::presentation::viewmodels {
 
-PowerViewModel::PowerViewModel(QObject* parent) 
+PowerViewModel::PowerViewModel(QObject* parent)
     : QObject(parent), m_provider(std::make_shared<infrastructure::collectors::LinuxPowerProvider>()) {
+    // CLAUDE.md §4: ctor sem I/O e sem start de timer. initialize() dispara ambos.
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &PowerViewModel::update);
-    m_timer->start(2000);
-    update();
 }
 
 PowerViewModel::PowerViewModel(std::shared_ptr<domain::interfaces::IPowerProvider> provider, QObject* parent)
     : QObject(parent), m_provider(std::move(provider)) {
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &PowerViewModel::update);
-    m_timer->start(2000);
+}
+
+void PowerViewModel::initialize() {
+    if (m_initialized) return;
+    m_initialized = true;
     update();
+    m_timer->start(2000);
 }
 
 void PowerViewModel::update() {

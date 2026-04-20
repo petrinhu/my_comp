@@ -8,17 +8,22 @@ namespace my_comp::presentation::viewmodels {
 
 GpuViewModel::GpuViewModel(std::shared_ptr<infrastructure::collectors::IShellExecutor> executor, QObject* parent)
     : QObject(parent), m_executor(executor) {
+    // CLAUDE.md §4: timer não arranca no ctor; initialize() materializa I/O (which + spawn).
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &GpuViewModel::update_stats);
-    m_timer->start(2000);
 }
 
 GpuViewModel::GpuViewModel(std::vector<std::unique_ptr<domain::interfaces::IGpuProvider>> providers, QObject* parent)
     : QObject(parent), m_providers(std::move(providers)) {
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &GpuViewModel::update_stats);
-    m_timer->start(2000);
+}
+
+void GpuViewModel::initialize() {
+    if (m_initialized) return;
+    m_initialized = true;
     update_stats();
+    m_timer->start(2000);
 }
 
 void GpuViewModel::update_stats() {

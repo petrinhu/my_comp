@@ -20,6 +20,7 @@ public:
     QVariantList usbDevices() const;
     QVariantList bluetoothDevices() const;
 
+    Q_INVOKABLE void initialize();
     Q_INVOKABLE void refresh();
 
 signals:
@@ -28,6 +29,8 @@ signals:
 private:
     std::shared_ptr<domain::interfaces::IHardwareProvider> m_provider;
     domain::models::HardwareTopology m_data;
+    bool m_initialized = false;
+    bool m_busy = false;
 };
 
 }

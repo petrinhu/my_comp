@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <QtTest/QSignalSpy>
 #include "../../src/presentation/viewmodels/storage_viewmodel.h"
 #include "../../src/domain/interfaces/i_storage_provider.h"
 
@@ -22,8 +23,10 @@ TEST(StorageViewModelTest, ShouldRefreshStatsFromProvider) {
     EXPECT_CALL(*provider, collect_stats()).WillRepeatedly(Return(stats));
     
     StorageViewModel vm(provider);
+    QSignalSpy spy(&vm, &StorageViewModel::statsChanged);
     vm.refresh();
-    
+    ASSERT_TRUE(spy.wait(2000));
+
     EXPECT_DOUBLE_EQ(vm.totalReadMb(), 150.0);
     EXPECT_DOUBLE_EQ(vm.totalWriteMb(), 80.0);
 }

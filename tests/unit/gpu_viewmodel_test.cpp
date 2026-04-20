@@ -22,13 +22,15 @@ TEST(GpuViewModelTest, ShouldRefreshStatsFromProviders) {
     stats.vendor = "NVIDIA";
     stats.load_percent = 10.0;
     
-    EXPECT_CALL(*provider, collect_stats()).WillOnce(Return(std::vector<GpuStats>{stats}));
-    
+    EXPECT_CALL(*provider, collect_stats()).WillRepeatedly(Return(std::vector<GpuStats>{stats}));
+
     std::vector<std::unique_ptr<IGpuProvider>> providers;
     providers.push_back(std::move(provider));
-    
+
     GpuViewModel vm(std::move(providers));
-    
+    // AR-07: ctor sem I/O; initialize() chama update_stats() e arma o timer.
+    vm.initialize();
+
     auto list = vm.gpus();
     EXPECT_EQ(list.size(), 1);
     

@@ -1,9 +1,17 @@
 #include "hardware_viewmodel.h"
+#include <QtConcurrent/QtConcurrent>
+#include <QPointer>
 
 namespace my_comp::presentation::viewmodels {
 
 HardwareViewModel::HardwareViewModel(std::shared_ptr<domain::interfaces::IHardwareProvider> provider, QObject* parent)
     : QObject(parent), m_provider(std::move(provider)) {
+    // CLAUDE.md §4: ctor não faz I/O. HardwareProvider::collect_topology spawna lsusb + bluetoothctl.
+}
+
+void HardwareViewModel::initialize() {
+    if (m_initialized) return;
+    m_initialized = true;
     refresh();
 }
 
@@ -47,8 +55,22 @@ QVariantList HardwareViewModel::bluetoothDevices() const {
 }
 
 void HardwareViewModel::refresh() {
-    m_data = m_provider->collect_topology();
-    emit dataChanged();
+    // Re-entrância: collect_topology roda lsusb + bluetoothctl (subprocess), pode durar ~1s.
+    // Sem este guard, cada refresh do sequenciador/UI enfileira um job extra.
+    if (m_busy) return;
+    m_busy = true;
+
+    QPointer<HardwareViewModel> self(this);
+    auto provider = m_provider;
+    (void)QtConcurrent::run([self, provider]() {
+        auto data = provider->collect_topology();
+        QMetaObject::invokeMethod(self.data(), [self, data = std::move(data)]() {
+            if (!self) return;
+            self->m_data = std::move(data);
+            self->m_busy = false;
+            emit self->dataChanged();
+        }, Qt::QueuedConnection);
+    });
 }
 
 }

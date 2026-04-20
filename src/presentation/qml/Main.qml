@@ -48,7 +48,7 @@ Window {
             switch(step) {
                 case 0: systemInfoViewModel.refresh(); break;
                 case 1: userMetadataViewModel.refresh(); break;
-                case 2: cpuViewModel.refresh(); break;
+                case 2: cpuViewModel.initialize(); break;
                 case 3: memoryViewModel.refresh(); break;
                 case 4: storageViewModel.refresh(); break;
                 case 5: networkViewModel.refresh(); break;
@@ -56,7 +56,12 @@ Window {
                 case 7: serviceViewModel.refresh(); break;
                 case 8: devStackViewModel.refresh(); break;
                 case 9: updateViewModel.refresh(); break;
-                case 10: if (firmwareViewModel) firmwareViewModel.refresh(); break;
+                case 10:
+                    if (firmwareViewModel) firmwareViewModel.refresh();
+                    if (hardwareViewModel) hardwareViewModel.initialize();
+                    if (gpuViewModel) gpuViewModel.initialize();
+                    if (powerViewModel) powerViewModel.initialize();
+                    break;
                 case 11: 
                     if (audioViewModel) {
                         console.log("[Main] Starting audio...");

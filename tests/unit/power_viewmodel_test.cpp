@@ -19,11 +19,12 @@ TEST(PowerViewModelTest, ShouldRefreshStatsFromProvider) {
     stats.consumption_watts = 15.5;
     stats.battery_percent = 85.0;
     
-    EXPECT_CALL(*provider, collect_stats()).WillOnce(Return(stats));
-    
+    EXPECT_CALL(*provider, collect_stats()).WillRepeatedly(Return(stats));
+
     PowerViewModel vm(provider);
-    // update() é chamado no construtor
-    
+    // AR-07: ctor sem I/O, initialize() dispara update() e timer.
+    vm.initialize();
+
     EXPECT_DOUBLE_EQ(vm.powerWatts(), 15.5);
     EXPECT_DOUBLE_EQ(vm.batteryPercent(), 85.0);
 }

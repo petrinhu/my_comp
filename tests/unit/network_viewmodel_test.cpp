@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <QtTest/QSignalSpy>
 #include "../../src/presentation/viewmodels/network_viewmodel.h"
 #include "../../src/domain/interfaces/i_network_provider.h"
 
@@ -23,8 +24,10 @@ TEST(NetworkViewModelTest, ShouldRefreshStatsFromProvider) {
     EXPECT_CALL(*provider, collect_stats()).WillRepeatedly(Return(stats));
     
     NetworkViewModel vm(provider);
+    QSignalSpy spy(&vm, &NetworkViewModel::statsChanged);
     vm.refresh();
-    
+    ASSERT_TRUE(spy.wait(2000));
+
     EXPECT_DOUBLE_EQ(vm.totalRx(), 10.5);
     EXPECT_EQ(vm.status(), "Online");
 }

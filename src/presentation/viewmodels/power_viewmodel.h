@@ -14,6 +14,8 @@ public:
     explicit PowerViewModel(QObject* parent = nullptr);
     double powerWatts() const { return m_power; }
     double batteryPercent() const { return m_percent; }
+
+    Q_INVOKABLE void initialize();
 signals:
     void dataChanged();
 private slots:
@@ -23,5 +25,6 @@ private:
     double m_power = 0.0;
     double m_percent = 0.0;
     QTimer* m_timer;
+    bool m_initialized = false;
 };
 }

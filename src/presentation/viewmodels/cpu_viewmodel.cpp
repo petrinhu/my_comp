@@ -5,18 +5,24 @@ namespace my_comp::presentation::viewmodels {
 
 CpuViewModel::CpuViewModel(std::shared_ptr<domain::interfaces::ICpuProvider> provider, QObject *parent)
     : QObject(parent), m_provider(provider) {
-    
-    // Coleta inicial de arquitetura (estática e rápida)
-    m_arch = m_provider->collect_architecture();
-    
+    // CLAUDE.md §4: ctor não faz I/O. Trabalho pesado vai para initialize().
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &CpuViewModel::refresh);
 }
 
+void CpuViewModel::initialize() {
+    if (m_initialized) return;
+    m_initialized = true;
+
+    // Arquitetura é estática (lida uma vez de /proc/cpuinfo e /sys/devices/system/cpu).
+    m_arch = m_provider->collect_architecture();
+    emit architectureChanged();
+
+    refresh();
+    m_timer->start(1000);
+}
+
 void CpuViewModel::refresh() {
-    if (!m_timer->isActive()) {
-        m_timer->start(1000);
-    }
     m_stats = m_provider->collect_stats();
     emit statsChanged();
 }

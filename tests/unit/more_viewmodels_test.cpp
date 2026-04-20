@@ -100,11 +100,17 @@ TEST(HardwareViewModelTest, ShouldRefreshData) {
     auto provider = std::make_shared<MockHardwareProvider>();
     HardwareTopology data;
     data.smbios.vendor = "Dell";
-    
+
     EXPECT_CALL(*provider, collect_topology()).WillRepeatedly(Return(data));
-    
+
     HardwareViewModel vm(provider);
-    vm.refresh();
+    // AR-08: refresh() dispara QtConcurrent + marshal via QMetaObject::invokeMethod.
+    // Aguarda dataChanged via QSignalSpy para drenar: 1ª wait libera quando a task assume,
+    // 2ª libera quando o invokeMethod roda no event loop.
+    QSignalSpy spy(&vm, &HardwareViewModel::dataChanged);
+    vm.initialize();
+    ASSERT_TRUE(spy.wait(2000));
+
     auto smbios = vm.smbios();
     EXPECT_EQ(smbios["vendor"].toString(), "Dell");
 }
