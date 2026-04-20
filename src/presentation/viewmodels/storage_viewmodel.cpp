@@ -9,10 +9,12 @@ namespace my_comp::presentation::viewmodels {
 StorageViewModel::StorageViewModel(std::shared_ptr<domain::interfaces::IStorageProvider> provider,
                                    std::shared_ptr<domain::interfaces::IDiskInventoryProvider> inventory_provider,
                                    std::shared_ptr<domain::interfaces::ISmartProvider> smart_provider,
+                                   std::shared_ptr<domain::interfaces::IBenchmarkProvider> benchmark_provider,
                                    QObject *parent)
     : QObject(parent), m_provider(provider),
       m_inventory_provider(std::move(inventory_provider)),
-      m_smart_provider(std::move(smart_provider)) {
+      m_smart_provider(std::move(smart_provider)),
+      m_benchmark_provider(std::move(benchmark_provider)) {
 
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &StorageViewModel::refresh);
@@ -107,6 +109,35 @@ void StorageViewModel::refreshInventory() {
             self->m_drives = list;
             self->m_inventory_busy = false;
             emit self->inventoryChanged();
+        }, Qt::QueuedConnection);
+    });
+}
+
+void StorageViewModel::runBenchmark(const QString& deviceName) {
+    if (!m_benchmark_provider || m_benchmarking) return;
+    m_benchmarking = true;
+    m_last_benchmark.clear();
+    m_last_benchmark["device"] = deviceName;
+    m_last_benchmark["running"] = true;
+    emit benchmarkChanged();
+
+    QPointer<StorageViewModel> self(this);
+    auto provider = m_benchmark_provider;
+    (void)QtConcurrent::run([self, provider, deviceName]() {
+        auto result = provider->run(deviceName);
+        QMetaObject::invokeMethod(self.data(), [self, result]() {
+            if (!self) return;
+            QVariantMap m;
+            m["device"] = result.device;
+            m["seqReadMbS"] = result.seq_read_mb_s;
+            m["cachedMbS"] = result.cached_mb_s;
+            m["durationS"] = result.duration_s;
+            m["success"] = result.success;
+            m["errorMessage"] = result.error_message;
+            m["running"] = false;
+            self->m_last_benchmark = m;
+            self->m_benchmarking = false;
+            emit self->benchmarkChanged();
         }, Qt::QueuedConnection);
     });
 }

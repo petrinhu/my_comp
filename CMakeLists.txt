@@ -35,6 +35,8 @@ set(PROJECT_SOURCES
     src/infrastructure/collectors/linux_storage_provider.cpp
     src/infrastructure/collectors/linux_disk_inventory_provider.cpp
     src/infrastructure/collectors/linux_smart_provider.cpp
+    src/infrastructure/collectors/hdparm_benchmark_provider.cpp
+    src/infrastructure/collectors/filesystem_directory_scanner.cpp
     src/infrastructure/collectors/linux_network_provider.cpp
     src/infrastructure/collectors/nvidia_gpu_provider.cpp
     src/infrastructure/collectors/sysfs_gpu_provider.cpp
@@ -74,6 +76,7 @@ set(PROJECT_SOURCES
     src/presentation/viewmodels/export_viewmodel.cpp
     src/presentation/viewmodels/audio_viewmodel.cpp
     src/presentation/viewmodels/installation_viewmodel.cpp
+    src/presentation/viewmodels/directory_scanner_viewmodel.cpp
 )
 
 # Recurso QML
@@ -150,6 +153,8 @@ set(UNIT_TEST_SOURCES
     src/infrastructure/collectors/linux_storage_provider.cpp
     src/infrastructure/collectors/linux_disk_inventory_provider.cpp
     src/infrastructure/collectors/linux_smart_provider.cpp
+    src/infrastructure/collectors/hdparm_benchmark_provider.cpp
+    src/infrastructure/collectors/filesystem_directory_scanner.cpp
     src/infrastructure/collectors/linux_network_provider.cpp
     src/infrastructure/collectors/linux_power_provider.cpp
     src/infrastructure/collectors/linux_hardware_provider.cpp
@@ -190,6 +195,7 @@ set(UNIT_TEST_SOURCES
     src/presentation/viewmodels/export_viewmodel.cpp
     src/presentation/viewmodels/audio_viewmodel.cpp
     src/presentation/viewmodels/installation_viewmodel.cpp
+    src/presentation/viewmodels/directory_scanner_viewmodel.cpp
 )
 
 add_executable(unit_tests ${UNIT_TEST_SOURCES})
@@ -227,6 +233,8 @@ set(ACCEPTANCE_TEST_SOURCES
     src/infrastructure/collectors/linux_storage_provider.cpp
     src/infrastructure/collectors/linux_disk_inventory_provider.cpp
     src/infrastructure/collectors/linux_smart_provider.cpp
+    src/infrastructure/collectors/hdparm_benchmark_provider.cpp
+    src/infrastructure/collectors/filesystem_directory_scanner.cpp
     src/infrastructure/collectors/linux_network_provider.cpp
     src/infrastructure/collectors/nvidia_gpu_provider.cpp
     src/infrastructure/collectors/sysfs_gpu_provider.cpp
@@ -267,6 +275,7 @@ set(ACCEPTANCE_TEST_SOURCES
     src/presentation/viewmodels/export_viewmodel.cpp
     src/presentation/viewmodels/audio_viewmodel.cpp
     src/presentation/viewmodels/installation_viewmodel.cpp
+    src/presentation/viewmodels/directory_scanner_viewmodel.cpp
 )
 
 add_executable(acceptance_tests ${ACCEPTANCE_TEST_SOURCES})

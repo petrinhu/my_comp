@@ -51,6 +51,9 @@ using namespace Qt::StringLiterals;
 #include "infrastructure/collectors/linux_storage_provider.h"
 #include "infrastructure/collectors/linux_disk_inventory_provider.h"
 #include "infrastructure/collectors/linux_smart_provider.h"
+#include "infrastructure/collectors/hdparm_benchmark_provider.h"
+#include "infrastructure/collectors/filesystem_directory_scanner.h"
+#include "presentation/viewmodels/directory_scanner_viewmodel.h"
 #include "infrastructure/collectors/linux_network_provider.h"
 #include "infrastructure/collectors/linux_system_info_provider.h"
 #include "infrastructure/collectors/linux_user_metadata_provider.h"
@@ -84,6 +87,11 @@ int main(int argc, char *argv[])
     if (QFile::exists("/usr/sbin/smartctl") || QFile::exists("/usr/bin/smartctl")) {
         smart_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxSmartProvider>(shell);
     }
+    std::shared_ptr<my_comp::domain::interfaces::IBenchmarkProvider> benchmark_provider;
+    if (QFile::exists("/usr/sbin/hdparm") || QFile::exists("/usr/bin/hdparm")) {
+        benchmark_provider = std::make_shared<my_comp::infrastructure::collectors::HdparmBenchmarkProvider>(shell);
+    }
+    auto directory_scanner = std::make_shared<my_comp::infrastructure::collectors::FilesystemDirectoryScanner>();
     auto network_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxNetworkProvider>(shell);
     auto system_info_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxSystemInfoProvider>(shell);
     auto interactive_runner = std::make_shared<my_comp::infrastructure::collectors::InteractiveProcessRunner>();
@@ -113,7 +121,8 @@ int main(int argc, char *argv[])
     auto firmware_vm = std::make_unique<my_comp::presentation::viewmodels::FirmwareViewModel>(firmware_provider);
     auto gpu_vm = std::make_unique<my_comp::presentation::viewmodels::GpuViewModel>(shell);
     auto power_vm = std::make_unique<my_comp::presentation::viewmodels::PowerViewModel>();
-    auto storage_vm = std::make_unique<my_comp::presentation::viewmodels::StorageViewModel>(storage_provider, disk_inventory_provider, smart_provider);
+    auto storage_vm = std::make_unique<my_comp::presentation::viewmodels::StorageViewModel>(storage_provider, disk_inventory_provider, smart_provider, benchmark_provider);
+    auto directory_scanner_vm = std::make_unique<my_comp::presentation::viewmodels::DirectoryScannerViewModel>(directory_scanner);
     auto network_vm = std::make_unique<my_comp::presentation::viewmodels::NetworkViewModel>(network_provider);
     auto system_info_vm = std::make_unique<my_comp::presentation::viewmodels::SystemInfoViewModel>(system_info_provider);
     auto installation_vm = std::make_unique<my_comp::presentation::viewmodels::InstallationViewModel>(installer_adapter);
@@ -155,6 +164,7 @@ int main(int argc, char *argv[])
     ctx->setContextProperty("audioViewModel", audio_vm.get());
     ctx->setContextProperty("installationViewModel", installation_vm.get());
     ctx->setContextProperty("storageViewModel", storage_vm.get());
+    ctx->setContextProperty("directoryScannerViewModel", directory_scanner_vm.get());
     ctx->setContextProperty("networkViewModel", network_vm.get());
 
     const QUrl url(u"qrc:/Main.qml"_s);

@@ -1083,6 +1083,141 @@ Window {
                                         }
                                     }
                                 }
+
+                                RowLayout {
+                                    Layout.fillWidth: true; Layout.topMargin: 8
+                                    Button {
+                                        text: storageViewModel.isBenchmarking ? "⏳ Executando…" : "⚡ Benchmark (hdparm)"
+                                        enabled: !storageViewModel.isBenchmarking
+                                        onClicked: benchmarkConfirmDialog.open()
+
+                                        Dialog {
+                                            id: benchmarkConfirmDialog
+                                            modal: true
+                                            anchors.centerIn: parent
+                                            title: "Executar benchmark em /dev/" + modelData.name + "?"
+                                            standardButtons: Dialog.Ok | Dialog.Cancel
+                                            Text {
+                                                text: "hdparm -tT roda leitura apenas, mas toca o cache do sistema.\nRequer root/pkexec para acesso ao device bruto."
+                                                color: root.textColor
+                                                wrapMode: Text.WordWrap
+                                                width: 360
+                                            }
+                                            onAccepted: storageViewModel.runBenchmark(modelData.name)
+                                        }
+                                    }
+                                    Text {
+                                        visible: storageViewModel.lastBenchmark.device === modelData.name
+                                              && storageViewModel.lastBenchmark.success === true
+                                        text: storageViewModel.lastBenchmark.device === modelData.name
+                                            ? "Seq: " + (storageViewModel.lastBenchmark.seqReadMbS || 0).toFixed(1) + " MB/s · "
+                                            + "Cache: " + (storageViewModel.lastBenchmark.cachedMbS || 0).toFixed(1) + " MB/s"
+                                            : ""
+                                        color: root.highlightColor; font.pixelSize: 11
+                                    }
+                                    Text {
+                                        visible: storageViewModel.lastBenchmark.device === modelData.name
+                                              && storageViewModel.lastBenchmark.running !== true
+                                              && storageViewModel.lastBenchmark.success === false
+                                              && (storageViewModel.lastBenchmark.errorMessage || "").length > 0
+                                        text: "⚠ " + (storageViewModel.lastBenchmark.errorMessage || "")
+                                        color: root.criticalColor; font.pixelSize: 11; Layout.fillWidth: true; wrapMode: Text.WordWrap
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // Seção Scanner de Diretório (ST-05)
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: scannerColumn.implicitHeight + 30
+                        color: root.cardColor; border.color: root.borderColor; radius: 8
+
+                        ColumnLayout {
+                            id: scannerColumn
+                            anchors.fill: parent; anchors.margins: 15; spacing: 10
+
+                            Text { text: "🔎 Scanner de Diretório"; color: root.highlightColor; font.pixelSize: 15; font.bold: true }
+                            Text {
+                                text: "Varre recursivamente uma pasta e lista os 20 subdiretórios mais pesados. Pseudo-filesystems (/proc, /sys, /run, /dev) e symlinks são ignorados."
+                                color: root.textColor; opacity: 0.7; font.pixelSize: 10; wrapMode: Text.WordWrap
+                                Layout.fillWidth: true
+                            }
+                            RowLayout {
+                                Layout.fillWidth: true
+                                TextField {
+                                    id: scanPathInput
+                                    Layout.fillWidth: true
+                                    placeholderText: "/home/" + Qt.application.arguments[0].split("/")[2]
+                                    text: "/home"
+                                }
+                                Button {
+                                    text: directoryScannerViewModel.isScanning ? "Cancelar" : "Varrer"
+                                    onClicked: {
+                                        if (directoryScannerViewModel.isScanning) {
+                                            directoryScannerViewModel.cancel();
+                                        } else if (scanPathInput.text.length > 0) {
+                                            directoryScannerViewModel.scan(scanPathInput.text);
+                                        }
+                                    }
+                                }
+                            }
+                            RowLayout {
+                                visible: directoryScannerViewModel.isScanning
+                                Layout.fillWidth: true
+                                BusyIndicator { running: true; implicitWidth: 20; implicitHeight: 20 }
+                                Text {
+                                    text: directoryScannerViewModel.filesScanned + " arquivos · "
+                                        + root.formatBytes(directoryScannerViewModel.bytesScanned)
+                                    color: root.textColor; font.pixelSize: 11
+                                }
+                                Text {
+                                    text: "▸ " + directoryScannerViewModel.currentPath
+                                    color: root.textColor; opacity: 0.6; font.pixelSize: 10
+                                    elide: Text.ElideLeft; Layout.fillWidth: true
+                                }
+                            }
+                            Text {
+                                visible: !directoryScannerViewModel.isScanning && directoryScannerViewModel.scannedRoot.length > 0
+                                text: directoryScannerViewModel.scannedRoot + ": " + root.formatBytes(directoryScannerViewModel.totalSize)
+                                color: root.textColor; font.pixelSize: 12; font.bold: true
+                            }
+                            Repeater {
+                                model: directoryScannerViewModel.topEntries
+                                delegate: RowLayout {
+                                    Layout.fillWidth: true
+                                    Text {
+                                        text: modelData.error ? "⚠ " + modelData.name : modelData.name
+                                        color: modelData.error ? root.criticalColor : root.textColor
+                                        font.pixelSize: 11; font.bold: !modelData.error
+                                        Layout.preferredWidth: 200; elide: Text.ElideMiddle
+                                    }
+                                    ProgressBar {
+                                        Layout.fillWidth: true
+                                        from: 0
+                                        to: directoryScannerViewModel.totalSize > 0 ? directoryScannerViewModel.totalSize : 1
+                                        value: modelData.sizeBytes
+                                        background: Rectangle { color: root.isDark ? "#2a2e32" : "#e0e0e0"; radius: 3; implicitHeight: 6 }
+                                        contentItem: Item {
+                                            Rectangle {
+                                                width: parent.width * (directoryScannerViewModel.totalSize > 0 ? (modelData.sizeBytes / directoryScannerViewModel.totalSize) : 0)
+                                                height: parent.height
+                                                radius: 3; color: root.highlightColor
+                                            }
+                                        }
+                                    }
+                                    Text {
+                                        text: root.formatBytes(modelData.sizeBytes)
+                                        color: root.textColor; font.pixelSize: 10
+                                        Layout.preferredWidth: 90; horizontalAlignment: Text.AlignRight
+                                    }
+                                    Text {
+                                        text: modelData.fileCount + " arq · " + modelData.dirCount + " dir"
+                                        color: root.textColor; opacity: 0.6; font.pixelSize: 10
+                                        Layout.preferredWidth: 120
+                                    }
+                                }
                             }
                         }
                     }
