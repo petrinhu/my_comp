@@ -38,47 +38,42 @@ Window {
 
     property int currentView: 0
 
-    // Sequenciador de Carga Inicial (Item 43)
-    Timer {
+    // Sequenciador de Carga Inicial (AR-09: cadeia por event-loop, sem Timer artificial)
+    QtObject {
         id: startupSequencer
-        interval: 300 // Aumentado para 300ms para maior estabilidade
-        repeat: true
         property int step: 0
-        onTriggered: {
-            switch(step) {
-                case 0: systemInfoViewModel.refresh(); break;
-                case 1: userMetadataViewModel.refresh(); break;
-                case 2: cpuViewModel.initialize(); break;
-                case 3: memoryViewModel.refresh(); break;
-                case 4: storageViewModel.refresh(); break;
-                case 5: networkViewModel.refresh(); break;
-                case 6: processViewModel.refresh(); break;
-                case 7: serviceViewModel.refresh(); break;
-                case 8: devStackViewModel.refresh(); break;
-                case 9: updateViewModel.refresh(); break;
-                case 10:
-                    if (firmwareViewModel) firmwareViewModel.refresh();
-                    if (hardwareViewModel) hardwareViewModel.initialize();
-                    if (gpuViewModel) gpuViewModel.initialize();
-                    if (powerViewModel) powerViewModel.initialize();
-                    break;
-                case 11: 
-                    if (audioViewModel) {
-                        console.log("[Main] Starting audio...");
-                        audioViewModel.start();
-                    }
-                    break;
-                default: 
-                    stop();
-                    console.log("[Main] Startup sequence completed.");
-                    return;
+        readonly property var actions: [
+            () => systemInfoViewModel.refresh(),
+            () => userMetadataViewModel.refresh(),
+            () => cpuViewModel.initialize(),
+            () => memoryViewModel.refresh(),
+            () => storageViewModel.refresh(),
+            () => networkViewModel.refresh(),
+            () => processViewModel.refresh(),
+            () => serviceViewModel.refresh(),
+            () => devStackViewModel.refresh(),
+            () => updateViewModel.refresh(),
+            () => {
+                if (firmwareViewModel) firmwareViewModel.refresh();
+                if (hardwareViewModel) hardwareViewModel.initialize();
+                if (gpuViewModel) gpuViewModel.initialize();
+                if (powerViewModel) powerViewModel.initialize();
+            },
+            () => { if (audioViewModel) audioViewModel.start(); }
+        ]
+        function advance() {
+            if (step >= actions.length) {
+                console.log("[Main] Startup sequence completed.");
+                return;
             }
+            actions[step]();
             step++;
+            Qt.callLater(advance);
         }
     }
 
     Component.onCompleted: {
-        startupSequencer.start();
+        startupSequencer.advance();
     }
 
     CpuDetailDialog { id: cpuDetailDialog }

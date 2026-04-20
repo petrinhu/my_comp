@@ -16,10 +16,10 @@
 | AR-04 | Architecture | Separar use cases (`update_manager.h`, `diagnostic_manager.h`) de `domain/` para nova camada `application/` | Baixa | AR-01 | Média | ⏳ Pendente | — |
 | AR-05 | Architecture | Auditoria de signals/slots Qt (disconnect-on-destroy, `Qt::QueuedConnection` cross-thread, múltiplos `connect` redundantes) | Alta | AR-03 | Média | ✅ Concluído | ✓ |
 | AR-05a | Architecture | Endurecer VMs que usam `[this]` em `QtConcurrent::run` (update/service/dev_stack/export/firmware/diagnostic/process/audio) — adotar `QPointer<T> self` como já em memory/network/storage/hardware | Baixa | AR-05 | Baixa | ⏳ Pendente | — |
-| AR-06 | Architecture | Auditoria de parent ownership `QObject` (objetos sem parent = leak; `QPointer` para observação) | Alta | — | Média | ⏳ Pendente | — |
+| AR-06 | Architecture | Auditoria de parent ownership `QObject` (objetos sem parent = leak; `QPointer` para observação) | Alta | — | Média | ✅ Concluído | ✓ |
 | AR-07 | Architecture | Mover I/O dos construtores para método `initialize()` (CLAUDE.md §4) em `CpuViewModel`, `HardwareViewModel`, `PowerViewModel`, `GpuViewModel` | Média | AR-03 | Média | ✅ Concluído | ✓ |
 | AR-08 | Architecture | Tornar `refresh()` assíncrono (`QtConcurrent::run`) em `NetworkViewModel`, `StorageViewModel`, `MemoryViewModel`, `HardwareViewModel` — hoje rodam síncronos na UI thread | Média | AR-03 | Média | ✅ Concluído | ✓ |
-| AR-09 | Architecture | Substituir `Timer(300ms)` do sequenciador QML por cadeia de signals `readyChanged`/`dataLoaded` — elimina "mágica" de 300ms e paraleliza onde possível | Baixa | AR-03 | Média | ⏳ Pendente | — |
+| AR-09 | Architecture | Substituir `Timer(300ms)` do sequenciador QML por cadeia de signals `readyChanged`/`dataLoaded` — elimina "mágica" de 300ms e paraleliza onde possível | Baixa | AR-03 | Média | ✅ Concluído | ✓ |
 | IN-01 | Infra | Executor de shell genérico (`QProcessShellExecutor`) | Alta | — | Baixa | ✅ Concluído | ⚠ |
 | IN-01a | Infra | Capturar `stderr` em `QProcessShellExecutor::execute` (hoje só captura stdout; erros do subprocesso ficam silenciosos) | Média | IN-01 | Baixa | ⏳ Pendente | — |
 | IN-01b | Infra | Controlar `QProcessEnvironment` explícito (hoje herda env do pai, risco baixo mas vale anotar) | Baixa | IN-01 | Baixa | ⏳ Pendente | — |
