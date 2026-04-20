@@ -15,7 +15,7 @@ TEST(DevStackAcceptance, ShouldCollectDevStacksContract) {
     auto provider = std::make_unique<MockDevStackProvider>();
     
     DevStackInfo fake_data;
-    fake_data.toolchains.push_back({"GCC", "13.2.1", true});
+    fake_data.toolchains.push_back({"GCC", "13.2.1"});
     fake_data.containers.push_back({"abc123", "web-server", "nginx:latest", "running", "Podman"});
     
     EXPECT_CALL(*provider, collect_dev_stacks()).WillOnce(testing::Return(fake_data));

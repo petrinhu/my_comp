@@ -7,7 +7,6 @@ namespace my_comp::domain::models {
 struct ToolchainInfo {
     QString name;
     QString version;
-    bool isInstalled;
 };
 
 struct ContainerInfo {

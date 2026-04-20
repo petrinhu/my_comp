@@ -8,8 +8,20 @@ TEST(LinuxDevStackProviderTest, ShouldCollectDevStacksFromRealSystem) {
     auto shell = std::make_shared<QProcessShellExecutor>();
     LinuxDevStackProvider provider(shell);
     auto info = provider.collect_dev_stacks();
-    
-    // Na maioria dos sistemas Fedora dev, pelo menos um desses deve estar presente
-    // Mas o teste deve ser robusto: não deve crashar se nenhum estiver.
-    // Validar se as listas não são nulas.
+
+    // Contrato: a chamada não deve crashar e deve retornar coleções válidas
+    // (tamanhos em faixa razoável; conteúdo depende do sistema do dev).
+    EXPECT_LE(info.toolchains.size(), 32u);
+    EXPECT_LE(info.containers.size(), 1024u);
+
+    // Quando há toolchain detectada, version deve ser não-vazia (regex garante isso).
+    for (const auto& t : info.toolchains) {
+        EXPECT_FALSE(t.name.isEmpty());
+        EXPECT_FALSE(t.version.isEmpty());
+    }
+
+    // Runtime dos containers deve ser sempre preenchido e restrito a Podman/Docker.
+    for (const auto& c : info.containers) {
+        EXPECT_TRUE(c.runtime == "Podman" || c.runtime == "Docker");
+    }
 }

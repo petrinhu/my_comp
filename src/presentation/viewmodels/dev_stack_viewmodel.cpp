@@ -21,7 +21,6 @@ QVariantList DevStackViewModel::toolchains() const {
         QVariantMap map;
         map["name"] = t.name;
         map["version"] = t.version;
-        map["isInstalled"] = t.isInstalled;
         list.append(map);
     }
     return list;
