@@ -275,8 +275,8 @@ Window {
                         DashboardCard { title: "MEM"; value: memoryViewModel.ramUsagePercent.toFixed(1) + "%"; onClicked: root.currentView = 5 /* Hardware */ }
                         DashboardCard { title: "DISK"; value: storageViewModel.totalThroughput; onClicked: root.currentView = 5 /* Hardware */ }
                         DashboardCard { title: "NET"; value: networkViewModel.latency.toFixed(0) + "ms"; onClicked: root.currentView = 4 /* Network */ }
-                        DashboardCard { title: "POWER"; value: powerViewModel.batteryPercent.toFixed(0) + "%"; onClicked: console.log("Power details clicked") }
-                        DashboardCard { title: "CORE"; value: systemInfoViewModel.kernel.split("-")[0]; onClicked: root.currentView = 2 /* Journal */ }
+                        DashboardCard { title: "POWER"; value: powerViewModel.batteryPercent.toFixed(0) + "%"; onClicked: root.currentView = 5 /* Hardware */ }
+                        DashboardCard { title: "CORE"; value: systemInfoViewModel.kernelVersion; onClicked: root.currentView = 2 /* Journal */ }
                     }
 
                     // Audio Waveform & Spectrum Visualizer
@@ -319,8 +319,8 @@ Window {
                                     var sliceWidth = width / data.length;
                                     var x = 0;
                                     for (var i = 0; i < data.length; i++) {
-                                        // Aplicar ganho visual de 2x para a onda
-                                        var v = data[i] * 2.0; 
+                                        // Ganho visual vem do ViewModel (CLAUDE.md §5).
+                                        var v = data[i] * audioViewModel.waveformGain;
                                         if (v > 1.0) v = 1.0; else if (v < -1.0) v = -1.0;
                                         
                                         var y = (v + 1) / 2 * height;
@@ -353,8 +353,8 @@ Window {
                                     ctx.fillStyle = root.highlightColor;
                                     
                                     for (var i = 0; i < data.length; i++) {
-                                        // Sensibilidade aumentada para o espectro (x10 e sqrt para compressão dinâmica)
-                                        var magnitude = Math.sqrt(data[i]) * 10; 
+                                        // Ganho do espectro vem do ViewModel; sqrt para compressão dinâmica.
+                                        var magnitude = Math.sqrt(data[i]) * audioViewModel.spectrumGain;
                                         var h = Math.min(height, magnitude * height);
                                         ctx.fillRect(i * barWidth, height - h, barWidth - 1, h);
                                     }

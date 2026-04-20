@@ -71,21 +71,23 @@
 | EX-04d | Export | `ExportViewModel::collect_all_data()` roda síncrono na UI thread antes do `QtConcurrent::run` — acessa 6 ViewModels (getter a getter); mover coleta também para dentro da lambda assíncrona | Média | EX-04 | Média | ✅ Concluído | ✓ |
 | EX-04e | Export | `ExportViewModel::set_vms` recebe 6 raw pointers — usar `QPointer<T>` para observação defensiva (se algum VM for destruído antes, o cast atual dá UB) | Baixa | EX-04, AR-06 | Baixa | ✅ Concluído | ✓ |
 | DB-01 | Dashboard | Card resumo de CPU (Load %) ligado a `CpuViewModel` | Alta | PR-01 | Baixa | ✅ Concluído | ✓ |
-| DB-02 | Dashboard | Card resumo de RAM (Livre/Total) ligado a `MemoryViewModel` | Alta | PR-02 | Baixa | ✅ Concluído | ⚠ |
-| DB-02a | Dashboard | Card MEM exibe `ramUsagePercent` (%) mas descrição DB-02 diz "Livre/Total" — alinhar: trocar binding para "livre/total" OU atualizar descrição da DB-02 | Baixa | DB-02 | Baixa | ⏳ Pendente | — |
+| DB-02 | Dashboard | Card resumo de RAM (Uso %) ligado a `MemoryViewModel.ramUsagePercent` | Alta | PR-02 | Baixa | ✅ Concluído | ✓ |
+| DB-02a | Dashboard | Descrição DB-02 realinhada para "Uso %" (binding real: `ramUsagePercent`) | Baixa | DB-02 | Baixa | ✅ Concluído | ✓ |
 | DB-02b | Dashboard | Clique no card MEM navega para aba Hardware (índice 5); deveria abrir diálogo de detalhe de memória ou navegar para uma aba "Memória" dedicada | Baixa | DB-02 | Baixa | 🎨 Pendente design | — |
-| DB-03 | Dashboard | Card resumo de Storage (Uso %) ligado a `StorageViewModel` | Alta | AR-02 | Baixa | ✅ Concluído | ⚠ |
-| DB-03a | Dashboard | Card DISK exibe `totalThroughput` (vazão I/O Up/Down) mas descrição DB-03 diz "Uso %" — semântica divergente: alinhar binding ou descrição | Média | DB-03 | Baixa | ⏳ Pendente | — |
+| DB-03 | Dashboard | Card resumo de Storage (Throughput I/O) ligado a `StorageViewModel.totalThroughput` | Alta | AR-02 | Baixa | ✅ Concluído | ✓ |
+| DB-03a | Dashboard | Descrição DB-03 realinhada para "Throughput I/O" (binding real: `totalThroughput`) | Média | DB-03 | Baixa | ✅ Concluído | ✓ |
 | DB-03b | Dashboard | Clique no card DISK navega para Hardware (índice 5); para throughput a aba Network ou Storage dedicada seria mais coerente | Baixa | DB-03 | Baixa | 🎨 Pendente design | — |
-| DB-04 | Dashboard | Card resumo de Network (Up/Down) ligado a `NetworkViewModel` | Alta | AR-02 | Baixa | ✅ Concluído | ⚠ |
-| DB-04a | Dashboard | Card NET exibe `latency` (ms) mas descrição DB-04 diz "Up/Down" — semântica totalmente diferente: alinhar binding ou descrição | Média | DB-04 | Baixa | ⏳ Pendente | — |
+| DB-04 | Dashboard | Card resumo de Network (Latência ms) ligado a `NetworkViewModel.latency` | Alta | AR-02 | Baixa | ✅ Concluído | ✓ |
+| DB-04a | Dashboard | Descrição DB-04 realinhada para "Latência ms" (binding real: `latency`) | Média | DB-04 | Baixa | ✅ Concluído | ✓ |
 | DB-05 | Dashboard | Auto-refresh progressivo CPU/MEM/Disk/Net via timers + mutex | Alta | DB-01, DB-02, DB-03, DB-04 | Média | ✅ Concluído | ✓ |
-| DB-06 | Dashboard | Interatividade — clique em card navega/abre detalhe | Média | DB-01 | Baixa | ✅ Concluído | ⚠ |
-| DB-06a | Dashboard | Cards extras POWER (battery%) e CORE (kernel) existem em `Main.qml:277-278` mas não têm ID dedicado — criar DB-08 (POWER) e DB-09 (CORE) ou rebaptizar DB-0* para cobrir os 6 cards reais | Baixa | DB-06 | Baixa | ⏳ Pendente | — |
-| DB-06b | Dashboard | Clique no card POWER é `console.log("Power details clicked")` — placeholder; substituir por navegação para aba Hardware com foco em bateria ou abrir diálogo de detalhe | Média | DB-06 | Baixa | ⏳ Pendente | — |
-| DB-07 | Dashboard | Áudio real-time: waveform + spectrum em `AudioCanvas` | Alta | AU-01 | Média | ✅ Concluído | ⚠ |
-| DB-07a | Dashboard | Mover `systemInfoViewModel.kernel.split("-")[0]` (card CORE em `Main.qml:278`) para `Q_PROPERTY kernelVersion` em `SystemInfoViewModel` — lógica de string no QML viola CLAUDE.md §5 | Baixa | PR-03 | Baixa | ⏳ Pendente | — |
-| DB-07b | Dashboard | Ganhos visuais hard-coded no `audioCanvas` (2x waveform) e `spectrumCanvas` (`sqrt`+10x) — expor como `Q_PROPERTY` ajustável em `AudioViewModel` ou mover cálculo de escala para a camada C++ | Baixa | AU-01 | Baixa | ⏳ Pendente | — |
+| DB-06 | Dashboard | Interatividade — clique em card navega/abre detalhe | Média | DB-01 | Baixa | ✅ Concluído | ✓ |
+| DB-06a | Dashboard | Cards extras POWER e CORE catalogados como DB-08 e DB-09 | Baixa | DB-06 | Baixa | ✅ Concluído | ✓ |
+| DB-06b | Dashboard | Clique em POWER agora navega para aba Hardware (índice 5) no lugar de `console.log` placeholder | Média | DB-06 | Baixa | ✅ Concluído | ✓ |
+| DB-07 | Dashboard | Áudio real-time: waveform + spectrum em `AudioCanvas` | Alta | AU-01 | Média | ✅ Concluído | ✓ |
+| DB-07a | Dashboard | `Q_PROPERTY kernelVersion` em `SystemInfoViewModel` substitui `split("-")[0]` no QML (CLAUDE.md §5) | Baixa | PR-03 | Baixa | ✅ Concluído | ✓ |
+| DB-07b | Dashboard | `Q_PROPERTY waveformGain`/`spectrumGain` (com WRITE) em `AudioViewModel` substitui ganhos hard-coded no QML | Baixa | AU-01 | Baixa | ✅ Concluído | ✓ |
+| DB-08 | Dashboard | Card resumo POWER (Bateria %) ligado a `PowerViewModel.batteryPercent`, clique → aba Hardware | Alta | AR-02 | Baixa | ✅ Concluído | ✓ |
+| DB-09 | Dashboard | Card resumo CORE (Kernel) ligado a `SystemInfoViewModel.kernelVersion`, clique → aba Journal | Alta | PR-03 | Baixa | ✅ Concluído | ✓ |
 | UP-01 | Updates | Contador de pacotes desatualizados agregando provedores | Alta | IN-02 | Baixa | ✅ Concluído | ⚠ |
 | UP-01a | Updates | Exibir `updateViewModel.totalUpdates` no header da aba Updates (badge/counter) — hoje o `Q_PROPERTY` existe mas `Main.qml:432-446` não renderiza o valor | Média | UP-01 | Baixa | ⏳ Pendente | — |
 | UP-02 | Updates | Lista de pacotes com Nome/Versão via `UpdatePackageModel` | Alta | IN-02 | Média | ✅ Concluído | ⚠ |
