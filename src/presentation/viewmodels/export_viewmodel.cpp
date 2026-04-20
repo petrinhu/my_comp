@@ -2,6 +2,7 @@
 #include <QtConcurrent>
 #include <QDateTime>
 #include <QFileInfo>
+#include <QPointer>
 #include <QStandardPaths>
 #include <QUrl>
 
@@ -101,16 +102,19 @@ void ExportViewModel::exportReport(int formatIndex, const QString& filePath) {
     m_isBusy = true;
     emit isBusyChanged();
 
-    (void)QtConcurrent::run([this, formatIndex, cleanPath]() {
+    QPointer<ExportViewModel> self(this);
+    (void)QtConcurrent::run([self, formatIndex, cleanPath]() {
+        if (!self) return;
         // collect_all_data acessa cached getters dos VMs (QString/int/QVariantList são
         // copy-on-write com refcount atômico); os VMs rodam updates via QueuedConnection
         // na main thread, leituras concorrentes aqui retornam snapshot válido.
-        auto data = collect_all_data();
-        bool success = m_providers[formatIndex]->export_report(data, cleanPath);
-        QMetaObject::invokeMethod(this, [this, success, cleanPath]() {
-            m_isBusy = false;
-            emit isBusyChanged();
-            emit exportFinished(success, success ? "Relatório gerado em: " + cleanPath : "Erro ao gerar relatório.");
+        auto data = self->collect_all_data();
+        bool success = self->m_providers[formatIndex]->export_report(data, cleanPath);
+        QMetaObject::invokeMethod(self.data(), [self, success, cleanPath]() {
+            if (!self) return;
+            self->m_isBusy = false;
+            emit self->isBusyChanged();
+            emit self->exportFinished(success, success ? "Relatório gerado em: " + cleanPath : "Erro ao gerar relatório.");
         }, Qt::QueuedConnection);
     });
 }

@@ -1,4 +1,5 @@
 #include "firmware_viewmodel.h"
+#include <QPointer>
 #include <QVariantMap>
 #include <QtConcurrent/QtConcurrent>
 
@@ -31,20 +32,23 @@ void FirmwareViewModel::refresh() {
     emit busyChanged();
 
     // Executar em thread separada para não travar a UI (especialmente DBus pode demorar)
-    (void)QtConcurrent::run([this]() {
-        auto result = m_provider->get_devices();
-        
+    QPointer<FirmwareViewModel> self(this);
+    auto provider = m_provider;
+    (void)QtConcurrent::run([self, provider]() {
+        auto result = provider->get_devices();
+
         // Simular atualização de contagem (no futuro usar check_updates)
         int updates = 0;
         for (const auto& dev : result) if (dev.has_update) updates++;
 
-        QMetaObject::invokeMethod(this, [this, result, updates]() {
-            m_devices = result;
-            m_update_count = updates;
-            m_is_busy = false;
-            emit devicesChanged();
-            emit busyChanged();
-        });
+        QMetaObject::invokeMethod(self.data(), [self, result, updates]() {
+            if (!self) return;
+            self->m_devices = result;
+            self->m_update_count = updates;
+            self->m_is_busy = false;
+            emit self->devicesChanged();
+            emit self->busyChanged();
+        }, Qt::QueuedConnection);
     });
 }
 

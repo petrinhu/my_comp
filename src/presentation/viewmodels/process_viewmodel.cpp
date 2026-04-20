@@ -1,5 +1,6 @@
 #include "process_viewmodel.h"
 #include <algorithm>
+#include <QPointer>
 #include <QVariantMap>
 
 namespace my_comp::presentation::viewmodels {
@@ -99,8 +100,10 @@ void ProcessViewModel::refresh() {
     bool sortAscending = m_sortAscending;
     QString filter = m_filter;
 
-    (void)QtConcurrent::run([this, sortField, sortAscending]() {
-        auto raw_data = m_provider->collect_processes();
+    QPointer<ProcessViewModel> self(this);
+    auto provider = m_provider;
+    (void)QtConcurrent::run([self, provider, sortField, sortAscending]() {
+        auto raw_data = provider->collect_processes();
 
         // Ordenação estável na thread separada (mantém ordem relativa em empates)
         std::stable_sort(raw_data.begin(), raw_data.end(), [sortField, sortAscending](const auto& a, const auto& b) {
@@ -111,14 +114,15 @@ void ProcessViewModel::refresh() {
             return sortAscending ? (a.cpuPercent < b.cpuPercent) : (a.cpuPercent > b.cpuPercent);
         });
 
-        QMetaObject::invokeMethod(this, [this, raw_data]() mutable {
+        QMetaObject::invokeMethod(self.data(), [self, raw_data]() mutable {
+            if (!self) return;
             {
-                std::lock_guard<std::mutex> lock(m_dataMutex);
-                m_data = std::move(raw_data);
-                rebuildProcessedListLocked();
+                std::lock_guard<std::mutex> lock(self->m_dataMutex);
+                self->m_data = std::move(raw_data);
+                self->rebuildProcessedListLocked();
             }
-            m_isBusy = false;
-            emit processesChanged();
+            self->m_isBusy = false;
+            emit self->processesChanged();
         }, Qt::QueuedConnection);
     });
 }

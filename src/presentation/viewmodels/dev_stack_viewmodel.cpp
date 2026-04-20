@@ -1,4 +1,5 @@
 #include "dev_stack_viewmodel.h"
+#include <QPointer>
 #include <QtConcurrent>
 #include <algorithm>
 
@@ -69,14 +70,17 @@ void DevStackViewModel::refresh() {
     m_isBusy = true;
     emit isBusyChanged();
 
-    (void)QtConcurrent::run([this]() {
-        auto result = m_provider->collect_dev_stacks();
-        QMetaObject::invokeMethod(this, [this, result]() {
-            m_data = result;
-            m_isBusy = false;
-            emit isBusyChanged();
-            emit dataChanged();
-        });
+    QPointer<DevStackViewModel> self(this);
+    auto provider = m_provider;
+    (void)QtConcurrent::run([self, provider]() {
+        auto result = provider->collect_dev_stacks();
+        QMetaObject::invokeMethod(self.data(), [self, result]() {
+            if (!self) return;
+            self->m_data = result;
+            self->m_isBusy = false;
+            emit self->isBusyChanged();
+            emit self->dataChanged();
+        }, Qt::QueuedConnection);
     });
 }
 

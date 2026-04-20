@@ -12,10 +12,10 @@
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | AR-01 | Architecture | Camada Domain (Mid) — 20 interfaces + 19 modelos | Alta | — | Alta | ✅ Concluído | ✓ |
 | AR-02 | Architecture | Camada Infrastructure (End) — 26 providers + 3 exporters | Alta | AR-01 | Alta | ✅ Concluído | ⚠ |
-| AR-03 | Architecture | Inicialização progressiva assíncrona (sequenciador QML + thread-safety) | Alta | AR-02 | Alta | ✅ Concluído | ⚠ |
+| AR-03 | Architecture | Inicialização progressiva assíncrona (sequenciador QML + thread-safety) | Alta | AR-02 | Alta | ✅ Concluído | ✓ |
 | AR-04 | Architecture | Separar use cases (`update_manager.h`, `diagnostic_manager.h`) de `domain/` para nova camada `application/` | Baixa | AR-01 | Média | ✅ Concluído | ✓ |
 | AR-05 | Architecture | Auditoria de signals/slots Qt (disconnect-on-destroy, `Qt::QueuedConnection` cross-thread, múltiplos `connect` redundantes) | Alta | AR-03 | Média | ✅ Concluído | ✓ |
-| AR-05a | Architecture | Endurecer VMs que usam `[this]` em `QtConcurrent::run` (update/service/dev_stack/export/firmware/diagnostic/process/audio) — adotar `QPointer<T> self` como já em memory/network/storage/hardware | Baixa | AR-05 | Baixa | ⏳ Pendente | — |
+| AR-05a | Architecture | Endurecer VMs que usam `[this]` em `QtConcurrent::run` (update/service/dev_stack/export/firmware/diagnostic/process/audio) — adotar `QPointer<T> self` como já em memory/network/storage/hardware | Baixa | AR-05 | Baixa | ✅ Concluído | ✓ |
 | AR-06 | Architecture | Auditoria de parent ownership `QObject` (objetos sem parent = leak; `QPointer` para observação) | Alta | — | Média | ✅ Concluído | ✓ |
 | AR-07 | Architecture | Mover I/O dos construtores para método `initialize()` (CLAUDE.md §4) em `CpuViewModel`, `HardwareViewModel`, `PowerViewModel`, `GpuViewModel` | Média | AR-03 | Média | ✅ Concluído | ✓ |
 | AR-08 | Architecture | Tornar `refresh()` assíncrono (`QtConcurrent::run`) em `NetworkViewModel`, `StorageViewModel`, `MemoryViewModel`, `HardwareViewModel` — hoje rodam síncronos na UI thread | Média | AR-03 | Média | ✅ Concluído | ✓ |

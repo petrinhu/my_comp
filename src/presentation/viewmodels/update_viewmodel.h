@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QDebug>
+#include <QPointer>
 #include <QtConcurrent>
 #include <algorithm>
 #include <memory>
@@ -53,16 +54,19 @@ public:
         is_busy_ = true;
         emit isBusyChanged();
 
-        (void)QtConcurrent::run([this]() {
-            auto updates = manager_->check_all_updates();
+        QPointer<UpdateViewModel> self(this);
+        auto manager = manager_;
+        (void)QtConcurrent::run([self, manager]() {
+            auto updates = manager->check_all_updates();
 
-            QMetaObject::invokeMethod(this, [this, updates]() mutable {
+            QMetaObject::invokeMethod(self.data(), [self, updates]() mutable {
+                if (!self) return;
                 qDebug() << "[UpdateVM] Found" << updates.size() << "updates.";
-                data_ = std::move(updates);
-                applySortAndPush();
+                self->data_ = std::move(updates);
+                self->applySortAndPush();
 
-                is_busy_ = false;
-                emit isBusyChanged();
+                self->is_busy_ = false;
+                emit self->isBusyChanged();
             }, Qt::QueuedConnection);
         });
     }

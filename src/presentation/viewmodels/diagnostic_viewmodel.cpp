@@ -1,4 +1,5 @@
 #include "diagnostic_viewmodel.h"
+#include <QPointer>
 #include <QtConcurrent>
 #include <algorithm>
 
@@ -16,18 +17,21 @@ void DiagnosticViewModel::refresh() {
     QString query = search_query_;
     int limit = log_limit_;
 
-    (void)QtConcurrent::run([this, filter, query, limit]() {
-        auto logs = manager_->fetch_all_logs(
+    QPointer<DiagnosticViewModel> self(this);
+    auto manager = manager_;
+    (void)QtConcurrent::run([self, manager, filter, query, limit]() {
+        auto logs = manager->fetch_all_logs(
             static_cast<my_comp::application::DiagnosticFilter>(filter),
             query,
             limit
         );
 
-        QMetaObject::invokeMethod(this, [this, logs]() mutable {
-            data_ = std::move(logs);
-            applySortAndPush();
-            is_busy_ = false;
-            emit isBusyChanged();
+        QMetaObject::invokeMethod(self.data(), [self, logs]() mutable {
+            if (!self) return;
+            self->data_ = std::move(logs);
+            self->applySortAndPush();
+            self->is_busy_ = false;
+            emit self->isBusyChanged();
         }, Qt::QueuedConnection);
     });
 }

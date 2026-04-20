@@ -1,4 +1,5 @@
 #include "service_viewmodel.h"
+#include <QPointer>
 #include <QtConcurrent>
 #include <algorithm>
 
@@ -63,61 +64,76 @@ void ServiceViewModel::refresh() {
     if (m_isBusy) return;
     setBusy(true);
 
-    (void)QtConcurrent::run([this]() {
-        auto result = m_provider->get_services();
+    QPointer<ServiceViewModel> self(this);
+    auto provider = m_provider;
+    (void)QtConcurrent::run([self, provider]() {
+        auto result = provider->get_services();
 
-        QMetaObject::invokeMethod(this, [this, result]() {
-            m_data = result;
-            setBusy(false);
-            rebuildProcessedList();
+        QMetaObject::invokeMethod(self.data(), [self, result]() {
+            if (!self) return;
+            self->m_data = result;
+            self->setBusy(false);
+            self->rebuildProcessedList();
         }, Qt::QueuedConnection);
     });
 }
 
 void ServiceViewModel::startService(const QString& name) {
     setBusy(true);
-    (void)QtConcurrent::run([this, name]() {
-        bool ok = m_provider->start_service(name);
-        QMetaObject::invokeMethod(this, [this, ok, name]() {
-            setBusy(false);
-            if (ok) refresh();
-            emit operationFinished(ok, ok ? "Serviço " + name + " iniciado." : "Falha ao iniciar " + name);
+    QPointer<ServiceViewModel> self(this);
+    auto provider = m_provider;
+    (void)QtConcurrent::run([self, provider, name]() {
+        bool ok = provider->start_service(name);
+        QMetaObject::invokeMethod(self.data(), [self, ok, name]() {
+            if (!self) return;
+            self->setBusy(false);
+            if (ok) self->refresh();
+            emit self->operationFinished(ok, ok ? "Serviço " + name + " iniciado." : "Falha ao iniciar " + name);
         }, Qt::QueuedConnection);
     });
 }
 
 void ServiceViewModel::pauseService(const QString& name) {
     setBusy(true);
-    (void)QtConcurrent::run([this, name]() {
-        bool ok = m_provider->pause_service(name);
-        QMetaObject::invokeMethod(this, [this, ok, name]() {
-            setBusy(false);
-            if (ok) refresh();
-            emit operationFinished(ok, ok ? "Serviço " + name + " pausado (sessão)." : "Falha ao pausar " + name);
+    QPointer<ServiceViewModel> self(this);
+    auto provider = m_provider;
+    (void)QtConcurrent::run([self, provider, name]() {
+        bool ok = provider->pause_service(name);
+        QMetaObject::invokeMethod(self.data(), [self, ok, name]() {
+            if (!self) return;
+            self->setBusy(false);
+            if (ok) self->refresh();
+            emit self->operationFinished(ok, ok ? "Serviço " + name + " pausado (sessão)." : "Falha ao pausar " + name);
         }, Qt::QueuedConnection);
     });
 }
 
 void ServiceViewModel::stopService(const QString& name) {
     setBusy(true);
-    (void)QtConcurrent::run([this, name]() {
-        bool ok = m_provider->stop_service(name);
-        QMetaObject::invokeMethod(this, [this, ok, name]() {
-            setBusy(false);
-            if (ok) refresh();
-            emit operationFinished(ok, ok ? "Serviço " + name + " parado de vez." : "Falha ao parar " + name);
+    QPointer<ServiceViewModel> self(this);
+    auto provider = m_provider;
+    (void)QtConcurrent::run([self, provider, name]() {
+        bool ok = provider->stop_service(name);
+        QMetaObject::invokeMethod(self.data(), [self, ok, name]() {
+            if (!self) return;
+            self->setBusy(false);
+            if (ok) self->refresh();
+            emit self->operationFinished(ok, ok ? "Serviço " + name + " parado de vez." : "Falha ao parar " + name);
         }, Qt::QueuedConnection);
     });
 }
 
 void ServiceViewModel::createDaemon(const QString& exe_path, const QString& params) {
     setBusy(true);
-    (void)QtConcurrent::run([this, exe_path, params]() {
-        bool ok = m_provider->create_daemon(exe_path, params);
-        QMetaObject::invokeMethod(this, [this, ok]() {
-            setBusy(false);
-            if (ok) refresh();
-            emit operationFinished(ok, ok ? "Daemon criado e iniciado com sucesso." : "Falha ao criar daemon.");
+    QPointer<ServiceViewModel> self(this);
+    auto provider = m_provider;
+    (void)QtConcurrent::run([self, provider, exe_path, params]() {
+        bool ok = provider->create_daemon(exe_path, params);
+        QMetaObject::invokeMethod(self.data(), [self, ok]() {
+            if (!self) return;
+            self->setBusy(false);
+            if (ok) self->refresh();
+            emit self->operationFinished(ok, ok ? "Daemon criado e iniciado com sucesso." : "Falha ao criar daemon.");
         }, Qt::QueuedConnection);
     });
 }
