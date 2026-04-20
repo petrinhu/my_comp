@@ -499,7 +499,64 @@ Window {
             // ABA 2 - Journal
             ColumnLayout {
                 anchors.margins: 25; spacing: 15
-                Text { text: "Analisador de Journal"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                function priorityColor(p) {
+                    // 0-2 emerg/alert/crit, 3 err, 4 warn, 5 notice, 6 info, 7 debug
+                    if (p <= 2) return root.criticalColor
+                    if (p === 3) return "#e74c3c"
+                    if (p === 4) return "#f39c12"
+                    if (p === 5) return root.highlightColor
+                    return root.textColor
+                }
+                function priorityLabel(p) {
+                    if (p === 0) return "EMERG"
+                    if (p === 1) return "ALERT"
+                    if (p === 2) return "CRIT"
+                    if (p === 3) return "ERR"
+                    if (p === 4) return "WARN"
+                    if (p === 5) return "NOTICE"
+                    if (p === 6) return "INFO"
+                    return "DEBUG"
+                }
+                RowLayout {
+                    Text { text: "Analisador de Journal"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                    Item { Layout.fillWidth: true }
+                    Button { text: "🔄"; onClicked: diagnosticViewModel.refresh() }
+                }
+                RowLayout {
+                    Layout.fillWidth: true; spacing: 10
+                    Text { text: "Filtro:"; color: root.textColor }
+                    ComboBox {
+                        id: filterCombo
+                        Layout.preferredWidth: 200
+                        model: ["Erros críticos", "Hardware/Firmware", "Boot", "Desktop (KDE/Wayland)", "Segurança/Rede", "Todos"]
+                        currentIndex: diagnosticViewModel.currentFilter
+                        onActivated: diagnosticViewModel.currentFilter = currentIndex
+                    }
+                    Text { text: "Buscar:"; color: root.textColor }
+                    TextField {
+                        id: journalSearchField
+                        Layout.fillWidth: true
+                        placeholderText: "termo (journalctl -g)…"
+                        text: diagnosticViewModel.searchQuery
+                        onAccepted: {
+                            diagnosticViewModel.searchQuery = text
+                            diagnosticViewModel.performSearch()
+                        }
+                    }
+                    Button {
+                        text: "Buscar"
+                        onClicked: {
+                            diagnosticViewModel.searchQuery = journalSearchField.text
+                            diagnosticViewModel.performSearch()
+                        }
+                    }
+                    Text { text: "Limite:"; color: root.textColor }
+                    SpinBox {
+                        from: 50; to: 2000; stepSize: 50
+                        value: diagnosticViewModel.logLimit
+                        onValueModified: diagnosticViewModel.logLimit = value
+                    }
+                }
                 Rectangle {
                     Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
                     ScrollView {
@@ -508,9 +565,38 @@ Window {
                         ListView {
                             model: diagnosticViewModel.logModel
                             delegate: ItemDelegate {
-                                width: parent.width; height: 40
+                                width: parent.width; height: 46
                                 onDoubleClicked: diagnosticViewModel.searchOnline(source + " " + message)
-                                contentItem: Text { text: message; color: root.textColor; elide: Text.ElideRight }
+                                contentItem: RowLayout {
+                                    spacing: 8
+                                    Text {
+                                        text: timestamp
+                                        color: "#7f8c8d"
+                                        font.pixelSize: 10
+                                        font.family: "monospace"
+                                        Layout.preferredWidth: 110
+                                    }
+                                    Text {
+                                        text: priorityLabel(priority)
+                                        color: priorityColor(priority)
+                                        font.pixelSize: 10
+                                        font.bold: true
+                                        Layout.preferredWidth: 54
+                                    }
+                                    Text {
+                                        text: source
+                                        color: root.highlightColor
+                                        font.pixelSize: 10
+                                        elide: Text.ElideRight
+                                        Layout.preferredWidth: 110
+                                    }
+                                    Text {
+                                        text: message
+                                        color: root.textColor
+                                        elide: Text.ElideRight
+                                        Layout.fillWidth: true
+                                    }
+                                }
                             }
                         }
                     }

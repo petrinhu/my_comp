@@ -20,7 +20,7 @@ public:
 class MockDiagnosticProvider : public IDiagnosticProvider {
 public:
     MOCK_METHOD(QString, get_name, (), (const, override));
-    MOCK_METHOD(std::vector<LogEntry>, fetch_logs, (DiagnosticFilter, const QString&), (override));
+    MOCK_METHOD(std::vector<LogEntry>, fetch_logs, (DiagnosticFilter, const QString&, int), (override));
 };
 
 TEST(UpdateManagerTest, ShouldCollectFromProviders) {
@@ -41,7 +41,7 @@ TEST(DiagnosticManagerTest, ShouldCollectFromProviders) {
     auto provider = std::make_unique<MockDiagnosticProvider>();
     
     LogEntry log; log.message = "error";
-    EXPECT_CALL(*provider, fetch_logs(_, _)).WillOnce(Return(std::vector<LogEntry>{log}));
+    EXPECT_CALL(*provider, fetch_logs(_, _, _)).WillOnce(Return(std::vector<LogEntry>{log}));
     
     manager.register_provider(std::move(provider));
     auto logs = manager.fetch_all_logs(DiagnosticFilter::All, "");

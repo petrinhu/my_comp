@@ -20,14 +20,14 @@ public:
     }
 
     /**
-     * @brief Coleta logs de todos os provedores com filtro e busca aplicados.
+     * @brief Coleta logs de todos os provedores com filtro, busca e limite aplicados.
      */
-    [[nodiscard]] std::vector<LogEntry> fetch_all_logs(DiagnosticFilter filter = DiagnosticFilter::All, const QString& query = "") {
+    [[nodiscard]] std::vector<LogEntry> fetch_all_logs(DiagnosticFilter filter = DiagnosticFilter::All, const QString& query = "", int limit = 100) {
         std::vector<LogEntry> all_logs;
         for (const auto& provider : providers_) {
-            auto logs = provider->fetch_logs(filter, query);
-            all_logs.insert(all_logs.end(), 
-                          std::make_move_iterator(logs.begin()), 
+            auto logs = provider->fetch_logs(filter, query, limit);
+            all_logs.insert(all_logs.end(),
+                          std::make_move_iterator(logs.begin()),
                           std::make_move_iterator(logs.end()));
         }
         return all_logs;

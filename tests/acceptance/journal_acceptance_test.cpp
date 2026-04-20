@@ -16,14 +16,14 @@ using namespace testing;
 class MockDiagnosticProvider : public interfaces::IDiagnosticProvider {
 public:
     MOCK_METHOD(QString, get_name, (), (const, override));
-    MOCK_METHOD(std::vector<models::LogEntry>, fetch_logs, (interfaces::DiagnosticFilter, const QString&), (override));
+    MOCK_METHOD(std::vector<models::LogEntry>, fetch_logs, (interfaces::DiagnosticFilter, const QString&, int), (override));
 };
 
 TEST(JournalAcceptance, ShouldConsolidateDiagnosticLogs) {
     DiagnosticManager manager;
     auto mock = std::make_unique<MockDiagnosticProvider>();
 
-    EXPECT_CALL(*mock, fetch_logs(_, _))
+    EXPECT_CALL(*mock, fetch_logs(_, _, _))
         .WillOnce(Return(std::vector<models::LogEntry>{
             {1, "10:00", 3, "Kernel panic", "journal"}
         }));

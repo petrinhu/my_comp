@@ -19,6 +19,8 @@ class DiagnosticViewModel : public QObject {
     Q_PROPERTY(int currentFilter READ currentFilter WRITE setCurrentFilter NOTIFY currentFilterChanged)
     Q_PROPERTY(QString sortField READ sortField WRITE setSortField NOTIFY sortFieldChanged)
     Q_PROPERTY(bool sortAscending READ sortAscending WRITE setSortAscending NOTIFY sortAscendingChanged)
+    Q_PROPERTY(int logLimit READ logLimit WRITE setLogLimit NOTIFY logLimitChanged)
+    Q_PROPERTY(QString searchEngineUrl READ searchEngineUrl WRITE setSearchEngineUrl NOTIFY searchEngineUrlChanged)
 
 public:
     explicit DiagnosticViewModel(std::shared_ptr<my_comp::domain::DiagnosticManager> manager, QObject* parent = nullptr);
@@ -41,12 +43,20 @@ public:
     bool sortAscending() const { return sort_ascending_; }
     void setSortAscending(bool a);
 
+    int logLimit() const { return log_limit_; }
+    void setLogLimit(int n);
+
+    QString searchEngineUrl() const { return search_engine_url_; }
+    void setSearchEngineUrl(const QString& url);
+
 signals:
     void isBusyChanged();
     void searchQueryChanged();
     void currentFilterChanged();
     void sortFieldChanged();
     void sortAscendingChanged();
+    void logLimitChanged();
+    void searchEngineUrlChanged();
 
 private:
     void applySortAndPush();
@@ -58,6 +68,8 @@ private:
     int m_current_filter{5}; // Default: All
     QString sort_field_{"timestamp"};
     bool sort_ascending_{false};
+    int log_limit_{100};
+    QString search_engine_url_{"https://www.google.com/search?q=linux+%1"};
 };
 
 } // namespace my_comp::presentation::viewmodels
