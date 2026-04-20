@@ -49,6 +49,7 @@ using namespace Qt::StringLiterals;
 #include "infrastructure/collectors/linux_memory_provider.h"
 #include "infrastructure/collectors/dbus_firmware_provider.h"
 #include "infrastructure/collectors/linux_storage_provider.h"
+#include "infrastructure/collectors/linux_disk_inventory_provider.h"
 #include "infrastructure/collectors/linux_network_provider.h"
 #include "infrastructure/collectors/linux_system_info_provider.h"
 #include "infrastructure/collectors/linux_user_metadata_provider.h"
@@ -77,6 +78,7 @@ int main(int argc, char *argv[])
     auto memory_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxMemoryProvider>();
     auto firmware_provider = std::make_shared<my_comp::infrastructure::collectors::DBusFirmwareProvider>();
     auto storage_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxStorageProvider>();
+    auto disk_inventory_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxDiskInventoryProvider>(shell);
     auto network_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxNetworkProvider>(shell);
     auto system_info_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxSystemInfoProvider>(shell);
     auto interactive_runner = std::make_shared<my_comp::infrastructure::collectors::InteractiveProcessRunner>();
@@ -106,7 +108,7 @@ int main(int argc, char *argv[])
     auto firmware_vm = std::make_unique<my_comp::presentation::viewmodels::FirmwareViewModel>(firmware_provider);
     auto gpu_vm = std::make_unique<my_comp::presentation::viewmodels::GpuViewModel>(shell);
     auto power_vm = std::make_unique<my_comp::presentation::viewmodels::PowerViewModel>();
-    auto storage_vm = std::make_unique<my_comp::presentation::viewmodels::StorageViewModel>(storage_provider);
+    auto storage_vm = std::make_unique<my_comp::presentation::viewmodels::StorageViewModel>(storage_provider, disk_inventory_provider);
     auto network_vm = std::make_unique<my_comp::presentation::viewmodels::NetworkViewModel>(network_provider);
     auto system_info_vm = std::make_unique<my_comp::presentation::viewmodels::SystemInfoViewModel>(system_info_provider);
     auto installation_vm = std::make_unique<my_comp::presentation::viewmodels::InstallationViewModel>(installer_adapter);

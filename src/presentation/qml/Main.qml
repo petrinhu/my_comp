@@ -38,6 +38,16 @@ Window {
 
     property int currentView: 0
 
+    // Helper para formatação humana de bytes (KiB/MiB/GiB/TiB).
+    function formatBytes(n) {
+        if (n === undefined || n === null || n <= 0) return "—";
+        var units = ["B", "KiB", "MiB", "GiB", "TiB", "PiB"];
+        var i = 0;
+        var v = n;
+        while (v >= 1024 && i < units.length - 1) { v /= 1024; i++; }
+        return v.toFixed(i === 0 ? 0 : 1) + " " + units[i];
+    }
+
     // Sequenciador de Carga Inicial (AR-09: cadeia por event-loop, sem Timer artificial)
     QtObject {
         id: startupSequencer
@@ -48,6 +58,7 @@ Window {
             () => cpuViewModel.initialize(),
             () => memoryViewModel.refresh(),
             () => storageViewModel.refresh(),
+            () => storageViewModel.initialize(),
             () => networkViewModel.refresh(),
             () => processViewModel.refresh(),
             () => serviceViewModel.refresh(),
@@ -229,7 +240,8 @@ Window {
                         {name: "Hardware", icon: "💻"},
                         {name: "Dev Tools", icon: "🛠️"},
                         {name: "Security", icon: "🛡️"},
-                        {name: "Export", icon: "📤"}
+                        {name: "Export", icon: "📤"},
+                        {name: "Storage", icon: "💾"}
                     ]
                     delegate: ItemDelegate {
                         id: navDelegate
@@ -466,7 +478,7 @@ Window {
                         highlighted: true
                         onClicked: {
                             installationViewModel.startUpgradeAll()
-                            root.currentView = 8 // ABA de Instalação
+                            root.currentView = 10 // ABA de Instalação
                         }
                     }
                     Button { text: "🔄"; onClicked: updateViewModel.refresh() }
@@ -483,7 +495,7 @@ Window {
                                 width: parent.width; height: 50
                                 onDoubleClicked: {
                                     installationViewModel.startInstallation(name, provider)
-                                    root.currentView = 8 // ABA de Instalação
+                                    root.currentView = 10 // ABA de Instalação (via duplo-clique)
                                 }
                                 contentItem: RowLayout {
                                     Text { text: name; color: root.textColor; font.bold: true; Layout.fillWidth: true }
@@ -927,7 +939,101 @@ Window {
                 Item { Layout.fillHeight: true }
             }
 
-            // ABA 9 - Installation
+            // ABA 9 - Storage
+            ScrollView {
+                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+                clip: true
+                ColumnLayout {
+                    width: parent.width
+                    anchors.margins: 25; spacing: 15
+
+                    RowLayout {
+                        Text { text: "Storage"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                        Item { Layout.fillWidth: true }
+                        Button { text: "🔄"; onClicked: storageViewModel.refreshInventory() }
+                    }
+
+                    Repeater {
+                        model: storageViewModel.drives
+                        delegate: Rectangle {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: driveColumn.implicitHeight + 30
+                            color: root.cardColor; border.color: root.borderColor; radius: 8
+
+                            ColumnLayout {
+                                id: driveColumn
+                                anchors.fill: parent; anchors.margins: 15; spacing: 10
+
+                                RowLayout {
+                                    Layout.fillWidth: true
+                                    Text {
+                                        text: (modelData.rotational ? "💿 " : "💾 ") + modelData.name
+                                        color: root.highlightColor; font.pixelSize: 16; font.bold: true
+                                    }
+                                    Item { Layout.fillWidth: true }
+                                    Text {
+                                        text: root.formatBytes(modelData.sizeBytes)
+                                        color: root.textColor; font.pixelSize: 13
+                                    }
+                                }
+                                Text {
+                                    visible: modelData.vendor.length > 0 || modelData.model.length > 0
+                                    text: (modelData.vendor + " " + modelData.model).trim()
+                                    color: root.textColor; opacity: 0.75; font.pixelSize: 11
+                                }
+
+                                Repeater {
+                                    model: modelData.partitions
+                                    delegate: ColumnLayout {
+                                        Layout.fillWidth: true; spacing: 2
+
+                                        RowLayout {
+                                            Layout.fillWidth: true
+                                            Text {
+                                                text: modelData.name + (modelData.mount.length > 0 ? "  @  " + modelData.mount : "  (não montado)")
+                                                color: root.textColor; font.pixelSize: 12; font.bold: true
+                                            }
+                                            Item { Layout.fillWidth: true }
+                                            Text {
+                                                text: modelData.fs.length > 0 ? modelData.fs : "—"
+                                                color: root.textColor; opacity: 0.6; font.pixelSize: 11
+                                            }
+                                        }
+                                        RowLayout {
+                                            Layout.fillWidth: true
+                                            ProgressBar {
+                                                Layout.fillWidth: true
+                                                from: 0; to: 100; value: modelData.usedPercent
+                                                background: Rectangle { color: root.isDark ? "#2a2e32" : "#e0e0e0"; radius: 4; implicitHeight: 8 }
+                                                contentItem: Item {
+                                                    Rectangle {
+                                                        width: parent.width * (modelData.usedPercent / 100.0)
+                                                        height: parent.height
+                                                        radius: 4
+                                                        color: modelData.usedPercent >= 90 ? root.criticalColor
+                                                             : modelData.usedPercent >= 70 ? "#f39c12"
+                                                             : "#2ecc71"
+                                                    }
+                                                }
+                                            }
+                                            Text {
+                                                text: modelData.mount.length > 0
+                                                    ? root.formatBytes(modelData.usedBytes) + " / " + root.formatBytes(modelData.sizeBytes) + "  (" + modelData.usedPercent.toFixed(1) + "%)"
+                                                    : root.formatBytes(modelData.sizeBytes)
+                                                color: root.textColor; opacity: 0.75; font.pixelSize: 11
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Item { Layout.fillHeight: true }
+                }
+            }
+
+            // ABA 10 - Installation
             InstallationView { id: installView; anchors.margins: 25 }
         }
     }

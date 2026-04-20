@@ -33,6 +33,7 @@ set(PROJECT_SOURCES
     src/infrastructure/collectors/linux_memory_provider.cpp
     src/infrastructure/collectors/dbus_firmware_provider.cpp
     src/infrastructure/collectors/linux_storage_provider.cpp
+    src/infrastructure/collectors/linux_disk_inventory_provider.cpp
     src/infrastructure/collectors/linux_network_provider.cpp
     src/infrastructure/collectors/nvidia_gpu_provider.cpp
     src/infrastructure/collectors/sysfs_gpu_provider.cpp
@@ -146,6 +147,7 @@ set(UNIT_TEST_SOURCES
     src/infrastructure/collectors/linux_cpu_provider.cpp
     src/infrastructure/collectors/linux_system_info_provider.cpp
     src/infrastructure/collectors/linux_storage_provider.cpp
+    src/infrastructure/collectors/linux_disk_inventory_provider.cpp
     src/infrastructure/collectors/linux_network_provider.cpp
     src/infrastructure/collectors/linux_power_provider.cpp
     src/infrastructure/collectors/linux_hardware_provider.cpp
@@ -221,6 +223,7 @@ set(ACCEPTANCE_TEST_SOURCES
     src/infrastructure/collectors/linux_memory_provider.cpp
     src/infrastructure/collectors/dbus_firmware_provider.cpp
     src/infrastructure/collectors/linux_storage_provider.cpp
+    src/infrastructure/collectors/linux_disk_inventory_provider.cpp
     src/infrastructure/collectors/linux_network_provider.cpp
     src/infrastructure/collectors/nvidia_gpu_provider.cpp
     src/infrastructure/collectors/sysfs_gpu_provider.cpp
