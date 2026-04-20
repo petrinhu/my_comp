@@ -55,6 +55,7 @@ private:
     domain::models::CpuArchitecture m_arch;
     QTimer *m_timer;
     bool m_initialized = false;
+    bool m_busy = false;
 };
 
 } // namespace my_comp::presentation::viewmodels

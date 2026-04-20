@@ -42,8 +42,8 @@
 | IN-08 | Infra | Provedor Cargo (Rust) | Baixa | IN-01 | Média | ✅ Concluído | ⚠ |
 | IN-08a | Infra | `CargoUpdateProvider`: falha silenciosa quando crate `cargo-update` não instalada — detectar ausência e expor mensagem clara ao usuário | Baixa | IN-08 | Baixa | ✅ Concluído | ✓ |
 | IN-08b | Infra | `CargoUpdateProvider`: ampliar testes (crate ausente, output vazio, `is_available()`) | Baixa | IN-08 | Baixa | ✅ Concluído | ✓ |
-| PR-01 | Presentation | `CpuViewModel` (load total + por core + temperatura) | Alta | AR-01 | Média | ✅ Concluído | ⚠ |
-| PR-02 | Presentation | `MemoryViewModel` (uso, cache, swap) | Alta | AR-01 | Média | ✅ Concluído | ⚠ |
+| PR-01 | Presentation | `CpuViewModel` (load total + por core + temperatura) | Alta | AR-01 | Média | ✅ Concluído | ✓ |
+| PR-02 | Presentation | `MemoryViewModel` (uso, cache, swap) | Alta | AR-01 | Média | ✅ Concluído | ✓ |
 | PR-03 | Presentation | `FirmwareViewModel` via DBus (`DBusFirmwareProvider`) | Média | AR-01 | Alta | ✅ Concluído | ✓ |
 | PR-04 | Presentation | Fix `UpdateViewModelTest.ShouldRefreshUpdatesFromManager` — mock `check_all_updates()` nunca chamado e `isBusy()` fica travado em `true` | Alta | PR-01 | Média | ✅ Concluído | ✓ |
 | PR-05 | Presentation | Fix `SystemInfoViewModelTest.ShouldLoadDataInConstructor` — dados não carregam no ctor | Alta | PR-01 | Média | ✅ Concluído | ✓ |

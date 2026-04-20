@@ -1,5 +1,7 @@
 #include "cpu_viewmodel.h"
 #include <QVariantMap>
+#include <QtConcurrent/QtConcurrent>
+#include <QPointer>
 
 namespace my_comp::presentation::viewmodels {
 
@@ -23,8 +25,20 @@ void CpuViewModel::initialize() {
 }
 
 void CpuViewModel::refresh() {
-    m_stats = m_provider->collect_stats();
-    emit statsChanged();
+    if (m_busy) return;
+    m_busy = true;
+
+    QPointer<CpuViewModel> self(this);
+    auto provider = m_provider;
+    (void)QtConcurrent::run([self, provider]() {
+        auto stats = provider->collect_stats();
+        QMetaObject::invokeMethod(self.data(), [self, stats]() {
+            if (!self) return;
+            self->m_stats = stats;
+            self->m_busy = false;
+            emit self->statsChanged();
+        }, Qt::QueuedConnection);
+    });
 }
 
 QVariantList CpuViewModel::coreLoads() const {

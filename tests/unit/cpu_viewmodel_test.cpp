@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <QtTest/QSignalSpy>
 #include "../../src/presentation/viewmodels/cpu_viewmodel.h"
 #include "../../src/domain/interfaces/i_cpu_provider.h"
 
@@ -27,7 +28,9 @@ TEST(CpuViewModelTest, ShouldRefreshStatsFromProvider) {
 
     CpuViewModel vm(provider);
     // CLAUDE.md §4 + AR-07: ctor não faz I/O. initialize() lê arquitetura e dispara 1º refresh.
+    QSignalSpy spy(&vm, &CpuViewModel::statsChanged);
     vm.initialize();
+    ASSERT_TRUE(spy.wait(2000)); // refresh() é async (QtConcurrent + invokeMethod).
 
     EXPECT_EQ(vm.modelName(), "Test CPU");
     EXPECT_DOUBLE_EQ(vm.totalLoad(), 50.0);
