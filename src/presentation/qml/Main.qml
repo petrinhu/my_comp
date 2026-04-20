@@ -602,6 +602,39 @@ Window {
                             }
                         }
 
+                        Text { text: "🎮 GPU"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                        Rectangle {
+                            Layout.fillWidth: true; Layout.preferredHeight: 160
+                            color: root.cardColor; radius: 8; border.color: root.borderColor
+                            ListView {
+                                id: gpuList
+                                anchors.fill: parent; anchors.margins: 10; clip: true
+                                model: gpuViewModel.gpus
+                                ScrollBar.vertical: ScrollBar {}
+                                delegate: ColumnLayout {
+                                    width: gpuList.width; spacing: 2
+                                    RowLayout {
+                                        Layout.fillWidth: true; spacing: 10
+                                        Text { text: (modelData.vendor || "—") + " · " + (modelData.modelName || "—"); color: root.textColor; font.bold: true; Layout.fillWidth: true; elide: Text.ElideRight }
+                                        Text { text: (modelData.temp > 0 ? modelData.temp.toFixed(0) + " °C" : "—"); color: "#7f8c8d"; font.family: "Monospace"; font.pixelSize: 11 }
+                                    }
+                                    RowLayout {
+                                        Layout.fillWidth: true; spacing: 10
+                                        Text { text: "Carga:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                        Text { text: modelData.load.toFixed(0) + " %"; color: root.textColor; font.pixelSize: 11; Layout.preferredWidth: 60 }
+                                        Text { text: "VRAM:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                        Text {
+                                            text: (modelData.vramTotal > 0)
+                                                ? (modelData.vramUsed.toFixed(0) + " / " + modelData.vramTotal.toFixed(0) + " MiB (" + modelData.vramPercent.toFixed(0) + " %)")
+                                                : "—"
+                                            color: root.textColor; font.pixelSize: 11; Layout.fillWidth: true; elide: Text.ElideRight
+                                        }
+                                    }
+                                    Rectangle { Layout.fillWidth: true; height: 1; color: root.borderColor; opacity: 0.4 }
+                                }
+                            }
+                        }
+
                         Text { text: "🔧 FIRMWARE (fwupd)"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
                         Rectangle {
                             Layout.fillWidth: true; Layout.preferredHeight: 140
