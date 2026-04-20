@@ -5,6 +5,7 @@
 #include <memory>
 #include "../../domain/interfaces/i_storage_provider.h"
 #include "../../domain/interfaces/i_disk_inventory_provider.h"
+#include "../../domain/interfaces/i_smart_provider.h"
 
 namespace my_comp::presentation::viewmodels {
 
@@ -18,6 +19,7 @@ class StorageViewModel : public QObject {
 public:
     explicit StorageViewModel(std::shared_ptr<domain::interfaces::IStorageProvider> provider,
                               std::shared_ptr<domain::interfaces::IDiskInventoryProvider> inventory_provider = nullptr,
+                              std::shared_ptr<domain::interfaces::ISmartProvider> smart_provider = nullptr,
                               QObject *parent = nullptr);
 
     double totalReadMb() const { return m_stats.total_read_mb_s; }
@@ -38,6 +40,7 @@ signals:
 private:
     std::shared_ptr<domain::interfaces::IStorageProvider> m_provider;
     std::shared_ptr<domain::interfaces::IDiskInventoryProvider> m_inventory_provider;
+    std::shared_ptr<domain::interfaces::ISmartProvider> m_smart_provider;
     domain::models::StorageStats m_stats;
     QVariantList m_drives;
     QTimer *m_timer;

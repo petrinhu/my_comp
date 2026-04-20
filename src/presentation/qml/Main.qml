@@ -970,6 +970,57 @@ Window {
                                         text: (modelData.rotational ? "💿 " : "💾 ") + modelData.name
                                         color: root.highlightColor; font.pixelSize: 16; font.bold: true
                                     }
+                                    Rectangle {
+                                        id: smartBadge
+                                        property var smart: modelData.smart
+                                        readonly property string severity: {
+                                            if (!smart || !smart.available) return "unavail";
+                                            if (!smart.passed || smart.wearPct >= 90 || smart.tempC >= 70) return "risk";
+                                            if (smart.wearPct >= 70 || smart.tempC >= 60) return "warn";
+                                            return "ok";
+                                        }
+                                        readonly property string label: {
+                                            switch (severity) {
+                                                case "ok":      return "✓ Saudável";
+                                                case "warn":    return "⚠ Atenção";
+                                                case "risk":    return "✗ Risco";
+                                                default:        return "SMART N/A";
+                                            }
+                                        }
+                                        readonly property color fg: {
+                                            switch (severity) {
+                                                case "ok":      return "#2ecc71";
+                                                case "warn":    return "#f39c12";
+                                                case "risk":    return root.criticalColor;
+                                                default:        return root.textColor;
+                                            }
+                                        }
+                                        implicitWidth: badgeText.implicitWidth + 14
+                                        implicitHeight: badgeText.implicitHeight + 6
+                                        radius: 4
+                                        color: Qt.rgba(fg.r, fg.g, fg.b, 0.15)
+                                        border.color: fg
+                                        border.width: 1
+                                        Text {
+                                            id: badgeText
+                                            anchors.centerIn: parent
+                                            text: smartBadge.label
+                                            color: smartBadge.fg
+                                            font.pixelSize: 10; font.bold: true
+                                        }
+                                        ToolTip.visible: smartMouse.containsMouse
+                                        ToolTip.text: {
+                                            if (!smartBadge.smart || !smartBadge.smart.available) {
+                                                return smartBadge.smart && smartBadge.smart.errorMessage
+                                                    ? "SMART indisponível: " + smartBadge.smart.errorMessage
+                                                    : "SMART indisponível (smartctl ausente ou sem permissão)";
+                                            }
+                                            return "Temp: " + smartBadge.smart.tempC + "°C · "
+                                                 + "Power-On: " + smartBadge.smart.powerOnHours + "h · "
+                                                 + "Desgaste: " + smartBadge.smart.wearPct + "%";
+                                        }
+                                        MouseArea { id: smartMouse; anchors.fill: parent; hoverEnabled: true }
+                                    }
                                     Item { Layout.fillWidth: true }
                                     Text {
                                         text: root.formatBytes(modelData.sizeBytes)
@@ -980,6 +1031,13 @@ Window {
                                     visible: modelData.vendor.length > 0 || modelData.model.length > 0
                                     text: (modelData.vendor + " " + modelData.model).trim()
                                     color: root.textColor; opacity: 0.75; font.pixelSize: 11
+                                }
+                                Text {
+                                    visible: modelData.smart && modelData.smart.available
+                                    text: modelData.smart
+                                        ? "🌡 " + modelData.smart.tempC + "°C  ·  ⏱ " + modelData.smart.powerOnHours + "h  ·  📉 desgaste " + modelData.smart.wearPct + "%"
+                                        : ""
+                                    color: root.textColor; opacity: 0.65; font.pixelSize: 10
                                 }
 
                                 Repeater {

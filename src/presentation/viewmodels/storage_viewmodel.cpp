@@ -8,8 +8,11 @@ namespace my_comp::presentation::viewmodels {
 
 StorageViewModel::StorageViewModel(std::shared_ptr<domain::interfaces::IStorageProvider> provider,
                                    std::shared_ptr<domain::interfaces::IDiskInventoryProvider> inventory_provider,
+                                   std::shared_ptr<domain::interfaces::ISmartProvider> smart_provider,
                                    QObject *parent)
-    : QObject(parent), m_provider(provider), m_inventory_provider(std::move(inventory_provider)) {
+    : QObject(parent), m_provider(provider),
+      m_inventory_provider(std::move(inventory_provider)),
+      m_smart_provider(std::move(smart_provider)) {
 
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &StorageViewModel::refresh);
@@ -45,13 +48,22 @@ void StorageViewModel::refreshInventory() {
 
     QPointer<StorageViewModel> self(this);
     auto provider = m_inventory_provider;
-    (void)QtConcurrent::run([self, provider]() {
+    auto smart = m_smart_provider;
+    (void)QtConcurrent::run([self, provider, smart]() {
         auto inv = provider->collect_inventory();
-        QMetaObject::invokeMethod(self.data(), [self, inv]() {
+        std::vector<domain::models::SmartReport> smart_reports(inv.drives.size());
+        if (smart) {
+            // `smartctl` pode demorar; roda serialmente dentro do worker (já off-thread).
+            for (size_t i = 0; i < inv.drives.size(); ++i) {
+                smart_reports[i] = smart->collect_report(inv.drives[i].name);
+            }
+        }
+        QMetaObject::invokeMethod(self.data(), [self, inv, smart_reports]() {
             if (!self) return;
             QVariantList list;
             list.reserve(static_cast<int>(inv.drives.size()));
-            for (const auto& d : inv.drives) {
+            for (size_t i = 0; i < inv.drives.size(); ++i) {
+                const auto& d = inv.drives[i];
                 QVariantMap drive;
                 drive["name"] = d.name;
                 drive["sizeBytes"] = static_cast<qlonglong>(d.size_bytes);
@@ -59,6 +71,20 @@ void StorageViewModel::refreshInventory() {
                 drive["vendor"] = d.vendor;
                 drive["model"] = d.model;
                 drive["rotational"] = d.rotational;
+
+                QVariantMap smart_map;
+                if (i < smart_reports.size()) {
+                    const auto& r = smart_reports[i];
+                    smart_map["available"] = r.available;
+                    smart_map["passed"] = r.passed;
+                    smart_map["tempC"] = r.temp_c;
+                    smart_map["powerOnHours"] = static_cast<qlonglong>(r.power_on_hours);
+                    smart_map["wearPct"] = r.wear_pct;
+                    smart_map["errorMessage"] = r.error_message;
+                } else {
+                    smart_map["available"] = false;
+                }
+                drive["smart"] = smart_map;
 
                 QVariantList parts;
                 parts.reserve(static_cast<int>(d.partitions.size()));
