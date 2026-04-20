@@ -3,5 +3,6 @@
     <file alias="Main.qml">presentation/qml/Main.qml</file>
     <file alias="CpuDetailDialog.qml">presentation/qml/CpuDetailDialog.qml</file>
     <file alias="InstallationView.qml">presentation/qml/InstallationView.qml</file>
+    <file alias="ToastOverlay.qml">presentation/qml/ToastOverlay.qml</file>
 </qresource>
 </RCC>

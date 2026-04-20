@@ -29,7 +29,7 @@ void FirmwareViewModel::refresh() {
     if (m_is_busy) return;
     
     m_is_busy = true;
-    emit busyChanged();
+    emit isBusyChanged();
 
     // Executar em thread separada para não travar a UI (especialmente DBus pode demorar)
     QPointer<FirmwareViewModel> self(this);
@@ -47,7 +47,7 @@ void FirmwareViewModel::refresh() {
             self->m_update_count = updates;
             self->m_is_busy = false;
             emit self->devicesChanged();
-            emit self->busyChanged();
+            emit self->isBusyChanged();
         }, Qt::QueuedConnection);
     });
 }

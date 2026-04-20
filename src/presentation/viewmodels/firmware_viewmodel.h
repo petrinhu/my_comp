@@ -10,7 +10,7 @@ class FirmwareViewModel : public QObject {
     Q_OBJECT
     Q_PROPERTY(QVariantList devices READ devices NOTIFY devicesChanged)
     Q_PROPERTY(int updateCount READ updateCount NOTIFY devicesChanged)
-    Q_PROPERTY(bool isBusy READ isBusy NOTIFY busyChanged)
+    Q_PROPERTY(bool isBusy READ isBusy NOTIFY isBusyChanged)
 
 public:
     explicit FirmwareViewModel(std::shared_ptr<domain::interfaces::IFirmwareProvider> provider, QObject *parent = nullptr);
@@ -24,7 +24,7 @@ public slots:
 
 signals:
     void devicesChanged();
-    void busyChanged();
+    void isBusyChanged();
 
 private:
     std::shared_ptr<domain::interfaces::IFirmwareProvider> m_provider;

@@ -89,6 +89,22 @@ Window {
 
     CpuDetailDialog { id: cpuDetailDialog }
 
+    ToastOverlay { id: toastOverlay }
+
+    Connections {
+        target: exportViewModel
+        function onExportFinished(success, message) {
+            toastOverlay.notify(message, success ? "success" : "error")
+        }
+    }
+
+    Connections {
+        target: serviceViewModel
+        function onOperationFinished(success, message) {
+            toastOverlay.notify(message, success ? "success" : "error")
+        }
+    }
+
     // Dialog para Criar Daemon
     Dialog {
         id: daemonDialog
@@ -481,7 +497,8 @@ Window {
                             root.currentView = 10 // ABA de Instalação
                         }
                     }
-                    Button { text: "🔄"; onClicked: updateViewModel.refresh() }
+                    BusyIndicator { running: updateViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
+                    Button { text: "🔄"; onClicked: updateViewModel.refresh(); enabled: !updateViewModel.isBusy }
                 }
                 Rectangle {
                     Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
@@ -532,7 +549,8 @@ Window {
                 RowLayout {
                     Text { text: "Analisador de Journal"; color: root.textColor; font.pixelSize: 24; font.bold: true }
                     Item { Layout.fillWidth: true }
-                    Button { text: "🔄"; onClicked: diagnosticViewModel.refresh() }
+                    BusyIndicator { running: diagnosticViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
+                    Button { text: "🔄"; onClicked: diagnosticViewModel.refresh(); enabled: !diagnosticViewModel.isBusy }
                 }
                 RowLayout {
                     Layout.fillWidth: true; spacing: 10
@@ -664,7 +682,8 @@ Window {
                 RowLayout {
                     Text { text: "Hardware"; color: root.textColor; font.pixelSize: 24; font.bold: true }
                     Item { Layout.fillWidth: true }
-                    Button { text: "🔄"; onClicked: { hardwareViewModel.refresh(); firmwareViewModel.refresh() } }
+                    BusyIndicator { running: firmwareViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
+                    Button { text: "🔄"; onClicked: { hardwareViewModel.refresh(); firmwareViewModel.refresh() }; enabled: !firmwareViewModel.isBusy }
                 }
 
                 ScrollView {
@@ -791,7 +810,8 @@ Window {
                 RowLayout {
                     Text { text: "Desenvolvimento & Containers"; color: root.textColor; font.pixelSize: 24; font.bold: true }
                     Item { Layout.fillWidth: true }
-                    Button { text: "🔄"; onClicked: devStackViewModel.refresh() }
+                    BusyIndicator { running: devStackViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
+                    Button { text: "🔄"; onClicked: devStackViewModel.refresh(); enabled: !devStackViewModel.isBusy }
                 }
                 
                 ScrollView {
