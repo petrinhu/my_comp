@@ -4,7 +4,7 @@
 namespace my_comp::infrastructure::collectors {
 
 InteractiveProcessRunner::InteractiveProcessRunner() {
-    connect(&m_process, &QProcess::readyReadStandardOutput, [this]() {
+    connect(&m_process, &QProcess::readyReadStandardOutput, this, [this]() {
         QByteArray data = m_process.readAllStandardOutput();
         QString output = QString::fromUtf8(data);
         if (m_on_output) m_on_output(output);
