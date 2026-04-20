@@ -83,10 +83,18 @@ bool SystemdServiceProvider::stop_service(const QString& name) {
 }
 
 bool SystemdServiceProvider::create_daemon(const QString& exe_path, const QString& params) {
+    auto has_control_char = [](const QString& s) {
+        for (QChar c : s) {
+            if (c == QChar('\n') || c == QChar('\r') || c == QChar('\0')) return true;
+        }
+        return false;
+    };
+    if (has_control_char(exe_path) || has_control_char(params)) return false;
+
     QFileInfo exeInfo(exe_path);
     QString serviceName = exeInfo.baseName().toLower() + "-daemon.service";
-    
-    QString configDir = QDir::homePath() + "/.config/systemd/user";
+
+    QString configDir = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/systemd/user";
     QDir().mkpath(configDir);
     
     QFile file(configDir + "/" + serviceName);
