@@ -22,7 +22,7 @@ QString MemoryViewModel::format_kb(uint64_t kb) const {
     double value = static_cast<double>(kb);
     QString unit = "KB";
     
-    if (kb > 1024 * 1024) {
+    if (kb > 1024ULL * 1024ULL) {
         value /= (1024.0 * 1024.0);
         unit = "GB";
     } else if (kb > 1024) {

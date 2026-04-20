@@ -25,7 +25,7 @@ domain::models::CpuStats LinuxCpuProvider::collect_stats() {
     }
     
     if (!stats.cores.empty()) {
-        stats.average_frequency = total_freq / stats.cores.size();
+        stats.average_frequency = total_freq / static_cast<double>(stats.cores.size());
     }
     
     return stats;
@@ -98,7 +98,7 @@ double LinuxCpuProvider::read_temperature() {
         if (fs::exists(path)) {
             std::ifstream temp_file(path);
             long long temp_raw;
-            if (temp_file >> temp_raw) return temp_raw / 1000.0;
+            if (temp_file >> temp_raw) return static_cast<double>(temp_raw) / 1000.0;
         }
     }
     return 0.0;
@@ -125,7 +125,7 @@ void LinuxCpuProvider::update_load(domain::models::CpuStats& stats) {
         long long total_diff = current[i].total() - m_last_samples[i].total();
         long long active_diff = current[i].active() - m_last_samples[i].active();
         
-        double load = (total_diff > 0) ? (100.0 * active_diff / total_diff) : 0.0;
+        double load = (total_diff > 0) ? (100.0 * static_cast<double>(active_diff) / static_cast<double>(total_diff)) : 0.0;
         
         if (i == 0) {
             stats.total_load = load;

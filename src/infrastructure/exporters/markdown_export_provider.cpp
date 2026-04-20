@@ -62,7 +62,7 @@ bool MarkdownExportProvider::export_report(const domain::models::ReportData& dat
 
 QString MarkdownExportProvider::format_variant(const QVariant& v, int level) {
     QString result;
-    QString indent = QString(level * 2, ' ');
+    QString indent = QString(static_cast<qsizetype>(level) * 2, QLatin1Char(' '));
 
     if (v.typeId() == QMetaType::QVariantList) {
         auto list = v.toList();

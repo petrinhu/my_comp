@@ -54,9 +54,9 @@ domain::models::NetworkStats LinuxNetworkProvider::collect_stats() {
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - last.timestamp).count();
             
             if (duration > 0) {
-                double seconds = duration / 1000.0;
-                double rx_mbps = ((rx_bytes - last.rx_bytes) * 8.0) / (1024.0 * 1024.0 * seconds);
-                double tx_mbps = ((tx_bytes - last.tx_bytes) * 8.0) / (1024.0 * 1024.0 * seconds);
+                double seconds = static_cast<double>(duration) / 1000.0;
+                double rx_mbps = (static_cast<double>(rx_bytes - last.rx_bytes) * 8.0) / (1024.0 * 1024.0 * seconds);
+                double tx_mbps = (static_cast<double>(tx_bytes - last.tx_bytes) * 8.0) / (1024.0 * 1024.0 * seconds);
                 
                 domain::models::InterfaceStat istat;
                 istat.name = QString::fromStdString(iface_name);

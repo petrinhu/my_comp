@@ -40,7 +40,7 @@ domain::models::GpuStats NvidiaGpuProvider::parse_line(const QString& line) {
         stats.vram_used_mb = fields[4].trimmed().toULongLong();
         
         if (stats.vram_total_mb > 0) {
-            stats.vram_usage_percent = (100.0 * stats.vram_used_mb) / stats.vram_total_mb;
+            stats.vram_usage_percent = (100.0 * static_cast<double>(stats.vram_used_mb)) / static_cast<double>(stats.vram_total_mb);
         }
     }
 

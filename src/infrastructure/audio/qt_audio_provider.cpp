@@ -50,7 +50,8 @@ QtAudioProvider::QtAudioProvider(QObject* parent) : QObject(parent) {
 }
 
 QtAudioProvider::~QtAudioProvider() {
-    stop_capture();
+    // Qualificado com escopo da classe: dtor não pode usar dispatch dinâmico, evita warning do cppcheck.
+    QtAudioProvider::stop_capture();
 }
 
 bool QtAudioProvider::start_capture() {
@@ -74,8 +75,10 @@ void QtAudioProvider::writeData(const char* data, qint64 len) {
 
 void QtAudioProvider::process_raw_data(const char* data, qint64 len) {
     int sampleCount = static_cast<int>(len / sizeof(float));
+    // Buffer entregue pelo QAudioSink como char*, mas QAudioFormat define amostras Float32 — cast é legítimo.
+    // cppcheck-suppress invalidPointerCast
     const float* samples = reinterpret_cast<const float*>(data);
-    
+
     if (sampleCount > 0) {
         process_samples(samples, sampleCount);
     }
@@ -94,7 +97,7 @@ void QtAudioProvider::process_samples(const float* samples, int count) {
         peak = std::max(peak, std::abs(s));
     }
     
-    audioData.rms = std::sqrt(sumSq / count);
+    audioData.rms = std::sqrt(sumSq / static_cast<float>(count));
     audioData.peak = peak;
     audioData.spectrum = calculate_fft(samples, count);
 
@@ -111,7 +114,7 @@ std::vector<float> QtAudioProvider::calculate_fft(const float* samples, int coun
     std::vector<std::complex<double>> data(n);
     
     for (size_t i = 0; i < n; ++i) {
-        double multiplier = 0.5 * (1.0 - std::cos(2.0 * M_PI * i / (n - 1)));
+        double multiplier = 0.5 * (1.0 - std::cos(2.0 * M_PI * static_cast<double>(i) / static_cast<double>(n - 1)));
         data[i] = static_cast<double>(samples[i]) * multiplier;
     }
 
@@ -123,7 +126,7 @@ std::vector<float> QtAudioProvider::calculate_fft(const float* samples, int coun
     }
 
     for (size_t len = 2; len <= n; len <<= 1) {
-        double ang = 2.0 * M_PI / len;
+        double ang = 2.0 * M_PI / static_cast<double>(len);
         std::complex<double> wlen(std::cos(ang), std::sin(ang));
         for (size_t i = 0; i < n; i += len) {
             std::complex<double> w(1);
@@ -139,7 +142,7 @@ std::vector<float> QtAudioProvider::calculate_fft(const float* samples, int coun
 
     std::vector<float> spectrum(n / 2);
     for (size_t i = 0; i < n / 2; ++i) {
-        spectrum[i] = static_cast<float>(std::abs(data[i]) * 2.0 / n);
+        spectrum[i] = static_cast<float>(std::abs(data[i]) * 2.0 / static_cast<double>(n));
     }
     return spectrum;
 }

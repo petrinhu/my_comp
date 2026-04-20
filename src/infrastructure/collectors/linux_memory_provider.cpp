@@ -23,13 +23,13 @@ domain::models::MemoryStats LinuxMemoryProvider::collect_stats() {
     if (stats.ram_total_kb > 0) {
         // Used = Total - Available (melhor aproximação que Total - Free)
         stats.ram_used_kb = stats.ram_total_kb - stats.ram_available_kb;
-        stats.ram_usage_percent = (100.0 * stats.ram_used_kb) / stats.ram_total_kb;
+        stats.ram_usage_percent = (100.0 * static_cast<double>(stats.ram_used_kb)) / static_cast<double>(stats.ram_total_kb);
     }
     
     // Cálculos de Swap
     if (stats.swap_total_kb > 0) {
         stats.swap_used_kb = stats.swap_total_kb - stats.swap_free_kb;
-        stats.swap_usage_percent = (100.0 * stats.swap_used_kb) / stats.swap_total_kb;
+        stats.swap_usage_percent = (100.0 * static_cast<double>(stats.swap_used_kb)) / static_cast<double>(stats.swap_total_kb);
     }
     
     update_zram(stats);
@@ -53,7 +53,7 @@ void LinuxMemoryProvider::update_zram(domain::models::MemoryStats& stats) {
         if (mm_stat >> orig_size >> compr_size) {
             stats.has_zram = true;
             if (compr_size > 0) {
-                stats.zram_compression_ratio = (double)orig_size / compr_size;
+                stats.zram_compression_ratio = static_cast<double>(orig_size) / static_cast<double>(compr_size);
             } else {
                 stats.zram_compression_ratio = 1.0;
             }

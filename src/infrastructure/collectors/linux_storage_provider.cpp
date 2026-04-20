@@ -44,10 +44,10 @@ domain::models::StorageStats LinuxStorageProvider::collect_stats() {
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - last.timestamp).count();
             
             if (duration > 0) {
-                double seconds = duration / 1000.0;
+                double seconds = static_cast<double>(duration) / 1000.0;
                 // Setores no Linux são tipicamente 512 bytes
-                double read_mb = (sectors_read - last.sectors_read) * 512.0 / (1024.0 * 1024.0);
-                double write_mb = (sectors_written - last.sectors_written) * 512.0 / (1024.0 * 1024.0);
+                double read_mb = static_cast<double>(sectors_read - last.sectors_read) * 512.0 / (1024.0 * 1024.0);
+                double write_mb = static_cast<double>(sectors_written - last.sectors_written) * 512.0 / (1024.0 * 1024.0);
                 
                 domain::models::DriveStat drive;
                 drive.name = QString::fromStdString(dev_name);

@@ -29,7 +29,7 @@ double read_hwmon_temp(const QString& device_path) {
         QString raw = read_first_line(device_path + "/hwmon/" + h + "/temp1_input");
         bool ok = false;
         long long millideg = raw.toLongLong(&ok);
-        if (ok && millideg > 0) return millideg / 1000.0;
+        if (ok && millideg > 0) return static_cast<double>(millideg) / 1000.0;
     }
     return 0.0;
 }
@@ -64,11 +64,12 @@ std::vector<domain::models::GpuStats> SysfsGpuProvider::collect_stats() {
         double busy = read_first_line(device_path + "/gpu_busy_percent").toDouble(&ok);
         if (ok) stats.load_percent = busy;
 
+        constexpr uint64_t kMiB = 1024ULL * 1024ULL;
         uint64_t vram_total_bytes = read_first_line(device_path + "/mem_info_vram_total").toULongLong(&ok);
-        if (ok) stats.vram_total_mb = vram_total_bytes / (1024 * 1024);
+        if (ok) stats.vram_total_mb = vram_total_bytes / kMiB;
 
         uint64_t vram_used_bytes = read_first_line(device_path + "/mem_info_vram_used").toULongLong(&ok);
-        if (ok) stats.vram_used_mb = vram_used_bytes / (1024 * 1024);
+        if (ok) stats.vram_used_mb = vram_used_bytes / kMiB;
 
         if (stats.vram_total_mb > 0) {
             stats.vram_usage_percent =

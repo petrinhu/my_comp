@@ -45,7 +45,8 @@ QString LinuxProcessProvider::get_user_from_uid(unsigned int uid) {
     struct passwd pwd;
     struct passwd *result;
     char buffer[1024];
-    int s = getpwuid_r(uid, &pwd, buffer, sizeof(buffer), &result);
+    // Retorno de getpwuid_r ignorado: validação vem via result == nullptr (POSIX).
+    (void)getpwuid_r(uid, &pwd, buffer, sizeof(buffer), &result);
     if (result == nullptr) {
         return QString::number(uid);
     }
@@ -118,7 +119,7 @@ std::vector<domain::models::ProcessInfo> LinuxProcessProvider::collect_processes
             double cpu_usage = 0.0;
             if (m_last_samples.count(pid) && delta_uptime > 0) {
                 unsigned long long delta_time = current_total_time - m_last_samples[pid].total_time;
-                cpu_usage = 100.0 * ((double)delta_time / m_hertz) / delta_uptime;
+                cpu_usage = 100.0 * (static_cast<double>(delta_time) / static_cast<double>(m_hertz)) / delta_uptime;
             }
             m_last_samples[pid] = {utime, stime, current_total_time, current_uptime};
 
@@ -129,10 +130,10 @@ std::vector<domain::models::ProcessInfo> LinuxProcessProvider::collect_processes
                 p.virt = vsize / 1024;
                 p.res = rss * sysconf(_SC_PAGESIZE) / 1024;
                 p.cpuPercent = cpu_usage;
-                p.memPercent = m_total_ram > 0 ? (100.0 * p.res * 1024 / m_total_ram) : 0.0;
-                
+                p.memPercent = m_total_ram > 0 ? (100.0 * static_cast<double>(p.res) * 1024.0 / static_cast<double>(m_total_ram)) : 0.0;
+
                 // Tempo
-                long long seconds = (long long)current_uptime - (starttime / m_hertz);
+                long long seconds = static_cast<long long>(current_uptime) - static_cast<long long>(starttime / m_hertz);
                 p.timeStr = QString("%1:%2:%3")
                     .arg(seconds / 3600, 2, 10, QChar('0'))
                     .arg((seconds % 3600) / 60, 2, 10, QChar('0'))

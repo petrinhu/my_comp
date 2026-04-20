@@ -80,6 +80,7 @@ void LinuxDevStackProvider::collect_containers(domain::models::DevStackInfo& inf
     }
 }
 
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters) — output é payload JSON, runtime é "Podman"/"Docker"; call sites literais dificultam o swap acidental.
 void LinuxDevStackProvider::parse_containers_json(const QString& output, const QString& runtime, std::vector<domain::models::ContainerInfo>& containers) {
     const QString trimmed = output.trimmed();
     if (trimmed.isEmpty()) return;
