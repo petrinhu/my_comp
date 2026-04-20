@@ -17,6 +17,7 @@ QVariantMap UserMetadataViewModel::envVars() const {
 }
 
 void UserMetadataViewModel::refresh() {
+    if (!m_provider) return;
     m_data = m_provider->get_user_metadata();
     emit dataChanged();
 }

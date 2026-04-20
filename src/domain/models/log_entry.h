@@ -6,9 +6,9 @@
 namespace my_comp::domain::models {
 
 struct LogEntry {
-    int line_number;
+    int line_number = 0;
     QString timestamp;
-    int priority;        // 0-7 (systemd priority)
+    int priority = 0;    // 0-7 (systemd priority)
     QString message;
     QString source;      // e.g., "kernel", "fwupd"
 };

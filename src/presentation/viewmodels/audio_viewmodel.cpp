@@ -5,6 +5,8 @@ namespace my_comp::presentation::viewmodels {
 AudioViewModel::AudioViewModel(std::shared_ptr<domain::interfaces::IAudioProvider> provider, QObject* parent)
     : QObject(parent), m_provider(std::move(provider)) {
 
+    if (!m_provider) return;
+
     // O provider é responsável por marshalar para a thread do consumidor
     // (ver QtAudioProvider::process_samples), então update_data já chega
     // na main thread — não precisamos de invokeMethod adicional aqui.

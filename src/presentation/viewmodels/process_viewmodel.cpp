@@ -128,12 +128,14 @@ void ProcessViewModel::refresh() {
 }
 
 void ProcessViewModel::killProcess(int pid, int signal) {
+    if (!m_provider) return;
     if (m_provider->kill_process(pid, signal)) {
         refresh();
     }
 }
 
 void ProcessViewModel::setPriority(int pid, int nice) {
+    if (!m_provider) return;
     if (m_provider->set_priority(pid, nice)) {
         refresh();
     }

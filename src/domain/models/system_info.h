@@ -8,7 +8,7 @@ struct SystemInfo {
     QString distroVersion;
     QString kernelVersion;
     QString gpuDriver;
-    bool kernelUpdateAvailable;
+    bool kernelUpdateAvailable = false;
 };
 
 } // namespace my_comp::domain::models

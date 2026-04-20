@@ -22,6 +22,10 @@ LinuxProcessProvider::LinuxProcessProvider() {
 
 double LinuxProcessProvider::get_system_uptime() {
     std::ifstream uptime_file("/proc/uptime");
+    if (!uptime_file.is_open()) {
+        qWarning() << "[Process] Failed to open /proc/uptime";
+        return 0.0;
+    }
     double uptime = 0.0;
     uptime_file >> uptime;
     return uptime;
@@ -29,6 +33,10 @@ double LinuxProcessProvider::get_system_uptime() {
 
 unsigned long long LinuxProcessProvider::get_total_ram() {
     std::ifstream meminfo("/proc/meminfo");
+    if (!meminfo.is_open()) {
+        qWarning() << "[Process] Failed to open /proc/meminfo";
+        return 0;
+    }
     std::string line;
     while (std::getline(meminfo, line)) {
         if (line.compare(0, 8, "MemTotal") == 0) {

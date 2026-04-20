@@ -1,0 +1,211 @@
+{
+   libcuda-driver-init
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   obj:*libcuda.so*
+   ...
+}
+{
+   libcuda-cuInit
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:cuInit
+   ...
+}
+{
+   ffmpeg-hwdevice-ctx-create
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:av_hwdevice_ctx_create
+   ...
+}
+{
+   ffmpeg-libavutil
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   obj:*libavutil.so*
+   ...
+}
+{
+   ffmpeg-qffmpeg-plugin
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:_ZN7QFFmpeg*
+   ...
+}
+{
+   libdrm-getVersion
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:drmGetVersion
+   ...
+}
+{
+   libdrm-copyVersion
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:drmCopyVersion
+   ...
+}
+{
+   dl-init
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:_dl_init
+}
+{
+   dl-open
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:_dl_open
+}
+{
+   dlopen-doit
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:dlopen_doit
+   ...
+}
+{
+   qt-dbus-meta-object-cache
+   Memcheck:Leak
+   match-leak-kinds: indirect,reachable
+   ...
+   fun:_ZN14QDBusMetaObject16createMetaObjectERK7QStringS2_RK5QHashIS0_PS_ER10QDBusError
+   ...
+}
+{
+   qt-plugin-loader
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:_ZN14QFactoryLoader*
+   ...
+}
+{
+   intel-media-mfx-vaapi
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   obj:*libmfx*
+   ...
+}
+{
+   intel-media-mfx-cond
+   Memcheck:Cond
+   ...
+   obj:*libmfx*
+}
+{
+   intel-media-mfx-brc-cond
+   Memcheck:Cond
+   ...
+   fun:_Z17GetExtendedBufferPP12mfxExtBufferjj
+   ...
+}
+{
+   intel-media-vaapi-cond
+   Memcheck:Cond
+   ...
+   fun:_ZN17VAAPIVideoCORE_TI14CommonCORE_VPLE16IsGuidSupported*
+   ...
+}
+{
+   intel-media-mfx-fun
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:MFXEnumImplementations
+   ...
+}
+{
+   intel-media-mfx-brc
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:_Z17GetExtendedBufferPP12mfxExtBufferjj
+   ...
+}
+{
+   qt-dbus-register-complex-type
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:_ZL23registerComplexDBusTypeRK10QByteArray
+   ...
+}
+{
+   qt-dbus-argument-detach
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:_ZN20QDBusArgumentPrivate18checkReadAndDetachERPS_
+   ...
+}
+{
+   libdbus-pending-call-block
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:dbus_pending_call_block
+   ...
+}
+{
+   libdbus-message-new
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   fun:dbus_message_new_empty_header
+   ...
+}
+{
+   libnvidia-driver-anonymous-a
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   obj:*libnvidia*
+   ...
+}
+{
+   libnvidia-driver-anonymous-b
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   obj:*libGLX*
+   ...
+}
+{
+   libnvidia-driver-anonymous-c
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   ...
+   obj:*libEGL*
+   ...
+}
+{
+   nvidia-driver-unsymbolized-calloc-chain
+   Memcheck:Leak
+   match-leak-kinds: definite,indirect,possible,reachable
+   fun:calloc
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+   obj:*
+}

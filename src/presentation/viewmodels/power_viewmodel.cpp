@@ -25,8 +25,9 @@ void PowerViewModel::initialize() {
 }
 
 void PowerViewModel::update() {
+    if (!m_provider) return;
     auto stats = m_provider->collect_stats();
-    
+
     bool changed = false;
     if (m_power != stats.consumption_watts) { m_power = stats.consumption_watts; changed = true; }
     if (m_percent != stats.battery_percent) { m_percent = stats.battery_percent; changed = true; }

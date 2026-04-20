@@ -16,6 +16,8 @@ void CpuViewModel::initialize() {
     if (m_initialized) return;
     m_initialized = true;
 
+    if (!m_provider) return;
+
     // Arquitetura é estática (lida uma vez de /proc/cpuinfo e /sys/devices/system/cpu).
     m_arch = m_provider->collect_architecture();
     emit architectureChanged();
@@ -26,6 +28,7 @@ void CpuViewModel::initialize() {
 
 void CpuViewModel::refresh() {
     if (m_busy) return;
+    if (!m_provider) return;
     m_busy = true;
 
     QPointer<CpuViewModel> self(this);

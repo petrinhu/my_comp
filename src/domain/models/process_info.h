@@ -15,21 +15,20 @@ enum class ProcessState {
 };
 
 struct ProcessInfo {
-    int pid;
-    int ppid;
+    int pid = 0;
+    int ppid = 0;
     QString user;
-    int priority;
-    int nice;
-    unsigned long virt; // KB
-    unsigned long res;  // KB
-    unsigned long shr;  // KB
-    ProcessState state;
-    double cpuPercent;
-    double memPercent;
+    int priority = 0;
+    int nice = 0;
+    unsigned long virt = 0; // KB
+    unsigned long res = 0;  // KB
+    unsigned long shr = 0;  // KB
+    ProcessState state = ProcessState::Unknown;
+    double cpuPercent = 0.0;
+    double memPercent = 0.0;
     QString timeStr;
     QString command;
-    
-    // Para Tree View
+
     std::vector<int> children;
 };
 

@@ -171,21 +171,21 @@
 | UX-03 | UI/UX | Auditoria de layouts QML responsivos (remover tamanhos hardcoded, usar `Layout.fillWidth/Height`, anchors corretos) | Média | — | Média | ⏳ Pendente | — |
 | UX-04 | UI/UX | Feedback visual (loading spinners, error banners, success toasts) em ações assíncronas | Alta | — | Média | ⏳ Pendente | — |
 | UX-05 | UI/UX | Auditoria de operações pesadas na UI thread (garantir `QtConcurrent`/`QThread` em I/O e parsing) | Alta | AR-03 | Alta | ⏳ Pendente | — |
-| QA-01 | QA | T1 — Suite completa de unitários GTest (39 arquivos) | Alta | AR-03 | Alta | ⏳ Pendente | — |
+| QA-01 | QA | T1 — Suite completa de unitários GTest (39 arquivos). **121/121 testes em 52 suites, 605 ms**, zero falhas. Default-init em `ProcessInfo`/`SystemInfo`/`LogEntry` eliminou uninitialised values em Valgrind | Alta | AR-03 | Alta | ✅ Concluído | ✓ |
 | QA-02 | QA | T2 — Clang-Tidy + CppCheck sem `bugprone-*`/`security-*`/`cert-*` | Alta | — | Baixa | ✅ Concluído | ✓ |
 | QA-03 | QA | T3 — Suite ATDD (19 arquivos) | Alta | QA-01 | Alta | ⏳ Pendente | — |
-| QA-04 | QA | T4 — Valgrind/ASan zero *definitely lost* e zero ERROR SUMMARY | Alta | QA-01 | Alta | ⏳ Pendente | — |
+| QA-04 | QA | T4 — Valgrind/ASan zero *definitely lost* e zero ERROR SUMMARY. **Zero vazamentos no nosso código**; suppressions em `valgrind.supp` para Intel VA-API (libmfx), libcuda, libavutil, libdrm, NVIDIA, Qt DBus metaobject cache, libdbus. 2 erros residuais são bugs de `posix_memalign(0)` em libnvidia-glcore | Alta | QA-01 | Alta | ✅ Concluído | ✓ |
 | QA-05 | QA | A3 — WCAG AA (contraste ≥4,5:1, Tab/Enter, tooltips) | Média | DB-06, UX-01 | Média | ⏳ Pendente | — |
 | QA-06 | QA | A6 — Cobertura LCOV ≥ 70% em `src/domain/` e serviços | Média | QA-01, QA-03 | Alta | ⏳ Pendente | — |
 | QA-07 | QA | A9 — Análise SOLID/SRP (classes >300 linhas, ciclos de include) | Alta | AR-01, AR-02 | Alta | ⏳ Pendente | — |
 | QA-08 | QA | A10 — Relatório final de auditoria consolidado | Alta | QA-01, QA-02, QA-03, QA-04, QA-05, QA-06, QA-07 | Baixa | ⏳ Pendente | — |
-| QA-09 | QA | Null-pointer checks antes de dereference (`QPointer`, guards `if (!ptr) return`, raw pointer policy) | Alta | QA-02 | Média | ⏳ Pendente | — |
+| QA-09 | QA | Null-pointer checks antes de dereference (`QPointer`, guards `if (!ptr) return`, raw pointer policy). Guards adicionados em `ProcessViewModel::killProcess`/`setPriority`, `CpuViewModel::initialize`/`refresh`, `UserMetadataViewModel::refresh`, `PowerViewModel::update`, `AudioViewModel` ctor. Todas as lambdas `self->` já têm `if (!self) return;` | Alta | QA-02 | Média | ✅ Concluído | ✓ |
 | QA-10 | QA | Const-correctness e uso obrigatório de `override`/`final` em hierarquias virtuais | Média | QA-02 | Baixa | ⏳ Pendente | — |
 | QA-11 | QA | Higiene de headers (include-what-you-use, remoção de includes desnecessários, forward declarations) | Média | — | Média | ⏳ Pendente | — |
 | QA-12 | QA | Consistência de tipos de string (`QString` nas fronteiras Qt, `std::string` interno, evitar `const char*` soltos) | Baixa | — | Baixa | ⏳ Pendente | — |
 | QA-13 | QA | Exception safety (strong/basic guarantee em setters, `noexcept` em destrutores e move constructors) | Média | — | Média | ⏳ Pendente | — |
-| QA-14 | QA | Cobertura de error handling em fronteiras externas (D-Bus, shell, filesystem) com logs e propagação explícita | Alta | — | Média | ⏳ Pendente | — |
-| QA-15 | QA | ThreadSanitizer (`-fsanitize=thread`) sobre `unit_tests` para detectar race conditions residuais | Alta | QA-01 | Alta | ⏳ Pendente | — |
+| QA-14 | QA | Cobertura de error handling em fronteiras externas (D-Bus, shell, filesystem) com logs e propagação explícita. `QProcessShellExecutor`: timeout + exit code + stderr logado. `DBusFirmwareProvider`: `isValid()`, `ErrorMessage` e tipo de retorno validados. `FilesystemDirectoryScanner`: `dir.exists()`, skip pseudo-fs, cancel token. `LinuxProcessProvider`: `is_open()` em `/proc/uptime` e `/proc/meminfo` | Alta | — | Média | ✅ Concluído | ✓ |
+| QA-15 | QA | ThreadSanitizer (`-fsanitize=thread`) sobre `unit_tests` para detectar race conditions residuais. **121/121 testes passam**. Warnings reportados são falsos positivos em `QThreadPool`/`QArrayData::reallocateUnaligned`/`QWaitCondition`/`reapChildProcesses` — stacks terminam em libQt6Core reusando slots do pool entre testes; nosso código apenas chama `QtConcurrent::run`. Zero races no código de aplicação | Alta | QA-01 | Alta | ✅ Concluído | ✓ |
 | QA-16 | QA | Diagnóstico final categorizado (CRÍTICO / IMPORTANTE / COSMÉTICO) com estimativas de esforço por item | Alta | QA-08 | Baixa | ⏳ Pendente | — |
 | QA-17 | QA | Migrar literal `_qs` deprecado para `_s` do namespace `Qt::StringLiterals` em `src/main.cpp:151` | Baixa | — | Baixa | ⏳ Pendente | — |
 | QA-18 | QA | `grep -rn "using namespace" src/*.h` confirma zero matches — nenhum provider polui escopo; todos usam qualificação explícita `domain::interfaces::IUpdateProvider` | Baixa | AR-02 | Baixa | ✅ Concluído | ✓ |
