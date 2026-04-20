@@ -532,16 +532,90 @@ Window {
             // ABA 5 - Hardware
             ColumnLayout {
                 anchors.margins: 25; spacing: 15
-                Text { text: "Hardware"; color: root.textColor; font.pixelSize: 24; font.bold: true }
-                Rectangle {
-                    Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
-                    ScrollView {
-                        anchors.fill: parent; anchors.margins: 10; clip: true
-                        ListView {
-                            model: firmwareViewModel.devices
-                            delegate: ItemDelegate {
-                                width: parent.width; height: 40
-                                contentItem: Text { text: modelData.name; color: root.textColor }
+                RowLayout {
+                    Text { text: "Hardware"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                    Item { Layout.fillWidth: true }
+                    Button { text: "🔄"; onClicked: { hardwareViewModel.refresh(); firmwareViewModel.refresh() } }
+                }
+
+                ScrollView {
+                    Layout.fillWidth: true; Layout.fillHeight: true; clip: true
+                    ColumnLayout {
+                        width: parent.width; spacing: 20
+
+                        Text { text: "🖥️ SISTEMA (SMBIOS)"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                        Rectangle {
+                            Layout.fillWidth: true; Layout.preferredHeight: smbiosGrid.implicitHeight + 20
+                            color: root.cardColor; radius: 8; border.color: root.borderColor
+                            GridLayout {
+                                id: smbiosGrid
+                                anchors.fill: parent; anchors.margins: 12
+                                columns: 2; columnSpacing: 12; rowSpacing: 6
+                                Text { text: "Fabricante:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                Text { text: hardwareViewModel.smbios.vendor || "—"; color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
+                                Text { text: "Modelo:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                Text { text: hardwareViewModel.smbios.model || "—"; color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
+                                Text { text: "Versão:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                Text { text: hardwareViewModel.smbios.version || "—"; color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
+                                Text { text: "Serial:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                Text { text: hardwareViewModel.smbios.serial || "—"; color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight; font.family: "Monospace" }
+                                Text { text: "SKU:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                Text { text: hardwareViewModel.smbios.sku || "—"; color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
+                                Text { text: "Placa-mãe:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                Text { text: (hardwareViewModel.smbios.boardVendor || "") + " " + (hardwareViewModel.smbios.boardName || ""); color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
+                            }
+                        }
+
+                        Text { text: "🔌 USB"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                        Rectangle {
+                            Layout.fillWidth: true; Layout.preferredHeight: 180
+                            color: root.cardColor; radius: 8; border.color: root.borderColor
+                            ListView {
+                                id: usbList
+                                anchors.fill: parent; anchors.margins: 10; clip: true
+                                model: hardwareViewModel.usbDevices
+                                ScrollBar.vertical: ScrollBar {}
+                                delegate: RowLayout {
+                                    width: usbList.width; height: 28; spacing: 12
+                                    Text { text: (modelData.vendorId || "") + ":" + (modelData.productId || ""); color: "#7f8c8d"; font.family: "Monospace"; font.pixelSize: 11; Layout.preferredWidth: 110 }
+                                    Text { text: modelData.name || "(sem nome)"; color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
+                                    Text { text: "bus " + (modelData.bus || "—"); color: "#7f8c8d"; font.pixelSize: 11 }
+                                }
+                            }
+                        }
+
+                        Text { text: "📡 BLUETOOTH"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                        Rectangle {
+                            Layout.fillWidth: true; Layout.preferredHeight: 140
+                            color: root.cardColor; radius: 8; border.color: root.borderColor
+                            ListView {
+                                id: btList
+                                anchors.fill: parent; anchors.margins: 10; clip: true
+                                model: hardwareViewModel.bluetoothDevices
+                                ScrollBar.vertical: ScrollBar {}
+                                delegate: RowLayout {
+                                    width: btList.width; height: 28; spacing: 12
+                                    Rectangle { width: 8; height: 8; radius: 4; color: modelData.paired ? "#2ecc71" : "#95a5a6" }
+                                    Text { text: modelData.name || "(sem nome)"; color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
+                                    Text { text: modelData.address || ""; color: "#7f8c8d"; font.family: "Monospace"; font.pixelSize: 11 }
+                                }
+                            }
+                        }
+
+                        Text { text: "🔧 FIRMWARE (fwupd)"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                        Rectangle {
+                            Layout.fillWidth: true; Layout.preferredHeight: 140
+                            color: root.cardColor; radius: 8; border.color: root.borderColor
+                            ListView {
+                                id: fwList
+                                anchors.fill: parent; anchors.margins: 10; clip: true
+                                model: firmwareViewModel.devices
+                                ScrollBar.vertical: ScrollBar {}
+                                delegate: Text {
+                                    width: fwList.width; height: 28
+                                    text: modelData.name; color: root.textColor
+                                    verticalAlignment: Text.AlignVCenter; elide: Text.ElideRight
+                                }
                             }
                         }
                     }
