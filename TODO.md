@@ -16,8 +16,8 @@
 | AR-04 | Architecture | Separar use cases (`update_manager.h`, `diagnostic_manager.h`) de `domain/` para nova camada `application/` | Baixa | AR-01 | Média | ⏳ Pendente | — |
 | AR-05 | Architecture | Auditoria de signals/slots Qt (disconnect-on-destroy, `Qt::QueuedConnection` cross-thread, múltiplos `connect` redundantes) | Alta | AR-03 | Média | ⏳ Pendente | — |
 | AR-06 | Architecture | Auditoria de parent ownership `QObject` (objetos sem parent = leak; `QPointer` para observação) | Alta | — | Média | ⏳ Pendente | — |
-| AR-07 | Architecture | Mover I/O dos construtores para método `initialize()` (CLAUDE.md §4) em `CpuViewModel`, `HardwareViewModel`, `PowerViewModel`, `GpuViewModel` | Média | AR-03 | Média | ⏳ Pendente | — |
-| AR-08 | Architecture | Tornar `refresh()` assíncrono (`QtConcurrent::run`) em `NetworkViewModel`, `StorageViewModel`, `MemoryViewModel`, `HardwareViewModel` — hoje rodam síncronos na UI thread | Média | AR-03 | Média | ⏳ Pendente | — |
+| AR-07 | Architecture | Mover I/O dos construtores para método `initialize()` (CLAUDE.md §4) em `CpuViewModel`, `HardwareViewModel`, `PowerViewModel`, `GpuViewModel` | Média | AR-03 | Média | ✅ Concluído | ✓ |
+| AR-08 | Architecture | Tornar `refresh()` assíncrono (`QtConcurrent::run`) em `NetworkViewModel`, `StorageViewModel`, `MemoryViewModel`, `HardwareViewModel` — hoje rodam síncronos na UI thread | Média | AR-03 | Média | ✅ Concluído | ✓ |
 | AR-09 | Architecture | Substituir `Timer(300ms)` do sequenciador QML por cadeia de signals `readyChanged`/`dataLoaded` — elimina "mágica" de 300ms e paraleliza onde possível | Baixa | AR-03 | Média | ⏳ Pendente | — |
 | IN-01 | Infra | Executor de shell genérico (`QProcessShellExecutor`) | Alta | — | Baixa | ✅ Concluído | ⚠ |
 | IN-01a | Infra | Capturar `stderr` em `QProcessShellExecutor::execute` (hoje só captura stdout; erros do subprocesso ficam silenciosos) | Média | IN-01 | Baixa | ⏳ Pendente | — |
@@ -117,7 +117,7 @@
 | HW-03 | Hardware | Detecção GPU (NVIDIA + Sysfs) | Média | AR-02 | Média | ✅ Concluído | ⚠ |
 | HW-03a | Hardware | **`SysfsGpuProvider::collect_stats` apenas detecta existência de `/sys/class/drm/card*/device/` e retorna struct com `load_percent`/`temperature_c`/`vram_used_mb` = 0** — função `read_sysfs_value` está definida mas nunca é chamada. Leitura real de `gpu_busy_percent`/`hwmon*/temp1_input`/`mem_info_vram_used` (amdgpu/i915) está ausente, o card GPU de AMD/Intel sempre lê 0% | Alta | HW-03 | Média | ✅ Concluído | ✓ |
 | HW-03b | Hardware | **`GpuViewModel` não é referenciado em `Main.qml`** — dados de GPU (load/temp/VRAM) coletados a cada 2s nunca aparecem na UI, só em exports. Criar card "GPU" no Dashboard ou seção dedicada em Hardware | Alta | HW-03 | Baixa | ✅ Concluído | ✓ |
-| HW-03c | Hardware | `GpuViewModel` tem 2 construtores e o segundo chama `update_stats()` direto no ctor — viola CLAUDE.md §4 (mesma raiz de AR-07). Mover para método `initialize()` | Média | HW-03, AR-07 | Baixa | ⏳ Pendente | — |
+| HW-03c | Hardware | `GpuViewModel` tem 2 construtores e o segundo chama `update_stats()` direto no ctor — viola CLAUDE.md §4 (mesma raiz de AR-07). Mover para método `initialize()` | Média | HW-03, AR-07 | Baixa | ✅ Concluído | ✓ |
 | HW-03d | Hardware | `GpuViewModel` faz *lazy init* via `which nvidia-smi` a cada `update_stats` — cachear resultado da checagem no ctor ou em `initialize()` para evitar spawn de `which` a cada 2s | Baixa | HW-03 | Baixa | ⏳ Pendente | — |
 | SV-01 | Services | Listagem de unidades systemd (`SystemdServiceProvider`) | Alta | AR-02 | Média | ✅ Concluído | ⚠ |
 | SV-01a | Services | `isEnabled` em `SystemdServiceProvider::collect_units` é placeholder (`info.isEnabled = (info.loadState == "loaded")`) — comentário no código admite "otimização pendente para auditoria". Chamar `systemctl is-enabled --all` em batch ou parsear `list-unit-files` | Média | SV-01 | Média | ⏳ Pendente | — |
