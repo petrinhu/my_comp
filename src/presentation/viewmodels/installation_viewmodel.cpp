@@ -5,19 +5,18 @@ namespace my_comp::presentation::viewmodels {
 InstallationViewModel::InstallationViewModel(std::shared_ptr<domain::interfaces::IInstaller> installer, QObject* parent) 
     : QObject(parent), m_installer(installer) {
     
-    // Configura callbacks da interface de domínio (Foundation pura)
-    m_installer->onOutput = [this](const QString& output) {
+    m_installer->set_output_handler([this](const QString& output) {
         onOutputReceived(output);
-    };
-    
-    m_installer->onInteraction = [this](const QString& question) {
-        onInteractionRequired(question);
-    };
+    });
 
-    m_installer->onFinished = [this](int exitCode) {
+    m_installer->set_interaction_handler([this](const QString& question) {
+        onInteractionRequired(question);
+    });
+
+    m_installer->set_finished_handler([this](int exitCode) {
         m_log += "\n--- Processo finalizado com código: " + QString::number(exitCode) + " ---\n";
         emit logOutputChanged();
-    };
+    });
 }
 
 void InstallationViewModel::startInstallation(const QString& name, int providerType) {

@@ -1,24 +1,10 @@
 #include "installer_adapter.h"
-#include "interactive_process_runner.h"
+#include <QFile>
 
 namespace my_comp::infrastructure::collectors {
 
 InstallerAdapter::InstallerAdapter(std::shared_ptr<domain::interfaces::IInteractiveRunner> runner)
-    : m_runner(std::move(runner)) {
-    
-    auto interactive_runner = dynamic_cast<InteractiveProcessRunner*>(m_runner.get());
-    if (interactive_runner) {
-        connect(interactive_runner, &InteractiveProcessRunner::outputReceived, this, [this](const QString& output){
-            if (onOutput) onOutput(output);
-        });
-        connect(interactive_runner, &InteractiveProcessRunner::interactionRequired, this, [this](const QString& question){
-            if (onInteraction) onInteraction(question);
-        });
-        connect(interactive_runner, &InteractiveProcessRunner::finished, this, [this](int exitCode){
-            if (onFinished) onFinished(exitCode);
-        });
-    }
-}
+    : m_runner(std::move(runner)) {}
 
 void InstallerAdapter::install(const domain::models::UpdatePackage& package) {
     QString cmd;
@@ -59,8 +45,22 @@ void InstallerAdapter::install(const domain::models::UpdatePackage& package) {
 }
 
 void InstallerAdapter::upgradeAll() {
-    QString cmd = "sudo";
-    QStringList args = {"dnf", "upgrade", "-y"};
+    QString cmd;
+    QStringList args;
+
+    if (QFile::exists("/usr/bin/dnf")) {
+        cmd = "sudo";
+        args = {"dnf", "upgrade", "-y"};
+    } else if (QFile::exists("/usr/bin/apt")) {
+        cmd = "sudo";
+        args = {"apt", "upgrade", "-y"};
+    } else if (QFile::exists("/usr/bin/pacman")) {
+        cmd = "sudo";
+        args = {"pacman", "-Syu", "--noconfirm"};
+    } else {
+        return;
+    }
+
     m_runner->start(cmd, args);
 }
 

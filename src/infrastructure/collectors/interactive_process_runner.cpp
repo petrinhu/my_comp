@@ -7,16 +7,15 @@ InteractiveProcessRunner::InteractiveProcessRunner() {
     connect(&m_process, &QProcess::readyReadStandardOutput, [this]() {
         QByteArray data = m_process.readAllStandardOutput();
         QString output = QString::fromUtf8(data);
-        emit outputReceived(output);
-        
-        // Detecta padrão de confirmação (y/n)
+        if (m_on_output) m_on_output(output);
+
         if (output.contains(QRegularExpression("\\[y/n\\]", QRegularExpression::CaseInsensitiveOption))) {
-            emit interactionRequired(output);
+            if (m_on_interaction) m_on_interaction(output);
         }
     });
 
     connect(&m_process, &QProcess::finished, this, [this](int exitCode) {
-        emit finished(exitCode);
+        if (m_on_finished) m_on_finished(exitCode);
     });
 }
 

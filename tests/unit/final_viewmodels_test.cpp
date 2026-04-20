@@ -41,6 +41,9 @@ public:
     MOCK_METHOD(void, install, (const my_comp::domain::models::UpdatePackage&), (override));
     MOCK_METHOD(void, upgradeAll, (), (override));
     MOCK_METHOD(void, sendResponse, (const QString&), (override));
+    void set_output_handler(std::function<void(const QString&)>) override {}
+    void set_interaction_handler(std::function<void(const QString&)>) override {}
+    void set_finished_handler(std::function<void(int)>) override {}
 };
 
 // --- Tests ---

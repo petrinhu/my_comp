@@ -3,6 +3,7 @@
 #include "../../domain/interfaces/i_interactive_runner.h"
 #include <QObject>
 #include <QProcess>
+#include <functional>
 
 namespace my_comp::infrastructure::collectors {
 
@@ -13,13 +14,15 @@ public:
     void start(const QString& cmd, const QStringList& args) override;
     void sendResponse(const QString& response) override;
 
-signals:
-    void outputReceived(const QString& output);
-    void interactionRequired(const QString& question);
-    void finished(int exitCode);
+    void set_output_handler(std::function<void(const QString&)> handler) override { m_on_output = std::move(handler); }
+    void set_interaction_handler(std::function<void(const QString&)> handler) override { m_on_interaction = std::move(handler); }
+    void set_finished_handler(std::function<void(int)> handler) override { m_on_finished = std::move(handler); }
 
 private:
     QProcess m_process;
+    std::function<void(const QString&)> m_on_output;
+    std::function<void(const QString&)> m_on_interaction;
+    std::function<void(int)> m_on_finished;
 };
 
 } // namespace my_comp::infrastructure::collectors
