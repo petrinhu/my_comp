@@ -8,10 +8,7 @@
 
 namespace my_comp::infrastructure::collectors {
 
-using namespace my_comp::domain::interfaces;
-using namespace my_comp::domain::models;
-
-class FlatpakUpdateProvider : public IUpdateProvider {
+class FlatpakUpdateProvider : public domain::interfaces::IUpdateProvider {
 public:
     explicit FlatpakUpdateProvider(std::shared_ptr<IShellExecutor> shell) : shell_(std::move(shell)) {}
 
@@ -23,21 +20,21 @@ public:
         return !output.isEmpty();
     }
 
-    [[nodiscard]] std::vector<UpdatePackage> check_updates() override {
+    [[nodiscard]] std::vector<domain::models::UpdatePackage> check_updates() override {
         QString output;
-        std::vector<UpdatePackage> updates;
-        
+        std::vector<domain::models::UpdatePackage> updates;
+
         if (shell_->execute("flatpak", {"remote-ls", "--updates", "--columns=name,version,application"}, output) == 0) {
             auto lines = output.split('\n', Qt::SkipEmptyParts);
             for (const auto& line : lines) {
                 auto parts = line.split('\t', Qt::SkipEmptyParts);
                 if (parts.size() >= 3) {
-                    UpdatePackage pkg;
+                    domain::models::UpdatePackage pkg;
                     pkg.name = parts[0].trimmed();
                     pkg.current_version = "";
                     pkg.new_version = parts[1].trimmed();
                     pkg.source = "flatpak";
-                    pkg.provider = ProviderType::Flatpak;
+                    pkg.provider = domain::models::ProviderType::Flatpak;
                     pkg.description = parts[2].trimmed();
                     pkg.is_critical = false;
                     updates.push_back(pkg);

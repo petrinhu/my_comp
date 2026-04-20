@@ -9,10 +9,7 @@
 
 namespace my_comp::infrastructure::collectors {
 
-using namespace my_comp::domain::interfaces;
-using namespace my_comp::domain::models;
-
-class DnfUpdateProvider : public IUpdateProvider {
+class DnfUpdateProvider : public domain::interfaces::IUpdateProvider {
 public:
     explicit DnfUpdateProvider(std::shared_ptr<IShellExecutor> shell) : shell_(std::move(shell)) {}
 
@@ -24,21 +21,21 @@ public:
         return !output.isEmpty();
     }
 
-    [[nodiscard]] std::vector<UpdatePackage> check_updates() override {
+    [[nodiscard]] std::vector<domain::models::UpdatePackage> check_updates() override {
         QString output;
-        std::vector<UpdatePackage> updates;
-        
+        std::vector<domain::models::UpdatePackage> updates;
+
         if (shell_->execute("dnf", {"check-update", "--quiet"}, output) == 100) {
             auto lines = output.split('\n', Qt::SkipEmptyParts);
             for (const auto& line : lines) {
                 auto parts = line.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
                 if (parts.size() >= 3) {
-                    UpdatePackage pkg;
+                    domain::models::UpdatePackage pkg;
                     pkg.name = parts[0];
                     pkg.current_version = "";
                     pkg.new_version = parts[1];
                     pkg.source = "dnf";
-                    pkg.provider = ProviderType::Dnf;
+                    pkg.provider = domain::models::ProviderType::Dnf;
                     pkg.description = parts[2];
                     pkg.is_critical = parts[0].contains("kernel");
                     updates.push_back(pkg);

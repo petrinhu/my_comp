@@ -10,10 +10,7 @@
 
 namespace my_comp::infrastructure::collectors {
 
-using namespace my_comp::domain::interfaces;
-using namespace my_comp::domain::models;
-
-class NpmUpdateProvider : public IUpdateProvider {
+class NpmUpdateProvider : public domain::interfaces::IUpdateProvider {
 public:
     explicit NpmUpdateProvider(std::shared_ptr<IShellExecutor> shell) : shell_(std::move(shell)) {}
 
@@ -25,13 +22,13 @@ public:
         return !output.isEmpty();
     }
 
-    [[nodiscard]] std::vector<UpdatePackage> check_updates() override {
+    [[nodiscard]] std::vector<domain::models::UpdatePackage> check_updates() override {
         QString output;
-        std::vector<UpdatePackage> updates;
-        
-        // npm outdated -g --json returns exit code 1 if updates found
+        std::vector<domain::models::UpdatePackage> updates;
+
+        // npm outdated -g --json retorna exit code 1 quando há updates
         shell_->execute("npm", {"outdated", "-g", "--json"}, output);
-        
+
         QJsonDocument doc = QJsonDocument::fromJson(output.toUtf8());
         if (!doc.isObject()) return updates;
 
@@ -39,13 +36,13 @@ public:
         for (auto it = obj.begin(); it != obj.end(); ++it) {
             QString name = it.key();
             QJsonObject pkg = it.value().toObject();
-            
-            UpdatePackage upkg;
+
+            domain::models::UpdatePackage upkg;
             upkg.name = name;
             upkg.current_version = pkg["current"].isString() ? pkg["current"].toString() : "";
             upkg.new_version = pkg["latest"].isString() ? pkg["latest"].toString() : "";
             upkg.source = "npm";
-            upkg.provider = ProviderType::Npm;
+            upkg.provider = domain::models::ProviderType::Npm;
             upkg.description = "Global node package";
             upkg.is_critical = false;
             updates.push_back(upkg);

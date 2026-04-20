@@ -9,6 +9,8 @@
 #include <QTimer>
 #include <memory>
 
+using namespace Qt::StringLiterals;
+
 #include "domain/update_manager.h"
 #include "domain/diagnostic_manager.h"
 #include "infrastructure/collectors/qprocess_shell_executor.h"
@@ -148,7 +150,7 @@ int main(int argc, char *argv[])
     ctx->setContextProperty("storageViewModel", storage_vm.get());
     ctx->setContextProperty("networkViewModel", network_vm.get());
 
-    const QUrl url(u"qrc:/Main.qml"_qs);
+    const QUrl url(u"qrc:/Main.qml"_s);
     engine.load(url);
 
     try {
