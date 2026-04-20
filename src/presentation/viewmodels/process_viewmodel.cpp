@@ -56,8 +56,8 @@ void ProcessViewModel::refresh() {
     (void)QtConcurrent::run([this, sortField, sortAscending, filter]() {
         auto raw_data = m_provider->collect_processes();
         
-        // Ordenação na thread separada
-        std::sort(raw_data.begin(), raw_data.end(), [sortField, sortAscending](const auto& a, const auto& b) {
+        // Ordenação estável na thread separada (mantém ordem relativa em empates — evita pulos visuais no refresh de 2s)
+        std::stable_sort(raw_data.begin(), raw_data.end(), [sortField, sortAscending](const auto& a, const auto& b) {
             if (sortField == "cpu") {
                 return sortAscending ? (a.cpuPercent < b.cpuPercent) : (a.cpuPercent > b.cpuPercent);
             } else if (sortField == "mem") {
@@ -116,7 +116,7 @@ void ProcessViewModel::setPriority(int pid, int nice) {
 
 void ProcessViewModel::sortData() {
     std::lock_guard<std::mutex> lock(m_dataMutex);
-    std::sort(m_data.begin(), m_data.end(), [this](const auto& a, const auto& b) {
+    std::stable_sort(m_data.begin(), m_data.end(), [this](const auto& a, const auto& b) {
         if (m_sortField == "cpu") {
             return m_sortAscending ? (a.cpuPercent < b.cpuPercent) : (a.cpuPercent > b.cpuPercent);
         } else if (m_sortField == "mem") {

@@ -263,6 +263,7 @@ Window {
 
             // ABA 0 - Dashboard
             ScrollView {
+                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
                 ColumnLayout {
                     width: parent.width
                     anchors.margins: 25; spacing: 25
@@ -383,15 +384,40 @@ Window {
                             ColumnLayout {
                                 anchors.fill: parent; spacing: 0
                                 
-                                // Header manual simplificado
+                                // Header clicável para ordenação (dispara processViewModel.setSortField)
                                 RowLayout {
                                     Layout.fillWidth: true; height: 30
                                     Rectangle { Layout.fillWidth: true; Layout.fillHeight: true; color: root.isDark ? "#2a2e32" : "#f5f5f5"; border.color: root.borderColor
-                                        RowLayout { anchors.fill: parent; anchors.leftMargin: 10; anchors.rightMargin: 10
-                                            Text { text: "PID"; font.bold: true; Layout.preferredWidth: 60; color: root.textColor }
-                                            Text { text: "USER"; font.bold: true; Layout.preferredWidth: 100; color: root.textColor }
-                                            Text { text: "CPU%"; font.bold: true; Layout.preferredWidth: 60; color: root.textColor }
-                                            Text { text: "MEM%"; font.bold: true; Layout.preferredWidth: 60; color: root.textColor }
+                                        function applySort(field) {
+                                            if (processViewModel.sortField === field) {
+                                                processViewModel.sortAscending = !processViewModel.sortAscending
+                                            } else {
+                                                processViewModel.sortField = field
+                                                processViewModel.sortAscending = false
+                                            }
+                                            processViewModel.refresh()
+                                        }
+                                        function arrow(field) {
+                                            return processViewModel.sortField === field
+                                                ? (processViewModel.sortAscending ? " ▲" : " ▼") : ""
+                                        }
+                                        RowLayout { anchors.fill: parent; anchors.leftMargin: 10; anchors.rightMargin: 10; spacing: 0
+                                            Item { Layout.preferredWidth: 60; Layout.fillHeight: true
+                                                Text { anchors.verticalCenter: parent.verticalCenter; text: "PID" + arrow("pid"); font.bold: true; color: root.textColor }
+                                                MouseArea { anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: applySort("pid") }
+                                            }
+                                            Item { Layout.preferredWidth: 100; Layout.fillHeight: true
+                                                Text { anchors.verticalCenter: parent.verticalCenter; text: "USER" + arrow("user"); font.bold: true; color: root.textColor }
+                                                MouseArea { anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: applySort("user") }
+                                            }
+                                            Item { Layout.preferredWidth: 60; Layout.fillHeight: true
+                                                Text { anchors.verticalCenter: parent.verticalCenter; text: "CPU%" + arrow("cpu"); font.bold: true; color: root.textColor }
+                                                MouseArea { anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: applySort("cpu") }
+                                            }
+                                            Item { Layout.preferredWidth: 60; Layout.fillHeight: true
+                                                Text { anchors.verticalCenter: parent.verticalCenter; text: "MEM%" + arrow("mem"); font.bold: true; color: root.textColor }
+                                                MouseArea { anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: applySort("mem") }
+                                            }
                                             Text { text: "STATE"; font.bold: true; Layout.preferredWidth: 50; color: root.textColor }
                                             Text { text: "COMMAND"; font.bold: true; Layout.fillWidth: true; color: root.textColor }
                                         }
@@ -401,6 +427,7 @@ Window {
                                 ScrollView {
                                     Layout.fillWidth: true; Layout.fillHeight: true; clip: true
                                     ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+                                    ScrollBar.horizontal: ScrollBar { policy: ScrollBar.AsNeeded }
 
                                     ListView {
                                         id: processList
@@ -448,6 +475,8 @@ Window {
                     Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
                     ScrollView {
                         anchors.fill: parent; anchors.margins: 10; clip: true
+                        ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+                        ScrollBar.horizontal: ScrollBar { policy: ScrollBar.AsNeeded }
                         ListView {
                             model: updateViewModel.updateModel
                             delegate: ItemDelegate {
@@ -475,6 +504,7 @@ Window {
                     Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
                     ScrollView {
                         anchors.fill: parent; anchors.margins: 10; clip: true
+                        ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
                         ListView {
                             model: diagnosticViewModel.logModel
                             delegate: ItemDelegate {
@@ -500,6 +530,7 @@ Window {
                     Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
                     ScrollView {
                         anchors.fill: parent; anchors.margins: 10; clip: true
+                        ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
                         ListView {
                             id: serviceList
                             model: serviceViewModel.services
@@ -540,6 +571,7 @@ Window {
 
                 ScrollView {
                     Layout.fillWidth: true; Layout.fillHeight: true; clip: true
+                    ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
                     ColumnLayout {
                         width: parent.width; spacing: 20
 
@@ -666,9 +698,10 @@ Window {
                 
                 ScrollView {
                     Layout.fillWidth: true; Layout.fillHeight: true; clip: true
+                    ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
                     ColumnLayout {
                         width: parent.width; spacing: 20
-                        
+
                         Text { text: "🛠️ COMPILADORES & RUNTIMES"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
                         Rectangle {
                             Layout.fillWidth: true; height: 200; color: root.cardColor; radius: 8; border.color: root.borderColor
@@ -717,6 +750,7 @@ Window {
                     Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
                     ScrollView {
                         anchors.fill: parent; anchors.margins: 10; clip: true
+                        ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
                         ListView {
                             model: userMetadataViewModel.loginHistory
                             delegate: Text { text: modelData; color: root.textColor; font.family: "Monospace"; font.pixelSize: 10 }

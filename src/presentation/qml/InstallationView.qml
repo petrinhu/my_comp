@@ -36,6 +36,7 @@ ColumnLayout {
         radius: 4
         ScrollView {
             anchors.fill: parent
+            ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
             TextArea {
                 id: logArea
                 text: installationViewModel.logOutput
