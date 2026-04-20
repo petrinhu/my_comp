@@ -2,11 +2,11 @@
 #include <gmock/gmock.h>
 #include <vector>
 #include <memory>
-#include "../../src/domain/update_manager.h"
+#include "../../src/application/update_manager.h"
 #include "../../src/domain/interfaces/i_update_provider.h"
 #include "../../src/domain/models/update_package.h"
 
-using namespace my_comp::domain;
+using namespace my_comp::application;
 using namespace my_comp::domain::interfaces;
 using namespace my_comp::domain::models;
 using namespace testing;

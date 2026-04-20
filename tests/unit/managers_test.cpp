@@ -1,11 +1,11 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
-#include "../../src/domain/update_manager.h"
-#include "../../src/domain/diagnostic_manager.h"
+#include "../../src/application/update_manager.h"
+#include "../../src/application/diagnostic_manager.h"
 #include "../../src/domain/interfaces/i_update_provider.h"
 #include "../../src/domain/interfaces/i_diagnostic_provider.h"
 
-using namespace my_comp::domain;
+using namespace my_comp::application;
 using namespace my_comp::domain::interfaces;
 using namespace my_comp::domain::models;
 using namespace testing;

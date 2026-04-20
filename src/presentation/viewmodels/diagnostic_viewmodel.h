@@ -6,7 +6,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <memory>
-#include "../../domain/diagnostic_manager.h"
+#include "../../application/diagnostic_manager.h"
 #include "log_entry_model.h"
 
 namespace my_comp::presentation::viewmodels {
@@ -23,7 +23,7 @@ class DiagnosticViewModel : public QObject {
     Q_PROPERTY(QString searchEngineUrl READ searchEngineUrl WRITE setSearchEngineUrl NOTIFY searchEngineUrlChanged)
 
 public:
-    explicit DiagnosticViewModel(std::shared_ptr<my_comp::domain::DiagnosticManager> manager, QObject* parent = nullptr);
+    explicit DiagnosticViewModel(std::shared_ptr<my_comp::application::DiagnosticManager> manager, QObject* parent = nullptr);
 
     [[nodiscard]] LogEntryModel* logModel() const { return model_; }
     [[nodiscard]] bool isBusy() const { return is_busy_; }
@@ -60,7 +60,7 @@ signals:
 
 private:
     void applySortAndPush();
-    std::shared_ptr<my_comp::domain::DiagnosticManager> manager_;
+    std::shared_ptr<my_comp::application::DiagnosticManager> manager_;
     LogEntryModel* model_;
     std::vector<my_comp::domain::models::LogEntry> data_;
     bool is_busy_{false};

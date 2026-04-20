@@ -4,14 +4,14 @@
 #include <vector>
 #include <memory>
 #include <QString>
-#include "interfaces/i_diagnostic_provider.h"
-#include "models/log_entry.h"
+#include "../domain/interfaces/i_diagnostic_provider.h"
+#include "../domain/models/log_entry.h"
 
-namespace my_comp::domain {
+namespace my_comp::application {
 
-using IDiagnosticProvider = interfaces::IDiagnosticProvider;
-using LogEntry = models::LogEntry;
-using DiagnosticFilter = interfaces::DiagnosticFilter;
+using IDiagnosticProvider = domain::interfaces::IDiagnosticProvider;
+using LogEntry = domain::models::LogEntry;
+using DiagnosticFilter = domain::interfaces::DiagnosticFilter;
 
 class DiagnosticManager {
 public:
@@ -37,6 +37,6 @@ private:
     std::vector<std::unique_ptr<IDiagnosticProvider>> providers_;
 };
 
-} // namespace my_comp::domain
+} // namespace my_comp::application
 
 #endif // DIAGNOSTIC_MANAGER_H

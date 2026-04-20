@@ -6,7 +6,7 @@
 #include <QtConcurrent>
 #include <algorithm>
 #include <memory>
-#include "../../domain/update_manager.h"
+#include "../../application/update_manager.h"
 #include "update_package_model.h"
 
 namespace my_comp::presentation::viewmodels {
@@ -20,7 +20,7 @@ class UpdateViewModel : public QObject {
     Q_PROPERTY(bool sortAscending READ sortAscending WRITE setSortAscending NOTIFY sortAscendingChanged)
 
 public:
-    explicit UpdateViewModel(std::shared_ptr<my_comp::domain::UpdateManager> manager, QObject* parent = nullptr)
+    explicit UpdateViewModel(std::shared_ptr<my_comp::application::UpdateManager> manager, QObject* parent = nullptr)
         : QObject(parent), manager_(std::move(manager)), model_(new UpdatePackageModel(this)) {
         qDebug() << "[UpdateVM] Initialized.";
     }
@@ -87,7 +87,7 @@ private:
         emit updatesChanged();
     }
 
-    std::shared_ptr<my_comp::domain::UpdateManager> manager_;
+    std::shared_ptr<my_comp::application::UpdateManager> manager_;
     UpdatePackageModel* model_;
     std::vector<my_comp::domain::models::UpdatePackage> data_;
     bool is_busy_{false};

@@ -11,8 +11,8 @@
 
 using namespace Qt::StringLiterals;
 
-#include "domain/update_manager.h"
-#include "domain/diagnostic_manager.h"
+#include "application/update_manager.h"
+#include "application/diagnostic_manager.h"
 #include "infrastructure/collectors/qprocess_shell_executor.h"
 #include "infrastructure/collectors/dnf_update_provider.h"
 #include "infrastructure/collectors/flatpak_update_provider.h"
@@ -84,8 +84,8 @@ int main(int argc, char *argv[])
     auto audio_provider = std::make_shared<my_comp::infrastructure::audio::QtAudioProvider>();
 
     // 2. Domínio
-    auto update_manager = std::make_shared<my_comp::domain::UpdateManager>();
-    auto diagnostic_manager = std::make_shared<my_comp::domain::DiagnosticManager>();
+    auto update_manager = std::make_shared<my_comp::application::UpdateManager>();
+    auto diagnostic_manager = std::make_shared<my_comp::application::DiagnosticManager>();
     update_manager->set_installer(installer_adapter);
 
     if (QFile::exists("/usr/bin/dnf")) update_manager->register_provider(std::make_unique<my_comp::infrastructure::collectors::DnfUpdateProvider>(shell));

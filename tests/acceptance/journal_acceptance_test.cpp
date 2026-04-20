@@ -4,12 +4,13 @@
 #include <memory>
 #include "../../src/domain/interfaces/i_diagnostic_provider.h"
 #include "../../src/domain/models/log_entry.h"
-#include "../../src/domain/diagnostic_manager.h"
+#include "../../src/application/diagnostic_manager.h"
 #include "../../src/infrastructure/collectors/journal_diagnostic_provider.h"
 #include "../../src/infrastructure/collectors/qprocess_shell_executor.h"
 
-using namespace my_comp::domain;
+using namespace my_comp::application;
 using namespace my_comp::domain::interfaces;
+using namespace my_comp::domain;
 using namespace my_comp::infrastructure::collectors;
 using namespace testing;
 

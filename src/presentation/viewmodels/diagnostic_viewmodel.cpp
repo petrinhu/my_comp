@@ -4,7 +4,7 @@
 
 namespace my_comp::presentation::viewmodels {
 
-DiagnosticViewModel::DiagnosticViewModel(std::shared_ptr<my_comp::domain::DiagnosticManager> manager, QObject* parent)
+DiagnosticViewModel::DiagnosticViewModel(std::shared_ptr<my_comp::application::DiagnosticManager> manager, QObject* parent)
     : QObject(parent), manager_(std::move(manager)), model_(new LogEntryModel(this)) {}
 
 void DiagnosticViewModel::refresh() {
@@ -18,7 +18,7 @@ void DiagnosticViewModel::refresh() {
 
     (void)QtConcurrent::run([this, filter, query, limit]() {
         auto logs = manager_->fetch_all_logs(
-            static_cast<my_comp::domain::DiagnosticFilter>(filter),
+            static_cast<my_comp::application::DiagnosticFilter>(filter),
             query,
             limit
         );

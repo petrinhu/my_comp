@@ -3,11 +3,11 @@
 #include <QtTest/QSignalSpy>
 #include <memory>
 #include <vector>
-#include "../../src/domain/update_manager.h"
+#include "../../src/application/update_manager.h"
 #include "../../src/domain/models/update_package.h"
 #include "../../src/presentation/viewmodels/update_viewmodel.h"
 
-using namespace my_comp::domain;
+using namespace my_comp::application;
 using namespace my_comp::domain::models;
 using namespace my_comp::presentation::viewmodels;
 using namespace testing;

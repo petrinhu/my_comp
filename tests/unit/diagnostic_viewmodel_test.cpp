@@ -2,10 +2,10 @@
 #include <gmock/gmock.h>
 #include <memory>
 #include "../../src/presentation/viewmodels/diagnostic_viewmodel.h"
-#include "../../src/domain/diagnostic_manager.h"
+#include "../../src/application/diagnostic_manager.h"
 
 using namespace my_comp::presentation::viewmodels;
-using namespace my_comp::domain;
+using namespace my_comp::application;
 using namespace testing;
 
 TEST(DiagnosticViewModelTest, ShouldGenerateSearchUrl) {

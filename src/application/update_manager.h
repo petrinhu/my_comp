@@ -4,11 +4,11 @@
 #include <vector>
 #include <memory>
 #include <algorithm>
-#include "interfaces/i_update_provider.h"
-#include "interfaces/i_installer.h"
-#include "models/update_package.h"
+#include "../domain/interfaces/i_update_provider.h"
+#include "../domain/interfaces/i_installer.h"
+#include "../domain/models/update_package.h"
 
-namespace my_comp::domain {
+namespace my_comp::application {
 
 using IUpdateProvider = my_comp::domain::interfaces::IUpdateProvider;
 using IInstaller = my_comp::domain::interfaces::IInstaller;
@@ -50,6 +50,6 @@ private:
     std::vector<std::unique_ptr<IUpdateProvider>> providers_;
 };
 
-} // namespace my_comp::domain
+} // namespace my_comp::application
 
 #endif // UPDATE_MANAGER_H

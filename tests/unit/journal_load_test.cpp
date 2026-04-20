@@ -1,11 +1,12 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include "../../src/presentation/viewmodels/diagnostic_viewmodel.h"
-#include "../../src/domain/diagnostic_manager.h"
+#include "../../src/application/diagnostic_manager.h"
 #include <chrono>
 
 using namespace my_comp::presentation::viewmodels;
-using namespace my_comp::domain;
+using namespace my_comp::application;
+using my_comp::domain::models::LogEntry;
 using namespace testing;
 
 class JournalLoadTest : public ::testing::Test {
@@ -17,12 +18,12 @@ protected:
 TEST_F(JournalLoadTest, HandleLargeVolumeOfLogs) {
     auto start = std::chrono::high_resolution_clock::now();
     
-    std::vector<models::LogEntry> logs;
+    std::vector<LogEntry> logs;
     logs.reserve(10000);
 
     // Gerar 10.000 logs
     for (int i = 0; i < 10000; ++i) {
-        models::LogEntry log;
+        LogEntry log;
         log.message = QString("Mensagem de log de estresse número %1").arg(i);
         log.source = "STRESS_TEST";
         log.priority = 3;
