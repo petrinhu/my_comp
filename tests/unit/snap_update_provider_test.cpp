@@ -28,6 +28,9 @@ TEST(SnapUpdateProviderTest, ShouldIdentifyUpdatesFromSnapOutput) {
 
     EXPECT_CALL(*shell, execute(QString("snap"), QStringList({"refresh", "--list"}), _))
         .WillOnce(DoAll(SetArgReferee<2>(mock_output), Return(0)));
+    // IN-07a: segunda chamada `snap list` para enrich_current_versions.
+    EXPECT_CALL(*shell, execute(QString("snap"), QStringList({"list"}), _))
+        .WillRepeatedly(Return(0));
 
     SnapUpdateProvider provider(shell);
     auto updates = provider.check_updates();

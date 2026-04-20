@@ -11,9 +11,10 @@ struct UpdatePackage {
     QString name;
     QString current_version;
     QString new_version;
-    QString source;      // Mantido para compatibilidade
-    ProviderType provider; // Novo campo para lógica hexagonal
+    QString source;
+    ProviderType provider;
     QString description;
+    QString source_repo;
     bool is_critical{false};
 
     bool operator==(const UpdatePackage& other) const {

@@ -24,6 +24,9 @@ TEST(DnfUpdateProviderTest, ShouldIdentifyUpdatesFromDnfOutput) {
 
     EXPECT_CALL(*shell, execute(QString("dnf"), _, _))
         .WillOnce(DoAll(SetArgReferee<2>(mock_output), Return(100)));
+    // IN-02a: enrich_current_versions dispara uma chamada adicional ao rpm — aceita vazia.
+    EXPECT_CALL(*shell, execute(QString("rpm"), _, _))
+        .WillRepeatedly(Return(0));
 
     DnfUpdateProvider provider(shell);
     auto updates = provider.check_updates();

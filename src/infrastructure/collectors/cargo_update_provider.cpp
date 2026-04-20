@@ -36,7 +36,13 @@ std::vector<domain::models::UpdatePackage> CargoUpdateProvider::check_updates() 
 
 bool CargoUpdateProvider::is_available() const {
     QString output;
-    return m_executor->execute("cargo", {"--version"}, output) == 0;
+    // IN-08a: cargo sozinho não basta — subcomando `install-update` exige crate `cargo-update`.
+    if (m_executor->execute("cargo", {"--version"}, output) != 0) return false;
+    QString help_out;
+    m_executor->execute("cargo", {"install-update", "--help"}, help_out);
+    // Quando o subcomando existe, `--help` retorna texto de uso; quando não, cargo diz
+    // "no such command: install-update" (no stderr, já capturado pelo executor).
+    return help_out.contains("install-update") || help_out.contains("Usage");
 }
 
 } // namespace my_comp::infrastructure::collectors

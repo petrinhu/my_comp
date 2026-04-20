@@ -23,8 +23,12 @@ TEST(FlatpakUpdateProviderTest, ShouldIdentifyUpdatesFromFlatpakOutput) {
         "GNOME Application Platform\t47\torg.gnome.Platform\n"
         "Firefox\t134.0\torg.mozilla.firefox\n";
 
-    EXPECT_CALL(*shell, execute(QString("flatpak"), _, _))
+    // IN-03a: ambas as chamadas (remote-ls e list) recebem stub. A primeira match =
+    // args contém "remote-ls"; a segunda = args contém "list" (sem "--updates").
+    EXPECT_CALL(*shell, execute(QString("flatpak"), Contains(QString("remote-ls")), _))
         .WillOnce(DoAll(SetArgReferee<2>(mock_output), Return(0)));
+    EXPECT_CALL(*shell, execute(QString("flatpak"), Not(Contains(QString("remote-ls"))), _))
+        .WillRepeatedly(Return(0));
 
     FlatpakUpdateProvider provider(shell);
     auto updates = provider.check_updates();

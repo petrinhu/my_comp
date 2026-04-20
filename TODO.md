@@ -21,15 +21,15 @@
 | AR-08 | Architecture | Tornar `refresh()` assíncrono (`QtConcurrent::run`) em `NetworkViewModel`, `StorageViewModel`, `MemoryViewModel`, `HardwareViewModel` — hoje rodam síncronos na UI thread | Média | AR-03 | Média | ✅ Concluído | ✓ |
 | AR-09 | Architecture | Substituir `Timer(300ms)` do sequenciador QML por cadeia de signals `readyChanged`/`dataLoaded` — elimina "mágica" de 300ms e paraleliza onde possível | Baixa | AR-03 | Média | ✅ Concluído | ✓ |
 | IN-01 | Infra | Executor de shell genérico (`QProcessShellExecutor`) | Alta | — | Baixa | ✅ Concluído | ⚠ |
-| IN-01a | Infra | Capturar `stderr` em `QProcessShellExecutor::execute` (hoje só captura stdout; erros do subprocesso ficam silenciosos) | Média | IN-01 | Baixa | ⏳ Pendente | — |
-| IN-01b | Infra | Controlar `QProcessEnvironment` explícito (hoje herda env do pai, risco baixo mas vale anotar) | Baixa | IN-01 | Baixa | ⏳ Pendente | — |
+| IN-01a | Infra | Capturar `stderr` em `QProcessShellExecutor::execute` (hoje só captura stdout; erros do subprocesso ficam silenciosos) | Média | IN-01 | Baixa | ✅ Concluído | ✓ |
+| IN-01b | Infra | Controlar `QProcessEnvironment` explícito (hoje herda env do pai, risco baixo mas vale anotar) | Baixa | IN-01 | Baixa | ✅ Concluído | ✓ |
 | IN-02 | Infra | Provedor DNF (`DnfUpdateProvider`) | Alta | IN-01 | Média | ✅ Concluído | ⚠ |
-| IN-02a | Infra | `DnfUpdateProvider`: `current_version` nunca preenchido — consultar `rpm -q <pkg>` para enriquecer cada `UpdatePackage` | Média | IN-02 | Média | ⏳ Pendente | — |
-| IN-02b | Infra | `DnfUpdateProvider`: `description` recebe nome do repositório (`updates`/`fedora`), não descrição real — renomear campo para `source_repo` ou buscar descrição via `dnf info` | Média | IN-02 | Baixa | ⏳ Pendente | — |
+| IN-02a | Infra | `DnfUpdateProvider`: `current_version` nunca preenchido — consultar `rpm -q <pkg>` para enriquecer cada `UpdatePackage` | Média | IN-02 | Média | ✅ Concluído | ✓ |
+| IN-02b | Infra | `DnfUpdateProvider`: `description` recebe nome do repositório (`updates`/`fedora`), não descrição real — renomear campo para `source_repo` ou buscar descrição via `dnf info` | Média | IN-02 | Baixa | ✅ Concluído | ✓ |
 | IN-02c | Infra | `DnfUpdateProvider`: ampliar testes (DNF indisponível, output vazio, `is_available()`, heurística `is_critical`) | Média | IN-02 | Baixa | ⏳ Pendente | — |
 | IN-03 | Infra | Provedor Flatpak | Média | IN-01 | Média | ✅ Concluído | ⚠ |
-| IN-03a | Infra | `FlatpakUpdateProvider`: `current_version` vazio — enriquecer com `flatpak list --app --columns=application,version` | Média | IN-03 | Média | ⏳ Pendente | — |
-| IN-03b | Infra | `FlatpakUpdateProvider`: `description` recebe `application_id` (`org.gnome.Platform`), não descrição — renomear campo ou buscar via `flatpak info` | Média | IN-03 | Baixa | ⏳ Pendente | — |
+| IN-03a | Infra | `FlatpakUpdateProvider`: `current_version` vazio — enriquecer com `flatpak list --app --columns=application,version` | Média | IN-03 | Média | ✅ Concluído | ✓ |
+| IN-03b | Infra | `FlatpakUpdateProvider`: `description` recebe `application_id` (`org.gnome.Platform`), não descrição — renomear campo ou buscar via `flatpak info` | Média | IN-03 | Baixa | ✅ Concluído | ✓ |
 | IN-03c | Infra | `FlatpakUpdateProvider`: ampliar testes (Flatpak indisponível, output vazio, `is_available()`, linha malformada) | Média | IN-03 | Baixa | ⏳ Pendente | — |
 | IN-04 | Infra | Provedor NPM | Média | IN-01 | Média | ✅ Concluído | ⚠ |
 | IN-04a | Infra | `NpmUpdateProvider`: ampliar testes (npm indisponível, JSON malformado, objeto vazio, `is_available()`) | Baixa | IN-04 | Baixa | ⏳ Pendente | — |
@@ -37,10 +37,10 @@
 | IN-06 | Infra | Provedor Pacman (Arch) | Média | IN-01 | Média | ✅ Concluído | ⚠ |
 | IN-06a | Infra | `PacmanUpdateProvider`: ampliar testes (pacman indisponível, output vazio, `is_available()`) | Baixa | IN-06 | Baixa | ⏳ Pendente | — |
 | IN-07 | Infra | Provedor Snap | Baixa | IN-01 | Média | ✅ Concluído | ⚠ |
-| IN-07a | Infra | `SnapUpdateProvider`: `current_version` vazio — consultar `snap list` cruzado para enriquecer | Média | IN-07 | Média | ⏳ Pendente | — |
+| IN-07a | Infra | `SnapUpdateProvider`: `current_version` vazio — consultar `snap list` cruzado para enriquecer | Média | IN-07 | Média | ✅ Concluído | ✓ |
 | IN-07b | Infra | `SnapUpdateProvider`: ampliar testes (snap indisponível, output sem cabeçalho, `is_available()`) | Baixa | IN-07 | Baixa | ⏳ Pendente | — |
 | IN-08 | Infra | Provedor Cargo (Rust) | Baixa | IN-01 | Média | ✅ Concluído | ⚠ |
-| IN-08a | Infra | `CargoUpdateProvider`: falha silenciosa quando crate `cargo-update` não instalada — detectar ausência e expor mensagem clara ao usuário | Baixa | IN-08 | Baixa | ⏳ Pendente | — |
+| IN-08a | Infra | `CargoUpdateProvider`: falha silenciosa quando crate `cargo-update` não instalada — detectar ausência e expor mensagem clara ao usuário | Baixa | IN-08 | Baixa | ✅ Concluído | ✓ |
 | IN-08b | Infra | `CargoUpdateProvider`: ampliar testes (crate ausente, output vazio, `is_available()`) | Baixa | IN-08 | Baixa | ⏳ Pendente | — |
 | PR-01 | Presentation | `CpuViewModel` (load total + por core + temperatura) | Alta | AR-01 | Média | ✅ Concluído | ⚠ |
 | PR-02 | Presentation | `MemoryViewModel` (uso, cache, swap) | Alta | AR-01 | Média | ✅ Concluído | ⚠ |
