@@ -54,6 +54,9 @@ private:
     QTimer* m_refreshTimer = nullptr;
 
     void sortData();
+    // Reconstrói m_processedList a partir de m_data aplicando filtro e sort correntes.
+    // Assume mutex já travado.
+    void rebuildProcessedListLocked();
 };
 
 }

@@ -52,16 +52,20 @@ TEST(ProcessViewModelTest, ShouldFilterAndSort) {
     auto provider = std::make_shared<MockProcessProvider>();
     ProcessInfo p1; p1.pid = 1; p1.command = "bash"; p1.cpuPercent = 10.0;
     ProcessInfo p2; p2.pid = 2; p2.command = "top"; p2.cpuPercent = 5.0;
-    
-    // Forçar WillRepeatedly para garantir que sempre tenha dados durante o ciclo do timer/refresh
+
     EXPECT_CALL(*provider, collect_processes()).WillRepeatedly(Return(std::vector<ProcessInfo>{p1, p2}));
-    
+
     ProcessViewModel vm(provider);
+
+    // refresh() roda em QtConcurrent + QueuedConnection — aguardar via signal
+    QSignalSpy spy(&vm, &ProcessViewModel::processesChanged);
     vm.refresh();
-    
+    ASSERT_TRUE(spy.wait(2000));
+
     auto list = vm.processes();
     EXPECT_GT(list.size(), 0);
-    
+
+    // setFilter agora rebuilda a lista a partir do m_data cacheado (sem novo refresh)
     vm.setFilter(QStringLiteral("top"));
     EXPECT_EQ(vm.processes().size(), 1);
 }

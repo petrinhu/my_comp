@@ -67,15 +67,19 @@ TEST(FirmwareViewModelTest, ShouldRefreshData) {
     EXPECT_EQ(vm.updateCount(), 1);
 }
 
-TEST(SystemInfoViewModelTest, ShouldLoadDataInConstructor) {
+TEST(SystemInfoViewModelTest, ShouldLoadDataAfterRefresh) {
     auto provider = std::make_shared<MockSystemInfoProvider>();
     SystemInfo info;
     info.distroName = "Fedora";
     info.kernelVersion = "6.12";
-    
+
     EXPECT_CALL(*provider, get_system_info()).WillRepeatedly(Return(info));
-    
+
+    // Ctor não faz I/O por política (CLAUDE.md §4). Dados só chegam após refresh().
     SystemInfoViewModel vm(provider);
+    EXPECT_TRUE(vm.distro().isEmpty());
+
+    vm.refresh();
     EXPECT_TRUE(vm.distro().startsWith("Fedora"));
     EXPECT_EQ(vm.kernel(), "6.12");
 }

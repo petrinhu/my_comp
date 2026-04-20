@@ -19,6 +19,10 @@ QVariantList ProcessViewModel::processes() const {
 void ProcessViewModel::setFilter(const QString& f) {
     if (m_filter != f) {
         m_filter = f;
+        {
+            std::lock_guard<std::mutex> lock(m_dataMutex);
+            rebuildProcessedListLocked();
+        }
         emit filterChanged();
         emit processesChanged();
     }
@@ -27,7 +31,17 @@ void ProcessViewModel::setFilter(const QString& f) {
 void ProcessViewModel::setSortField(const QString& field) {
     if (m_sortField != field) {
         m_sortField = field;
-        sortData();
+        {
+            std::lock_guard<std::mutex> lock(m_dataMutex);
+            std::stable_sort(m_data.begin(), m_data.end(), [this](const auto& a, const auto& b) {
+                if (m_sortField == "cpu")  return m_sortAscending ? (a.cpuPercent < b.cpuPercent) : (a.cpuPercent > b.cpuPercent);
+                if (m_sortField == "mem")  return m_sortAscending ? (a.memPercent < b.memPercent) : (a.memPercent > b.memPercent);
+                if (m_sortField == "pid")  return m_sortAscending ? (a.pid < b.pid) : (a.pid > b.pid);
+                if (m_sortField == "user") return m_sortAscending ? (a.user < b.user) : (a.user > b.user);
+                return m_sortAscending ? (a.cpuPercent < b.cpuPercent) : (a.cpuPercent > b.cpuPercent);
+            });
+            rebuildProcessedListLocked();
+        }
         emit sortFieldChanged();
         emit processesChanged();
     }
@@ -36,10 +50,42 @@ void ProcessViewModel::setSortField(const QString& field) {
 void ProcessViewModel::setSortAscending(bool asc) {
     if (m_sortAscending != asc) {
         m_sortAscending = asc;
-        sortData();
+        {
+            std::lock_guard<std::mutex> lock(m_dataMutex);
+            std::stable_sort(m_data.begin(), m_data.end(), [this](const auto& a, const auto& b) {
+                if (m_sortField == "cpu")  return m_sortAscending ? (a.cpuPercent < b.cpuPercent) : (a.cpuPercent > b.cpuPercent);
+                if (m_sortField == "mem")  return m_sortAscending ? (a.memPercent < b.memPercent) : (a.memPercent > b.memPercent);
+                if (m_sortField == "pid")  return m_sortAscending ? (a.pid < b.pid) : (a.pid > b.pid);
+                if (m_sortField == "user") return m_sortAscending ? (a.user < b.user) : (a.user > b.user);
+                return m_sortAscending ? (a.cpuPercent < b.cpuPercent) : (a.cpuPercent > b.cpuPercent);
+            });
+            rebuildProcessedListLocked();
+        }
         emit sortAscendingChanged();
         emit processesChanged();
     }
+}
+
+void ProcessViewModel::rebuildProcessedListLocked() {
+    QVariantList newList;
+    newList.reserve(static_cast<int>(m_data.size()));
+    for (const auto& p : m_data) {
+        if (!m_filter.isEmpty() && !p.command.contains(m_filter, Qt::CaseInsensitive))
+            continue;
+        QVariantMap map;
+        map["pid"] = p.pid;
+        map["user"] = p.user;
+        map["priority"] = p.priority;
+        map["virt"] = static_cast<double>(p.virt);
+        map["res"] = static_cast<double>(p.res);
+        map["state"] = (p.state == domain::models::ProcessState::Running) ? "R" : "S";
+        map["cpu"] = p.cpuPercent;
+        map["mem"] = p.memPercent;
+        map["time"] = p.timeStr;
+        map["command"] = p.command;
+        newList.append(map);
+    }
+    m_processedList = std::move(newList);
 }
 
 void ProcessViewModel::refresh() {
@@ -53,48 +99,23 @@ void ProcessViewModel::refresh() {
     bool sortAscending = m_sortAscending;
     QString filter = m_filter;
 
-    (void)QtConcurrent::run([this, sortField, sortAscending, filter]() {
+    (void)QtConcurrent::run([this, sortField, sortAscending]() {
         auto raw_data = m_provider->collect_processes();
-        
-        // Ordenação estável na thread separada (mantém ordem relativa em empates — evita pulos visuais no refresh de 2s)
+
+        // Ordenação estável na thread separada (mantém ordem relativa em empates)
         std::stable_sort(raw_data.begin(), raw_data.end(), [sortField, sortAscending](const auto& a, const auto& b) {
-            if (sortField == "cpu") {
-                return sortAscending ? (a.cpuPercent < b.cpuPercent) : (a.cpuPercent > b.cpuPercent);
-            } else if (sortField == "mem") {
-                return sortAscending ? (a.memPercent < b.memPercent) : (a.memPercent > b.memPercent);
-            } else if (sortField == "pid") {
-                return sortAscending ? (a.pid < b.pid) : (a.pid > b.pid);
-            } else if (sortField == "user") {
-                return sortAscending ? (a.user < b.user) : (a.user > b.user);
-            }
+            if (sortField == "cpu")  return sortAscending ? (a.cpuPercent < b.cpuPercent) : (a.cpuPercent > b.cpuPercent);
+            if (sortField == "mem")  return sortAscending ? (a.memPercent < b.memPercent) : (a.memPercent > b.memPercent);
+            if (sortField == "pid")  return sortAscending ? (a.pid < b.pid) : (a.pid > b.pid);
+            if (sortField == "user") return sortAscending ? (a.user < b.user) : (a.user > b.user);
             return sortAscending ? (a.cpuPercent < b.cpuPercent) : (a.cpuPercent > b.cpuPercent);
         });
 
-        // Gerar a QVariantList (Snapshot) na thread de background
-        QVariantList newList;
-        for (const auto& p : raw_data) {
-            if (!filter.isEmpty() && !p.command.contains(filter, Qt::CaseInsensitive))
-                continue;
-
-            QVariantMap map;
-            map["pid"] = p.pid;
-            map["user"] = p.user;
-            map["priority"] = p.priority;
-            map["virt"] = static_cast<double>(p.virt);
-            map["res"] = static_cast<double>(p.res);
-            map["state"] = (p.state == domain::models::ProcessState::Running) ? "R" : "S";
-            map["cpu"] = p.cpuPercent;
-            map["mem"] = p.memPercent;
-            map["time"] = p.timeStr;
-            map["command"] = p.command;
-            newList.append(map);
-        }
-
-        QMetaObject::invokeMethod(this, [this, raw_data, newList]() {
+        QMetaObject::invokeMethod(this, [this, raw_data]() mutable {
             {
                 std::lock_guard<std::mutex> lock(m_dataMutex);
-                m_data = raw_data;
-                m_processedList = newList; // Novo membro para o QML consumir
+                m_data = std::move(raw_data);
+                rebuildProcessedListLocked();
             }
             m_isBusy = false;
             emit processesChanged();

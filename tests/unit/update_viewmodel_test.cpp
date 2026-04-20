@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <QtTest/QSignalSpy>
 #include <memory>
 #include <vector>
 #include "../../src/domain/update_manager.h"
@@ -25,8 +26,12 @@ TEST(UpdateViewModelTest, ShouldRefreshUpdatesFromManager) {
     EXPECT_CALL(*manager, check_all_updates())
         .WillOnce(Return(std::vector<UpdatePackage>{pkg}));
 
+    // refresh() é async (QtConcurrent + QueuedConnection). Aguardar isBusy voltar a false.
+    QSignalSpy busySpy(&vm, &UpdateViewModel::isBusyChanged);
     vm.refresh();
-    
-    // O modelo deve ser atualizado (verificar via propriedades QML ou mock do modelo)
+    ASSERT_TRUE(busySpy.wait(2000)); // transição true
+    if (vm.isBusy()) busySpy.wait(2000); // transição false pós-QtConcurrent
+
     EXPECT_FALSE(vm.isBusy());
+    EXPECT_EQ(vm.totalUpdates(), 1);
 }
