@@ -291,6 +291,7 @@ Window {
 
             // ABA 0 - Dashboard
             ScrollView {
+                contentWidth: availableWidth
                 ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
                 ColumnLayout {
                     width: parent.width
@@ -674,7 +675,33 @@ Window {
             }
 
             // ABA 4 - Network
-            PlaceholderView { title: "Rede"; icon: "🌐"; desc: "Tráfego e latência." }
+            ScrollView {
+                contentWidth: availableWidth
+                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+                clip: true
+                ColumnLayout {
+                    width: parent.width
+                    anchors.margins: 25; spacing: 15
+
+                    RowLayout {
+                        Text { text: "Rede"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                        Item { Layout.fillWidth: true }
+                        Button { text: "🔄"; onClicked: networkViewModel.refresh() }
+                    }
+
+                    GridLayout {
+                        columns: root.width > 800 ? 3 : 2
+                        Layout.fillWidth: true; rowSpacing: 15; columnSpacing: 15
+                        DashboardCard { title: "STATUS"; value: networkViewModel.status }
+                        DashboardCard { title: "LATÊNCIA"; value: networkViewModel.latency.toFixed(0) + " ms" }
+                        DashboardCard { title: "INTERFACE"; value: networkViewModel.activeInterface || "—" }
+                        DashboardCard { title: "RX"; value: networkViewModel.totalRx.toFixed(2) + " Mbps" }
+                        DashboardCard { title: "TX"; value: networkViewModel.totalTx.toFixed(2) + " Mbps" }
+                    }
+
+                    Item { Layout.fillHeight: true }
+                }
+            }
 
             // ABA 5 - Hardware
             ColumnLayout {
@@ -965,6 +992,7 @@ Window {
 
             // ABA 9 - Storage
             ScrollView {
+                contentWidth: availableWidth
                 ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
                 clip: true
                 ColumnLayout {
