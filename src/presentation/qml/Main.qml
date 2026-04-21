@@ -485,35 +485,42 @@ Window {
             }
 
             // ABA 1 - Updates
-            ColumnLayout {
-                anchors.margins: 25; spacing: 15
-                RowLayout {
-                    Text { text: "Central de Atualizações"; color: root.textColor; font.pixelSize: 24; font.bold: true }
-                    Item { Layout.fillWidth: true }
-                    Button { 
-                        text: "Atualizar Tudo"
-                        highlighted: true
-                        onClicked: {
-                            installationViewModel.startUpgradeAll()
-                            root.currentView = 10 // ABA de Instalação
+            ScrollView {
+                contentWidth: availableWidth
+                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+                clip: true
+                ColumnLayout {
+                    width: parent.width
+                    anchors.margins: 25; spacing: 15
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Text { text: "Central de Atualizações"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                        Item { Layout.fillWidth: true }
+                        Button {
+                            text: "Atualizar Tudo"
+                            highlighted: true
+                            onClicked: {
+                                installationViewModel.startUpgradeAll()
+                                root.currentView = 10 // ABA de Instalação
+                            }
                         }
+                        BusyIndicator { running: updateViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
+                        Button { text: "🔄"; onClicked: updateViewModel.refresh(); enabled: !updateViewModel.isBusy }
                     }
-                    BusyIndicator { running: updateViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
-                    Button { text: "🔄"; onClicked: updateViewModel.refresh(); enabled: !updateViewModel.isBusy }
-                }
-                Rectangle {
-                    Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
-                    ScrollView {
-                        anchors.fill: parent; anchors.margins: 10; clip: true
-                        ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
-                        ScrollBar.horizontal: ScrollBar { policy: ScrollBar.AsNeeded }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: Math.max(600, updateListView.contentHeight + 20)
+                        color: root.cardColor; radius: 8; border.color: root.borderColor
                         ListView {
+                            id: updateListView
+                            anchors.fill: parent; anchors.margins: 10; clip: true
+                            interactive: false
                             model: updateViewModel.updateModel
                             delegate: ItemDelegate {
-                                width: parent.width; height: 50
+                                width: ListView.view.width; height: 50
                                 onDoubleClicked: {
                                     installationViewModel.startInstallation(name, provider)
-                                    root.currentView = 10 // ABA de Instalação (via duplo-clique)
+                                    root.currentView = 10
                                 }
                                 contentItem: RowLayout {
                                     Text { text: name; color: root.textColor; font.bold: true; Layout.fillWidth: true }
@@ -527,9 +534,14 @@ Window {
             }
 
             // ABA 2 - Journal
-            ColumnLayout {
-                anchors.margins: 25; spacing: 15
-                function priorityColor(p) {
+            ScrollView {
+                contentWidth: availableWidth
+                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+                clip: true
+                ColumnLayout {
+                    width: parent.width
+                    anchors.margins: 25; spacing: 15
+                    function priorityColor(p) {
                     // 0-2 emerg/alert/crit, 3 err, 4 warn, 5 notice, 6 info, 7 debug
                     if (p <= 2) return root.criticalColor
                     if (p === 3) return "#e74c3c"
@@ -589,15 +601,17 @@ Window {
                     }
                 }
                 Rectangle {
-                    Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
-                    ScrollView {
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: Math.max(600, journalListView.contentHeight + 20)
+                    color: root.cardColor; radius: 8; border.color: root.borderColor
+                    ListView {
+                        id: journalListView
                         anchors.fill: parent; anchors.margins: 10; clip: true
-                        ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
-                        ListView {
-                            model: diagnosticViewModel.logModel
-                            delegate: ItemDelegate {
-                                width: parent.width; height: 46
-                                onDoubleClicked: diagnosticViewModel.searchOnline(source + " " + message)
+                        interactive: false
+                        model: diagnosticViewModel.logModel
+                        delegate: ItemDelegate {
+                            width: ListView.view.width; height: 46
+                            onDoubleClicked: diagnosticViewModel.searchOnline(source + " " + message)
                                 contentItem: RowLayout {
                                     spacing: 8
                                     Text {
@@ -635,24 +649,30 @@ Window {
             }
 
             // ABA 3 - Services
-            ColumnLayout {
-                anchors.margins: 25; spacing: 15
-                RowLayout { 
-                    Text { text: "Serviços Systemd"; color: root.textColor; font.pixelSize: 24; font.bold: true }
-                    Item { Layout.fillWidth: true }
-                    Button { text: "🆕 Criar Daemon"; highlighted: true; onClicked: daemonDialog.open() }
-                    Button { text: "🔄"; onClicked: serviceViewModel.refresh() } 
-                }
-                Rectangle {
-                    Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
-                    ScrollView {
-                        anchors.fill: parent; anchors.margins: 10; clip: true
-                        ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+            ScrollView {
+                contentWidth: availableWidth
+                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+                clip: true
+                ColumnLayout {
+                    width: parent.width
+                    anchors.margins: 25; spacing: 15
+                    RowLayout {
+                        Text { text: "Serviços Systemd"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                        Item { Layout.fillWidth: true }
+                        Button { text: "🆕 Criar Daemon"; highlighted: true; onClicked: daemonDialog.open() }
+                        Button { text: "🔄"; onClicked: serviceViewModel.refresh() }
+                    }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: Math.max(600, serviceList.contentHeight + 20)
+                        color: root.cardColor; radius: 8; border.color: root.borderColor
                         ListView {
                             id: serviceList
+                            anchors.fill: parent; anchors.margins: 10; clip: true
+                            interactive: false
                             model: serviceViewModel.services
                             delegate: ItemDelegate {
-                                width: serviceList.width; height: 60
+                                width: ListView.view.width; height: 60
                                 onDoubleClicked: (modelData.activeState === "active") ? serviceViewModel.pauseService(modelData.name) : serviceViewModel.startService(modelData.name)
                                 contentItem: RowLayout {
                                     spacing: 15
@@ -704,24 +724,27 @@ Window {
             }
 
             // ABA 5 - Hardware
-            ColumnLayout {
-                anchors.margins: 25; spacing: 15
-                RowLayout {
-                    Text { text: "Hardware"; color: root.textColor; font.pixelSize: 24; font.bold: true }
-                    Item { Layout.fillWidth: true }
-                    BusyIndicator { running: firmwareViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
-                    Button {
-                        text: "🔄"
-                        enabled: !firmwareViewModel.isBusy
-                        onClicked: { hardwareViewModel.refresh(); firmwareViewModel.refresh() }
+            ScrollView {
+                contentWidth: availableWidth
+                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+                clip: true
+                ColumnLayout {
+                    width: parent.width
+                    anchors.margins: 25; spacing: 15
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Text { text: "Hardware"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                        Item { Layout.fillWidth: true }
+                        BusyIndicator { running: firmwareViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
+                        Button {
+                            text: "🔄"
+                            enabled: !firmwareViewModel.isBusy
+                            onClicked: { hardwareViewModel.refresh(); firmwareViewModel.refresh() }
+                        }
                     }
-                }
 
-                ScrollView {
-                    Layout.fillWidth: true; Layout.fillHeight: true; clip: true
-                    ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
                     ColumnLayout {
-                        width: parent.width; spacing: 20
+                        Layout.fillWidth: true; spacing: 20
 
                         Text { text: "🖥️ SISTEMA (SMBIOS)"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
                         Rectangle {
@@ -836,71 +859,86 @@ Window {
             }
 
             // ABA 6 - Dev Tools
-            ColumnLayout {
-                anchors.margins: 25; spacing: 15
-                RowLayout {
-                    Text { text: "Desenvolvimento & Containers"; color: root.textColor; font.pixelSize: 24; font.bold: true }
-                    Item { Layout.fillWidth: true }
-                    BusyIndicator { running: devStackViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
-                    Button { text: "🔄"; onClicked: devStackViewModel.refresh(); enabled: !devStackViewModel.isBusy }
-                }
-                
-                ScrollView {
-                    Layout.fillWidth: true; Layout.fillHeight: true; clip: true
-                    ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
-                    ColumnLayout {
-                        width: parent.width; spacing: 20
+            ScrollView {
+                contentWidth: availableWidth
+                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+                clip: true
+                ColumnLayout {
+                    width: parent.width
+                    anchors.margins: 25; spacing: 15
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Text { text: "Desenvolvimento & Containers"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                        Item { Layout.fillWidth: true }
+                        BusyIndicator { running: devStackViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
+                        Button { text: "🔄"; onClicked: devStackViewModel.refresh(); enabled: !devStackViewModel.isBusy }
+                    }
 
-                        Text { text: "🛠️ COMPILADORES & RUNTIMES"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
-                        Rectangle {
-                            Layout.fillWidth: true; height: 200; color: root.cardColor; radius: 8; border.color: root.borderColor
-                            ListView {
-                                anchors.fill: parent; anchors.margins: 10; clip: true; model: devStackViewModel.toolchains
-                                delegate: RowLayout {
-                                    width: parent.width; height: 30
-                                    Text { text: modelData.name; font.bold: true; color: root.textColor; Layout.preferredWidth: 100 }
-                                    Text { text: modelData.version; color: "#7f8c8d"; Layout.fillWidth: true; elide: Text.ElideRight; font.family: "Monospace"; font.pixelSize: 11 }
-                                }
+                    Text { text: "🛠️ COMPILADORES & RUNTIMES"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: Math.max(200, toolchainList.contentHeight + 20)
+                        color: root.cardColor; radius: 8; border.color: root.borderColor
+                        ListView {
+                            id: toolchainList
+                            anchors.fill: parent; anchors.margins: 10; clip: true
+                            interactive: false
+                            model: devStackViewModel.toolchains
+                            delegate: RowLayout {
+                                width: ListView.view.width; height: 30
+                                Text { text: modelData.name; font.bold: true; color: root.textColor; Layout.preferredWidth: 100 }
+                                Text { text: modelData.version; color: "#7f8c8d"; Layout.fillWidth: true; elide: Text.ElideRight; font.family: "Monospace"; font.pixelSize: 11 }
                             }
                         }
-                        
-                        Text { text: "🐳 CONTAINERS (PODMAN/DOCKER)"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
-                        Rectangle {
-                            Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 300; color: root.cardColor; radius: 8; border.color: root.borderColor
-                            ListView {
-                                id: containerList
-                                anchors.fill: parent; anchors.margins: 10; clip: true; model: devStackViewModel.containers
-                                delegate: ItemDelegate {
-                                    width: containerList.width; height: 50
-                                    contentItem: RowLayout {
-                                        spacing: 15
-                                        Rectangle { width: 8; height: 8; radius: 4; color: modelData.status.includes("Up") ? "#2ecc71" : "#95a5a6" }
-                                        ColumnLayout {
-                                            spacing: 2
-                                            Text { text: modelData.name; color: root.textColor; font.bold: true }
-                                            Text { text: modelData.runtime + " • " + modelData.image; color: "#7f8c8d"; font.pixelSize: 10 }
-                                        }
-                                        Item { Layout.fillWidth: true }
-                                        Text { text: modelData.status; color: root.textColor; font.pixelSize: 11 }
+                    }
+
+                    Text { text: "🐳 CONTAINERS (PODMAN/DOCKER)"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: Math.max(300, containerList.contentHeight + 20)
+                        color: root.cardColor; radius: 8; border.color: root.borderColor
+                        ListView {
+                            id: containerList
+                            anchors.fill: parent; anchors.margins: 10; clip: true
+                            interactive: false
+                            model: devStackViewModel.containers
+                            delegate: ItemDelegate {
+                                width: ListView.view.width; height: 50
+                                contentItem: RowLayout {
+                                    spacing: 15
+                                    Rectangle { width: 8; height: 8; radius: 4; color: modelData.status.includes("Up") ? "#2ecc71" : "#95a5a6" }
+                                    ColumnLayout {
+                                        spacing: 2
+                                        Text { text: modelData.name; color: root.textColor; font.bold: true }
+                                        Text { text: modelData.runtime + " • " + modelData.image; color: "#7f8c8d"; font.pixelSize: 10 }
                                     }
+                                    Item { Layout.fillWidth: true }
+                                    Text { text: modelData.status; color: root.textColor; font.pixelSize: 11 }
                                 }
-                                Text { anchors.centerIn: parent; text: "Nenhum container detectado."; color: "#7f8c8d"; visible: parent.count === 0 }
                             }
+                            Text { anchors.centerIn: parent; text: "Nenhum container detectado."; color: "#7f8c8d"; visible: parent.count === 0 }
                         }
                     }
                 }
             }
 
             // ABA 7 - Security
-            ColumnLayout {
-                anchors.margins: 25; spacing: 15
-                Text { text: "Segurança"; color: root.textColor; font.pixelSize: 24; font.bold: true }
-                Rectangle {
-                    Layout.fillWidth: true; Layout.fillHeight: true; color: root.cardColor; radius: 8; border.color: root.borderColor
-                    ScrollView {
-                        anchors.fill: parent; anchors.margins: 10; clip: true
-                        ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+            ScrollView {
+                contentWidth: availableWidth
+                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+                clip: true
+                ColumnLayout {
+                    width: parent.width
+                    anchors.margins: 25; spacing: 15
+                    Text { text: "Segurança"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                    Rectangle {
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: Math.max(600, loginHistoryList.contentHeight + 20)
+                        color: root.cardColor; radius: 8; border.color: root.borderColor
                         ListView {
+                            id: loginHistoryList
+                            anchors.fill: parent; anchors.margins: 10; clip: true
+                            interactive: false
                             model: userMetadataViewModel.loginHistory
                             delegate: Text { text: modelData; color: root.textColor; font.family: "Monospace"; font.pixelSize: 10 }
                         }
@@ -909,85 +947,89 @@ Window {
             }
 
             // ABA 8 - Export
-            ColumnLayout {
-                anchors.margins: 25; spacing: 20
-                Text { text: "Centro de Exportação"; color: root.textColor; font.pixelSize: 24; font.bold: true }
-                
-                Rectangle {
-                    Layout.fillWidth: true; Layout.preferredHeight: 300; color: root.cardColor; radius: 8; border.color: root.borderColor
-                    ColumnLayout {
-                        anchors.centerIn: parent; width: parent.width * 0.8; spacing: 15
-                        
-                        Text { text: "Gerar Relatório Completo do Sistema"; color: root.highlightColor; font.bold: true }
-                        
-                        RowLayout {
-                            spacing: 10
-                            TextField {
-                                id: fileNameField
-                                placeholderText: "Nome do arquivo (ex: relatorio_hoje)"
-                                Layout.fillWidth: true
-                                text: "my_comp_report_" + Qt.formatDateTime(new Date(), "yyyyMMdd")
+            ScrollView {
+                contentWidth: availableWidth
+                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+                clip: true
+                ColumnLayout {
+                    width: parent.width
+                    anchors.margins: 25; spacing: 20
+                    Text { text: "Centro de Exportação"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+
+                    Rectangle {
+                        Layout.fillWidth: true; Layout.preferredHeight: 300; color: root.cardColor; radius: 8; border.color: root.borderColor
+                        ColumnLayout {
+                            anchors.centerIn: parent; width: parent.width * 0.8; spacing: 15
+
+                            Text { text: "Gerar Relatório Completo do Sistema"; color: root.highlightColor; font.bold: true }
+
+                            RowLayout {
+                                spacing: 10
+                                TextField {
+                                    id: fileNameField
+                                    placeholderText: "Nome do arquivo (ex: relatorio_hoje)"
+                                    Layout.fillWidth: true
+                                    text: "my_comp_report_" + Qt.formatDateTime(new Date(), "yyyyMMdd")
+                                }
+                                ComboBox {
+                                    id: formatCombo
+                                    model: ["JSON", "Markdown", "HTML"]
+                                    Layout.preferredWidth: 120
+                                }
                             }
-                            ComboBox {
-                                id: formatCombo
-                                model: ["JSON", "Markdown", "HTML"]
-                                Layout.preferredWidth: 120
+
+                            RowLayout {
+                                spacing: 10
+                                TextField {
+                                    id: exportPathField
+                                    placeholderText: "Pasta de destino..."
+                                    Layout.fillWidth: true
+                                    readOnly: true
+                                    text: exportViewModel.defaultExportPath
+                                }
+                                Button {
+                                    text: "Escolher Pasta"
+                                    onClicked: exportFolderDialog.open()
+                                }
                             }
-                        }
-                        
-                        RowLayout {
-                            spacing: 10
-                            TextField {
-                                id: exportPathField
-                                placeholderText: "Pasta de destino..."
-                                Layout.fillWidth: true
-                                readOnly: true
-                                text: exportViewModel.defaultExportPath
-                            }
+
+                            Item { Layout.preferredHeight: 20 }
+
                             Button {
-                                text: "Escolher Pasta"
-                                onClicked: exportFolderDialog.open()
+                                text: "🚀 Gerar Relatório Agora"
+                                Layout.alignment: Qt.AlignHCenter
+                                highlighted: true
+                                enabled: !exportViewModel.isBusy && exportPathField.text !== ""
+                                onClicked: {
+                                    let ext = formatCombo.currentText === "JSON" ? ".json" : (formatCombo.currentText === "Markdown" ? ".md" : ".html")
+                                    let fullPath = exportPathField.text + "/" + fileNameField.text + ext
+                                    exportViewModel.exportReport(formatCombo.currentIndex, fullPath)
+                                }
+                            }
+
+                            Text {
+                                id: statusMsg
+                                text: ""
+                                color: "#2ecc71"
+                                Layout.alignment: Qt.AlignHCenter
+                                font.pixelSize: 12
+                            }
+
+                            BusyIndicator {
+                                running: exportViewModel.isBusy
+                                Layout.alignment: Qt.AlignHCenter
                             }
                         }
-                        
-                        Item { Layout.preferredHeight: 20 }
-                        
-                        Button {
-                            text: "🚀 Gerar Relatório Agora"
-                            Layout.alignment: Qt.AlignHCenter
-                            highlighted: true
-                            enabled: !exportViewModel.isBusy && exportPathField.text !== ""
-                            onClicked: {
-                                let ext = formatCombo.currentText === "JSON" ? ".json" : (formatCombo.currentText === "Markdown" ? ".md" : ".html")
-                                let fullPath = exportPathField.text + "/" + fileNameField.text + ext
-                                exportViewModel.exportReport(formatCombo.currentIndex, fullPath)
-                            }
-                        }
-                        
-                        Text {
-                            id: statusMsg
-                            text: ""
-                            color: "#2ecc71"
-                            Layout.alignment: Qt.AlignHCenter
-                            font.pixelSize: 12
-                        }
-                        
-                        BusyIndicator {
-                            running: exportViewModel.isBusy
-                            Layout.alignment: Qt.AlignHCenter
+                    }
+
+                    Connections {
+                        target: exportViewModel
+                        function onExportFinished(success, message) {
+                            statusMsg.text = message
+                            statusMsg.color = success ? "#2ecc71" : root.criticalColor
                         }
                     }
                 }
-                
-                Connections {
-                    target: exportViewModel
-                    function onExportFinished(success, message) {
-                        statusMsg.text = message
-                        statusMsg.color = success ? "#2ecc71" : root.criticalColor
-                    }
-                }
-                
-                Item { Layout.fillHeight: true }
             }
 
             // ABA 9 - Storage
