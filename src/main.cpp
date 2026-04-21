@@ -168,6 +168,13 @@ int main(int argc, char *argv[])
     ctx->setContextProperty("networkViewModel", network_vm.get());
 
     const QUrl url(u"qrc:/Main.qml"_s);
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app,
+        [url](QObject *obj, const QUrl &objUrl) {
+            if (!obj && url == objUrl) {
+                qCritical() << "[Main] Failed to load Main.qml";
+                QCoreApplication::exit(-1);
+            }
+        }, Qt::QueuedConnection);
     engine.load(url);
 
     try {

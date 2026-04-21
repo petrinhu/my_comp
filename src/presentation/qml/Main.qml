@@ -683,7 +683,11 @@ Window {
                     Text { text: "Hardware"; color: root.textColor; font.pixelSize: 24; font.bold: true }
                     Item { Layout.fillWidth: true }
                     BusyIndicator { running: firmwareViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
-                    Button { text: "🔄"; onClicked: { hardwareViewModel.refresh(); firmwareViewModel.refresh() }; enabled: !firmwareViewModel.isBusy }
+                    Button {
+                        text: "🔄"
+                        enabled: !firmwareViewModel.isBusy
+                        onClicked: { hardwareViewModel.refresh(); firmwareViewModel.refresh() }
+                    }
                 }
 
                 ScrollView {
