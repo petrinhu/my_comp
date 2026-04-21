@@ -495,6 +495,21 @@ Window {
                     RowLayout {
                         Layout.fillWidth: true
                         Text { text: "Central de Atualizações"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                        Rectangle {
+                            visible: updateViewModel.totalUpdates > 0
+                            Layout.preferredHeight: 22
+                            Layout.preferredWidth: Math.max(32, countText.implicitWidth + 16)
+                            radius: 11
+                            color: root.highlightColor
+                            Text {
+                                id: countText
+                                anchors.centerIn: parent
+                                text: updateViewModel.totalUpdates
+                                color: "white"
+                                font.bold: true
+                                font.pixelSize: 12
+                            }
+                        }
                         Item { Layout.fillWidth: true }
                         Button {
                             text: "Atualizar Tudo"
@@ -522,10 +537,30 @@ Window {
                                     installationViewModel.startInstallation(name, provider)
                                     root.currentView = 10
                                 }
+                                background: Rectangle {
+                                    color: isCritical ? Qt.rgba(root.criticalColor.r, root.criticalColor.g, root.criticalColor.b, 0.08) : "transparent"
+                                    border.color: isCritical ? root.criticalColor : "transparent"
+                                    border.width: isCritical ? 1 : 0
+                                    radius: 4
+                                }
                                 contentItem: RowLayout {
+                                    Text {
+                                        text: isCritical ? "⚠" : ""
+                                        color: root.criticalColor
+                                        font.pixelSize: 16
+                                        Layout.preferredWidth: 20
+                                        visible: isCritical
+                                    }
                                     Text { text: name; color: root.textColor; font.bold: true; Layout.fillWidth: true }
                                     Text { text: source; color: "#7f8c8d"; font.pixelSize: 10; Layout.preferredWidth: 60 }
-                                    Text { text: newVersion; color: root.highlightColor }
+                                    Text {
+                                        text: (currentVersion && currentVersion.length > 0)
+                                              ? (currentVersion + " → " + newVersion)
+                                              : ("→ " + newVersion)
+                                        color: root.highlightColor
+                                        font.family: "Monospace"
+                                        font.pixelSize: 12
+                                    }
                                 }
                             }
                         }
