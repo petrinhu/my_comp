@@ -2,8 +2,22 @@ cmake_minimum_required(VERSION 3.16)
 
 project(my_comp VERSION 2.0.0 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Flags estritas globais (consolidadas do CompilerFlags.cmake antes da Fase B).
+# -Werror omitido para não quebrar build pré-existente do my_comp;
+# warnings remanescentes ficam visíveis como dívida técnica.
+add_compile_options(
+    -Wall -Wextra -Wpedantic
+    -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -Wold-style-cast
+    -Wnull-dereference
+    -fstack-protector-strong
+)
+add_compile_definitions(
+    $<$<NOT:$<CONFIG:Debug>>:_FORTIFY_SOURCE=3>
+)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -77,6 +91,40 @@ set(PROJECT_SOURCES
     src/presentation/viewmodels/audio_viewmodel.cpp
     src/presentation/viewmodels/installation_viewmodel.cpp
     src/presentation/viewmodels/directory_scanner_viewmodel.cpp
+
+    # ----- Feature VRAM (unificada no my_comp — Fase B) -----
+    # Domain
+    src/domain/vram/valueobjects/pid.cpp
+    src/domain/vram/valueobjects/bytes_de_memoria.cpp
+    src/domain/vram/valueobjects/nome_processo.cpp
+    src/domain/vram/valueobjects/chave_processo.cpp
+    src/domain/vram/classificacao/justificativa.cpp
+    src/domain/vram/entidades/processo.cpp
+    src/domain/vram/entidades/gpu_info.cpp
+    src/domain/vram/amostra/amostra_janela.cpp
+    src/domain/vram/amostra/limiares_comportamento.cpp
+    src/domain/vram/entidades/entrada_catalogo.cpp
+    src/domain/vram/entidades/entrada_feedback.cpp
+    src/domain/vram/configuracao/origem_config.cpp
+    # Application
+    src/application/vram/classificacao/regras/regra_feedback.cpp
+    src/application/vram/classificacao/regras/regra_catalogo.cpp
+    src/application/vram/classificacao/regras/mapa_categorias_desktop.cpp
+    src/application/vram/classificacao/regras/regra_categoria_desktop.cpp
+    src/application/vram/classificacao/regras/lista_libs_compute.cpp
+    src/application/vram/classificacao/regras/regra_biblioteca_compute.cpp
+    src/application/vram/classificacao/regras/regra_comportamento.cpp
+    src/application/vram/classificacao/classificador_em_cascata.cpp
+    src/application/vram/classificacao/servico_classificar_processo.cpp
+    src/application/vram/classificacao/servico_sugerir_acao.cpp
+    src/application/vram/configuracao/sublocators/tabela_paths_browser_chromium.cpp
+    src/application/vram/configuracao/sublocators/localizador_browser_chromium.cpp
+    src/application/vram/configuracao/sublocators/localizador_firefox.cpp
+    src/application/vram/configuracao/sublocators/localizador_env_var.cpp
+    src/application/vram/configuracao/sublocators/lista_wrappers_desktop.cpp
+    src/application/vram/configuracao/sublocators/localizador_desktop_wrapper.cpp
+    src/application/vram/configuracao/localizador_composite.cpp
+    src/application/vram/configuracao/servico_localizar_config.cpp
 )
 
 # Recurso QML
@@ -85,8 +133,9 @@ qt_add_resources(PROJECT_SOURCES
 )
 
 add_executable(my_comp ${PROJECT_SOURCES})
+target_include_directories(my_comp PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-target_link_libraries(my_comp PRIVATE 
+target_link_libraries(my_comp PRIVATE
     Qt6::Core 
     Qt6::Gui 
     Qt6::Quick 
@@ -102,11 +151,6 @@ target_link_libraries(my_comp PRIVATE
 
 # Configuração de Testes
 enable_testing()
-
-# Feature: vram_optimizer (sub-projeto integrado — Fase A da integração).
-# Mantém C++23 + flags estritas próprias por target (CompilerFlags.cmake da feature).
-# Reutiliza GoogleTest do FetchContent acima — não refaz fetch.
-add_subdirectory(features/vram_optimizer)
 
 # Unit Tests Target
 set(UNIT_TEST_SOURCES
@@ -206,9 +250,80 @@ set(UNIT_TEST_SOURCES
     src/presentation/viewmodels/audio_viewmodel.cpp
     src/presentation/viewmodels/installation_viewmodel.cpp
     src/presentation/viewmodels/directory_scanner_viewmodel.cpp
+
+    # ----- Feature VRAM — fontes de produção (precisam estar no test binary) -----
+    src/domain/vram/valueobjects/pid.cpp
+    src/domain/vram/valueobjects/bytes_de_memoria.cpp
+    src/domain/vram/valueobjects/nome_processo.cpp
+    src/domain/vram/valueobjects/chave_processo.cpp
+    src/domain/vram/classificacao/justificativa.cpp
+    src/domain/vram/entidades/processo.cpp
+    src/domain/vram/entidades/gpu_info.cpp
+    src/domain/vram/amostra/amostra_janela.cpp
+    src/domain/vram/amostra/limiares_comportamento.cpp
+    src/domain/vram/entidades/entrada_catalogo.cpp
+    src/domain/vram/entidades/entrada_feedback.cpp
+    src/domain/vram/configuracao/origem_config.cpp
+    src/application/vram/classificacao/regras/regra_feedback.cpp
+    src/application/vram/classificacao/regras/regra_catalogo.cpp
+    src/application/vram/classificacao/regras/mapa_categorias_desktop.cpp
+    src/application/vram/classificacao/regras/regra_categoria_desktop.cpp
+    src/application/vram/classificacao/regras/lista_libs_compute.cpp
+    src/application/vram/classificacao/regras/regra_biblioteca_compute.cpp
+    src/application/vram/classificacao/regras/regra_comportamento.cpp
+    src/application/vram/classificacao/classificador_em_cascata.cpp
+    src/application/vram/classificacao/servico_classificar_processo.cpp
+    src/application/vram/classificacao/servico_sugerir_acao.cpp
+    src/application/vram/configuracao/sublocators/tabela_paths_browser_chromium.cpp
+    src/application/vram/configuracao/sublocators/localizador_browser_chromium.cpp
+    src/application/vram/configuracao/sublocators/localizador_firefox.cpp
+    src/application/vram/configuracao/sublocators/localizador_env_var.cpp
+    src/application/vram/configuracao/sublocators/lista_wrappers_desktop.cpp
+    src/application/vram/configuracao/sublocators/localizador_desktop_wrapper.cpp
+    src/application/vram/configuracao/localizador_composite.cpp
+    src/application/vram/configuracao/servico_localizar_config.cpp
+
+    # ----- Feature VRAM — testes unitários -----
+    tests/unit/vram/sanity_test.cpp
+    tests/unit/vram/back/pid_test.cpp
+    tests/unit/vram/back/bytes_de_memoria_test.cpp
+    tests/unit/vram/back/nome_processo_test.cpp
+    tests/unit/vram/back/chave_processo_test.cpp
+    tests/unit/vram/back/justificativa_test.cpp
+    tests/unit/vram/back/resultado_classificacao_test.cpp
+    tests/unit/vram/back/processo_test.cpp
+    tests/unit/vram/back/gpu_info_test.cpp
+    tests/unit/vram/back/amostra_janela_test.cpp
+    tests/unit/vram/back/limiares_comportamento_test.cpp
+    tests/unit/vram/back/entrada_catalogo_test.cpp
+    tests/unit/vram/back/entrada_feedback_test.cpp
+    tests/unit/vram/back/interfaces_compilam_test.cpp
+    tests/unit/vram/back/origem_config_test.cpp
+    tests/unit/vram/mid/regra_feedback_test.cpp
+    tests/unit/vram/mid/regra_catalogo_test.cpp
+    tests/unit/vram/mid/mapa_categorias_desktop_test.cpp
+    tests/unit/vram/mid/regra_categoria_desktop_test.cpp
+    tests/unit/vram/mid/lista_libs_compute_test.cpp
+    tests/unit/vram/mid/regra_biblioteca_compute_test.cpp
+    tests/unit/vram/mid/regra_comportamento_test.cpp
+    tests/unit/vram/mid/classificador_em_cascata_test.cpp
+    tests/unit/vram/mid/servico_classificar_processo_test.cpp
+    tests/unit/vram/mid/integracao_cascata_test.cpp
+    tests/unit/vram/mid/servico_sugerir_acao_test.cpp
+    tests/unit/vram/mid/localizador_browser_chromium_test.cpp
+    tests/unit/vram/mid/localizador_firefox_test.cpp
+    tests/unit/vram/mid/localizador_env_var_test.cpp
+    tests/unit/vram/mid/localizador_desktop_wrapper_test.cpp
+    tests/unit/vram/mid/localizador_composite_test.cpp
+    tests/unit/vram/mid/servico_localizar_config_test.cpp
+    tests/unit/vram/mid/integracao_localizador_composite_test.cpp
 )
 
 add_executable(unit_tests ${UNIT_TEST_SOURCES})
+target_include_directories(unit_tests PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/vram
+)
 target_link_libraries(unit_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::Gui Qt6::DBus Qt6::Network Qt6::Multimedia Qt6::Concurrent Qt6::Test OpenSSL::SSL OpenSSL::Crypto)
 add_test(NAME unit_tests COMMAND unit_tests)
 set_tests_properties(unit_tests PROPERTIES TIMEOUT 120)
@@ -290,7 +405,8 @@ set(ACCEPTANCE_TEST_SOURCES
 )
 
 add_executable(acceptance_tests ${ACCEPTANCE_TEST_SOURCES})
-target_link_libraries(acceptance_tests PRIVATE 
+target_include_directories(acceptance_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_link_libraries(acceptance_tests PRIVATE
     GTest::gtest_main 
     GTest::gmock 
     Qt6::Core 
