@@ -103,6 +103,11 @@ target_link_libraries(my_comp PRIVATE
 # Configuração de Testes
 enable_testing()
 
+# Feature: vram_optimizer (sub-projeto integrado — Fase A da integração).
+# Mantém C++23 + flags estritas próprias por target (CompilerFlags.cmake da feature).
+# Reutiliza GoogleTest do FetchContent acima — não refaz fetch.
+add_subdirectory(features/vram_optimizer)
+
 # Unit Tests Target
 set(UNIT_TEST_SOURCES
     tests/unit/placeholder_test.cpp

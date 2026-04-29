@@ -1,0 +1,31 @@
+---
+Language:        Cpp
+BasedOnStyle:    LLVM
+ColumnLimit:     100
+IndentWidth:     4
+TabWidth:        4
+UseTab:          Never
+AccessModifierOffset: -4
+AlignAfterOpenBracket: Align
+AllowShortFunctionsOnASingleLine: InlineOnly
+BreakBeforeBraces: Attach
+NamespaceIndentation: None
+PointerAlignment: Left
+ReferenceAlignment: Left
+SpaceAfterCStyleCast: false
+Standard:        Latest
+SortIncludes:    CaseSensitive
+IncludeBlocks:   Regroup
+IncludeCategories:
+  - Regex:           '^<Q[A-Za-z0-9_]+>'
+    Priority:        2
+  - Regex:           '^<gtest/'
+    Priority:        3
+  - Regex:           '^<gmock/'
+    Priority:        3
+  - Regex:           '^<.*\.h>'
+    Priority:        4
+  - Regex:           '^<.*>'
+    Priority:        4
+  - Regex:           '^".*"'
+    Priority:        1
