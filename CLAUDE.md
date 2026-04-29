@@ -11,6 +11,21 @@ Hierarquia de autoridade técnica. Em conflito, a ordem abaixo prevalece:
 3. **[`docs/TESTES.md`](docs/TESTES.md)** — procedimentos T1–T12 (testes) e A1–A10 (auditoria) com comandos exatos. Define os gates de qualidade.
 4. **[`docs/AUDITORIAS.md`](docs/AUDITORIAS.md)** — checklists operacionais detalhados por bloco (segurança, arquitetura, C++23, Qt6, performance, devops, qualidade). Use como referência ao auditar.
 
+### 0.1 Quando consultar (obrigatório)
+
+Não basta os docs existirem — eles devem ser abertos nos checkpoints corretos. Antes de marcar uma tarefa do TODO como ✅ concluída ou propor merge, **consultar e citar** as seções aplicáveis aos arquivos tocados:
+
+| Gatilho | Consultar |
+| :--- | :--- |
+| Mexeu em **camada cruzada** (Presentation ↔ Application ↔ Domain ↔ Infrastructure) | CONTRACT §5 (Architecture Layers) + AUDITORIAS §I2 (4 Camadas) — reverificar que dependência é unidirecional, interfaces respeitadas |
+| Adicionou ou mudou **memória dinâmica / RAII / smart pointers / threads** | CONTRACT §8 (Security) + AUDITORIAS §I3 (Memory Safety) + §I4 (C++23 Moderno) |
+| Adicionou ou mudou **UI / QML / ViewModel** | CONTRACT §13.1 (Qt6) + AUDITORIAS §I5 (Qt6 Específico) — checar `tr()`, `connect` tipado, lambdas com contexto, parent ownership |
+| Adicionou ou mudou **escrita/leitura em arquivo, processo externo, parsing de input não-confiável** | CONTRACT §8 + AUDITORIAS §I3 (validação de input, secrets, LGPD) + TESTES §T3 (fuzzing se for parser) |
+| Adicionou ou mudou **testes** | TESTES §T1 (unit) + §T2 (estática) + §A6 (cobertura) — confirmar que o teste falha sem a implementação (red), não só passa por acidente |
+| Antes de **fechar uma feature ou abrir merge** | Rodar `scripts/ci.sh` (que cobre T1+T2+T4 localmente) e validar contra os gates do §7 deste CLAUDE.md |
+
+Citar a cláusula no commit message ou no comentário do PR (ex.: `aplica AUDITORIAS §I3.2 — std::unique_ptr substituindo new manual em XYZ`) — força tornar a verificação explícita em vez de implícita.
+
 ## 1. Stack & ambiente
 
 - **SO alvo:** Fedora 43 + KDE Plasma 6 + Wayland nativo (design agnóstico a distros; multi-PM detectado em runtime).
