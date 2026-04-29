@@ -1,30 +1,43 @@
 # CLAUDE.md — Contrato de Engenharia: my_comp v2.0
 
-Fonte única de verdade para o desenvolvimento do **my_comp** (evolução do script legado em `./legacy/` para aplicação nativa C++20/Qt6).
+Fonte única de verdade para o desenvolvimento do **my_comp** (evolução do script legado em `./legacy/` para aplicação nativa C++23/Qt6).
+
+## 0. Documentos normativos
+
+Hierarquia de autoridade técnica. Em conflito, a ordem abaixo prevalece:
+
+1. **Este `CLAUDE.md`** — regras específicas do projeto + decisões de arquitetura.
+2. **[`docs/CONTRACT.md`](docs/CONTRACT.md)** — princípios universais de OOP/SOLID/Clean Code/segurança em RFC 2119 (MUST/SHOULD/MAY). Genérico para C++/Qt6/MySQL; aplica-se ao my_comp na parte C++23 + Qt6.
+3. **[`docs/TESTES.md`](docs/TESTES.md)** — procedimentos T1–T12 (testes) e A1–A10 (auditoria) com comandos exatos. Define os gates de qualidade.
+4. **[`docs/AUDITORIAS.md`](docs/AUDITORIAS.md)** — checklists operacionais detalhados por bloco (segurança, arquitetura, C++23, Qt6, performance, devops, qualidade). Use como referência ao auditar.
 
 ## 1. Stack & ambiente
 
 - **SO alvo:** Fedora 43 + KDE Plasma 6 + Wayland nativo (design agnóstico a distros; multi-PM detectado em runtime).
-- **Linguagem:** C++20 estrito.
+- **Linguagem:** C++23 estrito (flags `-Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -Wold-style-cast -Wnull-dereference -fstack-protector-strong -D_FORTIFY_SOURCE=3` globais; `-Werror` em adoção incremental — hoje 491 warnings rastreados como dívida técnica).
 - **Framework:** Qt6 — `Core`, `Gui`, `Quick`, `QuickControls2`, `WaylandClient`, `Multimedia`, `DBus`, `Network`, `Concurrent`, `Test`.
 - **Build:** CMake ≥ 3.16 + Ninja.
 - **Testes:** GoogleTest + CTest.
 - **Cripto:** OpenSSL (AES-256-GCM).
 - **Repositório:** `ssh://git@codeberg.org/petrinhu/my_comp.git`.
 
-## 2. Arquitetura — Hexagonal (3 camadas)
+## 2. Arquitetura — 4 camadas
 
 ```
-Presentation (Front)   ViewModels (Q_OBJECT) + QML/Kirigami
+Presentation     src/presentation/    ViewModels (Q_OBJECT) + QML/Kirigami
         │ depende ↓
-Domain (Mid)           Entidades + interfaces IPascalCase (ports)
+Application      src/application/     Use cases / services (orquestração)
+        │ depende ↓
+Domain           src/domain/          Entidades + interfaces IPascalCase (ports)
         ↑ implementa
-Infrastructure (End)   Collectors/Adapters Linux, DBus, OpenSSL, QtAudio, Exporters
+Infrastructure   src/infrastructure/  Collectors/Adapters Linux, DBus, OpenSSL, QtAudio, Exporters
 ```
+
+Subnamespaces de feature ficam dentro da camada (ex.: `src/domain/vram/`, `src/application/vram/`).
 
 Regras obrigatórias:
-- **Dependência em sentido único**: Presentation → Domain ← Infrastructure. Domain não importa Qt GUI, nem OpenSSL, nem processo externo.
-- **Interface por fronteira**: toda comunicação cruzando camada passa por interface abstrata em `src/domain/interfaces/`.
+- **Dependência em sentido único**: Presentation → Application → Domain ← Infrastructure. Domain não importa Qt GUI, nem OpenSSL, nem processo externo.
+- **Interface por fronteira**: toda comunicação cruzando camada passa por interface abstrata em `src/domain/interfaces/` (ou `src/domain/<feature>/interfaces/`).
 - **DI manual** em `src/main.cpp` (sem service locator). Providers concretos só aparecem na camada `infrastructure`.
 - **Violações proibidas**: `QProcess`/`QNetworkReply`/SQL/`QFile` dentro de viewmodel ou domínio; lógica de negócio dentro de provider; acesso a hardware dentro de QML.
 

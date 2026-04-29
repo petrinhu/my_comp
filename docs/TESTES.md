@@ -1,7 +1,8 @@
 # Guia Completo de Testes, Qualidade e Auditoria
 
 > Documento instrucional para qualquer agente de IA ou engenheiro executar a suíte
-> completa de verificação em **qualquer projeto C++/Qt/CMake**.
+> completa de verificação em projetos **C · C++ · Python · Rust · Node.js/TypeScript**.
+> As seções T1–T12 e A1–A10 cobrem C/C++/Qt. As seções T13–T15 e A11–A13 cobrem os demais stacks.
 > Adapte os caminhos e nomes de módulos conforme o projeto alvo.
 
 ---
@@ -33,6 +34,15 @@
 23. [A10 — Relatório Final de Auditoria](#a10--relatório-final-de-auditoria)
 24. [Classificação de Problemas](#classificação-de-problemas)
 25. [Formato de Patch](#formato-de-patch)
+
+**Stack extensions (Python · Rust · Node.js/TS):**
+
+26. [T13 — Python Testing Suite](#t13--python-testing-suite)
+27. [T14 — Rust Testing Suite](#t14--rust-testing-suite)
+28. [T15 — Node.js / TypeScript Testing Suite](#t15--nodejs--typescript-testing-suite)
+29. [A11 — QA Python](#a11--qa-python)
+30. [A12 — QA Rust](#a12--qa-rust)
+31. [A13 — QA Node.js / TypeScript](#a13--qa-nodejs--typescript)
 
 ---
 
@@ -83,7 +93,7 @@ cmake --build build_test -j$(nproc)
 cd build_test && ctest --output-on-failure -j$(nproc)
 
 # Executar módulo específico
-./build_test/tests/test_servico_consulta_cartas
+./build_test/tests/test_modulo_alvo
 ```
 
 **Critério de aprovação:** 0 falhas. Cobertura mínima de 70% nos módulos críticos.
@@ -136,14 +146,14 @@ find src -name "*.cpp" | xargs clang-tidy \
 ```bash
 # Compilar alvo para fuzzing com afl++
 AFL_USE_ASAN=1 afl-g++ -std=c++20 -o fuzz_target \
-    src/infraestrutura/repositorios/repositorio_cartas_tcgdex.cpp \
+    src/infraestrutura/repositorios/repositorio_api.cpp \
     -I src -lQt6Core -lQt6Network
 
 # Criar corpus inicial
 mkdir -p fuzz/corpus fuzz/findings
-echo '{"name":"pikachu"}' > fuzz/corpus/seed1.json
-echo '{"name":""}' > fuzz/corpus/seed2.json
-echo '{"name":"A"}' > fuzz/corpus/seed3.json
+echo '{"nome":"item_teste"}' > fuzz/corpus/seed1.json
+echo '{"nome":""}' > fuzz/corpus/seed2.json
+echo '{"nome":"A"}' > fuzz/corpus/seed3.json
 
 # Executar fuzzer (Ctrl+C para parar)
 afl-fuzz -i fuzz/corpus -o fuzz/findings -- ./fuzz_target @@
@@ -183,7 +193,7 @@ cmake --build build_asan -j$(nproc)
 # Executar com variáveis de ambiente dos sanitizers
 ASAN_OPTIONS="detect_leaks=1:halt_on_error=0:log_path=reports/asan" \
 UBSAN_OPTIONS="print_stacktrace=1:halt_on_error=0:log_path=reports/ubsan" \
-./build_asan/PokemonTCGViewer 2>&1 | tee reports/sanitizers.txt
+./build_asan/meu_app 2>&1 | tee reports/sanitizers.txt
 
 # Verificar relatórios gerados
 ls reports/asan.* reports/ubsan.*
@@ -197,7 +207,7 @@ valgrind --leak-check=full \
          --track-origins=yes \
          --xml=yes \
          --xml-file=reports/valgrind.xml \
-         ./build/PokemonTCGViewer
+         ./build/meu_app
 ```
 
 **Critério de aprovação:** zero `ERROR SUMMARY` do ASan. Zero `definitely lost` no Valgrind.
@@ -226,7 +236,7 @@ trivy fs . \
 
 # dependency-check (OWASP)
 dependency-check \
-    --project "PokemonTCGViewer" \
+    --project "meu_app" \
     --scan . \
     --format HTML \
     --out reports/dependency_check/
@@ -247,8 +257,8 @@ dependency-check \
 ```bash
 # hurl — teste declarativo de endpoints
 # Criar arquivo de teste
-cat > tests/api_tcgdex.hurl << 'EOF'
-GET https://api.tcgdex.net/v2/en/cards?name=pikachu
+cat > tests/api_externa.hurl << 'EOF'
+GET https://api.exemplo.com/v1/itens?nome=teste
 HTTP 200
 [Asserts]
 header "Content-Type" contains "application/json"
@@ -256,12 +266,12 @@ jsonpath "$[0].name" exists
 jsonpath "$[0].id" exists
 EOF
 
-hurl --test tests/api_tcgdex.hurl \
+hurl --test tests/api_externa.hurl \
      --report-html reports/hurl_html/ \
      --report-json reports/hurl.json
 
 # ffuf — fuzzing de endpoints da API (parâmetros inválidos)
-ffuf -u "https://api.tcgdex.net/v2/en/cards?name=FUZZ" \
+ffuf -u "https://api.exemplo.com/v1/itens?nome=FUZZ" \
      -w /usr/share/wordlists/dirb/common.txt \
      -mc 200,400,500 \
      -o reports/ffuf_api.json \
@@ -284,22 +294,22 @@ Entradas malformadas não devem retornar 500 nem expor stack traces.
 ```bash
 # radare2 — análise rápida do binário
 r2 -A -q -c "afl~sym; iz~password; iz~token; iz~key; iI" \
-    build/PokemonTCGViewer 2>&1 | tee reports/r2_analysis.txt
+    build/meu_app 2>&1 | tee reports/r2_analysis.txt
 
 # Verificar proteções do binário (NX, PIE, RELRO, stack canary)
-r2 -q -c "iI" build/PokemonTCGViewer | grep -E "nx|pic|relro|canary"
+r2 -q -c "iI" build/meu_app | grep -E "nx|pic|relro|canary"
 
 # checksec (alternativa rápida)
-checksec --file=build/PokemonTCGViewer 2>/dev/null || \
+checksec --file=build/meu_app 2>/dev/null || \
     python3 -c "
 import subprocess, json
-r = subprocess.run(['readelf','-l','build/PokemonTCGViewer'], capture_output=True, text=True)
+r = subprocess.run(['readelf','-l','build/meu_app'], capture_output=True, text=True)
 print('GNU_STACK' in r.stdout and 'RWE' not in r.stdout and 'NX: habilitado' or 'NX: DESABILITADO')
 "
 
 # ghidra headless (requer ghidra instalado)
-ghidra_headless /tmp/ghidra_proj PokemonTCGViewer \
-    -import build/PokemonTCGViewer \
+ghidra_headless /tmp/ghidra_proj meu_app \
+    -import build/meu_app \
     -postScript HeadlessAnalyzer.java \
     -scriptLog reports/ghidra.log 2>/dev/null || \
     echo "ghidra não instalado — use r2 como fallback"
@@ -356,7 +366,7 @@ else:
 
 ```bash
 # Verificar portas abertas pelo processo da aplicação
-APP_PID=$(pgrep -f PokemonTCGViewer) && echo "PID: $APP_PID"
+APP_PID=$(pgrep -f meu_app) && echo "PID: $APP_PID"
 
 # Listar conexões de rede abertas pelo processo
 ss -tupn | grep "$APP_PID" | tee reports/conexoes_rede.txt
@@ -371,7 +381,7 @@ strace -f -e trace=network -p "$APP_PID" 2>&1 | \
     grep -E "connect|sendto" | tee reports/strace_rede.txt
 ```
 
-**Critério de aprovação:** aplicação não deve abrir portas de escuta. Conexões apenas para APIs conhecidas (tcgdex.net, scrydex.com, limitlesstcg.com).
+**Critério de aprovação:** aplicação não deve abrir portas de escuta. Conexões apenas para APIs conhecidas (api.exemplo.com e demais APIs configuradas no projeto).
 
 **Por que é crítico:** portas abertas inesperadas indicam backdoor ou configuração incorreta.
 
@@ -389,7 +399,7 @@ find . -name "*.db" -o -name "*.sqlite" 2>/dev/null
 
 # sqlmap contra banco local (se a app expuser alguma interface HTTP)
 # Adapte a URL e parâmetro conforme o projeto
-sqlmap -u "http://localhost:PORT/api?query=pikachu" \
+sqlmap -u "http://localhost:PORT/api?q=teste" \
        --dbms=sqlite \
        --level=5 \
        --risk=3 \
@@ -453,7 +463,7 @@ MOCK_PID=$!
 
 # Executar aplicação apontando para o mock (ajuste variável de ambiente ou config)
 # Observar se crasha ou trata o erro graciosamente
-timeout 30 ./build/PokemonTCGViewer --api-url=http://localhost:18080 2>&1 | \
+timeout 30 ./build/meu_app --api-url=http://localhost:18080 2>&1 | \
     tee reports/fuzzing_rede.txt || true
 
 kill $MOCK_PID 2>/dev/null
@@ -721,7 +731,7 @@ lcov --remove reports/cobertura.info \
 # Gerar relatório HTML
 genhtml reports/cobertura_filtrada.info \
         --output-directory reports/cobertura_html \
-        --title "PokemonTCGViewer — Cobertura de Testes"
+        --title "Cobertura de Testes"
 
 # Exibir resumo
 lcov --summary reports/cobertura_filtrada.info 2>&1 | grep -E "lines|functions|branches"
@@ -934,6 +944,503 @@ REPORT
 
 ---
 
+## T13 — Python Testing Suite
+
+> Substitui T1–T4 + T5/T12 para projetos Python. Execute na raiz do projeto com virtualenv ativo.
+
+### T13.1 — Testes Unitários e de Integração (pytest)
+
+```bash
+pip install pytest pytest-cov pytest-asyncio
+
+# Executar todos os testes
+pytest -v --tb=short
+
+# Com cobertura (gera relatório HTML em htmlcov/)
+pytest --cov=src --cov-report=html --cov-report=term-missing --cov-fail-under=70
+
+# Testes async (FastAPI, asyncio)
+pytest -v --asyncio-mode=auto
+```
+
+**Critério de aprovação:** 0 falhas. Cobertura ≥ 70% nos módulos de domínio e serviço.
+
+### T13.2 — Análise Estática
+
+```bash
+pip install ruff mypy bandit
+
+# ruff — lint + formatação (substitui flake8 + isort + pyupgrade)
+ruff check src/ --output-format=json > reports/ruff.json
+ruff check src/
+
+# mypy — verificação de tipos estrita
+mypy src/ \
+    --strict \
+    --ignore-missing-imports \
+    --disallow-untyped-defs \
+    2>&1 | tee reports/mypy.txt
+
+# bandit — análise de segurança (injeção, uso de eval, MD5, etc.)
+bandit -r src/ \
+    -f json -o reports/bandit.json \
+    -l  # apenas medium/high
+bandit -r src/ 2>&1 | tee reports/bandit_resumo.txt
+```
+
+**Critério de aprovação:** zero erros mypy. Zero bandit HIGH/CRITICAL. ruff sem erros de segurança.
+
+### T13.3 — Property-Based Testing / Fuzzing (Hypothesis)
+
+```bash
+pip install hypothesis
+
+# Exemplo de teste Hypothesis — adicionar ao pytest
+# tests/test_propriedades.py:
+# from hypothesis import given, settings, strategies as st
+#
+# @given(st.integers(), st.integers())
+# def test_somar_comutativo(a, b):
+#     assert somar(a, b) == somar(b, a)
+#
+# @given(st.text(min_size=1, max_size=1000))
+# @settings(max_examples=500)
+# def test_processar_nunca_crasha(entrada):
+#     try:
+#         processar(entrada)
+#     except ValueError:
+#         pass  # erros de validação são esperados; crashes não
+
+pytest tests/test_propriedades.py -v --hypothesis-show-statistics
+```
+
+**Critério de aprovação:** zero falhas inesperadas. Hipóteses executadas ≥ 100 exemplos por propriedade.
+
+### T13.4 — Memória e Performance
+
+```bash
+pip install memory-profiler
+
+# tracemalloc — detectar crescimento de memória em testes
+python3 -c "
+import tracemalloc, sys
+tracemalloc.start()
+# importar e exercitar o módulo alvo
+import src.servico as s
+s.executar()
+snapshot = tracemalloc.take_snapshot()
+top = snapshot.statistics('lineno')[:10]
+for stat in top:
+    print(stat)
+"
+
+# memory-profiler — perfil linha a linha
+python3 -m memory_profiler src/servico.py 2>&1 | tee reports/memory_profile.txt
+
+# Verificar leaks em testes de longa duração
+pytest --memray 2>/dev/null || echo "pip install pytest-memray para análise de leaks"
+```
+
+### T13.5 — Dependências e CVEs
+
+```bash
+pip install pip-audit safety
+
+# pip-audit — CVEs nas dependências instaladas (usa OSV + PyPI Advisory DB)
+pip-audit --format json -o reports/pip_audit.json
+pip-audit 2>&1 | tee reports/pip_audit_resumo.txt
+
+# safety — verifica requirements*.txt contra base de dados Safety DB
+safety check -r requirements.txt \
+    --json --output reports/safety.json 2>/dev/null || true
+safety check -r requirements.txt 2>&1 | tee reports/safety_resumo.txt
+
+# Verificar dependências desatualizadas
+pip list --outdated --format=json > reports/pip_outdated.json
+```
+
+**Critério de aprovação:** zero CVEs CRITICAL/HIGH sem patch. Dependências CRITICAL atualizadas em ≤ 48 h.
+
+---
+
+## T14 — Rust Testing Suite
+
+> Substitui T1–T4 + T5/T12 para projetos Rust. Execute na raiz do workspace.
+
+### T14.1 — Testes Unitários e de Integração (cargo test)
+
+```bash
+# Executar todos os testes (unit + integration + doc tests)
+cargo test -- --nocapture
+
+# Testes com output detalhado
+cargo test -- --nocapture 2>&1 | tee reports/cargo_test.txt
+
+# Apenas testes de integração (diretório tests/)
+cargo test --test '*'
+
+# Benchmarks (requer nightly ou criterion)
+cargo bench 2>&1 | tee reports/bench.txt
+```
+
+**Critério de aprovação:** 0 falhas. Doc tests passando. `cargo test` clean em `--release` também.
+
+### T14.2 — Análise Estática (clippy + rustfmt)
+
+```bash
+# clippy — lint estrito (trata warnings como erros)
+cargo clippy --all-targets --all-features -- \
+    -D warnings \
+    -D clippy::pedantic \
+    -D clippy::nursery \
+    -A clippy::module_name_repetitions \
+    2>&1 | tee reports/clippy.txt
+
+# rustfmt — verificação de formatação (não formata, apenas verifica)
+cargo fmt --all -- --check 2>&1 | tee reports/rustfmt.txt
+
+# Verificar uso de unsafe (todo unsafe precisa de justificativa)
+grep -rn "unsafe" src/ --include="*.rs" | tee reports/unsafe_blocks.txt
+echo "Total de blocos unsafe: $(grep -rn 'unsafe' src/ --include='*.rs' | wc -l)"
+```
+
+**Critério de aprovação:** zero warnings clippy. `rustfmt --check` passa. Cada bloco `unsafe` documentado com `// SAFETY:`.
+
+### T14.3 — Fuzzing (cargo-fuzz)
+
+```bash
+# Instalar cargo-fuzz (requer nightly)
+cargo install cargo-fuzz
+rustup install nightly
+
+# Inicializar fuzzing no projeto
+cargo fuzz init 2>/dev/null || true
+
+# Criar fuzz target (fuzz/fuzz_targets/fuzz_processar.rs):
+# #![no_main]
+# use libfuzzer_sys::fuzz_target;
+# fuzz_target!(|data: &[u8]| {
+#     if let Ok(s) = std::str::from_utf8(data) {
+#         let _ = meu_projeto::processar(s);
+#     }
+# });
+
+# Executar por 5 minutos
+cargo +nightly fuzz run fuzz_processar -- -max_total_time=300 \
+    2>&1 | tee reports/cargo_fuzz.txt
+
+# Verificar crashes
+ls fuzz/artifacts/fuzz_processar/ 2>/dev/null && \
+    echo "CRASHES ENCONTRADOS" || echo "Sem crashes"
+```
+
+**Critério de aprovação:** sem crashes após 5 min com corpus variado.
+
+### T14.4 — Undefined Behavior (Miri)
+
+```bash
+# Miri — interpretador que detecta UB, acessos inválidos, data races
+rustup component add miri --toolchain nightly
+
+# Executar testes sob Miri
+cargo +nightly miri test 2>&1 | tee reports/miri.txt
+
+# Verificar data races com ThreadSanitizer
+RUSTFLAGS="-Z sanitizer=thread" cargo +nightly test \
+    --target x86_64-unknown-linux-gnu \
+    2>&1 | tee reports/tsan_rust.txt
+```
+
+**Critério de aprovação:** zero erros Miri. Nenhum data race detectado pelo TSan.
+
+### T14.5 — Dependências e CVEs (cargo audit)
+
+```bash
+cargo install cargo-audit cargo-deny
+
+# cargo audit — CVEs via RustSec Advisory Database
+cargo audit --json > reports/cargo_audit.json 2>/dev/null
+cargo audit 2>&1 | tee reports/cargo_audit_resumo.txt
+
+# cargo deny — licenças, duplicatas, yanked crates
+cargo deny check 2>&1 | tee reports/cargo_deny.txt
+
+# Dependências desatualizadas
+cargo install cargo-outdated 2>/dev/null
+cargo outdated 2>&1 | tee reports/cargo_outdated.txt
+```
+
+**Critério de aprovação:** zero advisories UNMAINTAINED/VULNERABILITY críticos. Nenhum crate yanked em uso.
+
+### T14.6 — Cobertura
+
+```bash
+cargo install cargo-tarpaulin
+
+# tarpaulin — cobertura de linhas
+cargo tarpaulin \
+    --out Html --output-dir reports/cobertura_rust/ \
+    --out Lcov --output-dir reports/ \
+    --exclude-files "tests/*" \
+    2>&1 | tee reports/tarpaulin.txt
+
+# Exibir percentual
+grep "Coverage" reports/tarpaulin.txt
+```
+
+**Critério de aprovação:** cobertura de linhas ≥ 70% nos módulos de domínio.
+
+---
+
+## T15 — Node.js / TypeScript Testing Suite
+
+> Substitui T1–T4 + T5/T12 para projetos Node.js/TypeScript. Execute na raiz do projeto com `node` e gerenciador de pacotes instalados.
+
+### T15.1 — Testes Unitários e de Integração (Jest / Vitest)
+
+```bash
+# Jest (projetos existentes)
+npx jest --coverage --coverageThreshold='{"global":{"lines":70}}' \
+    2>&1 | tee reports/jest.txt
+
+# Vitest (projetos Vite/ESM modernos)
+npx vitest run --coverage 2>&1 | tee reports/vitest.txt
+
+# Supertest — testes de integração de endpoints HTTP
+# (requer express/fastify + supertest instalados)
+# Em test/api.test.ts:
+# import request from 'supertest';
+# it('GET /health retorna 200', async () => {
+#   const res = await request(app).get('/health');
+#   expect(res.status).toBe(200);
+# });
+```
+
+**Critério de aprovação:** 0 falhas. Cobertura de linhas ≥ 70% em src/.
+
+### T15.2 — Análise Estática (ESLint + TypeScript strict)
+
+```bash
+# TypeScript — verificação de tipos estrita (sem emitir arquivos)
+npx tsc --noEmit --strict 2>&1 | tee reports/tsc.txt
+
+# ESLint — lint com regras de segurança e qualidade
+npx eslint src/ \
+    --ext .ts,.tsx,.js \
+    --format json -o reports/eslint.json
+npx eslint src/ --ext .ts,.tsx,.js 2>&1 | tee reports/eslint_resumo.txt
+
+# Verificar uso de any explícito (dívida de tipagem)
+grep -rn ": any\|as any\|<any>" src/ --include="*.ts" | tee reports/any_types.txt
+echo "Total de 'any' explícitos: $(grep -rn ': any\|as any' src/ --include='*.ts' | wc -l)"
+```
+
+**Critério de aprovação:** zero erros `tsc --strict`. Zero regras ESLint `error` ativas violadas.
+
+### T15.3 — Property-Based Testing / Fuzzing (fast-check)
+
+```bash
+npm install --save-dev fast-check
+
+# Exemplo de propriedade — adicionar ao Jest/Vitest:
+# import fc from 'fast-check';
+#
+# test('somar é comutativo', () => {
+#   fc.assert(fc.property(fc.integer(), fc.integer(), (a, b) => {
+#     expect(somar(a, b)).toBe(somar(b, a));
+#   }));
+# });
+#
+# test('processar nunca lança exceção não tratada', () => {
+#   fc.assert(fc.property(fc.string(), (s) => {
+#     expect(() => processar(s)).not.toThrow(TypeError);
+#   }), { numRuns: 500 });
+# });
+
+npx jest --testPathPattern="propriedades" -v 2>&1 | tee reports/fast_check.txt
+```
+
+### T15.4 — Dependências e CVEs
+
+```bash
+# npm audit — CVEs nas dependências (base NPM)
+npm audit --json > reports/npm_audit.json 2>/dev/null
+npm audit 2>&1 | tee reports/npm_audit_resumo.txt
+
+# Verificar dependências desatualizadas
+npm outdated --json > reports/npm_outdated.json 2>/dev/null || true
+
+# retire.js — CVEs em dependências JS (client-side também)
+npx retire --outputformat json --outputpath reports/retire.json 2>/dev/null || \
+    echo "npm install -g retire para análise adicional"
+
+# Verificar licenças das dependências
+npx license-checker --json > reports/licencas.json 2>/dev/null || \
+    echo "npm install -g license-checker para auditoria de licenças"
+```
+
+**Critério de aprovação:** zero CVEs HIGH/CRITICAL sem patch disponível. Nenhuma dependência com licença incompatível (GPL em projeto proprietário, etc.).
+
+### T15.5 — Cobertura (c8 / Istanbul)
+
+```bash
+# c8 — cobertura nativa V8 (sem instrumentação)
+npx c8 \
+    --reporter=html --reporter=text --reporter=lcov \
+    --reports-dir=reports/cobertura_node/ \
+    --branches=70 --lines=70 --functions=70 \
+    npx jest --no-coverage \
+    2>&1 | tee reports/c8.txt
+
+# Alternativa com nyc (Istanbul)
+npx nyc \
+    --reporter=html --reporter=text-summary \
+    --report-dir=reports/nyc/ \
+    npx jest 2>&1 | tee reports/nyc.txt
+```
+
+**Critério de aprovação:** lines/branches/functions ≥ 70% em src/.
+
+---
+
+## A11 — QA Python
+
+**Objetivo:** auditoria estática e de qualidade equivalente a A4/A5 para projetos Python.
+
+```bash
+pip install ruff mypy pylint bandit radon
+
+# ruff — lint completo com auto-fix preview
+ruff check src/ --select ALL \
+    --ignore ANN101,ANN401,D,ERA001 \
+    --output-format=json > reports/ruff_full.json
+ruff check src/ 2>&1 | tee reports/ruff_resumo.txt
+
+# pylint — análise mais profunda de design
+pylint src/ \
+    --output-format=json > reports/pylint.json 2>/dev/null
+pylint src/ 2>&1 | tee reports/pylint_resumo.txt
+
+# radon — complexidade ciclomática (> 10 é dívida)
+radon cc src/ -a -s | tee reports/complexidade_python.txt
+radon mi src/ -s | tee reports/manutenibilidade_python.txt
+
+# mypy estrito completo
+mypy src/ \
+    --strict \
+    --show-error-codes \
+    --show-column-numbers \
+    --pretty \
+    2>&1 | tee reports/mypy_full.txt
+
+echo "=== Resumo ==="
+echo "ruff erros:   $(python3 -c "import json; d=json.load(open('reports/ruff_full.json')); print(len(d))" 2>/dev/null || echo N/A)"
+echo "pylint score: $(grep 'Your code has been rated' reports/pylint_resumo.txt || echo N/A)"
+echo "mypy erros:   $(grep -c 'error:' reports/mypy_full.txt || echo 0)"
+```
+
+**Critério de aprovação:** pylint score ≥ 8.0. Zero erros mypy. Zero funções com complexidade ciclomática > 10 sem justificativa.
+
+---
+
+## A12 — QA Rust
+
+**Objetivo:** auditoria de qualidade equivalente a A4/A5 para projetos Rust.
+
+```bash
+# Build estrito — todos os warnings são erros
+RUSTFLAGS="-D warnings" cargo build --all-targets 2>&1 | tee reports/rust_build_strict.txt
+
+# clippy com perfil máximo
+cargo clippy --all-targets --all-features -- \
+    -D warnings \
+    -D clippy::all \
+    -D clippy::pedantic \
+    -W clippy::nursery \
+    2>&1 | tee reports/clippy_full.txt
+
+# rustfmt check
+cargo fmt --all -- --check 2>&1 | tee reports/rustfmt.txt
+
+# Complexidade — contar funções longas (> 50 linhas como heurística)
+python3 << 'EOF'
+from pathlib import Path
+import re
+
+for rs in Path("src").rglob("*.rs"):
+    text = rs.read_text()
+    funcs = re.split(r'\bfn \w+', text)
+    for i, body in enumerate(funcs[1:], 1):
+        braces, lines = 0, 0
+        for line in body.splitlines():
+            if '{' in line: braces += line.count('{')
+            if '}' in line: braces -= line.count('}')
+            lines += 1
+            if braces <= 0: break
+        if lines > 50:
+            print(f"⚠  {rs}: função #{i} com {lines} linhas")
+EOF | tee reports/funcoes_longas_rust.txt
+
+# Verificar unsafe não documentado
+python3 << 'EOF'
+from pathlib import Path
+import re
+
+for rs in Path("src").rglob("*.rs"):
+    lines = rs.read_text().splitlines()
+    for i, line in enumerate(lines):
+        if re.search(r'\bunsafe\b', line):
+            contexto = lines[i-1] if i > 0 else ""
+            if "SAFETY" not in contexto and "safety" not in contexto:
+                print(f"❌ unsafe sem SAFETY comment: {rs}:{i+1}: {line.strip()}")
+EOF | tee reports/unsafe_sem_doc.txt
+```
+
+**Critério de aprovação:** zero warnings clippy. rustfmt passa. Zero `unsafe` sem comentário `// SAFETY:`.
+
+---
+
+## A13 — QA Node.js / TypeScript
+
+**Objetivo:** auditoria de qualidade equivalente a A4/A5 para projetos Node.js/TypeScript.
+
+```bash
+# TypeScript estrito
+npx tsc --noEmit --strict --noImplicitReturns --noFallthroughCasesInSwitch \
+    2>&1 | tee reports/tsc_strict.txt
+
+# ESLint com regras de segurança
+npx eslint src/ --ext .ts,.tsx \
+    --rule '{"no-eval": "error", "no-implied-eval": "error",
+             "no-new-func": "error", "no-param-reassign": "warn",
+             "@typescript-eslint/no-explicit-any": "error",
+             "@typescript-eslint/no-non-null-assertion": "warn"}' \
+    --format json -o reports/eslint_qa.json 2>/dev/null
+npx eslint src/ --ext .ts,.tsx 2>&1 | tee reports/eslint_qa_resumo.txt
+
+# Contar 'any' explícitos — dívida de tipagem
+echo "=== Contagem de 'any' ==="
+grep -rn ": any\b\|as any\b" src/ --include="*.ts" | wc -l | xargs echo "Total:"
+grep -rn ": any\b\|as any\b" src/ --include="*.ts" | tee reports/any_types.txt
+
+# Detectar callbacks não tratados / promises sem await
+grep -rn "\.then\|\.catch" src/ --include="*.ts" | \
+    grep -v "await\|return" | tee reports/promises_sem_await.txt
+
+# Verificar console.log em produção (não deve existir em src/)
+grep -rn "console\.\(log\|warn\|error\|debug\)" src/ --include="*.ts" \
+    | grep -v "test\|spec\|__tests__" | tee reports/console_log.txt
+
+echo "=== Resumo QA ==="
+echo "tsc erros:          $(grep -c 'error TS' reports/tsc_strict.txt || echo 0)"
+echo "any explícito:      $(grep -rn ': any\b' src/ --include='*.ts' 2>/dev/null | wc -l)"
+echo "console.log em src: $(grep -rn 'console\.log' src/ --include='*.ts' 2>/dev/null | grep -v test | wc -l)"
+```
+
+**Critério de aprovação:** zero erros `tsc --strict`. Zero `as any` em código de domínio. Zero `console.log` fora de `tests/`.
+
+---
+
 ## Classificação de Problemas
 
 | Severidade | Critério | Ação |
@@ -949,14 +1456,27 @@ REPORT
 Todo problema com correção deve incluir patch unificado:
 
 ```diff
---- a/src/infraestrutura/repositorios/repositorio_cartas_tcgdex.cpp
-+++ b/src/infraestrutura/repositorios/repositorio_cartas_tcgdex.cpp
+--- a/src/infraestrutura/repositorios/repositorio_api.cpp
++++ b/src/infraestrutura/repositorios/repositorio_api.cpp
 @@ -45,7 +45,7 @@
--    void processar(DadosCarta d);
-+    void processar(const DadosCarta& d);
+-    void processar(Dados d);
++    void processar(const Dados& d);
 ```
 
 ---
 
-*Documento gerado para o projeto PokemonTCGViewer — adapte caminhos, módulos e ferramentas conforme o projeto alvo.*
-*Ferramentas: cppcheck · clang-tidy · afl++ · ASan/UBSan · trivy · grype · gitleaks · nmap · sqlmap · hurl · ffuf · radare2 · lcov · gcovr*
+## Checklists de Auditoria Detalhados por Stack
+
+Os procedimentos T1–T15 e A1–A13 cobrem execução automatizada.
+Para checklists de auditoria manual com critérios de aceitação por item e roadmaps de remediação, consulte [AUDITORIAS.md](AUDITORIAS.md).
+
+| Stack | Seção em AUDITORIAS.md |
+|-------|------------------------|
+| **C++ / Qt6 / MySQL** | Parte I — seções I1–I9 (arquitetura, segurança, C++23, Qt6, MySQL, performance, DevOps, qualidade) |
+| **Python / Qt6 / SQLite** | Parte II — seções II1–II4 (completo, arquitetura, segurança, Python moderno) |
+| **Web — PHP / JS / MySQL** | Parte III — seções III1–III7 (arquitetura 4 camadas, qualidade, performance, DevOps, API REST, acessibilidade/SEO, hardening PHP + LGPD) |
+
+---
+
+*Documento instrucional genérico — adapte caminhos, módulos e ferramentas conforme o projeto alvo.*
+*Ferramentas: cppcheck · clang-tidy · afl++ · ASan/UBSan · trivy · grype · gitleaks · nmap · sqlmap · hurl · ffuf · radare2 · lcov · gcovr · pytest · cargo · jest · ruff · mypy · bandit · cargo-audit · pip-audit · npm-audit*
