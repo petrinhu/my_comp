@@ -22,6 +22,61 @@ public:
 
     [[nodiscard]] QString get_name() const override { return "journal"; }
 
+    // Pura lógica de parsing — exposta estática para fuzzing/teste isolado (BT-02).
+    // Recebe a saída completa de `journalctl -o json` (uma linha por entrada) e popula `out`.
+    static void parse_journalctl_output(const QString& output, std::vector<LogEntry>& out) {
+        const auto lines = output.split("\n", Qt::SkipEmptyParts);
+        int current_line = 1;
+        for (const auto& line : lines) {
+            const QString trimmed = line.trimmed();
+            if (trimmed.isEmpty()) continue;
+
+            LogEntry entry{current_line++, "Live", 3, trimmed, "journal"};
+
+            if (trimmed.startsWith('{')) {
+                QJsonParseError err;
+                auto doc = QJsonDocument::fromJson(trimmed.toUtf8(), &err);
+                if (err.error == QJsonParseError::NoError && doc.isObject()) {
+                    const auto obj = doc.object();
+
+                    if (obj.contains("MESSAGE")) {
+                        const auto msg = obj.value("MESSAGE");
+                        if (msg.isString()) {
+                            entry.message = msg.toString();
+                        } else if (msg.isArray()) {
+                            QByteArray raw;
+                            for (const auto& v : msg.toArray()) raw.append(static_cast<char>(v.toInt()));
+                            entry.message = QString::fromUtf8(raw);
+                        }
+                    }
+
+                    if (obj.contains("__REALTIME_TIMESTAMP")) {
+                        bool ok = false;
+                        const qint64 us = obj.value("__REALTIME_TIMESTAMP").toString().toLongLong(&ok);
+                        if (ok && us > 0) {
+                            const auto dt = QDateTime::fromMSecsSinceEpoch(us / 1000);
+                            entry.timestamp = dt.toString("MMM dd HH:mm:ss");
+                        }
+                    }
+
+                    if (obj.contains("PRIORITY")) {
+                        bool ok = false;
+                        const int p = obj.value("PRIORITY").toString().toInt(&ok);
+                        if (ok) entry.priority = p;
+                    }
+
+                    if (obj.contains("SYSLOG_IDENTIFIER")) {
+                        entry.source = obj.value("SYSLOG_IDENTIFIER").toString();
+                    } else if (obj.contains("_COMM")) {
+                        entry.source = obj.value("_COMM").toString();
+                    }
+                }
+            }
+
+            out.push_back(std::move(entry));
+        }
+    }
+
     [[nodiscard]] std::vector<LogEntry> fetch_logs(DiagnosticFilter filter = DiagnosticFilter::All, const QString& query = "", int limit = 100) override {
         QStringList args = {"-b", "--no-pager", "-o", "json"};
         if (limit > 0) {
@@ -57,60 +112,7 @@ public:
         shell_->execute("journalctl", args, output);
 
         std::vector<LogEntry> logs;
-        auto lines = output.split("\n", Qt::SkipEmptyParts);
-        int current_line = 1;
-        for (const auto& line : lines) {
-            const QString trimmed = line.trimmed();
-            if (trimmed.isEmpty()) continue;
-
-            LogEntry entry{current_line++, "Live", 3, trimmed, "journal"};
-
-            if (trimmed.startsWith('{')) {
-                QJsonParseError err;
-                auto doc = QJsonDocument::fromJson(trimmed.toUtf8(), &err);
-                if (err.error == QJsonParseError::NoError && doc.isObject()) {
-                    const auto obj = doc.object();
-
-                    // MESSAGE pode ser string, array de bytes, ou ausente
-                    if (obj.contains("MESSAGE")) {
-                        const auto msg = obj.value("MESSAGE");
-                        if (msg.isString()) {
-                            entry.message = msg.toString();
-                        } else if (msg.isArray()) {
-                            QByteArray raw;
-                            for (const auto& v : msg.toArray()) raw.append(static_cast<char>(v.toInt()));
-                            entry.message = QString::fromUtf8(raw);
-                        }
-                    }
-
-                    // __REALTIME_TIMESTAMP em microssegundos desde epoch (string)
-                    if (obj.contains("__REALTIME_TIMESTAMP")) {
-                        bool ok = false;
-                        const qint64 us = obj.value("__REALTIME_TIMESTAMP").toString().toLongLong(&ok);
-                        if (ok && us > 0) {
-                            const auto dt = QDateTime::fromMSecsSinceEpoch(us / 1000);
-                            entry.timestamp = dt.toString("MMM dd HH:mm:ss");
-                        }
-                    }
-
-                    // PRIORITY vem como string "0".."7"
-                    if (obj.contains("PRIORITY")) {
-                        bool ok = false;
-                        const int p = obj.value("PRIORITY").toString().toInt(&ok);
-                        if (ok) entry.priority = p;
-                    }
-
-                    // Fonte preferida: SYSLOG_IDENTIFIER, fallback _COMM
-                    if (obj.contains("SYSLOG_IDENTIFIER")) {
-                        entry.source = obj.value("SYSLOG_IDENTIFIER").toString();
-                    } else if (obj.contains("_COMM")) {
-                        entry.source = obj.value("_COMM").toString();
-                    }
-                }
-            }
-
-            logs.push_back(std::move(entry));
-        }
+        parse_journalctl_output(output, logs);
         return logs;
     }
 

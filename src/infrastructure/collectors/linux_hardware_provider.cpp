@@ -42,41 +42,48 @@ void LinuxHardwareProvider::collect_smbios(domain::models::HardwareTopology& top
     topology.smbios.boardSerial = read_sys_file(base_path + "board_serial");
 }
 
+void LinuxHardwareProvider::parse_lsusb_output(const QString& output, std::vector<domain::models::UsbDevice>& devices) {
+    // lsusb format: Bus 001 Device 002: ID 046d:c52b Logitech, Inc. Unifying Receiver
+    const QStringList lines = output.split('\n', Qt::SkipEmptyParts);
+    for (const QString& line : lines) {
+        const QStringList parts = line.split(' ');
+        if (parts.size() < 6) continue;
+        const QStringList vidpid = parts[5].split(':');
+        if (vidpid.size() < 2) continue; // protege contra entrada malformada (BT-02 fuzz)
+        domain::models::UsbDevice dev;
+        dev.bus = parts[1];
+        dev.vendorId = vidpid.at(0);
+        dev.productId = vidpid.at(1);
+        dev.name = parts.mid(6).join(' ');
+        devices.push_back(dev);
+    }
+}
+
+void LinuxHardwareProvider::parse_bluetoothctl_output(const QString& output, std::vector<domain::models::BluetoothDevice>& devices) {
+    // bluetoothctl devices format: Device XX:XX:XX:XX:XX:XX Name
+    const QStringList lines = output.split('\n', Qt::SkipEmptyParts);
+    for (const QString& line : lines) {
+        const QStringList parts = line.split(' ', Qt::SkipEmptyParts);
+        if (parts.size() < 3) continue;
+        domain::models::BluetoothDevice dev = {"", "", false, false, ""};
+        dev.address = parts[1];
+        dev.name = parts.mid(2).join(' ');
+        dev.paired = true; // bluetoothctl devices lista pareados por padrao
+        devices.push_back(dev);
+    }
+}
+
 void LinuxHardwareProvider::collect_usb(domain::models::HardwareTopology& topology) {
     QString output;
-    // lsusb format: Bus 001 Device 002: ID 046d:c52b Logitech, Inc. Unifying Receiver
     if (m_executor->execute("lsusb", {}, output) == 0) {
-        QStringList lines = output.split('\n', Qt::SkipEmptyParts);
-        for (const QString& line : lines) {
-            domain::models::UsbDevice dev;
-            // Parsing básico: Bus XXX Device XXX: ID XXXX:XXXX Name
-            QStringList parts = line.split(' ');
-            if (parts.size() >= 6) {
-                dev.bus = parts[1];
-                dev.vendorId = parts[5].split(':').at(0);
-                dev.productId = parts[5].split(':').at(1);
-                dev.name = parts.mid(6).join(' ');
-                topology.usbDevices.push_back(dev);
-            }
-        }
+        parse_lsusb_output(output, topology.usbDevices);
     }
 }
 
 void LinuxHardwareProvider::collect_bluetooth(domain::models::HardwareTopology& topology) {
     QString output;
-    // bluetoothctl devices format: Device XX:XX:XX:XX:XX:XX Name
     if (m_executor->execute("bluetoothctl", {"devices"}, output) == 0) {
-        QStringList lines = output.split('\n', Qt::SkipEmptyParts);
-        for (const QString& line : lines) {
-            domain::models::BluetoothDevice dev = {"", "", false, false, ""};
-            QStringList parts = line.split(' ', Qt::SkipEmptyParts);
-            if (parts.size() >= 3) {
-                dev.address = parts[1];
-                dev.name = parts.mid(2).join(' ');
-                dev.paired = true; // bluetoothctl devices lista pareados por padrao
-                topology.bluetoothDevices.push_back(dev);
-            }
-        }
+        parse_bluetoothctl_output(output, topology.bluetoothDevices);
     }
 }
 

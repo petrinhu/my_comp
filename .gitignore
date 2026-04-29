@@ -1,5 +1,6 @@
 build/
 build_cov/
+build-fuzz/
 reports/
 .cache/
 compile_commands.json

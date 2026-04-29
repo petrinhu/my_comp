@@ -1,0 +1,2 @@
+{"ID":"abc123","Names":"webserver","Image":"nginx:latest","Status":"Up 3 days"}
+{"ID":"def456","Names":"db","Image":"postgres:16","State":"running"}

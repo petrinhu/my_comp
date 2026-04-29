@@ -206,6 +206,7 @@ set(UNIT_TEST_SOURCES
 add_executable(unit_tests ${UNIT_TEST_SOURCES})
 target_link_libraries(unit_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::Gui Qt6::DBus Qt6::Network Qt6::Multimedia Qt6::Concurrent Qt6::Test OpenSSL::SSL OpenSSL::Crypto)
 add_test(NAME unit_tests COMMAND unit_tests)
+set_tests_properties(unit_tests PROPERTIES TIMEOUT 120)
 
 # Acceptance Tests Target
 set(ACCEPTANCE_TEST_SOURCES
@@ -297,3 +298,50 @@ target_link_libraries(acceptance_tests PRIVATE
     OpenSSL::Crypto
 )
 add_test(NAME acceptance_tests COMMAND acceptance_tests)
+set_tests_properties(acceptance_tests PROPERTIES TIMEOUT 180)
+
+# ----------------------------------------------------------------------------
+# BT-02 — libFuzzer harnesses (opt-in). Requer clang.
+#   Configure: cmake -B build-fuzz -G Ninja -DMY_COMP_BUILD_FUZZERS=ON \
+#                    -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++
+#   Build:     cmake --build build-fuzz --target fuzz_journal_parser
+#   Smoke:     ./build-fuzz/fuzz_journal_parser tests/fuzz/corpus/journal/ \
+#                    -max_total_time=15 -timeout=5
+# ----------------------------------------------------------------------------
+option(MY_COMP_BUILD_FUZZERS "Build libFuzzer harnesses (BT-02). Requires clang." OFF)
+
+if(MY_COMP_BUILD_FUZZERS)
+    if(NOT CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        message(FATAL_ERROR "MY_COMP_BUILD_FUZZERS=ON requires clang (current: ${CMAKE_CXX_COMPILER_ID}).")
+    endif()
+
+    set(FUZZ_FLAGS -fsanitize=fuzzer,address -fno-omit-frame-pointer -g -O1)
+
+    # Journal parser — parser inline no header, basta linkar Qt::Core.
+    add_executable(fuzz_journal_parser tests/fuzz/fuzz_journal_parser.cpp)
+    target_compile_options(fuzz_journal_parser PRIVATE ${FUZZ_FLAGS})
+    target_link_options(fuzz_journal_parser PRIVATE ${FUZZ_FLAGS})
+    target_link_libraries(fuzz_journal_parser PRIVATE Qt6::Core)
+
+    # Containers parser — precisa do .cpp do provider (parser não-inline).
+    add_executable(fuzz_containers_parser
+        tests/fuzz/fuzz_containers_parser.cpp
+        src/infrastructure/collectors/linux_dev_stack_provider.cpp
+        src/infrastructure/collectors/qprocess_shell_executor.cpp
+    )
+    target_compile_options(fuzz_containers_parser PRIVATE ${FUZZ_FLAGS})
+    target_link_options(fuzz_containers_parser PRIVATE ${FUZZ_FLAGS})
+    target_link_libraries(fuzz_containers_parser PRIVATE Qt6::Core Qt6::Concurrent)
+
+    # Hardware parsers — combina lsusb + bluetoothctl.
+    add_executable(fuzz_hardware_parsers
+        tests/fuzz/fuzz_hardware_parsers.cpp
+        src/infrastructure/collectors/linux_hardware_provider.cpp
+        src/infrastructure/collectors/qprocess_shell_executor.cpp
+    )
+    target_compile_options(fuzz_hardware_parsers PRIVATE ${FUZZ_FLAGS})
+    target_link_options(fuzz_hardware_parsers PRIVATE ${FUZZ_FLAGS})
+    target_link_libraries(fuzz_hardware_parsers PRIVATE Qt6::Core)
+
+    message(STATUS "BT-02: fuzzers habilitados — fuzz_journal_parser, fuzz_containers_parser, fuzz_hardware_parsers.")
+endif()

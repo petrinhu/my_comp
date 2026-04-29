@@ -10,9 +10,13 @@ public:
     explicit LinuxHardwareProvider(std::shared_ptr<IShellExecutor> executor);
     domain::models::HardwareTopology collect_topology() override;
 
+    // Públicos estáticos — pura lógica de parsing, expostos para fuzzing/teste isolado (BT-02).
+    static void parse_lsusb_output(const QString& output, std::vector<domain::models::UsbDevice>& devices);
+    static void parse_bluetoothctl_output(const QString& output, std::vector<domain::models::BluetoothDevice>& devices);
+
 private:
     std::shared_ptr<IShellExecutor> m_executor;
-    
+
     void collect_smbios(domain::models::HardwareTopology& topology);
     void collect_usb(domain::models::HardwareTopology& topology);
     void collect_bluetooth(domain::models::HardwareTopology& topology);
