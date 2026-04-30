@@ -1,0 +1,36 @@
+#pragma once
+
+#include "domain/vram/interfaces/i_gpu_backend.h"
+
+#include <QString>
+
+namespace vramopt::infrastructure {
+
+class IntelI915GpuBackend final : public domain::IGpuBackend {
+public:
+    explicit IntelI915GpuBackend(QString drm_root = QStringLiteral("/sys/class/drm"),
+                                 QString proc_root = QStringLiteral("/proc"));
+
+    [[nodiscard]] std::vector<domain::GpuInfo> enumerarGpus() const override;
+
+    [[nodiscard]] std::vector<domain::Processo>
+        enumerarProcessosVram(int gpu_id) const override;
+
+    [[nodiscard]] static bool sistemaTemGpuIntel(const QString& drm_root);
+
+private:
+    struct CardIntel {
+        int                      id_local;
+        QString                  card_dir;
+        QString                  pci_slot;
+        QString                  modelo;
+        domain::BytesDeMemoria   vram_total;
+    };
+
+    [[nodiscard]] std::vector<CardIntel> descobrirCards() const;
+
+    QString m_drm_root;
+    QString m_proc_root;
+};
+
+}

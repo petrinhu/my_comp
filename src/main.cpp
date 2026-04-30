@@ -1,7 +1,10 @@
+#include <QCoreApplication>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QStringList>
 #include <QStyleHints>
+#include <QTextStream>
 #include <QDebug>
 #include <QFile>
 #include <QMediaDevices>
@@ -66,8 +69,40 @@ using namespace Qt::StringLiterals;
 #include "infrastructure/collectors/installer_adapter.h"
 #include "presentation/viewmodels/installation_viewmodel.h"
 
+// Feature VRAM (auditoria de uso de VRAM por processo)
+#include "presentation/cli/cli_vram.h"
+#include "application/vram/auditoria/servico_auditar_vram_atual.h"
+#include "application/vram/classificacao/classificador_em_cascata.h"
+#include "application/vram/classificacao/regras/mapa_categorias_desktop.h"
+#include "application/vram/classificacao/regras/regra_categoria_desktop.h"
+#include "application/vram/classificacao/servico_classificar_processo.h"
+#include "application/vram/classificacao/servico_sugerir_acao.h"
+#include "application/vram/configuracao/localizador_composite.h"
+#include "application/vram/configuracao/servico_localizar_config.h"
+#include "application/vram/configuracao/sublocators/localizador_browser_chromium.h"
+#include "application/vram/configuracao/sublocators/localizador_desktop_wrapper.h"
+#include "application/vram/configuracao/sublocators/localizador_env_var.h"
+#include "application/vram/configuracao/sublocators/localizador_firefox.h"
+#include "infrastructure/collectors/vram/factory_gpu_backend.h"
+#include "infrastructure/collectors/vram/leitor_arquivo_config_fs.h"
+#include "infrastructure/collectors/vram/leitor_desktop_exec_xdg.h"
+#include "infrastructure/collectors/vram/leitor_desktop_file_xdg.h"
+#include "infrastructure/collectors/vram/leitor_environ_proc.h"
+#include "presentation/viewmodels/vram_audit_viewmodel.h"
+
 int main(int argc, char *argv[])
 {
+    // Subcomando CLI: my_comp vram [--json|--all-processes|--no-config-origins]
+    if (argc >= 2 && QString::fromUtf8(argv[1]) == QStringLiteral("vram")) {
+        QCoreApplication cli_app(argc, argv);
+        QStringList sub_args;
+        for (int i = 2; i < argc; ++i) {
+            sub_args << QString::fromUtf8(argv[i]);
+        }
+        QTextStream out{stdout};
+        return vramopt::presentation::cli::executar(sub_args, out);
+    }
+
     qputenv("QT_QPA_PLATFORM", "wayland");
 
     QGuiApplication app(argc, argv);
@@ -144,6 +179,36 @@ int main(int argc, char *argv[])
     export_vm->add_provider(std::make_unique<my_comp::infrastructure::exporters::HtmlExportProvider>());
     export_vm->set_vms(system_info_vm.get(), cpu_vm.get(), memory_vm.get(), user_metadata_vm.get(), hardware_vm.get(), dev_stack_vm.get());
 
+    // Feature VRAM — wiring DI da auditoria
+    auto vram_leitor_arq      = std::make_shared<vramopt::infrastructure::LeitorArquivoConfigFs>();
+    auto vram_leitor_environ  = std::make_shared<vramopt::infrastructure::LeitorEnvironProc>();
+    auto vram_leitor_dexec    = std::make_shared<vramopt::infrastructure::LeitorDesktopExecXdg>();
+    auto vram_leitor_dfile    = std::make_shared<vramopt::infrastructure::LeitorDesktopFileXdg>();
+
+    std::vector<std::shared_ptr<vramopt::domain::IConfigLocator>> vram_sublocs = {
+        std::make_shared<vramopt::application::LocalizadorBrowserChromium>(vram_leitor_arq),
+        std::make_shared<vramopt::application::LocalizadorFirefox>(vram_leitor_arq),
+        std::make_shared<vramopt::application::LocalizadorEnvVar>(vram_leitor_environ),
+        std::make_shared<vramopt::application::LocalizadorDesktopWrapper>(vram_leitor_dexec),
+    };
+    auto vram_loc_composite = std::make_shared<vramopt::application::LocalizadorComposite>(std::move(vram_sublocs));
+    auto vram_svc_localizar = std::make_shared<vramopt::application::ServicoLocalizarConfig>(vram_loc_composite);
+
+    std::vector<std::shared_ptr<vramopt::domain::IRegraClassificacao>> vram_regras = {
+        std::make_shared<vramopt::application::RegraCategoriaDesktop>(
+            vram_leitor_dfile,
+            vramopt::application::MapaCategoriasDesktop::padrao()),
+    };
+    auto vram_classif = std::make_shared<vramopt::application::ClassificadorEmCascata>(std::move(vram_regras));
+    auto vram_svc_classif = std::make_shared<vramopt::application::ServicoClassificarProcesso>(vram_classif);
+    auto vram_svc_sugerir = std::make_shared<vramopt::application::ServicoSugerirAcao>();
+
+    auto vram_backend = vramopt::infrastructure::criarBackendCompositoDoSistema();
+    auto vram_svc_auditar = std::make_shared<vramopt::application::ServicoAuditarVramAtual>(
+        vram_backend, vram_svc_classif, vram_svc_sugerir, vram_svc_localizar);
+
+    auto vram_audit_vm = std::make_unique<vramopt::presentation::viewmodels::VramAuditViewModel>(vram_svc_auditar);
+
     QQmlApplicationEngine engine;
     auto ctx = engine.rootContext();
     ctx->setContextProperty("isSystemDarkInitial", is_system_dark);
@@ -166,6 +231,7 @@ int main(int argc, char *argv[])
     ctx->setContextProperty("storageViewModel", storage_vm.get());
     ctx->setContextProperty("directoryScannerViewModel", directory_scanner_vm.get());
     ctx->setContextProperty("networkViewModel", network_vm.get());
+    ctx->setContextProperty("vramAuditViewModel", vram_audit_vm.get());
 
     const QUrl url(u"qrc:/Main.qml"_s);
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated, &app,

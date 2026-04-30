@@ -46,6 +46,7 @@ TEST(IAmostradorComportamentoTest, EAbstrata) {
 }
 
 #include "domain/vram/interfaces/i_config_locator.h"
+#include "domain/vram/interfaces/i_gpu_backend.h"
 #include "domain/vram/interfaces/i_leitor_arquivo_config.h"
 #include "domain/vram/interfaces/i_leitor_desktop_exec.h"
 #include "domain/vram/interfaces/i_leitor_environ.h"
@@ -64,5 +65,9 @@ TEST(ILeitorArquivoConfigTest, EAbstrata) {
 }
 TEST(ILeitorDesktopExecTest, EAbstrata) {
     static_assert(std::is_abstract_v<vramopt::domain::ILeitorDesktopExec>);
+    SUCCEED();
+}
+TEST(IGpuBackendTest, EAbstrata) {
+    static_assert(std::is_abstract_v<vramopt::domain::IGpuBackend>);
     SUCCEED();
 }

@@ -257,7 +257,8 @@ Window {
                         {name: "Dev Tools", icon: "🛠️"},
                         {name: "Security", icon: "🛡️"},
                         {name: "Export", icon: "📤"},
-                        {name: "Storage", icon: "💾"}
+                        {name: "Storage", icon: "💾"},
+                        {name: "VRAM", icon: "🎮"}
                     ]
                     delegate: ItemDelegate {
                         id: navDelegate
@@ -516,7 +517,7 @@ Window {
                             highlighted: true
                             onClicked: {
                                 installationViewModel.startUpgradeAll()
-                                root.currentView = 10 // ABA de Instalação
+                                root.currentView = 11 // ABA de Instalação
                             }
                         }
                         BusyIndicator { running: updateViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
@@ -535,7 +536,7 @@ Window {
                                 width: ListView.view.width; height: 50
                                 onDoubleClicked: {
                                     installationViewModel.startInstallation(name, provider)
-                                    root.currentView = 10
+                                    root.currentView = 11
                                 }
                                 background: Rectangle {
                                     color: isCritical ? Qt.rgba(root.criticalColor.r, root.criticalColor.g, root.criticalColor.b, 0.08) : "transparent"
@@ -1355,7 +1356,187 @@ Window {
                 }
             }
 
-            // ABA 10 - Installation
+            // ABA 10 - VRAM
+            ScrollView {
+                contentWidth: availableWidth
+                clip: true
+                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+
+                ColumnLayout {
+                    width: parent.width
+                    spacing: 14
+
+                    RowLayout {
+                        Layout.fillWidth: true
+                        spacing: 10
+                        Text {
+                            text: "🎮 Auditoria de uso de VRAM"
+                            color: root.textColor
+                            font.pixelSize: 22
+                            font.bold: true
+                            Layout.fillWidth: true
+                        }
+                        Button {
+                            text: vramAuditViewModel.isBusy ? "⏳ Auditando..." : "🔄 Atualizar"
+                            enabled: !vramAuditViewModel.isBusy
+                            onClicked: vramAuditViewModel.refresh()
+                        }
+                    }
+
+                    Text {
+                        text: vramAuditViewModel.grupos.length === 0
+                              ? "Nenhuma GPU detectada ou auditoria ainda não executada. Clique em \"Atualizar\"."
+                              : "Cada processo é classificado pela cascata Catálogo → Categoria desktop → Comportamento. Verde = candidato a desligar GPU; Amarelo = inconclusivo; Vermelho = precisa GPU."
+                        color: root.textColor
+                        opacity: 0.85
+                        wrapMode: Text.WordWrap
+                        Layout.fillWidth: true
+                    }
+
+                    Repeater {
+                        model: vramAuditViewModel.grupos
+                        delegate: ColumnLayout {
+                            Layout.fillWidth: true
+                            spacing: 6
+
+                            Rectangle {
+                                Layout.fillWidth: true
+                                color: root.cardColor
+                                border.color: root.borderColor
+                                radius: 8
+                                implicitHeight: header.implicitHeight + 18
+
+                                RowLayout {
+                                    id: header
+                                    anchors.fill: parent
+                                    anchors.margins: 9
+                                    spacing: 12
+                                    Text {
+                                        text: "GPU " + modelData.gpuId + " — " + modelData.gpuFabricante
+                                              + " · " + modelData.gpuModelo
+                                        color: root.textColor
+                                        font.bold: true
+                                        font.pixelSize: 14
+                                        Layout.fillWidth: true
+                                    }
+                                    Text {
+                                        text: modelData.gpuVramTotalMb > 0
+                                              ? "VRAM total: " + modelData.gpuVramTotalMb.toFixed(0) + " MiB"
+                                              : "VRAM total: —"
+                                        color: root.highlightColor
+                                        font.pixelSize: 12
+                                        font.family: "monospace"
+                                    }
+                                }
+                            }
+
+                            Repeater {
+                                model: modelData.itens
+                                delegate: Rectangle {
+                                    Layout.fillWidth: true
+                                    color: "transparent"
+                                    border.color: root.borderColor
+                                    radius: 6
+                                    implicitHeight: itemCol.implicitHeight + 14
+
+                                    ColumnLayout {
+                                        id: itemCol
+                                        anchors.fill: parent
+                                        anchors.margins: 7
+                                        spacing: 4
+
+                                        RowLayout {
+                                            Layout.fillWidth: true
+                                            spacing: 10
+                                            Rectangle {
+                                                width: 10; height: 10; radius: 5
+                                                color: modelData.categoria === "PrecisaGpu" ? "#e74c3c"
+                                                     : modelData.categoria === "CandidatoObvioCpu" ? "#27ae60"
+                                                     : "#f39c12"
+                                            }
+                                            Text {
+                                                text: modelData.nome + " (PID " + modelData.pid + ")"
+                                                color: root.textColor
+                                                font.bold: true
+                                                Layout.fillWidth: true
+                                            }
+                                            Text {
+                                                text: "VRAM: " + modelData.vramMb.toFixed(0) + " MiB"
+                                                color: root.highlightColor
+                                                font.family: "monospace"
+                                                font.pixelSize: 11
+                                            }
+                                        }
+
+                                        Text {
+                                            text: "Categoria: " + modelData.categoria
+                                                  + "  ·  Regra: " + modelData.regra
+                                                  + (modelData.detalhe.length > 0 ? "  ·  " + modelData.detalhe : "")
+                                            color: root.textColor
+                                            opacity: 0.75
+                                            font.pixelSize: 11
+                                            wrapMode: Text.WordWrap
+                                            Layout.fillWidth: true
+                                        }
+
+                                        Text {
+                                            visible: modelData.sugestaoDescricao && modelData.sugestaoDescricao.length > 0
+                                            text: "💡 " + modelData.sugestaoDescricao
+                                            color: root.highlightColor
+                                            opacity: 0.9
+                                            font.pixelSize: 11
+                                            wrapMode: Text.WordWrap
+                                            Layout.fillWidth: true
+                                        }
+
+                                        Repeater {
+                                            model: modelData.origensConfig
+                                            delegate: Rectangle {
+                                                Layout.fillWidth: true
+                                                Layout.leftMargin: 18
+                                                Layout.topMargin: 4
+                                                color: root.isDark ? "#2b3036" : "#f0f2f5"
+                                                radius: 4
+                                                implicitHeight: origCol.implicitHeight + 8
+
+                                                ColumnLayout {
+                                                    id: origCol
+                                                    anchors.fill: parent
+                                                    anchors.margins: 6
+                                                    spacing: 2
+                                                    Text {
+                                                        text: "[" + modelData.categoria + "] "
+                                                              + modelData.chave + " = " + modelData.valorAtual
+                                                              + "  →  sugerido: " + modelData.valorSugerido
+                                                              + "  (" + modelData.confianca + ")"
+                                                        color: root.textColor
+                                                        font.family: "monospace"
+                                                        font.pixelSize: 11
+                                                        wrapMode: Text.WordWrap
+                                                        Layout.fillWidth: true
+                                                    }
+                                                    Text {
+                                                        text: modelData.instrucao
+                                                        color: root.textColor
+                                                        opacity: 0.8
+                                                        font.pixelSize: 11
+                                                        wrapMode: Text.WordWrap
+                                                        Layout.fillWidth: true
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            Item { Layout.fillWidth: true; Layout.preferredHeight: 6 }
+                        }
+                    }
+                }
+            }
+
+            // ABA 11 - Installation
             InstallationView { id: installView; anchors.margins: 25 }
         }
     }

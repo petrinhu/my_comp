@@ -91,6 +91,8 @@ set(PROJECT_SOURCES
     src/presentation/viewmodels/audio_viewmodel.cpp
     src/presentation/viewmodels/installation_viewmodel.cpp
     src/presentation/viewmodels/directory_scanner_viewmodel.cpp
+    src/presentation/viewmodels/vram_audit_viewmodel.cpp
+    src/presentation/cli/cli_vram.cpp
 
     # ----- Feature VRAM (unificada no my_comp — Fase B) -----
     # Domain
@@ -125,6 +127,19 @@ set(PROJECT_SOURCES
     src/application/vram/configuracao/sublocators/localizador_desktop_wrapper.cpp
     src/application/vram/configuracao/localizador_composite.cpp
     src/application/vram/configuracao/servico_localizar_config.cpp
+    src/application/vram/auditoria/servico_auditar_vram_atual.cpp
+    # Foundation/VRAM
+    src/infrastructure/collectors/vram/composite_gpu_backend.cpp
+    src/infrastructure/collectors/vram/intel_i915_gpu_backend.cpp
+    src/infrastructure/collectors/vram/nvml_gpu_backend.cpp
+    src/infrastructure/collectors/vram/nvml_adapter_dl.cpp
+    src/infrastructure/collectors/vram/factory_gpu_backend.cpp
+    # Foundation/Config (VRAM-03)
+    src/infrastructure/collectors/vram/leitor_arquivo_config_fs.cpp
+    src/infrastructure/collectors/vram/leitor_environ_proc.cpp
+    src/infrastructure/collectors/vram/desktop_xdg_search.cpp
+    src/infrastructure/collectors/vram/leitor_desktop_exec_xdg.cpp
+    src/infrastructure/collectors/vram/leitor_desktop_file_xdg.cpp
 )
 
 # Recurso QML
@@ -136,9 +151,9 @@ add_executable(my_comp ${PROJECT_SOURCES})
 target_include_directories(my_comp PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 target_link_libraries(my_comp PRIVATE
-    Qt6::Core 
-    Qt6::Gui 
-    Qt6::Quick 
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Quick
     Qt6::QuickControls2
     Qt6::WaylandClient
     Qt6::Multimedia
@@ -147,6 +162,7 @@ target_link_libraries(my_comp PRIVATE
     Qt6::Concurrent
     OpenSSL::SSL
     OpenSSL::Crypto
+    ${CMAKE_DL_LIBS}
 )
 
 # Configuração de Testes
@@ -250,6 +266,8 @@ set(UNIT_TEST_SOURCES
     src/presentation/viewmodels/audio_viewmodel.cpp
     src/presentation/viewmodels/installation_viewmodel.cpp
     src/presentation/viewmodels/directory_scanner_viewmodel.cpp
+    src/presentation/viewmodels/vram_audit_viewmodel.cpp
+    src/presentation/cli/cli_vram.cpp
 
     # ----- Feature VRAM — fontes de produção (precisam estar no test binary) -----
     src/domain/vram/valueobjects/pid.cpp
@@ -282,6 +300,17 @@ set(UNIT_TEST_SOURCES
     src/application/vram/configuracao/sublocators/localizador_desktop_wrapper.cpp
     src/application/vram/configuracao/localizador_composite.cpp
     src/application/vram/configuracao/servico_localizar_config.cpp
+    src/application/vram/auditoria/servico_auditar_vram_atual.cpp
+    src/infrastructure/collectors/vram/composite_gpu_backend.cpp
+    src/infrastructure/collectors/vram/intel_i915_gpu_backend.cpp
+    src/infrastructure/collectors/vram/nvml_gpu_backend.cpp
+    src/infrastructure/collectors/vram/nvml_adapter_dl.cpp
+    src/infrastructure/collectors/vram/factory_gpu_backend.cpp
+    src/infrastructure/collectors/vram/leitor_arquivo_config_fs.cpp
+    src/infrastructure/collectors/vram/leitor_environ_proc.cpp
+    src/infrastructure/collectors/vram/desktop_xdg_search.cpp
+    src/infrastructure/collectors/vram/leitor_desktop_exec_xdg.cpp
+    src/infrastructure/collectors/vram/leitor_desktop_file_xdg.cpp
 
     # ----- Feature VRAM — testes unitários -----
     tests/unit/vram/sanity_test.cpp
@@ -317,6 +346,17 @@ set(UNIT_TEST_SOURCES
     tests/unit/vram/mid/localizador_composite_test.cpp
     tests/unit/vram/mid/servico_localizar_config_test.cpp
     tests/unit/vram/mid/integracao_localizador_composite_test.cpp
+    tests/unit/vram/mid/servico_auditar_vram_atual_test.cpp
+    tests/unit/vram/back/composite_gpu_backend_test.cpp
+    tests/unit/vram/back/intel_i915_gpu_backend_test.cpp
+    tests/unit/vram/back/nvml_gpu_backend_test.cpp
+    tests/unit/vram/back/null_gpu_backend_test.cpp
+    tests/unit/vram/back/factory_gpu_backend_test.cpp
+    tests/unit/vram/back/leitor_arquivo_config_fs_test.cpp
+    tests/unit/vram/back/leitor_environ_proc_test.cpp
+    tests/unit/vram/back/leitor_desktop_xdg_test.cpp
+    tests/unit/vram/mid/vram_audit_viewmodel_test.cpp
+    tests/unit/vram/mid/cli_vram_test.cpp
 )
 
 add_executable(unit_tests ${UNIT_TEST_SOURCES})
@@ -324,7 +364,7 @@ target_include_directories(unit_tests PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
     ${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/vram
 )
-target_link_libraries(unit_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::Gui Qt6::DBus Qt6::Network Qt6::Multimedia Qt6::Concurrent Qt6::Test OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(unit_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::Gui Qt6::DBus Qt6::Network Qt6::Multimedia Qt6::Concurrent Qt6::Test OpenSSL::SSL OpenSSL::Crypto ${CMAKE_DL_LIBS})
 add_test(NAME unit_tests COMMAND unit_tests)
 set_tests_properties(unit_tests PROPERTIES TIMEOUT 120)
 
