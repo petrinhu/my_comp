@@ -2,6 +2,11 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo seguindo [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) e [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0-alpha.4] - 2026-04-30
+
+### Adicionado
+
+- **vram**: VRAM-01..05 — auditoria de uso de VRAM (domain+app+infra+QML+CLI) ([`93dbc0a`](#93dbc0ac2f52eed5bb7b1f2b4c18ed3a25d54613))
 ## [0.1.0-alpha.3] - 2026-04-30
 
 ### Corrigido
