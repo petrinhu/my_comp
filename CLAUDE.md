@@ -144,10 +144,49 @@ Escopo entre parênteses referencia módulo (`feat(audio): …`, `fix(process): 
 - Proibido: segredos hardcoded, string concat em SQL, `eval`/`exec` com input externo.
 - Validar toda entrada externa (QProcess output, DBus payload, arquivos de `/sys`, `/proc`).
 
-## 11. Repositório
+## 11. Repositório e versionamento
 
-- Remoto: `ssh://git@codeberg.org/petrinhu/my_comp.git`
+- Remoto: `ssh://git@codeberg.org/petrinhu/my_comp.git`.
 - `master` é a branch principal — nunca `force push`; trabalho em branch `feat/…` ou `fix/…` quando a mudança for grande.
+
+### 11.1 Esquema SemVer 2.0 + git-cliff
+
+- **Versionamento:** [SemVer 2.0](https://semver.org/spec/v2.0.0.html) com pré-release.
+  - Hoje: `v0.1.0-alpha.0` (baseline). Pré-1.0 = APIs ainda instáveis.
+  - Próximo release calculado automaticamente pelos commits Conventional desde o último tag.
+  - **`feat:`** → bump MINOR (`v0.1.0-alpha.0` → `v0.2.0-alpha.0`).
+  - **`fix:`/`refactor:`/`perf:`/`docs:`** → bump PATCH (`v0.1.0` → `v0.1.1`).
+  - **`BREAKING CHANGE:`** no rodapé do commit → bump MAJOR (cuidado: zera pré-release).
+  - Marco `BT-04 Release Beta v2.0` cortará `v1.0.0-beta.0` (decisão consciente, não automática).
+- **Codename "v2.0"** no nome do projeto (README, este CLAUDE) é label histórica (segunda geração pós-bash legacy v0.3.6) — independente do SemVer real.
+- **Arquivo `VERSION`** na raiz reflete a versão **atual** (do último release feito).
+- **Arquivo `CHANGELOG.md`** seguindo Keep a Changelog — gerado/atualizado pelo `git-cliff` a cada release. Não editar manualmente acima da linha de marcador.
+
+### 11.2 Tooling
+
+- **[git-cliff](https://git-cliff.org)** (Rust, single binary) — calcula bump SemVer pelos commits Conventional, gera/atualiza CHANGELOG.
+- **`cliff.toml`** na raiz — configuração (parsers Conventional → seções pt-br do CHANGELOG, estratégia de bump).
+- **`scripts/release.sh`** — orquestra: bump → atualiza VERSION + CHANGELOG → commit `chore(release): vX` → tag anotada.
+- **`scripts/hooks/pre-push`** — bloqueia `git push` direto (sem release semântica). Bypass via `DEPLOY_SH_RUNNING=1`.
+- **`deploy.sh`** — único caminho normal para push: build → commit opcional → release.sh → `git push --follow-tags`.
+- Ativação dos hooks: `git config core.hooksPath scripts/hooks` (já feito uma vez por clone).
+
+### 11.3 Fluxo prático
+
+```bash
+# Caminho normal (release automática + push):
+./deploy.sh                              # releaseia commits já criados e pusha
+./deploy.sh "feat(x): mensagem"          # commita pendências + releaseia + pusha
+
+# Pré-validação (sem alterar nada):
+./scripts/release.sh --dry-run
+
+# Setup inicial em clone novo:
+git config core.hooksPath scripts/hooks
+cargo install git-cliff   # ou: dnf install git-cliff (quando disponível no Fedora)
+```
+
+Push direto (`git push` fora do `deploy.sh`) é bloqueado pelo hook — força tooling consistente.
 
 ## 12. Pendências
 

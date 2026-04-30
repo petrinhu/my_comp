@@ -1,0 +1,38 @@
+#!/bin/bash
+# scripts/hooks/pre-push — bloqueia push direto sem release semântica.
+#
+# Ativado por: git config core.hooksPath scripts/hooks
+# Burlado intencionalmente por: deploy.sh (que seta DEPLOY_SH_RUNNING=1
+# antes de invocar git push --follow-tags).
+#
+# Objetivo: impedir que um push acidental (ou esquecido) chegue ao
+# Codeberg sem que release.sh tenha rodado primeiro (sem bump de
+# VERSION, sem entrada no CHANGELOG, sem tag).
+
+set -e
+
+GREEN='\033[0;32m'; YELLOW='\033[1;33m'; RED='\033[0;31m'; NC='\033[0m'
+
+# Bypass quando invocado pelo deploy.sh
+if [ "${DEPLOY_SH_RUNNING:-0}" = "1" ]; then
+    exit 0
+fi
+
+# Verifica se HEAD aponta para uma tag (significa que release.sh já rodou)
+if git describe --exact-match --tags HEAD >/dev/null 2>&1; then
+    exit 0
+fi
+
+echo -e "${RED}[pre-push] Push direto bloqueado.${NC}" >&2
+echo "" >&2
+echo "Este projeto usa release semântica automática via git-cliff." >&2
+echo "Para pushar com bump de versão + CHANGELOG + tag automáticos, use:" >&2
+echo "" >&2
+echo -e "  ${GREEN}./deploy.sh \"<conventional commit msg opcional>\"${NC}" >&2
+echo "" >&2
+echo "Para apenas pushar (sem release — caso raro, ex.: hotfix em branch sem versionar)," >&2
+echo "rode com bypass explícito:" >&2
+echo "" >&2
+echo -e "  ${YELLOW}DEPLOY_SH_RUNNING=1 git push <args>${NC}" >&2
+echo "" >&2
+exit 1
