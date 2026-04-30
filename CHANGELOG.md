@@ -2,6 +2,11 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo seguindo [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) e [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0-alpha.3] - 2026-04-30
+
+### Corrigido
+
+- **deploy**: Substitui deploy.sh antigo pelo wrapper de release semântica ([`83a5858`](#83a5858da105adc52446eaf351f4cbdd1ac75dfd))
 ## [0.1.0-alpha.2] - 2026-04-30
 
 ### Documentação
