@@ -115,11 +115,11 @@ valgrind --leak-check=full ./build/unit_tests
 
 ## 8. Fluxo mandatório após cada feature
 
-1. `./deploy.sh "<conventional commit>"` (build + commit + push).
+1. `./deploy.sh "<conventional commit>"` — build + commit (opcional) + **release semântica automática** (bump SemVer + atualiza `CHANGELOG.md` + cria tag anotada via `git-cliff`) + `git push --follow-tags`. Detalhes do esquema em §11. `git push` direto é bloqueado pelo hook `scripts/hooks/pre-push`.
 2. Atualizar `TODO.md` (mover ID do item entre colunas Status/Estado Auditado).
 3. Perguntar ao usuário: **"Como deseja prosseguir?"**.
 
-Sem SESSION.md — o histórico vive no git log + `TODO.md`.
+Sem SESSION.md — o histórico vive no git log + `TODO.md` + `CHANGELOG.md`.
 
 ## 9. Conventional Commits
 
