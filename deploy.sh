@@ -1,35 +1,52 @@
 #!/bin/bash
+# deploy.sh — fluxo único de release + push para Codeberg.
+#
+# Encadeia: build → (commit opcional) → release.sh (bump SemVer +
+# CHANGELOG + tag via git-cliff) → git push --follow-tags. O hook
+# pre-push (scripts/hooks/pre-push) bloqueia push direto fora deste
+# script (bypass via DEPLOY_SH_RUNNING=1).
+#
+# Uso:
+#   ./deploy.sh                       # apenas releaseia commits já criados e pusha
+#   ./deploy.sh "feat(x): mensagem"   # commita pendências + releaseia + pusha
+#
+# CLAUDE.md §11 documenta o esquema de versão (SemVer 2.0 + git-cliff).
 
-# Cores para o terminal
+set -euo pipefail
+
 GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
 RED='\033[0;31m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-echo -e "${GREEN}[Hook] Iniciando fluxo de deploy...${NC}"
+cd "$(git rev-parse --show-toplevel)"
 
-# 1. Build
-echo "Construindo o projeto..."
-cmake --build build -j$(nproc)
-if [ $? -ne 0 ]; then
-    echo -e "${RED}[Erro] Falha no build. Corrija os erros antes de prosseguir.${NC}"
+# Garante git-cliff acessível (instalado via cargo fica em ~/.cargo/bin)
+export PATH="$HOME/.cargo/bin:$PATH"
+
+echo -e "${GREEN}[deploy] 1/4 — build${NC}"
+if ! cmake --build build -j"$(nproc)" >/dev/null 2>&1; then
+    echo -e "${RED}[deploy] Falha no build. Rode 'cmake --build build' para ver os erros.${NC}"
     exit 1
 fi
 
-# 2. Git Operations
-echo "Preparando commit..."
-git add .
-
-# Se uma mensagem for passada por argumento, usa ela; senão, usa uma mensagem padrão
-COMMIT_MSG=${1:-"chore: sprint update and technical improvements"}
-git commit -m "$COMMIT_MSG"
-
-echo "Realizando push para Codeberg..."
-git push
-if [ $? -ne 0 ]; then
-    echo -e "${RED}[Erro] Falha no push. Verifique sua conexão e repositório.${NC}"
-    exit 1
+# Commit opcional de mudanças pendentes
+if [ $# -ge 1 ] && [ -n "$1" ]; then
+    echo -e "${GREEN}[deploy] 2/4 — commit das mudanças pendentes${NC}"
+    git add -A
+    if ! git diff --cached --quiet; then
+        git commit -m "$1"
+    else
+        echo -e "${YELLOW}[deploy] Nada para commitar — pulando.${NC}"
+    fi
+else
+    echo -e "${GREEN}[deploy] 2/4 — sem mensagem; preservando commits já existentes${NC}"
 fi
 
-# 3. Finalização
-echo -e "${GREEN}[Sucesso] Build, Commit e Push concluídos.${NC}"
+echo -e "${GREEN}[deploy] 3/4 — release semântica (git-cliff)${NC}"
+./scripts/release.sh
 
+echo -e "${GREEN}[deploy] 4/4 — push para Codeberg (com tag)${NC}"
+DEPLOY_SH_RUNNING=1 git push --follow-tags
+
+echo -e "${GREEN}[deploy] ✓ Build + release + push concluídos.${NC}"
