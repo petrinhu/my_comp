@@ -2,6 +2,11 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo seguindo [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) e [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0-alpha.2] - 2026-04-30
+
+### Documentação
+
+- **release**: README e §8 do CLAUDE refletem esquema git-cliff ([`e45f82c`](#e45f82c3b974477f49ba137d5e0c9f687bba042b))
 ## [0.1.0-alpha.1] - 2026-04-30
 
 ### Adicionado
