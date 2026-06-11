@@ -89,7 +89,7 @@ Detalhes completos em [`CLAUDE.md`](./CLAUDE.md) §11.
 
 ## Licença
 
-Distribuído sob **PolyForm Noncommercial License 1.0.0** — ver [`LICENSE`](./LICENSE).
+Distribuído sob **GNU Affero General Public License v3.0 (AGPL-3.0)**: ver [`LICENSE`](./LICENSE).
 
 ## Repositório
 
