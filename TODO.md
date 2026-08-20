@@ -1,6 +1,8 @@
 > **ESTRUTURA CANÔNICA DO ARQUIVO — NÃO QUEBRAR A TABELA:** (1) **Comentários e instruções** (só no cabeçalho, acima da tabela) · (2) **TABELA UNIFICADA** (exatamente uma tabela markdown de trabalho: `| ID | Onda | … | Status |`) · **EOF** imediatamente após a última linha da tabela. **Proibido:** segunda tabela; linha em branco **dentro** da tabela (o Markdown parte o arquivo em várias tabelas); qualquer seção de checklist/INBOX/WSJF **depois** da tabela (isso vai no cabeçalho).
 
-# my_comp v2.0 — Planejamento
+# TODO — my_comp
+
+**my_comp v2.0 — Planejamento**
 
 **Última auditoria registrada:** 2026-04-19 (reabertura). Os 43 itens funcionais herdados da TABELA.md anterior entram como `🔍 Pendente verificação` + Estado Auditado `—` e só migram para `✅ Concluído` + `✓` depois que a Fase 2 (rebuild + ctest + clang-tidy + valgrind + smoke manual) confirmar cada um. Qualquer falha vira nova linha no grupo correspondente com `Pré-requisito` apontando para o ID original.
 
