@@ -41,10 +41,12 @@ void LinuxUserMetadataProvider::collect_current_user(domain::models::UserMetadat
         metadata.home = QString::fromLocal8Bit(pwd.pw_dir);
     }
     
-    int n_groups = getgroups(0, NULL);
+    int n_groups = getgroups(0, nullptr);
     if (n_groups > 0) {
-        std::vector<gid_t> groups(n_groups);
-        getgroups(n_groups, groups.data());
+        std::vector<gid_t> groups(static_cast<std::size_t>(n_groups));
+        // A lista pode mudar entre as duas chamadas: usa o que a 2ª devolveu de fato.
+        n_groups = getgroups(n_groups, groups.data());
+        if (n_groups < 0) n_groups = 0;
         for (int i = 0; i < n_groups; ++i) {
             struct group grp;
             struct group *gr_result;
@@ -90,7 +92,7 @@ void LinuxUserMetadataProvider::collect_system_users(domain::models::UserMetadat
     std::lock_guard<std::mutex> lock(g_user_mutex);
     setpwent();
     struct passwd *pw;
-    while ((pw = getpwent()) != NULL) {
+    while ((pw = getpwent()) != nullptr) {
         if (pw->pw_uid >= 1000 && pw->pw_uid < 65534) {
             QString user_info = QString("%1 (UID:%2, Shell:%3, Home:%4)")
                 .arg(QString::fromLocal8Bit(pw->pw_name))

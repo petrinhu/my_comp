@@ -25,6 +25,7 @@ TEST(LinuxProcessProviderTest, ShouldCollectProcessesFromRealSystem) {
             break;
         }
     }
+    (void)found_self; // ausência é aceitável (ver comentário abaixo); só valida quando aparece
     // Em alguns casos de filtragem ou permissão, o PID próprio pode não aparecer se for root-only, 
     // mas geralmente aparece em /proc.
 }

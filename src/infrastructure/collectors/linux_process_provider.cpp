@@ -133,8 +133,8 @@ std::vector<domain::models::ProcessInfo> LinuxProcessProvider::collect_processes
 
             // Resto dos dados
             if (ss >> cutime >> cstime >> priority >> nice >> num_threads >> itrealvalue >> starttime >> vsize >> rss) {
-                p.priority = (int)priority;
-                p.nice = (int)nice;
+                p.priority = static_cast<int>(priority);
+                p.nice = static_cast<int>(nice);
                 p.virt = vsize / 1024;
                 p.res = rss * sysconf(_SC_PAGESIZE) / 1024;
                 p.cpuPercent = cpu_usage;

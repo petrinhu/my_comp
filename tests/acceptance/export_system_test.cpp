@@ -18,7 +18,8 @@ public:
 
 TEST(ExportSystemAcceptance, ShouldConsolidateAndExportData) {
     int argc = 1;
-    char* argv[] = {(char*)"test"};
+    char arg0[] = "test";
+    char* argv[] = {arg0};
     QCoreApplication app(argc, argv);
 
     ExportViewModel vm;

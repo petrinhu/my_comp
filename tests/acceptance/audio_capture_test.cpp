@@ -54,7 +54,8 @@ TEST(AudioCaptureAcceptance, ShouldGenerateFFTSpectrum) {
     using namespace my_comp::infrastructure::audio;
     // QtAudioProvider marshalha notify_data_ready via QueuedConnection — precisa de event loop.
     int argc = 1;
-    char* argv[] = {(char*)"test"};
+    char arg0[] = "test";
+    char* argv[] = {arg0};
     QCoreApplication app(argc, argv);
 
     QtAudioProvider provider;

@@ -26,35 +26,35 @@ TEST(ShellTimeoutUsageTest, DnfCheckUpdateUsesPackageManagerTimeout) {
     auto shell = std::make_shared<TimeoutAwareShell>();
     EXPECT_CALL(*shell, execute_with_timeout(QString("dnf"), _, _, Ge(PACKAGE_MANAGER_TIMEOUT_MS)))
         .WillOnce(Return(0));
-    DnfUpdateProvider(shell).check_updates();
+    (void)DnfUpdateProvider(shell).check_updates();
 }
 
 TEST(ShellTimeoutUsageTest, FlatpakRemoteLsUsesPackageManagerTimeout) {
     auto shell = std::make_shared<TimeoutAwareShell>();
     EXPECT_CALL(*shell, execute_with_timeout(QString("flatpak"), _, _, Ge(PACKAGE_MANAGER_TIMEOUT_MS)))
         .WillOnce(Return(1));
-    FlatpakUpdateProvider(shell).check_updates();
+    (void)FlatpakUpdateProvider(shell).check_updates();
 }
 
 TEST(ShellTimeoutUsageTest, NpmOutdatedUsesPackageManagerTimeout) {
     auto shell = std::make_shared<TimeoutAwareShell>();
     EXPECT_CALL(*shell, execute_with_timeout(QString("npm"), _, _, Ge(PACKAGE_MANAGER_TIMEOUT_MS)))
         .WillOnce(Return(0));
-    NpmUpdateProvider(shell).check_updates();
+    (void)NpmUpdateProvider(shell).check_updates();
 }
 
 TEST(ShellTimeoutUsageTest, SnapRefreshListUsesPackageManagerTimeout) {
     auto shell = std::make_shared<TimeoutAwareShell>();
     EXPECT_CALL(*shell, execute_with_timeout(QString("snap"), _, _, Ge(PACKAGE_MANAGER_TIMEOUT_MS)))
         .WillOnce(Return(1));
-    SnapUpdateProvider(shell).check_updates();
+    (void)SnapUpdateProvider(shell).check_updates();
 }
 
 TEST(ShellTimeoutUsageTest, CargoInstallUpdateUsesPackageManagerTimeout) {
     auto shell = std::make_shared<TimeoutAwareShell>();
     EXPECT_CALL(*shell, execute_with_timeout(QString("cargo"), _, _, Ge(PACKAGE_MANAGER_TIMEOUT_MS)))
         .WillOnce(Return(1));
-    CargoUpdateProvider(shell).check_updates();
+    (void)CargoUpdateProvider(shell).check_updates();
 }
 
 // hdparm -tT leva ~6–10 s: com 5 s o benchmark sempre estourava.
@@ -62,5 +62,5 @@ TEST(ShellTimeoutUsageTest, HdparmUsesBenchmarkTimeout) {
     auto shell = std::make_shared<TimeoutAwareShell>();
     EXPECT_CALL(*shell, execute_with_timeout(QString("hdparm"), _, _, Ge(BENCHMARK_TIMEOUT_MS)))
         .WillOnce(Return(1));
-    HdparmBenchmarkProvider(shell).run("sda");
+    (void)HdparmBenchmarkProvider(shell).run("sda");
 }
