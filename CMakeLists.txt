@@ -365,6 +365,9 @@ endif()
 #   Build:     cmake --build build-fuzz --target fuzz_journal_parser
 #   Smoke:     ./build-fuzz/fuzz_journal_parser tests/fuzz/corpus/journal/ \
 #                    -max_total_time=15 -timeout=5
+#   VRAM:      ./build-fuzz/fuzz_vram_feedback tests/fuzz/corpus/vram_feedback/ -max_total_time=60
+#              ./build-fuzz/fuzz_vram_catalogo tests/fuzz/corpus/vram_catalogo/ -max_total_time=60
+#   No Ubuntu o clang precisa do compiler-rt (libclang-rt-18-dev); no Fedora, compiler-rt.
 # ----------------------------------------------------------------------------
 option(MY_COMP_BUILD_FUZZERS "Build libFuzzer harnesses (BT-02). Requires clang." OFF)
 
@@ -402,5 +405,18 @@ if(MY_COMP_BUILD_FUZZERS)
     target_link_options(fuzz_hardware_parsers PRIVATE ${FUZZ_FLAGS})
     target_link_libraries(fuzz_hardware_parsers PRIVATE Qt6::Core)
 
-    message(STATUS "BT-02: fuzzers habilitados — fuzz_journal_parser, fuzz_containers_parser, fuzz_hardware_parsers.")
+    # AUDIT-33 — parsers da VRAM. Linkam o my_comp_core, que aqui é instrumentado
+    # (fuzzer-no-link) para o libFuzzer guiar a cobertura dentro dele; UBSan pega
+    # estouro de inteiro em ids e tamanhos vindos do disco.
+    set(FUZZ_CORE_FLAGS -fsanitize=fuzzer-no-link,address,undefined -fno-sanitize-recover=undefined -fno-omit-frame-pointer -g -O1)
+    set(FUZZ_VRAM_FLAGS -fsanitize=fuzzer,address,undefined -fno-sanitize-recover=undefined -fno-omit-frame-pointer -g -O1)
+    target_compile_options(my_comp_core PRIVATE ${FUZZ_CORE_FLAGS})
+    foreach(alvo fuzz_vram_catalogo fuzz_vram_feedback)
+        add_executable(${alvo} tests/fuzz/${alvo}.cpp)
+        target_compile_options(${alvo} PRIVATE ${FUZZ_VRAM_FLAGS})
+        target_link_options(${alvo} PRIVATE ${FUZZ_VRAM_FLAGS})
+        target_link_libraries(${alvo} PRIVATE my_comp_core)
+    endforeach()
+
+    message(STATUS "BT-02: fuzzers habilitados — fuzz_journal_parser, fuzz_containers_parser, fuzz_hardware_parsers, fuzz_vram_catalogo, fuzz_vram_feedback.")
 endif()
