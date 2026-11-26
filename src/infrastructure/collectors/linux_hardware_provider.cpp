@@ -44,18 +44,20 @@ void LinuxHardwareProvider::collect_smbios(domain::models::HardwareTopology& top
 }
 
 void LinuxHardwareProvider::parse_lsusb_output(const QString& output, std::vector<domain::models::UsbDevice>& devices) {
-    // lsusb format: Bus 001 Device 002: ID 046d:c52b Logitech, Inc. Unifying Receiver
+    // "Bus 001 Device 002: ID 046d:c52b Logitech, Inc. Unifying Receiver" (HW-02c).
+    // Regex ancorada no formato em vez de split(' ') por posição: espaços extras não
+    // deslocam colunas e linhas fora do formato (avisos do libusb, `lsusb -t`) são ignoradas.
+    static const QRegularExpression line_re(QStringLiteral(
+        "^\\s*Bus\\s+(\\d+)\\s+Device\\s+\\d+:\\s+ID\\s+([0-9A-Fa-f]{4}):([0-9A-Fa-f]{4})(?:\\s+(.*?))?\\s*$"));
     const QStringList lines = output.split('\n', Qt::SkipEmptyParts);
     for (const QString& line : lines) {
-        const QStringList parts = line.split(' ');
-        if (parts.size() < 6) continue;
-        const QStringList vidpid = parts[5].split(':');
-        if (vidpid.size() < 2) continue; // protege contra entrada malformada (BT-02 fuzz)
+        const auto m = line_re.match(line);
+        if (!m.hasMatch()) continue;
         domain::models::UsbDevice dev;
-        dev.bus = parts[1];
-        dev.vendorId = vidpid.at(0);
-        dev.productId = vidpid.at(1);
-        dev.name = parts.mid(6).join(' ');
+        dev.bus = m.captured(1);
+        dev.vendorId = m.captured(2).toLower();
+        dev.productId = m.captured(3).toLower();
+        dev.name = m.captured(4);
         devices.push_back(dev);
     }
 }
