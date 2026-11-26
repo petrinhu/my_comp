@@ -6,7 +6,7 @@ namespace vramopt::application {
 
 namespace {
 
-QString tipoChaveAsString(domain::TipoChave t) {
+QString tipo_chave_as_string(domain::TipoChave t) {
     switch (t) {
         case domain::TipoChave::Binario:    return QStringLiteral("binario");
         case domain::TipoChave::WmClass:    return QStringLiteral("wmClass");
@@ -30,7 +30,7 @@ RegraCatalogo::avaliar(const domain::Processo& processo) const {
                 .justificativa = domain::Justificativa{
                     .regra = QStringLiteral("catalogo"),
                     .detalhe = QStringLiteral("casou %1=%2 (id=%3)")
-                        .arg(tipoChaveAsString(chave.tipo()))
+                        .arg(tipo_chave_as_string(chave.tipo()))
                         .arg(chave.valor())
                         .arg(entrada->id),
                 },

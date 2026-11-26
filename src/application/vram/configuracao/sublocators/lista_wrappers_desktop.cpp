@@ -2,7 +2,7 @@
 
 namespace vramopt::application {
 
-const QHash<QString, domain::Confianca>& listaWrappersDesktop() {
+const QHash<QString, domain::Confianca>& lista_wrappers_desktop() {
     static const QHash<QString, domain::Confianca> tabela = {
         {QStringLiteral("prime-run"),   domain::Confianca::Alta},
         {QStringLiteral("optirun"),     domain::Confianca::Alta},

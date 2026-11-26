@@ -17,7 +17,7 @@ QString homePath() {
     return QDir::homePath();
 }
 
-QString construirCaminhoAbsoluto(const QString& sufixo_local_state) {
+QString construir_caminho_absoluto(const QString& sufixo_local_state) {
     return QStringLiteral("%1/%2").arg(homePath(), sufixo_local_state);
 }
 
@@ -29,13 +29,13 @@ LocalizadorBrowserChromium::LocalizadorBrowserChromium(
 
 QVector<domain::OrigemConfig>
 LocalizadorBrowserChromium::localizar(const domain::Processo& processo) const {
-    const auto& tabela = tabelaPathsBrowserChromium();
+    const auto& tabela = tabela_paths_browser_chromium();
     auto it = tabela.constFind(processo.nome().valor());
     if (it == tabela.constEnd()) {
         return {};
     }
 
-    const QString caminho = construirCaminhoAbsoluto(it.value());
+    const QString caminho = construir_caminho_absoluto(it.value());
     auto conteudo_opt = m_leitor->ler(caminho);
     if (!conteudo_opt.has_value()) {
         return {};

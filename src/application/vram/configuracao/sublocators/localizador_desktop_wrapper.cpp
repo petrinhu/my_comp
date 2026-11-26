@@ -9,11 +9,11 @@ namespace vramopt::application {
 
 namespace {
 
-QStringList tokenizarSimples(const QString& exec) {
+QStringList tokenizar_simples(const QString& exec) {
     return exec.trimmed().split(QRegularExpression{QStringLiteral("\\s+")}, Qt::SkipEmptyParts);
 }
 
-QString reconstruirSemPrimeiroToken(const QStringList& tokens) {
+QString reconstruir_sem_primeiro_token(const QStringList& tokens) {
     if (tokens.size() <= 1) {
         return QString{};
     }
@@ -33,18 +33,18 @@ LocalizadorDesktopWrapper::localizar(const domain::Processo& processo) const {
         return {};
     }
 
-    const auto tokens = tokenizarSimples(entrada_opt->exec);
+    const auto tokens = tokenizar_simples(entrada_opt->exec);
     if (tokens.isEmpty()) {
         return {};
     }
 
-    const auto& tabela = listaWrappersDesktop();
+    const auto& tabela = lista_wrappers_desktop();
     auto it = tabela.constFind(tokens.first());
     if (it == tabela.constEnd()) {
         return {};
     }
 
-    const QString sem_wrapper = reconstruirSemPrimeiroToken(tokens);
+    const QString sem_wrapper = reconstruir_sem_primeiro_token(tokens);
 
     domain::OrigemConfig o{
         .categoria = domain::CategoriaOrigem::DesktopWrapper,

@@ -2,7 +2,7 @@
 
 namespace vramopt::application {
 
-const QHash<QString, QString>& tabelaPathsBrowserChromium() {
+const QHash<QString, QString>& tabela_paths_browser_chromium() {
     static const QHash<QString, QString> tabela = {
         {QStringLiteral("brave-browser"),        QStringLiteral(".config/BraveSoftware/Brave-Browser/Local State")},
         {QStringLiteral("brave"),                QStringLiteral(".config/BraveSoftware/Brave-Browser/Local State")},

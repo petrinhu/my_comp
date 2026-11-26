@@ -17,7 +17,7 @@ public:
     [[nodiscard]] static MapaCategoriasDesktop padrao();
 
     [[nodiscard]] std::optional<domain::Categoria>
-        classificarPor(const QStringList& categorias) const;
+        classificar_por(const QStringList& categorias) const;
 
 private:
     QSet<QString> m_candidato_cpu;

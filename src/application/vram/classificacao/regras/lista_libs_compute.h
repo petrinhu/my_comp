@@ -14,7 +14,7 @@ public:
     [[nodiscard]] static ListaLibsCompute padrao();
 
     [[nodiscard]] std::optional<QString>
-        primeiraQueCasa(const QStringList& bibliotecas_carregadas) const;
+        primeira_que_casa(const QStringList& bibliotecas_carregadas) const;
 
 private:
     QStringList m_padroes_compute;

@@ -5,6 +5,6 @@
 
 namespace vramopt::application {
 
-[[nodiscard]] const QHash<QString, QString>& tabelaPathsBrowserChromium();
+[[nodiscard]] const QHash<QString, QString>& tabela_paths_browser_chromium();
 
 }

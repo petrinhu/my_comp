@@ -9,7 +9,7 @@ struct EnvAlvo {
     QStringList valores_ativos;
 };
 
-const QVector<EnvAlvo>& envsAlvo() {
+const QVector<EnvAlvo>& envs_alvo() {
     static const QVector<EnvAlvo> v = {
         {QStringLiteral("__NV_PRIME_RENDER_OFFLOAD"), {QStringLiteral("1")}},
         {QStringLiteral("__VK_LAYER_NV_optimus"),     {QStringLiteral("NVIDIA_only")}},
@@ -18,7 +18,7 @@ const QVector<EnvAlvo>& envsAlvo() {
     return v;
 }
 
-QString instrucaoPara(const QString& nome, const QString& valor) {
+QString instrucao_para(const QString& nome, const QString& valor) {
     return QStringLiteral(
         "A variável `%1=%2` está setada no processo. Possíveis origens: `~/.bashrc`, "
         "`~/.profile`, `~/.zshrc`, `~/.zshenv` ou `~/.config/environment.d/*.conf`. "
@@ -40,7 +40,7 @@ LocalizadorEnvVar::localizar(const domain::Processo& processo) const {
     }
 
     QVector<domain::OrigemConfig> origens;
-    for (const auto& alvo : envsAlvo()) {
+    for (const auto& alvo : envs_alvo()) {
         const auto valor = env.value(alvo.nome);
         if (valor.isEmpty() || !alvo.valores_ativos.contains(valor)) {
             continue;
@@ -52,7 +52,7 @@ LocalizadorEnvVar::localizar(const domain::Processo& processo) const {
             .chave = alvo.nome,
             .valor_atual = valor,
             .valor_sugerido = QStringLiteral("(remover)"),
-            .instrucao_humana = instrucaoPara(alvo.nome, valor),
+            .instrucao_humana = instrucao_para(alvo.nome, valor),
             .confianca = domain::Confianca::Alta,
             .requer_reinicio_app = true,
             .aplicavel_automatico = false,

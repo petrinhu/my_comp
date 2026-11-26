@@ -36,7 +36,7 @@ MapaCategoriasDesktop MapaCategoriasDesktop::padrao() {
 }
 
 std::optional<domain::Categoria>
-MapaCategoriasDesktop::classificarPor(const QStringList& categorias) const {
+MapaCategoriasDesktop::classificar_por(const QStringList& categorias) const {
     bool tem_cpu = false;
     bool tem_gpu = false;
     for (const auto& c : categorias) {

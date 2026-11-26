@@ -22,7 +22,7 @@ ListaLibsCompute ListaLibsCompute::padrao() {
 }
 
 std::optional<QString>
-ListaLibsCompute::primeiraQueCasa(const QStringList& bibliotecas_carregadas) const {
+ListaLibsCompute::primeira_que_casa(const QStringList& bibliotecas_carregadas) const {
     for (const auto& padrao : m_padroes_compute) {
         for (const auto& lib : bibliotecas_carregadas) {
             if (lib.contains(padrao)) {

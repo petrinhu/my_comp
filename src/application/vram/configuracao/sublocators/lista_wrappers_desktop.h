@@ -7,6 +7,6 @@
 
 namespace vramopt::application {
 
-[[nodiscard]] const QHash<QString, domain::Confianca>& listaWrappersDesktop();
+[[nodiscard]] const QHash<QString, domain::Confianca>& lista_wrappers_desktop();
 
 }

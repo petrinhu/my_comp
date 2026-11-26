@@ -3,7 +3,7 @@
 namespace vramopt::application {
 
 SugestaoAcao
-ServicoSugerirAcao::sugerirPara(const domain::ResultadoClassificacao& resultado) const {
+ServicoSugerirAcao::sugerir_para(const domain::ResultadoClassificacao& resultado) const {
     if (resultado.categoria == domain::Categoria::PrecisaGpu) {
         return SugestaoAcao{.tipo = TipoSugestao::Nenhuma, .descricao = QString{}};
     }

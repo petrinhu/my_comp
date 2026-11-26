@@ -11,7 +11,7 @@ RegraBibliotecaCompute::RegraBibliotecaCompute(
 std::optional<domain::ResultadoClassificacao>
 RegraBibliotecaCompute::avaliar(const domain::Processo& processo) const {
     auto bibliotecas = m_leitor->bibliotecas_mapeadas(processo.pid());
-    auto casamento = m_lista.primeiraQueCasa(bibliotecas);
+    auto casamento = m_lista.primeira_que_casa(bibliotecas);
     if (!casamento.has_value()) {
         return std::nullopt;
     }

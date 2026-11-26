@@ -8,7 +8,7 @@ namespace vramopt::application {
 class ServicoSugerirAcao {
 public:
     [[nodiscard]] SugestaoAcao
-        sugerirPara(const domain::ResultadoClassificacao& resultado) const;
+        sugerir_para(const domain::ResultadoClassificacao& resultado) const;
 };
 
 }

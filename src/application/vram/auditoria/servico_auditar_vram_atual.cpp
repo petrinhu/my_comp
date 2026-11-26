@@ -30,7 +30,7 @@ RelatorioAuditoriaVram ServicoAuditarVramAtual::executar() const {
                 .sugestao      = {},
                 .origens_config = m_localizador->executar(processo),
             };
-            item.sugestao = m_sugeridor->sugerirPara(item.classificacao);
+            item.sugestao = m_sugeridor->sugerir_para(item.classificacao);
             grupo.itens.push_back(std::move(item));
         }
 

@@ -6,7 +6,7 @@ namespace vramopt::application {
 
 namespace {
 
-QString detalheDaAmostra(const domain::AmostraJanela& a) {
+QString detalhe_da_amostra(const domain::AmostraJanela& a) {
     return QStringLiteral("VRAM %1%/total, compute %2% media, janela %3s")
         .arg(a.razao_vram_sobre_total() * 100.0, 0, 'f', 1)
         .arg(a.compute_utilizacao_media * 100.0, 0, 'f', 1)
@@ -39,7 +39,7 @@ RegraComportamento::avaliar(const domain::Processo& processo) const {
 
     domain::Justificativa just{
         .regra = QStringLiteral("comportamento"),
-        .detalhe = detalheDaAmostra(a),
+        .detalhe = detalhe_da_amostra(a),
     };
 
     // Linha 1: compute alto sustentado → PrecisaGpu
