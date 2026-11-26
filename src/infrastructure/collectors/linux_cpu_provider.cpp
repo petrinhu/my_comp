@@ -1,4 +1,5 @@
 #include "linux_cpu_provider.h"
+#include "numeric_parse.h"
 #include <filesystem>
 #include <regex>
 #include <iostream>
@@ -45,8 +46,8 @@ domain::models::CpuArchitecture LinuxCpuProvider::collect_architecture() {
         std::smatch match;
         if (std::regex_search(line, match, model_regex)) arch.model_name = match[1];
         if (std::regex_search(line, match, vendor_regex)) arch.vendor_id = match[1];
-        if (std::regex_search(line, match, cores_regex)) arch.physical_cores = std::stoi(match[1]);
-        if (std::regex_search(line, match, threads_regex)) arch.logical_threads = std::stoi(match[1]);
+        if (std::regex_search(line, match, cores_regex)) arch.physical_cores = parse_integer<int>(match[1].str()).value_or(0);
+        if (std::regex_search(line, match, threads_regex)) arch.logical_threads = parse_integer<int>(match[1].str()).value_or(0);
     }
     
     // 2. Ler Caches via /sys
