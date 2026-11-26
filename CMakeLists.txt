@@ -65,6 +65,7 @@ set(CORE_SOURCES
     src/infrastructure/collectors/systemd_service_provider.cpp
     src/infrastructure/collectors/linux_process_provider.cpp
     src/infrastructure/collectors/linux_dev_stack_provider.cpp
+    src/infrastructure/collectors/toolchain_catalog.cpp
     src/infrastructure/collectors/apt_update_provider.cpp
     src/infrastructure/collectors/cargo_update_provider.cpp
     src/infrastructure/collectors/pacman_update_provider.cpp
@@ -231,6 +232,7 @@ set(UNIT_TEST_SOURCES
     tests/unit/shell_timeout_usage_test.cpp
     tests/unit/url_helper_test.cpp
     tests/unit/linux_hardware_bluetooth_test.cpp
+    tests/unit/toolchain_catalog_test.cpp
     
 
 
@@ -348,6 +350,7 @@ if(MY_COMP_BUILD_FUZZERS)
     add_executable(fuzz_containers_parser
         tests/fuzz/fuzz_containers_parser.cpp
         src/infrastructure/collectors/linux_dev_stack_provider.cpp
+        src/infrastructure/collectors/toolchain_catalog.cpp
         src/infrastructure/collectors/qprocess_shell_executor.cpp
     )
     target_compile_options(fuzz_containers_parser PRIVATE ${FUZZ_FLAGS})
