@@ -1,18 +1,21 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 1.15
+import ".."
 
 // Overlay de notificações (toasts) empilhado no canto superior direito.
 // Uso: ToastOverlay { id: toasts } + toasts.notify("msg", "success" | "error" | "info").
 // Erros persistem até fechamento manual; success/info auto-dismiss em 4s.
 Item {
-    id: root
+    id: toastRoot
     anchors.fill: parent
     z: 1000
 
-    readonly property color successColor: "#2ecc71"
-    readonly property color errorColor: "#e74c3c"
-    readonly property color infoColor: "#3498db"
+    // Cores da paleta central (Theme); podem ser sobrescritas por quem instancia.
+    property color successColor: Theme.successColor
+    property color errorColor: Theme.errorColor
+    property color infoColor: Theme.infoColor
+    property color contrastTextColor: Theme.contrastTextColor
     readonly property int autoDismissMs: 4000
 
     ListModel { id: toastModel }
@@ -43,9 +46,9 @@ Item {
                 implicitHeight: row.implicitHeight + 20
                 radius: 6
                 color: {
-                    if (model.kind === "success") return root.successColor
-                    if (model.kind === "error") return root.errorColor
-                    return root.infoColor
+                    if (model.kind === "success") return toastRoot.successColor
+                    if (model.kind === "error") return toastRoot.errorColor
+                    return toastRoot.infoColor
                 }
                 border.color: Qt.darker(color, 1.2)
                 opacity: 0
@@ -56,10 +59,10 @@ Item {
 
                 Timer {
                     id: autoClose
-                    interval: root.autoDismissMs
+                    interval: toastRoot.autoDismissMs
                     running: model.kind !== "error"
                     repeat: false
-                    onTriggered: root.dismiss(index)
+                    onTriggered: toastRoot.dismiss(index)
                 }
 
                 RowLayout {
@@ -74,7 +77,7 @@ Item {
                             if (model.kind === "error") return "✕"
                             return "ℹ"
                         }
-                        color: "white"
+                        color: toastRoot.contrastTextColor
                         font.pixelSize: 18
                         font.bold: true
                         Layout.preferredWidth: 20
@@ -82,7 +85,7 @@ Item {
 
                     Text {
                         text: model.message
-                        color: "white"
+                        color: toastRoot.contrastTextColor
                         font.pixelSize: 13
                         wrapMode: Text.WordWrap
                         Layout.fillWidth: true
@@ -93,10 +96,10 @@ Item {
                         flat: true
                         implicitWidth: 28
                         implicitHeight: 28
-                        onClicked: root.dismiss(index)
+                        onClicked: toastRoot.dismiss(index)
                         contentItem: Text {
                             text: parent.text
-                            color: "white"
+                            color: toastRoot.contrastTextColor
                             font.pixelSize: 14
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter

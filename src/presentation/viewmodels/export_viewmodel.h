@@ -45,7 +45,8 @@ private:
     static constexpr int MAX_HISTORY_ENTRIES = 50;
     static constexpr const char* HISTORY_ARRAY_KEY = "export_history";
 
-    std::vector<std::unique_ptr<domain::interfaces::IExportProvider>> m_providers;
+    // shared_ptr: o worker segura o provider escolhido sem tocar no vetor (que pode crescer).
+    std::vector<std::shared_ptr<domain::interfaces::IExportProvider>> m_providers;
     bool m_isBusy = false;
 
     // Observação defensiva: QPointer zera automaticamente se o QObject for destruído.
@@ -57,7 +58,12 @@ private:
     QPointer<DevStackViewModel> m_devVM;
 
     domain::models::ReportData collect_all_data();
-    void append_to_history(const QString& format_name, const QString& filePath);
+    // Struct em vez de dois QString adjacentes: impossível trocar formato e caminho (bugprone-easily-swappable-parameters).
+    struct HistoryEntry {
+        QString format_name;
+        QString file_path;
+    };
+    void append_to_history(const HistoryEntry& item);
 };
 
 }

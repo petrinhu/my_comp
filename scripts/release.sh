@@ -24,12 +24,12 @@ if ! command -v git-cliff >/dev/null 2>&1; then
 fi
 
 # Garante baseline: se não existe nenhum tag semver, cria v0.1.0-alpha.0
-# no commit do último push registrado (origin/master). Por que 0.1 e não
+# no commit do último push registrado (origin/main, MC-11). Por que 0.1 e não
 # 2.0: nenhuma release estável foi cortada ainda; "v2.0" no README/nome
 # é codename (segunda geração pós-bash legacy) — SemVer real começa em
 # 0.x até o BT-04 (Release Beta) cortar v1.0.0-beta.0.
 if [ -z "$(git tag --list 'v*')" ]; then
-    BASELINE_COMMIT="$(git rev-parse origin/master 2>/dev/null || git rev-list --max-parents=0 HEAD | head -1)"
+    BASELINE_COMMIT="$(git rev-parse origin/main 2>/dev/null || git rev-list --max-parents=0 HEAD | head -1)"
     echo -e "${YELLOW}[release] Nenhuma tag semver encontrada. Criando baseline v0.1.0-alpha.0 em ${BASELINE_COMMIT:0:7}.${NC}"
     [ "$DRY_RUN" -eq 0 ] && git tag -a v0.1.0-alpha.0 "$BASELINE_COMMIT" -m "Baseline inicial do esquema SemVer + git-cliff."
 fi
@@ -65,9 +65,7 @@ git add VERSION CHANGELOG.md
 git commit -m "chore(release): v$NEXT_VERSION
 
 Bump automático via git-cliff a partir dos commits Conventional desde
-o tag anterior. CHANGELOG.md atualizado com a seção de v$NEXT_VERSION.
-
-Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
+o tag anterior. CHANGELOG.md atualizado com a seção de v$NEXT_VERSION."
 git tag -a "v$NEXT_VERSION" -m "Release v$NEXT_VERSION
 
 Veja CHANGELOG.md para detalhes da seção [$NEXT_VERSION]."

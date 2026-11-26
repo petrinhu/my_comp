@@ -25,28 +25,28 @@ class DiagnosticViewModel : public QObject {
 public:
     explicit DiagnosticViewModel(std::shared_ptr<my_comp::application::DiagnosticManager> manager, QObject* parent = nullptr);
 
-    [[nodiscard]] LogEntryModel* logModel() const { return model_; }
-    [[nodiscard]] bool isBusy() const { return is_busy_; }
+    [[nodiscard]] LogEntryModel* logModel() const { return m_model; }
+    [[nodiscard]] bool isBusy() const { return m_is_busy; }
 
     Q_INVOKABLE void refresh();
     Q_INVOKABLE void performSearch();
     Q_INVOKABLE void searchOnline(const QString& message);
 
-    QString searchQuery() const { return search_query_; }
+    QString searchQuery() const { return m_search_query; }
     void setSearchQuery(const QString& q);
 
     int currentFilter() const { return m_current_filter; }
     void setCurrentFilter(int filter);
 
-    QString sortField() const { return sort_field_; }
+    QString sortField() const { return m_sort_field; }
     void setSortField(const QString& f);
-    bool sortAscending() const { return sort_ascending_; }
+    bool sortAscending() const { return m_sort_ascending; }
     void setSortAscending(bool a);
 
-    int logLimit() const { return log_limit_; }
+    int logLimit() const { return m_log_limit; }
     void setLogLimit(int n);
 
-    QString searchEngineUrl() const { return search_engine_url_; }
+    QString searchEngineUrl() const { return m_search_engine_url; }
     void setSearchEngineUrl(const QString& url);
 
 signals:
@@ -60,16 +60,16 @@ signals:
 
 private:
     void applySortAndPush();
-    std::shared_ptr<my_comp::application::DiagnosticManager> manager_;
-    LogEntryModel* model_;
-    std::vector<my_comp::domain::models::LogEntry> data_;
-    bool is_busy_{false};
-    QString search_query_;
+    std::shared_ptr<my_comp::application::DiagnosticManager> m_manager;
+    LogEntryModel* m_model;
+    std::vector<my_comp::domain::models::LogEntry> m_data;
+    bool m_is_busy{false};
+    QString m_search_query;
     int m_current_filter{5}; // Default: All
-    QString sort_field_{"timestamp"};
-    bool sort_ascending_{false};
-    int log_limit_{100};
-    QString search_engine_url_{"https://www.google.com/search?q=linux+%1"};
+    QString m_sort_field{"timestamp"};
+    bool m_sort_ascending{false};
+    int m_log_limit{100};
+    QString m_search_engine_url{"https://www.google.com/search?q=linux+%1"};
 };
 
 } // namespace my_comp::presentation::viewmodels

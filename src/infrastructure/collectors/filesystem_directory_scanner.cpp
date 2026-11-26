@@ -11,11 +11,16 @@ namespace {
 using namespace my_comp::domain::models;
 
 // Pseudo-filesystems e locais voláteis: varredura quase sempre quebra (ciclos, devices, /proc absurdo).
-const QSet<QString> kSkipRoots{
-    "/proc", "/sys", "/run", "/dev",
-    "/var/run", "/var/lock",
-    "/snap", "/media"  // snap: mountpoints efêmeros; media: mounts removíveis que podem desaparecer
-};
+// Static local (não global): a construção que pode lançar ocorre no 1º uso, onde a
+// exceção é capturável (cert-err58-cpp).
+const QSet<QString>& skip_roots() {
+    static const QSet<QString> roots{
+        "/proc", "/sys", "/run", "/dev",
+        "/var/run", "/var/lock",
+        "/snap", "/media"  // snap: mountpoints efêmeros; media: mounts removíveis que podem desaparecer
+    };
+    return roots;
+}
 
 struct Throttle {
     std::chrono::steady_clock::time_point last = std::chrono::steady_clock::now();
@@ -40,7 +45,7 @@ DirNode scan_recursive(const QString& path,
     if (node.name.isEmpty()) node.name = path; // root "/"
 
     if (cancel_token && cancel_token->load()) return node;
-    if (kSkipRoots.contains(path)) { node.error = true; return node; }
+    if (skip_roots().contains(path)) { node.error = true; return node; }
 
     QDir dir(path);
     if (!dir.exists()) { node.error = true; return node; }

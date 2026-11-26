@@ -5,6 +5,10 @@
 >
 > Para princípios e regras de desenvolvimento: [CONTRACT.md](CONTRACT.md)
 > Para procedimentos de teste automatizados: [TESTES.md](TESTES.md)
+>
+> **Nota do my_comp (MC-01):** as metas numéricas de cobertura deste documento (70%, 80%, 90%)
+> são referência genérica. No my_comp vale a [MC-07](../GODS_LAWS.md#mc-07): cobertura **medida,
+> sem meta numérica** (L-35). Em conflito, o `GODS_LAWS.md` prevalece.
 
 ---
 

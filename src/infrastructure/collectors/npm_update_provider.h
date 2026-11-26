@@ -12,13 +12,13 @@ namespace my_comp::infrastructure::collectors {
 
 class NpmUpdateProvider : public domain::interfaces::IUpdateProvider {
 public:
-    explicit NpmUpdateProvider(std::shared_ptr<IShellExecutor> shell) : shell_(std::move(shell)) {}
+    explicit NpmUpdateProvider(std::shared_ptr<IShellExecutor> shell) : m_shell(std::move(shell)) {}
 
     [[nodiscard]] QString get_name() const override { return "npm"; }
 
     [[nodiscard]] bool is_available() const override {
         QString output;
-        shell_->execute("which", {"npm"}, output);
+        m_shell->execute("which", {"npm"}, output);
         return !output.isEmpty();
     }
 
@@ -27,7 +27,7 @@ public:
         std::vector<domain::models::UpdatePackage> updates;
 
         // npm outdated -g --json retorna exit code 1 quando há updates
-        shell_->execute("npm", {"outdated", "-g", "--json"}, output);
+        m_shell->execute_with_timeout("npm", {"outdated", "-g", "--json"}, output, PACKAGE_MANAGER_TIMEOUT_MS);
 
         QJsonDocument doc = QJsonDocument::fromJson(output.toUtf8());
         if (!doc.isObject()) return updates;
@@ -51,7 +51,7 @@ public:
     }
 
 private:
-    std::shared_ptr<IShellExecutor> shell_;
+    std::shared_ptr<IShellExecutor> m_shell;
 };
 
 } // namespace my_comp::infrastructure::collectors

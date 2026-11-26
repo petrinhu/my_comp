@@ -17,16 +17,35 @@ Checks: >
 
 WarningsAsErrors: '*'
 
+# MC-03: classes PascalCase; funções, métodos, variáveis e membros snake_case;
+# membros privados com prefixo m_; constantes SCREAMING_SNAKE_CASE.
+# Exceção (MC-03): API exposta ao QML (Q_INVOKABLE, getters/setters de Q_PROPERTY,
+# signals) segue camelCase, a convenção do QML. Limitação: o clang-tidy não sabe o que é
+# exposto ao QML, então o MethodIgnoredRegexp isenta QUALQUER método camelCase; o uso
+# fora da API QML (ex.: código VRAM em camelCase pt-br, dívida no TODO.md) é fiscalizado
+# em revisão, não por esta ferramenta.
 CheckOptions:
   - key: readability-identifier-naming.ClassCase
     value: CamelCase
   - key: readability-identifier-naming.StructCase
     value: CamelCase
+  - key: readability-identifier-naming.FunctionCase
+    value: lower_case
   - key: readability-identifier-naming.MethodCase
-    value: camelBack
+    value: lower_case
+  - key: readability-identifier-naming.MethodIgnoredRegexp
+    value: '^(set|is|has|on)?[a-z]+([A-Z][a-z0-9]*)+$'
+  - key: readability-identifier-naming.VariableCase
+    value: lower_case
   - key: readability-identifier-naming.MemberCase
     value: lower_case
   - key: readability-identifier-naming.PrivateMemberPrefix
     value: m_
+  - key: readability-identifier-naming.ProtectedMemberPrefix
+    value: m_
+  - key: readability-identifier-naming.ConstexprVariableCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.GlobalConstantCase
+    value: UPPER_CASE
   - key: readability-identifier-naming.NamespaceCase
     value: lower_case

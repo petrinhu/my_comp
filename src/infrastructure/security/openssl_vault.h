@@ -11,9 +11,9 @@ public:
     std::vector<uint8_t> decrypt(const domain::models::VaultData& data, const std::vector<uint8_t>& key) override;
 
 private:
-    static constexpr int AES_KEY_SIZE = 32;
-    static constexpr int GCM_IV_SIZE = 12;
-    static constexpr int GCM_TAG_SIZE = 16;
+    static constexpr std::size_t AES_KEY_SIZE = 32;
+    static constexpr std::size_t GCM_IV_SIZE = 12;
+    static constexpr std::size_t GCM_TAG_SIZE = 16;
 };
 
 } // namespace my_comp::infrastructure::security

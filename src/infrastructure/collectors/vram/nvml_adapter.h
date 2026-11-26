@@ -32,6 +32,12 @@ public:
     [[nodiscard]] virtual std::optional<NvmlDeviceInfo> deviceInfo(std::uint32_t idx) = 0;
     [[nodiscard]] virtual std::vector<NvmlProcessoInfo>
         processosCompute(std::uint32_t idx) = 0;
+    // Contextos gráficos (browsers, compositores, jogos). Default vazio p/ dublês antigos.
+    [[nodiscard]] virtual std::vector<NvmlProcessoInfo>
+        processosGraphics(std::uint32_t idx) { (void)idx; return {}; }
 };
+
+// NVML_VALUE_NOT_AVAILABLE: usedGpuMemory sem medição (sem permissão, MIG, WDDM).
+inline constexpr std::uint64_t NVML_VALOR_NAO_DISPONIVEL = ~0ULL;
 
 }

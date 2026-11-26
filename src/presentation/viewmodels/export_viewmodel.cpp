@@ -53,7 +53,7 @@ void ExportViewModel::clearHistory() {
     emit exportHistoryChanged();
 }
 
-void ExportViewModel::append_to_history(const QString& format_name, const QString& filePath) {
+void ExportViewModel::append_to_history(const HistoryEntry& item) {
     QSettings settings;
 
     QVariantList entries;
@@ -70,8 +70,8 @@ void ExportViewModel::append_to_history(const QString& format_name, const QStrin
 
     QVariantMap new_entry;
     new_entry.insert("timestamp", QDateTime::currentDateTime().toString(Qt::ISODate));
-    new_entry.insert("format", format_name);
-    new_entry.insert("path", filePath);
+    new_entry.insert("format", item.format_name);
+    new_entry.insert("path", item.file_path);
     entries.append(new_entry);
 
     while (entries.size() > MAX_HISTORY_ENTRIES) {
@@ -96,48 +96,48 @@ domain::models::ReportData ExportViewModel::collect_all_data() {
     data.title = "Relatório de Sistema - my_comp v2.0";
     data.timestamp = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
 
-    if (m_systemVM) {
-        data.distro = m_systemVM->distro();
-        data.kernel = m_systemVM->kernel();
+    if (auto* system = m_systemVM.data()) {
+        data.distro = system->distro();
+        data.kernel = system->kernel();
     }
 
-    if (m_userVM) {
-        data.user = m_userVM->currentUser();
+    if (auto* user = m_userVM.data()) {
+        data.user = user->currentUser();
         QVariantMap userMap;
-        userMap.insert("User", m_userVM->currentUser());
-        userMap.insert("Shell", m_userVM->shell());
-        userMap.insert("Home", m_userVM->home());
-        userMap.insert("Grupos", m_userVM->groups());
+        userMap.insert("User", user->currentUser());
+        userMap.insert("Shell", user->shell());
+        userMap.insert("Home", user->home());
+        userMap.insert("Grupos", user->groups());
         data.sections["Usuário e Identidade"] = userMap;
-        data.sections["Variáveis de Ambiente"] = m_userVM->envVars();
+        data.sections["Variáveis de Ambiente"] = user->envVars();
     }
 
-    if (m_cpuVM) {
+    if (auto* cpu = m_cpuVM.data()) {
         QVariantMap cpuMap;
-        cpuMap.insert("Modelo", m_cpuVM->modelName());
-        cpuMap.insert("Cores Físicos", m_cpuVM->physicalCores());
-        cpuMap.insert("Threads Lógicas", m_cpuVM->logicalThreads());
-        cpuMap.insert("Carga Total", QString::number(m_cpuVM->totalLoad(), 'f', 1) + "%");
+        cpuMap.insert("Modelo", cpu->modelName());
+        cpuMap.insert("Cores Físicos", cpu->physicalCores());
+        cpuMap.insert("Threads Lógicas", cpu->logicalThreads());
+        cpuMap.insert("Carga Total", QString::number(cpu->totalLoad(), 'f', 1) + "%");
         data.sections["Processador"] = cpuMap;
     }
 
-    if (m_memVM) {
+    if (auto* mem = m_memVM.data()) {
         QVariantMap memMap;
-        memMap.insert("Total", m_memVM->ramTotal());
-        memMap.insert("Uso", QString::number(m_memVM->ramUsagePercent(), 'f', 1) + "%");
-        memMap.insert("ZRAM Status", m_memVM->hasZram() ? "Ativo" : "Inativo");
+        memMap.insert("Total", mem->ramTotal());
+        memMap.insert("Uso", QString::number(mem->ramUsagePercent(), 'f', 1) + "%");
+        memMap.insert("ZRAM Status", mem->hasZram() ? "Ativo" : "Inativo");
         data.sections["Memória RAM"] = memMap;
     }
 
-    if (m_hwVM) {
-        data.sections["Hardware (DMI/SMBIOS)"] = m_hwVM->smbios();
-        data.sections["Dispositivos USB"] = m_hwVM->usbDevices();
-        data.sections["Dispositivos Bluetooth"] = m_hwVM->bluetoothDevices();
+    if (auto* hw = m_hwVM.data()) {
+        data.sections["Hardware (DMI/SMBIOS)"] = hw->smbios();
+        data.sections["Dispositivos USB"] = hw->usbDevices();
+        data.sections["Dispositivos Bluetooth"] = hw->bluetoothDevices();
     }
 
-    if (m_devVM) {
-        data.sections["Ferramentas de Desenvolvimento"] = m_devVM->toolchains();
-        data.sections["Containers Ativos"] = m_devVM->containers();
+    if (auto* dev = m_devVM.data()) {
+        data.sections["Ferramentas de Desenvolvimento"] = dev->toolchains();
+        data.sections["Containers Ativos"] = dev->containers();
     }
 
     return data;
@@ -165,24 +165,26 @@ void ExportViewModel::exportReport(int formatIndex, const QString& filePath) {
     m_isBusy = true;
     emit isBusyChanged();
 
+    // Snapshot na thread principal: os VMs são escritos aqui (QueuedConnection), então lê-los
+    // no worker era data race — implicit sharing do Qt é reentrante, não thread-safe para a
+    // mesma instância. O worker recebe só cópias por valor (MC-05, AUDITORIAS §I4).
+    const domain::models::ReportData data = collect_all_data();
+    const auto provider = m_providers[static_cast<std::size_t>(formatIndex)];
+    const QString format_name = provider->get_format_name();
+
     QPointer<ExportViewModel> self(this);
-    (void)QtConcurrent::run([self, formatIndex, cleanPath]() {
-        if (!self) return;
-        // collect_all_data acessa cached getters dos VMs (QString/int/QVariantList são
-        // copy-on-write com refcount atômico); os VMs rodam updates via QueuedConnection
-        // na main thread, leituras concorrentes aqui retornam snapshot válido.
-        auto data = self->collect_all_data();
-        bool success = self->m_providers[formatIndex]->export_report(data, cleanPath);
-        QString format_name = self->m_providers[formatIndex]->get_format_name();
+    (void)QtConcurrent::run([self, provider, data, cleanPath, format_name]() {
+        const bool success = provider->export_report(data, cleanPath);
         QMetaObject::invokeMethod(self.data(), [self, success, cleanPath, format_name]() {
-            if (!self) return;
-            self->m_isBusy = false;
-            emit self->isBusyChanged();
+            auto* vm = self.data();
+            if (!vm) return;
+            vm->m_isBusy = false;
+            emit vm->isBusyChanged();
             if (success) {
-                self->append_to_history(format_name, cleanPath);
-                emit self->exportHistoryChanged();
+                vm->append_to_history({.format_name = format_name, .file_path = cleanPath});
+                emit vm->exportHistoryChanged();
             }
-            emit self->exportFinished(success, success ? "Relatório gerado em: " + cleanPath : "Erro ao gerar relatório.");
+            emit vm->exportFinished(success, success ? "Relatório gerado em: " + cleanPath : "Erro ao gerar relatório.");
         }, Qt::QueuedConnection);
     });
 }

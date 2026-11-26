@@ -104,7 +104,7 @@ std::vector<float> AudioViewModel::transformSpectrum(const std::vector<float>& f
 
 void AudioViewModel::update_data(const domain::models::AudioData& data) {
     QVariantList waveList;
-    int waveStep = std::max(1, (int)data.waveform.size() / 256);
+    int waveStep = std::max(1, static_cast<int>(data.waveform.size()) / 256);
     for (size_t i = 0; i < data.waveform.size(); i += static_cast<size_t>(waveStep)) {
         waveList.append(data.waveform[i]);
     }

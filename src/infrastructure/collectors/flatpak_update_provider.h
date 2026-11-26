@@ -11,13 +11,13 @@ namespace my_comp::infrastructure::collectors {
 
 class FlatpakUpdateProvider : public domain::interfaces::IUpdateProvider {
 public:
-    explicit FlatpakUpdateProvider(std::shared_ptr<IShellExecutor> shell) : shell_(std::move(shell)) {}
+    explicit FlatpakUpdateProvider(std::shared_ptr<IShellExecutor> shell) : m_shell(std::move(shell)) {}
 
     [[nodiscard]] QString get_name() const override { return "flatpak"; }
 
     [[nodiscard]] bool is_available() const override {
         QString output;
-        shell_->execute("which", {"flatpak"}, output);
+        m_shell->execute("which", {"flatpak"}, output);
         return !output.isEmpty();
     }
 
@@ -25,7 +25,7 @@ public:
         QString output;
         std::vector<domain::models::UpdatePackage> updates;
 
-        if (shell_->execute("flatpak", {"remote-ls", "--updates", "--columns=name,version,application"}, output) == 0) {
+        if (m_shell->execute_with_timeout("flatpak", {"remote-ls", "--updates", "--columns=name,version,application"}, output, PACKAGE_MANAGER_TIMEOUT_MS) == 0) {
             auto lines = output.split('\n', Qt::SkipEmptyParts);
             for (const auto& line : lines) {
                 auto parts = line.split('\t', Qt::SkipEmptyParts);
@@ -51,7 +51,7 @@ private:
     void enrich_current_versions(std::vector<domain::models::UpdatePackage>& updates) const {
         if (updates.empty()) return;
         QString out;
-        if (shell_->execute("flatpak", {"list", "--app", "--columns=application,version"}, out) != 0) return;
+        if (m_shell->execute("flatpak", {"list", "--app", "--columns=application,version"}, out) != 0) return;
         QHash<QString, QString> installed;
         for (const auto& line : out.split('\n', Qt::SkipEmptyParts)) {
             const auto sp = line.split('\t', Qt::SkipEmptyParts);
@@ -62,7 +62,7 @@ private:
         }
     }
 
-    std::shared_ptr<IShellExecutor> shell_;
+    std::shared_ptr<IShellExecutor> m_shell;
 };
 
 } // namespace my_comp::infrastructure::collectors

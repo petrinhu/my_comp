@@ -6,20 +6,20 @@ LogEntryModel::LogEntryModel(QObject* parent) : QAbstractListModel(parent) {}
 
 void LogEntryModel::setLogs(std::vector<LogEntry> logs) {
     beginResetModel();
-    logs_ = std::move(logs);
+    m_logs = std::move(logs);
     endResetModel();
 }
 
 int LogEntryModel::rowCount(const QModelIndex& parent) const {
     if (parent.isValid()) return 0;
-    return static_cast<int>(logs_.size());
+    return static_cast<int>(m_logs.size());
 }
 
 QVariant LogEntryModel::data(const QModelIndex& index, int role) const {
-    if (!index.isValid() || index.row() >= static_cast<int>(logs_.size()))
+    if (!index.isValid() || index.row() >= static_cast<int>(m_logs.size()))
         return {};
 
-    const auto& log = logs_[static_cast<size_t>(index.row())];
+    const auto& log = m_logs[static_cast<size_t>(index.row())];
     switch (role) {
         case LineNumberRole: return log.line_number;
         case TimestampRole: return log.timestamp;

@@ -31,7 +31,7 @@ void collect_partitions(const QJsonArray& nodes, std::vector<Partition>& out) {
                     const qint64 free = info.bytesAvailable();
                     p.free_bytes = free;
                     p.used_bytes = total - free;
-                    p.used_percent = total > 0 ? (100.0 * (total - free) / total) : 0.0;
+                    p.used_percent = total > 0 ? (100.0 * static_cast<double>(total - free) / static_cast<double>(total)) : 0.0;
                 }
             }
             out.push_back(std::move(p));

@@ -13,7 +13,7 @@ std::vector<domain::models::UpdatePackage> CargoUpdateProvider::check_updates() 
     
     // Requer 'cargo install-update' (crate cargo-update)
     // Output: package-name  current-version  latest-version
-    if (m_executor->execute("cargo", {"install-update", "-l"}, output) == 0) {
+    if (m_executor->execute_with_timeout("cargo", {"install-update", "-l"}, output, PACKAGE_MANAGER_TIMEOUT_MS) == 0) {
         QStringList lines = output.split('\n', Qt::SkipEmptyParts);
         for (const QString& line : lines) {
             // Ignorar linhas informativas que nao começam com dados de pacote

@@ -42,12 +42,13 @@ void FirmwareViewModel::refresh() {
         for (const auto& dev : result) if (dev.has_update) updates++;
 
         QMetaObject::invokeMethod(self.data(), [self, result, updates]() {
-            if (!self) return;
-            self->m_devices = result;
-            self->m_update_count = updates;
-            self->m_is_busy = false;
-            emit self->devicesChanged();
-            emit self->isBusyChanged();
+            auto* vm = self.data();
+            if (!vm) return;
+            vm->m_devices = result;
+            vm->m_update_count = updates;
+            vm->m_is_busy = false;
+            emit vm->devicesChanged();
+            emit vm->isBusyChanged();
         }, Qt::QueuedConnection);
     });
 }

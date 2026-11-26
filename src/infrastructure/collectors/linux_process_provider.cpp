@@ -133,8 +133,8 @@ std::vector<domain::models::ProcessInfo> LinuxProcessProvider::collect_processes
 
             // Resto dos dados
             if (ss >> cutime >> cstime >> priority >> nice >> num_threads >> itrealvalue >> starttime >> vsize >> rss) {
-                p.priority = (int)priority;
-                p.nice = (int)nice;
+                p.priority = static_cast<int>(priority);
+                p.nice = static_cast<int>(nice);
                 p.virt = vsize / 1024;
                 p.res = rss * sysconf(_SC_PAGESIZE) / 1024;
                 p.cpuPercent = cpu_usage;
@@ -183,12 +183,28 @@ std::vector<domain::models::ProcessInfo> LinuxProcessProvider::collect_processes
     return processes;
 }
 
+namespace {
+// pid <= 0 endereça grupos (0 = grupo do próprio app, -1 = todos os processos do usuário,
+// -N = grupo N); pid 1 é o init. O próprio my_comp também fica de fora (MC-10).
+bool is_targetable_pid(int pid) {
+    return pid > 1 && pid != static_cast<int>(::getpid());
+}
+constexpr int MIN_NICE = -20;
+constexpr int MAX_NICE = 19;
+} // namespace
+
 bool LinuxProcessProvider::kill_process(int pid, int signal) {
+    if (!is_targetable_pid(pid) || signal < 0 || signal >= NSIG) {
+        return false;
+    }
     return ::kill(pid, signal) == 0;
 }
 
 bool LinuxProcessProvider::set_priority(int pid, int nice) {
-    return ::setpriority(PRIO_PROCESS, pid, nice) == 0;
+    if (!is_targetable_pid(pid) || nice < MIN_NICE || nice > MAX_NICE) {
+        return false;
+    }
+    return ::setpriority(PRIO_PROCESS, static_cast<id_t>(pid), nice) == 0;
 }
 
 } // namespace my_comp::infrastructure::collectors

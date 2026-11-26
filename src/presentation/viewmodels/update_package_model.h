@@ -27,20 +27,20 @@ public:
 
     void setUpdates(std::vector<UpdatePackage> updates) {
         beginResetModel();
-        updates_ = std::move(updates);
+        m_updates = std::move(updates);
         endResetModel();
     }
 
     [[nodiscard]] int rowCount(const QModelIndex& parent = QModelIndex()) const override {
         if (parent.isValid()) return 0;
-        return static_cast<int>(updates_.size());
+        return static_cast<int>(m_updates.size());
     }
 
     [[nodiscard]] QVariant data(const QModelIndex& index, int role) const override {
-        if (!index.isValid() || index.row() >= static_cast<int>(updates_.size()))
+        if (!index.isValid() || index.row() >= static_cast<int>(m_updates.size()))
             return {};
 
-        const auto& update = updates_[static_cast<size_t>(index.row())];
+        const auto& update = m_updates[static_cast<size_t>(index.row())];
         switch (role) {
             case NameRole: return update.name;
             case CurrentVersionRole: return update.current_version;
@@ -66,7 +66,7 @@ public:
     }
 
 private:
-    std::vector<UpdatePackage> updates_;
+    std::vector<UpdatePackage> m_updates;
 };
 
 } // namespace my_comp::presentation::viewmodels

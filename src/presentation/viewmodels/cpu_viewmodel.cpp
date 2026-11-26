@@ -7,7 +7,7 @@ namespace my_comp::presentation::viewmodels {
 
 CpuViewModel::CpuViewModel(std::shared_ptr<domain::interfaces::ICpuProvider> provider, QObject *parent)
     : QObject(parent), m_provider(provider) {
-    // CLAUDE.md §4: ctor não faz I/O. Trabalho pesado vai para initialize().
+    // MC-04: ctor não faz I/O. Trabalho pesado vai para initialize().
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &CpuViewModel::refresh);
 }
@@ -36,10 +36,11 @@ void CpuViewModel::refresh() {
     (void)QtConcurrent::run([self, provider]() {
         auto stats = provider->collect_stats();
         QMetaObject::invokeMethod(self.data(), [self, stats]() {
-            if (!self) return;
-            self->m_stats = stats;
-            self->m_busy = false;
-            emit self->statsChanged();
+            auto* vm = self.data();
+            if (!vm) return;
+            vm->m_stats = stats;
+            vm->m_busy = false;
+            emit vm->statsChanged();
         }, Qt::QueuedConnection);
     });
 }

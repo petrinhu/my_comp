@@ -115,14 +115,15 @@ void ProcessViewModel::refresh() {
         });
 
         QMetaObject::invokeMethod(self.data(), [self, raw_data]() mutable {
-            if (!self) return;
+            auto* vm = self.data();
+            if (!vm) return;
             {
-                std::lock_guard<std::mutex> lock(self->m_dataMutex);
-                self->m_data = std::move(raw_data);
-                self->rebuildProcessedListLocked();
+                std::lock_guard<std::mutex> lock(vm->m_dataMutex);
+                vm->m_data = std::move(raw_data);
+                vm->rebuildProcessedListLocked();
             }
-            self->m_isBusy = false;
-            emit self->processesChanged();
+            vm->m_isBusy = false;
+            emit vm->processesChanged();
         }, Qt::QueuedConnection);
     });
 }

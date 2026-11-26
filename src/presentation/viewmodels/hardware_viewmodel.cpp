@@ -6,7 +6,7 @@ namespace my_comp::presentation::viewmodels {
 
 HardwareViewModel::HardwareViewModel(std::shared_ptr<domain::interfaces::IHardwareProvider> provider, QObject* parent)
     : QObject(parent), m_provider(std::move(provider)) {
-    // CLAUDE.md §4: ctor não faz I/O. HardwareProvider::collect_topology spawna lsusb + bluetoothctl.
+    // MC-04: ctor não faz I/O. HardwareProvider::collect_topology spawna lsusb + bluetoothctl.
 }
 
 void HardwareViewModel::initialize() {
@@ -65,10 +65,11 @@ void HardwareViewModel::refresh() {
     (void)QtConcurrent::run([self, provider]() {
         auto data = provider->collect_topology();
         QMetaObject::invokeMethod(self.data(), [self, data = std::move(data)]() {
-            if (!self) return;
-            self->m_data = std::move(data);
-            self->m_busy = false;
-            emit self->dataChanged();
+            auto* vm = self.data();
+            if (!vm) return;
+            vm->m_data = std::move(data);
+            vm->m_busy = false;
+            emit vm->dataChanged();
         }, Qt::QueuedConnection);
     });
 }

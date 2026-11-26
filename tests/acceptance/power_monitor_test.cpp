@@ -1,4 +1,6 @@
 #include <gtest/gtest.h>
+#include <QDir>
+#include <QFile>
 #include <gmock/gmock.h>
 #include "../../src/domain/interfaces/i_power_provider.h"
 
@@ -11,7 +13,20 @@ using namespace testing;
 
 using namespace my_comp::infrastructure::collectors;
 
+namespace {
+// Desktops, VMs e CI não têm bateria: o teste só faz sentido onde existe uma.
+bool has_battery() {
+    QDir dir("/sys/class/power_supply");
+    for (const auto& entry : dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+        QFile type(dir.filePath(entry + "/type"));
+        if (type.open(QIODevice::ReadOnly) && type.readAll().trimmed() == "Battery") return true;
+    }
+    return false;
+}
+} // namespace
+
 TEST(PowerMonitorAcceptanceTest, DetectsBatteryOnRealSystem) {
+    if (!has_battery()) GTEST_SKIP() << "sem bateria em /sys/class/power_supply";
     LinuxPowerProvider provider;
     auto stats = provider.collect_stats();
     

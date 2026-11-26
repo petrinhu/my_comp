@@ -19,22 +19,22 @@ public:
     virtual ~UpdateManager() = default;
 
     void set_installer(std::shared_ptr<IInstaller> installer) {
-        installer_ = std::move(installer);
+        m_installer = std::move(installer);
     }
 
     virtual void upgrade_all() {
-        if (installer_) {
-            installer_->upgradeAll();
+        if (m_installer) {
+            m_installer->upgradeAll();
         }
     }
 
     virtual void register_provider(std::unique_ptr<IUpdateProvider> provider) {
-        providers_.push_back(std::move(provider));
+        m_providers.push_back(std::move(provider));
     }
 
     [[nodiscard]] virtual std::vector<UpdatePackage> check_all_updates() {
         std::vector<UpdatePackage> all_updates;
-        for (const auto& provider : providers_) {
+        for (const auto& provider : m_providers) {
             if (provider && provider->is_available()) {
                 auto updates = provider->check_updates();
                 all_updates.insert(all_updates.end(), 
@@ -46,8 +46,8 @@ public:
     }
 
 private:
-    std::shared_ptr<IInstaller> installer_;
-    std::vector<std::unique_ptr<IUpdateProvider>> providers_;
+    std::shared_ptr<IInstaller> m_installer;
+    std::vector<std::unique_ptr<IUpdateProvider>> m_providers;
 };
 
 } // namespace my_comp::application

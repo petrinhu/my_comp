@@ -1,25 +1,27 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import ".."
 
+// Diálogo "CPU Deep Dive": arquitetura/cache e carga por core em tempo real.
 Dialog {
     id: cpuDetailRoot
-    title: "CPU Deep Dive"
+    title: qsTr("CPU Deep Dive")
     width: 700
     height: 600
     modal: true
     anchors.centerIn: Overlay.overlay
     
     background: Rectangle {
-        color: root.isDark ? "#2a2e32" : "#ffffff"
+        color: Theme.dialogBg
         radius: 12
-        border.color: root.borderColor
+        border.color: Theme.borderColor
         border.width: 1
     }
 
     header: Rectangle {
         height: 60
-        color: root.isDark ? "#1a1c1e" : "#f8f9fa"
+        color: Theme.dialogHeaderBg
         radius: 12
         
         RowLayout {
@@ -28,8 +30,8 @@ Dialog {
             anchors.rightMargin: 15
             
             Text { 
-                text: "📊 Detalhes da CPU"
-                color: root.textColor
+                text: qsTr("📊 Detalhes da CPU")
+                color: Theme.textColor
                 font.pixelSize: 18
                 font.bold: true 
                 Layout.alignment: Qt.AlignVCenter
@@ -46,7 +48,7 @@ Dialog {
                 
                 contentItem: Text { 
                     text: "✖"
-                    color: closeBtn.hovered ? root.criticalColor : root.textColor
+                    color: closeBtn.hovered ? Theme.criticalColor : Theme.textColor
                     font.pixelSize: 20
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -61,8 +63,8 @@ Dialog {
 
         // --- SEÇÃO 1: ARQUITETURA (FIXA) ---
         Text { 
-            text: "ARQUITETURA E CACHE"
-            color: root.highlightColor
+            text: qsTr("ARQUITETURA E CACHE")
+            color: Theme.highlightColor
             font.pixelSize: 12
             font.bold: true 
             leftPadding: 5
@@ -71,9 +73,9 @@ Dialog {
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 200
-            color: root.isDark ? "#1a1c1e" : "#fdfdfd"
+            color: Theme.dialogSectionBg
             radius: 8
-            border.color: root.borderColor
+            border.color: Theme.borderColor
             border.width: 1
 
             GridLayout {
@@ -83,14 +85,14 @@ Dialog {
                 rowSpacing: 12
                 columnSpacing: 40
                 
-                LabelValue { label: "Modelo:"; value: cpuViewModel.modelName }
-                LabelValue { label: "Fabricante:"; value: cpuViewModel.vendorId }
-                LabelValue { label: "Threads Lógicas:"; value: cpuViewModel.logicalThreads.toString() }
-                LabelValue { label: "Temperatura:"; value: cpuViewModel.temperature.toFixed(1) + "°C" }
-                LabelValue { label: "L1 Cache:"; value: cpuViewModel.l1Cache }
-                LabelValue { label: "L2 Cache:"; value: cpuViewModel.l2Cache }
-                LabelValue { label: "L3 Cache:"; value: cpuViewModel.l3Cache }
-                LabelValue { label: "Cores Físicos:"; value: cpuViewModel.physicalCores.toString() }
+                LabelValue { label: qsTr("Modelo:"); value: cpuViewModel.modelName }
+                LabelValue { label: qsTr("Fabricante:"); value: cpuViewModel.vendorId }
+                LabelValue { label: qsTr("Threads Lógicas:"); value: cpuViewModel.logicalThreads.toString() }
+                LabelValue { label: qsTr("Temperatura:"); value: cpuViewModel.temperature.toFixed(1) + "°C" }
+                LabelValue { label: qsTr("L1 Cache:"); value: cpuViewModel.l1Cache }
+                LabelValue { label: qsTr("L2 Cache:"); value: cpuViewModel.l2Cache }
+                LabelValue { label: qsTr("L3 Cache:"); value: cpuViewModel.l3Cache }
+                LabelValue { label: qsTr("Cores Físicos:"); value: cpuViewModel.physicalCores.toString() }
             }
         }
 
@@ -98,8 +100,8 @@ Dialog {
 
         // --- SEÇÃO 2: MONITORAMENTO (FIXA / CONTEÚDO ROLÁVEL) ---
         Text { 
-            text: "MONITORAMENTO EM TEMPO REAL (POR CORE)"
-            color: root.highlightColor
+            text: qsTr("MONITORAMENTO EM TEMPO REAL (POR CORE)")
+            color: Theme.highlightColor
             font.pixelSize: 12
             font.bold: true 
             leftPadding: 5
@@ -108,9 +110,9 @@ Dialog {
         Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            color: root.isDark ? "#1a1c1e" : "#fdfdfd"
+            color: Theme.dialogSectionBg
             radius: 8
-            border.color: root.borderColor
+            border.color: Theme.borderColor
             border.width: 1
             clip: true
 
@@ -125,7 +127,7 @@ Dialog {
                     contentItem: Rectangle {
                         implicitWidth: 6
                         radius: 3
-                        color: root.isDark ? "#4d4d4d" : "#bcbebf"
+                        color: Theme.borderColor
                     }
                 }
                 
@@ -142,8 +144,8 @@ Dialog {
                             spacing: 12
                             
                             Text { 
-                                text: "C" + modelData.id
-                                color: root.textColor
+                                text: qsTr("C%1").arg(modelData.id)
+                                color: Theme.textColor
                                 font.pixelSize: 11
                                 font.bold: true
                                 width: 25
@@ -156,14 +158,14 @@ Dialog {
                                 Rectangle {
                                     Layout.fillWidth: true
                                     height: 8
-                                    color: root.isDark ? "#3e444a" : "#e0e0e0"
+                                    color: Theme.coreLoadTrackColor
                                     radius: 4
                                     
                                     Rectangle {
                                         width: parent.width * (modelData.load / 100.0)
                                         height: parent.height
                                         radius: 4
-                                        color: modelData.load > 85 ? root.criticalColor : root.highlightColor
+                                        color: modelData.load > 85 ? Theme.criticalColor : Theme.highlightColor
                                         Behavior on width { NumberAnimation { duration: 400 } }
                                     }
                                 }
@@ -171,13 +173,13 @@ Dialog {
                                 RowLayout {
                                     Text { 
                                         text: modelData.load.toFixed(1) + "%"
-                                        color: root.textColor
+                                        color: Theme.textColor
                                         font.pixelSize: 10
                                     }
                                     Item { Layout.fillWidth: true }
                                     Text { 
                                         text: (modelData.freq / 1000.0).toFixed(2) + " GHz"
-                                        color: "#7f8c8d"
+                                        color: Theme.mutedTextColor
                                         font.pixelSize: 10
                                     }
                                 }
@@ -186,26 +188,6 @@ Dialog {
                     }
                 }
             }
-        }
-    }
-
-    component LabelValue : RowLayout {
-        property string label
-        property string value
-        spacing: 10
-        Text { 
-            text: label
-            color: "#7f8c8d"
-            font.pixelSize: 12
-            Layout.preferredWidth: 100
-        }
-        Text { 
-            text: value
-            color: root.textColor
-            font.pixelSize: 12
-            font.bold: true
-            Layout.fillWidth: true
-            elide: Text.ElideRight
         }
     }
 }

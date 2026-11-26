@@ -6,7 +6,7 @@
 # antes de invocar git push --follow-tags).
 #
 # Objetivo: impedir que um push acidental (ou esquecido) chegue ao
-# Codeberg sem que release.sh tenha rodado primeiro (sem bump de
+# GitHub sem que release.sh tenha rodado primeiro (sem bump de
 # VERSION, sem entrada no CHANGELOG, sem tag).
 
 set -e

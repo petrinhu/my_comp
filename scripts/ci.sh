@@ -105,15 +105,19 @@ stage_clang_tidy() {
     if [[ ! -f "${BUILD_DIR}/compile_commands.json" ]]; then
         echo "compile_commands.json ausente em ${BUILD_DIR}. Rode configure antes." ; return 1
     fi
-    # Checks alinhados ao CLAUDE.md §7: bugprone-*, security-*, cert-*, cppcoreguidelines-*, performance-*
+    # Checks alinhados à MC-07 (gate T2): bugprone-*, security-*, cert-*, cppcoreguidelines-*, performance-*
     local files
     files=$(find "${ROOT_DIR}/src" -name '*.cpp' -not -path '*/build/*' -type f)
     local failed=0
     for f in $files; do
+        # Só as famílias do gate T2 (MC-07) reprovam; performance/cppcoreguidelines são
+        # reportadas como aviso. O valor do CLI é ANEXADO ao WarningsAsErrors '*' do
+        # .clang-tidy, por isso começa com '-*' (zera antes de reativar o gate).
         if ! clang-tidy -p "${BUILD_DIR}" \
             --quiet \
             --header-filter='src/.*' \
-            --checks='-*,bugprone-*,cert-*,security-*,cppcoreguidelines-*,performance-*,-cppcoreguidelines-avoid-magic-numbers,-cppcoreguidelines-pro-bounds-*,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-non-private-member-variables-in-classes,-cppcoreguidelines-avoid-non-const-global-variables,-cppcoreguidelines-owning-memory,-cppcoreguidelines-special-member-functions,-cppcoreguidelines-init-variables' \
+            --warnings-as-errors='-*,bugprone-*,cert-*,security-*,clang-analyzer-security*' \
+            --checks='-*,bugprone-*,cert-*,security-*,clang-analyzer-security*,cppcoreguidelines-*,performance-*,-cppcoreguidelines-avoid-magic-numbers,-cppcoreguidelines-pro-bounds-*,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-non-private-member-variables-in-classes,-cppcoreguidelines-avoid-non-const-global-variables,-cppcoreguidelines-owning-memory,-cppcoreguidelines-special-member-functions,-cppcoreguidelines-init-variables' \
             "$f" 2>&1
         then
             failed=1
@@ -126,17 +130,29 @@ stage_cppcheck() {
     if ! command -v cppcheck >/dev/null; then
         echo "cppcheck não encontrado, pulando." ; return 0
     fi
-    cppcheck \
+    # Projeto é C++23 (CLAUDE.md); cppcheck < 2.14 só conhece até c++20.
+    local std_flag="--std=c++20"
+    if cppcheck --help 2>&1 | grep -q 'c++23'; then
+        std_flag="--std=c++23"
+    fi
+    # Reprova só por error/warning (bugs prováveis); style/performance/portability ficam
+    # visíveis no log como sugestão, sem bloquear (MC-07 não os inclui no gate).
+    local out
+    out=$(cppcheck \
         --enable=warning,style,performance,portability \
         --suppress=missingIncludeSystem \
         --suppress=unknownMacro \
         --suppress=functionStatic \
         --suppress=passedByValue \
         --inline-suppr \
-        --error-exitcode=1 \
-        --std=c++20 \
+        "${std_flag}" \
         -I "${ROOT_DIR}/src" \
-        "${ROOT_DIR}/src" 2>&1
+        "${ROOT_DIR}/src" 2>&1)
+    echo "$out"
+    if echo "$out" | grep -qE ': (error|warning): '; then
+        echo "[ci] cppcheck encontrou error/warning" ; return 1
+    fi
+    return 0
 }
 
 stage_valgrind() {
@@ -150,17 +166,27 @@ stage_valgrind() {
     if [[ -f "${ROOT_DIR}/valgrind.supp" ]]; then
         supp_arg="--suppressions=${ROOT_DIR}/valgrind.supp"
     fi
-    # Critério do gate T4: zero *definitely lost* + zero ERROR SUMMARY. Falha o stage se aparecer.
-    local out
-    out=$(valgrind \
+    # Critério do gate T4 (MC-07): zero *definitely lost* + zero ERROR SUMMARY.
+    # QT_ENABLE_REGEXP_JIT=0: o JIT do PCRE2 lê 16 bytes além do buffer por design (SIMD),
+    # falso positivo do memcheck que não tem como ser suprimido (frames JIT sem símbolo).
+    local out rc
+    out=$(QT_QPA_PLATFORM=offscreen QT_ENABLE_REGEXP_JIT=0 valgrind \
         --leak-check=full \
         --show-leak-kinds=definite \
         --error-exitcode=42 \
         ${supp_arg} \
         "${BUILD_DIR}/unit_tests" --gtest_brief=1 2>&1)
+    rc=$?
     echo "$out"
-    if echo "$out" | grep -qE "definitely lost: [^0]"; then
+    if echo "$out" | grep -qE "definitely lost: [1-9]"; then
         echo "[ci] DETECTADO: bytes definitely lost" ; return 1
+    fi
+    if echo "$out" | grep -qE "ERROR SUMMARY: [1-9]"; then
+        echo "[ci] DETECTADO: erros de memória no ERROR SUMMARY" ; return 1
+    fi
+    # exit 42 = erro do memcheck; qualquer outro != 0 = teste falhou sob valgrind.
+    if [[ $rc -ne 0 ]]; then
+        echo "[ci] valgrind/unit_tests saiu com código ${rc}" ; return 1
     fi
     return 0
 }

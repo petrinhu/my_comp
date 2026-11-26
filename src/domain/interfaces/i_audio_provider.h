@@ -17,22 +17,22 @@ public:
     // marshalar a chamada para a thread do consumidor (ex.: via
     // QMetaObject::invokeMethod) antes de chamar notify_data_ready().
     void set_data_callback(std::function<void(const models::AudioData&)> cb) {
-        std::lock_guard<std::mutex> lock(callback_mutex_);
-        callback_ = std::move(cb);
+        std::lock_guard<std::mutex> lock(m_callback_mutex);
+        m_callback = std::move(cb);
     }
 
     void notify_data_ready(const models::AudioData& data) {
         std::function<void(const models::AudioData&)> cb;
         {
-            std::lock_guard<std::mutex> lock(callback_mutex_);
-            cb = callback_;
+            std::lock_guard<std::mutex> lock(m_callback_mutex);
+            cb = m_callback;
         }
         if (cb) cb(data);
     }
 
 private:
-    std::function<void(const models::AudioData&)> callback_;
-    std::mutex callback_mutex_;
+    std::function<void(const models::AudioData&)> m_callback;
+    std::mutex m_callback_mutex;
 };
 
 } // namespace my_comp::domain::interfaces

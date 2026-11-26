@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QString>
 
+#include <map>
 #include <utility>
 
 namespace vramopt::infrastructure {
@@ -60,9 +61,25 @@ NvmlGpuBackend::enumerarProcessosVram(int gpu_id) const {
     if (!m_adapter || !m_adapter->isAvailable() || gpu_id < 0) {
         return processos;
     }
-    const auto raw = m_adapter->processosCompute(static_cast<std::uint32_t>(gpu_id));
-    processos.reserve(raw.size());
-    for (const auto& r : raw) {
+    const auto idx = static_cast<std::uint32_t>(gpu_id);
+    // Compute + graphics: um PID pode ter os dois contextos; fica o maior relato
+    // (o NVML reporta o uso do processo, não por contexto — somar contaria em dobro).
+    std::map<std::uint32_t, std::uint64_t> por_pid;
+    auto acumular = [&por_pid](const std::vector<NvmlProcessoInfo>& lista) {
+        for (const auto& r : lista) {
+            const std::uint64_t bytes = (r.bytes == NVML_VALOR_NAO_DISPONIVEL) ? 0U : r.bytes;
+            auto [it, inserido] = por_pid.try_emplace(r.pid, bytes);
+            if (!inserido && bytes > it->second) {
+                it->second = bytes;
+            }
+        }
+    };
+    acumular(m_adapter->processosCompute(idx));
+    acumular(m_adapter->processosGraphics(idx));
+
+    processos.reserve(por_pid.size());
+    for (const auto& [pid, bytes] : por_pid) {
+        const NvmlProcessoInfo r{.pid = pid, .bytes = bytes};
         const auto nome = lerComm(m_proc_root, r.pid);
         std::vector<domain::ChaveProcesso> chaves;
         chaves.push_back(domain::ChaveProcesso::deBinario(nome));

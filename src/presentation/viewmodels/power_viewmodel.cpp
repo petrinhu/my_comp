@@ -1,16 +1,8 @@
 #include "power_viewmodel.h"
 
-#include "../../infrastructure/collectors/linux_power_provider.h"
-
 namespace my_comp::presentation::viewmodels {
 
-PowerViewModel::PowerViewModel(QObject* parent)
-    : QObject(parent), m_provider(std::make_shared<infrastructure::collectors::LinuxPowerProvider>()) {
-    // CLAUDE.md §4: ctor sem I/O e sem start de timer. initialize() dispara ambos.
-    m_timer = new QTimer(this);
-    connect(m_timer, &QTimer::timeout, this, &PowerViewModel::update);
-}
-
+// Provider injetado pelo composition root (MC-02). MC-04: ctor sem I/O e sem start de timer.
 PowerViewModel::PowerViewModel(std::shared_ptr<domain::interfaces::IPowerProvider> provider, QObject* parent)
     : QObject(parent), m_provider(std::move(provider)) {
     m_timer = new QTimer(this);

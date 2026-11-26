@@ -53,7 +53,7 @@ private:
     std::shared_ptr<domain::interfaces::ICpuProvider> m_provider;
     domain::models::CpuStats m_stats;
     domain::models::CpuArchitecture m_arch;
-    QTimer *m_timer;
+    QTimer* m_timer = nullptr;
     bool m_initialized = false;
     bool m_busy = false;
 };

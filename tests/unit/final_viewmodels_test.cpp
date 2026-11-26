@@ -169,6 +169,6 @@ TEST(InstallationViewModelTest, ShouldForwardCommands) {
     EXPECT_CALL(*installer, sendResponse(QStringLiteral("y"))).Times(AtLeast(1));
     
     InstallationViewModel vm(installer);
-    vm.startInstallation(QStringLiteral("git"), (int)ProviderType::Dnf);
+    vm.startInstallation(QStringLiteral("git"), static_cast<int>(ProviderType::Dnf));
     vm.respond(true);
 }

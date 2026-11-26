@@ -1,22 +1,6 @@
 #include "presentation/cli/cli_vram.h"
 
-#include "application/vram/classificacao/classificador_em_cascata.h"
-#include "application/vram/classificacao/regras/mapa_categorias_desktop.h"
-#include "application/vram/classificacao/regras/regra_categoria_desktop.h"
-#include "application/vram/classificacao/servico_classificar_processo.h"
-#include "application/vram/classificacao/servico_sugerir_acao.h"
-#include "application/vram/configuracao/localizador_composite.h"
-#include "application/vram/configuracao/servico_localizar_config.h"
-#include "application/vram/configuracao/sublocators/localizador_browser_chromium.h"
-#include "application/vram/configuracao/sublocators/localizador_desktop_wrapper.h"
-#include "application/vram/configuracao/sublocators/localizador_env_var.h"
-#include "application/vram/configuracao/sublocators/localizador_firefox.h"
 #include "domain/vram/classificacao/categoria.h"
-#include "infrastructure/collectors/vram/factory_gpu_backend.h"
-#include "infrastructure/collectors/vram/leitor_arquivo_config_fs.h"
-#include "infrastructure/collectors/vram/leitor_desktop_exec_xdg.h"
-#include "infrastructure/collectors/vram/leitor_desktop_file_xdg.h"
-#include "infrastructure/collectors/vram/leitor_environ_proc.h"
 
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -183,34 +167,5 @@ int executarComServico(
     return 0;
 }
 
-int executar(const QStringList& args, QTextStream& out) {
-    auto leitor_arq     = std::make_shared<infrastructure::LeitorArquivoConfigFs>();
-    auto leitor_environ = std::make_shared<infrastructure::LeitorEnvironProc>();
-    auto leitor_dexec   = std::make_shared<infrastructure::LeitorDesktopExecXdg>();
-    auto leitor_dfile   = std::make_shared<infrastructure::LeitorDesktopFileXdg>();
-
-    std::vector<std::shared_ptr<domain::IConfigLocator>> sublocs = {
-        std::make_shared<application::LocalizadorBrowserChromium>(leitor_arq),
-        std::make_shared<application::LocalizadorFirefox>(leitor_arq),
-        std::make_shared<application::LocalizadorEnvVar>(leitor_environ),
-        std::make_shared<application::LocalizadorDesktopWrapper>(leitor_dexec),
-    };
-    auto loc_composite = std::make_shared<application::LocalizadorComposite>(std::move(sublocs));
-    auto svc_localizar = std::make_shared<application::ServicoLocalizarConfig>(loc_composite);
-
-    std::vector<std::shared_ptr<domain::IRegraClassificacao>> regras = {
-        std::make_shared<application::RegraCategoriaDesktop>(
-            leitor_dfile, application::MapaCategoriasDesktop::padrao()),
-    };
-    auto classif = std::make_shared<application::ClassificadorEmCascata>(std::move(regras));
-    auto svc_classif = std::make_shared<application::ServicoClassificarProcesso>(classif);
-    auto svc_sugerir = std::make_shared<application::ServicoSugerirAcao>();
-
-    auto backend = infrastructure::criarBackendCompositoDoSistema();
-    auto svc = std::make_shared<application::ServicoAuditarVramAtual>(
-        backend, svc_classif, svc_sugerir, svc_localizar);
-
-    return executarComServico(svc, args, out);
-}
 
 }

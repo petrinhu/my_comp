@@ -18,7 +18,7 @@ domain::models::CpuStats LinuxCpuProvider::collect_stats() {
     stats.temperature = read_temperature();
     
     double total_freq = 0;
-    for (int i = 0; i < (int)stats.cores.size(); ++i) {
+    for (int i = 0; i < static_cast<int>(stats.cores.size()); ++i) {
         double freq = read_freq_khz(i) / 1000.0;
         stats.cores[i].frequency_mhz = freq;
         total_freq += freq;
@@ -131,7 +131,7 @@ void LinuxCpuProvider::update_load(domain::models::CpuStats& stats) {
             stats.total_load = load;
         } else {
             domain::models::CoreStat core = {0, 0.0, 0.0};
-            core.id = (int)i - 1;
+            core.id = static_cast<int>(i) - 1;
             core.load_percent = load;
             stats.cores.push_back(core);
         }
