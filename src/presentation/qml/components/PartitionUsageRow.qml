@@ -19,7 +19,7 @@ ColumnLayout {
         Item { Layout.fillWidth: true }
         Text {
             text: partitionRow.partition.fs.length > 0 ? partitionRow.partition.fs : "—"
-            color: Theme.textColor; opacity: 0.6; font.pixelSize: 11
+            color: Theme.mutedTextColor; font.pixelSize: 11
         }
     }
     RowLayout {
@@ -43,7 +43,7 @@ ColumnLayout {
             text: partitionRow.partition.mount.length > 0
                 ? Format.formatBytes(partitionRow.partition.usedBytes) + " / " + Format.formatBytes(partitionRow.partition.sizeBytes) + "  (" + partitionRow.partition.usedPercent.toFixed(1) + "%)"
                 : Format.formatBytes(partitionRow.partition.sizeBytes)
-            color: Theme.textColor; opacity: 0.75; font.pixelSize: 11
+            color: Theme.mutedTextColor; font.pixelSize: 11
         }
     }
 }

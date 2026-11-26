@@ -32,8 +32,7 @@ Rectangle {
         }
         Text {
             text: configOrigin.origem.instrucao
-            color: Theme.textColor
-            opacity: 0.8
+            color: Theme.mutedTextColor
             font.pixelSize: 11
             wrapMode: Text.WordWrap
             Layout.fillWidth: true

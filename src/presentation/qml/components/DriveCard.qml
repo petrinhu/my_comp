@@ -33,14 +33,14 @@ Rectangle {
         Text {
             visible: driveCard.drive.vendor.length > 0 || driveCard.drive.model.length > 0
             text: (driveCard.drive.vendor + " " + driveCard.drive.model).trim()
-            color: Theme.textColor; opacity: 0.75; font.pixelSize: 11
+            color: Theme.mutedTextColor; font.pixelSize: 11
         }
         Text {
             visible: driveCard.drive.smart && driveCard.drive.smart.available
             text: driveCard.drive.smart
                 ? qsTr("🌡 %1°C  ·  ⏱ %2h  ·  📉 desgaste %3%").arg(driveCard.drive.smart.tempC).arg(driveCard.drive.smart.powerOnHours).arg(driveCard.drive.smart.wearPct)
                 : ""
-            color: Theme.textColor; opacity: 0.65; font.pixelSize: 10
+            color: Theme.mutedTextColor; font.pixelSize: 10
         }
 
         Repeater {
