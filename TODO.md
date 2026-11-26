@@ -104,6 +104,8 @@ Esta seção é preenchida pela Fase 2. Cada entrada registra o comando usado, o
 
 - **DT-01a (2026-11-26)**: catálogo de toolchains vira dados (`toolchain_catalog.{h,cpp}`): padrão com 19 ferramentas (+ Ruby, PHP, .NET, Zig, Deno, Bun, CMake, Ninja, Make, kubectl, Helm) mesclado com `~/.config/my_comp/toolchains.json` opcional (`[{"name","command","args"}]`, validado como entrada externa, máx. 256 KiB; mesmo `name` sobrescreve). Injetado no provider pelo composition root. Versão lida do stdout ou do stderr (`run_capturing`), então o Java dispensa `sh -c "... 2>&1"`.
 
+- **HW-02c (2026-11-26)**: `parse_lsusb_output` troca `split(' ')` por posição por uma regex ancorada no formato (`Bus N Device N: ID vvvv:pppp [nome]`); testes de regressão com snapshot real, dispositivo sem nome, espaços extras e linhas fora do formato (aviso do libusb, `lsusb -t`), que antes viravam dispositivos com campos trocados.
+
 ## TABELA UNIFICADA
 
 | ID | Onda | Grupo | Descrição Técnica | Prioridade | Pré-requisito | Dificuldade | Status | Estado Auditado |
@@ -214,7 +216,7 @@ Esta seção é preenchida pela Fase 2. Cada entrada registra o comando usado, o
 | HW-02 | — | ✨ FEAT | Topologia USB/Bluetooth | Média | AR-02 | Média | ✅ Concluído | ⚠ |
 | HW-02a | — | ✨ FEAT | `LinuxHardwareProvider` roda `bluetoothctl devices` — só lista dispositivos **pareados**; dispositivos próximos não pareados (scan ativo) nunca aparecem. Avaliar `bluetoothctl devices Paired`/`Connected`/scan ativo com timeout | Média | HW-02 | Média | 🎨 Pendente design | — |
 | HW-02b | — | 🐛 BUG | `linux_hardware_provider.cpp` hardcoda `dev.paired = true`, deixa `connected = false` e `device_type = ""` sempre — parsear saída real de `bluetoothctl info <mac>` para preencher estado dinâmico | Média | HW-02 | Baixa | ✅ Concluído | ⚠ |
-| HW-02c | — | 📈 MEL | Parsing USB depende de formato exato `Bus X Device Y: ID vvvv:pppp descrição` do `lsusb` — falha silenciosa se coluna mudar (ex.: versões traduzidas). Migrar para `lsusb -v`/`libusb` ou adicionar testes de regressão com snapshots de saída | Baixa | HW-02 | Média | ⏳ Pendente | — |
+| HW-02c | — | 📈 MEL | Parsing USB depende de formato exato `Bus X Device Y: ID vvvv:pppp descrição` do `lsusb` — falha silenciosa se coluna mudar (ex.: versões traduzidas). Migrar para `lsusb -v`/`libusb` ou adicionar testes de regressão com snapshots de saída | Baixa | HW-02 | Média | ✅ Concluído | ✓ |
 | HW-03 | — | ✨ FEAT | Detecção GPU (NVIDIA + Sysfs) | Média | AR-02 | Média | ✅ Concluído | ⚠ |
 | HW-03a | — | 🐛 BUG | **`SysfsGpuProvider::collect_stats` apenas detecta existência de `/sys/class/drm/card*/device/` e retorna struct com `load_percent`/`temperature_c`/`vram_used_mb` = 0** — função `read_sysfs_value` está definida mas nunca é chamada. Leitura real de `gpu_busy_percent`/`hwmon*/temp1_input`/`mem_info_vram_used` (amdgpu/i915) está ausente, o card GPU de AMD/Intel sempre lê 0% | Alta | HW-03 | Média | ✅ Concluído | ✓ |
 | HW-03b | — | 🐛 BUG | **`GpuViewModel` não é referenciado em `Main.qml`** — dados de GPU (load/temp/VRAM) coletados a cada 2s nunca aparecem na UI, só em exports. Criar card "GPU" no Dashboard ou seção dedicada em Hardware | Alta | HW-03 | Baixa | ✅ Concluído | ✓ |
