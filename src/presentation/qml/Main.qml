@@ -607,8 +607,11 @@ Window {
                 ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
                 clip: true
                 ColumnLayout {
+                    id: journalColumn
                     width: parent.width
                     anchors.margins: 25; spacing: 15
+                    // Chamadas pelos delegates qualificadas por id: o lookup não-qualificado
+                    // a partir de um delegate não alcança funções deste objeto intermediário.
                     function priorityColor(p) {
                     // 0-2 emerg/alert/crit, 3 err, 4 warn, 5 notice, 6 info, 7 debug
                     if (p <= 2) return root.criticalColor
@@ -690,8 +693,8 @@ Window {
                                         Layout.preferredWidth: 110
                                     }
                                     Text {
-                                        text: priorityLabel(priority)
-                                        color: priorityColor(priority)
+                                        text: journalColumn.priorityLabel(priority)
+                                        color: journalColumn.priorityColor(priority)
                                         font.pixelSize: 10
                                         font.bold: true
                                         Layout.preferredWidth: 54
