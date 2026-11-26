@@ -54,6 +54,7 @@ using namespace Qt::StringLiterals;
 #include "infrastructure/collectors/sysfs_gpu_provider.h"
 
 #include "infrastructure/collectors/linux_memory_provider.h"
+#include "infrastructure/collectors/linux_power_provider.h"
 #include "infrastructure/collectors/dbus_firmware_provider.h"
 #include "infrastructure/collectors/linux_storage_provider.h"
 #include "infrastructure/collectors/linux_disk_inventory_provider.h"
@@ -161,7 +162,8 @@ int main(int argc, char *argv[])
         gpu_providers.push_back(std::make_unique<my_comp::infrastructure::collectors::SysfsGpuProvider>());
     }
     auto gpu_vm = std::make_unique<my_comp::presentation::viewmodels::GpuViewModel>(std::move(gpu_providers));
-    auto power_vm = std::make_unique<my_comp::presentation::viewmodels::PowerViewModel>();
+    auto power_provider = std::make_shared<my_comp::infrastructure::collectors::LinuxPowerProvider>();
+    auto power_vm = std::make_unique<my_comp::presentation::viewmodels::PowerViewModel>(power_provider);
     auto storage_vm = std::make_unique<my_comp::presentation::viewmodels::StorageViewModel>(storage_provider, disk_inventory_provider, smart_provider, benchmark_provider);
     auto directory_scanner_vm = std::make_unique<my_comp::presentation::viewmodels::DirectoryScannerViewModel>(directory_scanner);
     auto network_vm = std::make_unique<my_comp::presentation::viewmodels::NetworkViewModel>(network_provider);

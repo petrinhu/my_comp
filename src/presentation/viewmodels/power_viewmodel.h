@@ -10,8 +10,7 @@ class PowerViewModel : public QObject {
     Q_PROPERTY(double powerWatts READ powerWatts NOTIFY dataChanged)
     Q_PROPERTY(double batteryPercent READ batteryPercent NOTIFY dataChanged)
 public:
-    PowerViewModel(std::shared_ptr<domain::interfaces::IPowerProvider> provider, QObject* parent = nullptr);
-    explicit PowerViewModel(QObject* parent = nullptr);
+    explicit PowerViewModel(std::shared_ptr<domain::interfaces::IPowerProvider> provider, QObject* parent = nullptr);
     double powerWatts() const { return m_power; }
     double batteryPercent() const { return m_percent; }
 
