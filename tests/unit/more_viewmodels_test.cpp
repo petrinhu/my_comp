@@ -39,7 +39,7 @@ public:
     MOCK_METHOD(bool, start_service, (const QString&), (override));
     MOCK_METHOD(bool, pause_service, (const QString&), (override));
     MOCK_METHOD(bool, stop_service, (const QString&), (override));
-    MOCK_METHOD(bool, create_daemon, (const QString&, const QString&), (override));
+    MOCK_METHOD(OperationResult, create_daemon, (const QString&, const QString&), (override));
 };
 
 class MockFirmwareProvider : public IFirmwareProvider {
@@ -138,4 +138,20 @@ TEST(ServiceViewModelTest, ShouldRefreshDataAndHandleCommands) {
     vm.startService("test.service");
     // startService também é assíncrono e chama refresh() no sucesso
     spy.wait(2000);
+}
+
+// SV-03c: a mensagem concreta do provider (ex.: "não é executável") chega à UI,
+// em vez do genérico "Falha ao criar daemon.".
+TEST(ServiceViewModelTest, CreateDaemonForwardsProviderMessage) {
+    auto provider = std::make_shared<NiceMock<MockServiceProvider>>();
+    ON_CALL(*provider, get_services()).WillByDefault(Return(std::vector<ServiceInfo>{}));
+    EXPECT_CALL(*provider, create_daemon(QString("/tmp/x"), QString("")))
+        .WillOnce(Return(OperationResult{.ok = false, .message = "O arquivo /tmp/x não é executável."}));
+
+    ServiceViewModel vm(provider);
+    QSignalSpy finished(&vm, &ServiceViewModel::operationFinished);
+    vm.createDaemon("/tmp/x", "");
+    ASSERT_TRUE(finished.wait(2000));
+    EXPECT_FALSE(finished.at(0).at(0).toBool());
+    EXPECT_EQ(finished.at(0).at(1).toString(), QString("O arquivo /tmp/x não é executável."));
 }

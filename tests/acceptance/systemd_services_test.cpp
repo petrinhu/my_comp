@@ -12,7 +12,7 @@ public:
     MOCK_METHOD(bool, start_service, (const QString&), (override));
     MOCK_METHOD(bool, pause_service, (const QString&), (override));
     MOCK_METHOD(bool, stop_service, (const QString&), (override));
-    MOCK_METHOD(bool, create_daemon, (const QString&, const QString&), (override));
+    MOCK_METHOD(OperationResult, create_daemon, (const QString&, const QString&), (override));
 };
 
 TEST(SystemdServicesAcceptance, ShouldControlServiceLifecycle) {
@@ -35,7 +35,7 @@ TEST(SystemdServicesAcceptance, ShouldCreateNewDaemon) {
     QString exe = "/usr/bin/my-app";
     QString params = "--verbose";
     
-    EXPECT_CALL(*provider, create_daemon(exe, params)).WillOnce(testing::Return(true));
+    EXPECT_CALL(*provider, create_daemon(exe, params)).WillOnce(testing::Return(OperationResult{.ok = true, .message = {}}));
     
-    EXPECT_TRUE(provider->create_daemon(exe, params));
+    EXPECT_TRUE(provider->create_daemon(exe, params).ok);
 }

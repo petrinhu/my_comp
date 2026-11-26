@@ -13,7 +13,7 @@ public:
     bool start_service(const QString& name) override;
     bool pause_service(const QString& name) override;
     bool stop_service(const QString& name) override;
-    bool create_daemon(const QString& exe_path, const QString& params) override;
+    domain::models::OperationResult create_daemon(const QString& exe_path, const QString& params) override;
 
 private:
     std::shared_ptr<IShellExecutor> m_executor;
