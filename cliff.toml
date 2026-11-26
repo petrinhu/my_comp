@@ -48,7 +48,9 @@ commit_parsers = [
     { message = "^refactor", group = "<!-- 3 -->Refatorado" },
     { message = "^docs", group = "<!-- 4 -->Documentação" },
     { message = "^test", group = "<!-- 5 -->Testes" },
-    { message = "^chore\\(release\\)", skip = true },
+    # Só o commit de bump gerado pelo release.sh ("chore(release): vX.Y.Z"); outros
+    # chore(release) (mudanças no ferramental) entram no CHANGELOG como Manutenção.
+    { message = "^chore\\(release\\): v[0-9]", skip = true },
     { message = "^chore", group = "<!-- 6 -->Manutenção" },
     { message = "^build", group = "<!-- 7 -->Build" },
     { message = "^ci", group = "<!-- 7 -->Build" },
