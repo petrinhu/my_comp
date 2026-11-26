@@ -1,4 +1,5 @@
 #include "linux_process_provider.h"
+#include "numeric_parse.h"
 #include <unistd.h>
 #include <signal.h>
 #include <sys/resource.h>
@@ -75,9 +76,9 @@ std::vector<domain::models::ProcessInfo> LinuxProcessProvider::collect_processes
             if (!entry.is_directory()) continue;
             
             std::string filename = entry.path().filename().string();
-            if (!std::all_of(filename.begin(), filename.end(), ::isdigit)) continue;
-            
-            const int pid = std::stoi(filename);
+            const auto pid_lido = parse_integer<int>(filename);
+            if (!pid_lido || *pid_lido <= 0) continue;
+            const int pid = *pid_lido;
             active_pids.push_back(pid);
 
             const std::string stat_path = entry.path().string() + "/stat";

@@ -205,6 +205,7 @@ set(UNIT_TEST_SOURCES
     tests/unit/update_viewmodel_test.cpp
     tests/unit/journal_provider_test.cpp
     tests/unit/memory_provider_test.cpp
+    tests/unit/numeric_parse_test.cpp
     tests/unit/user_metadata_provider_test.cpp
     tests/unit/diagnostic_viewmodel_test.cpp
     tests/unit/linux_cpu_provider_test.cpp

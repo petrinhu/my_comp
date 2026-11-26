@@ -1,4 +1,5 @@
 #include "linux_memory_provider.h"
+#include "numeric_parse.h"
 #include <filesystem>
 
 namespace fs = std::filesystem;
@@ -40,7 +41,7 @@ uint64_t LinuxMemoryProvider::parse_kb(const std::string& line) {
     const std::regex regex("(\\d+)");
     std::smatch match;
     if (std::regex_search(line, match, regex)) {
-        return std::stoull(match[1]);
+        return parse_integer<uint64_t>(match[1].str()).value_or(0);
     }
     return 0;
 }
