@@ -87,6 +87,7 @@ ScrollPage {
                 contentItem: RowLayout {
                     spacing: 8
                     Text {
+                        textFormat: Text.PlainText
                         text: timestamp
                         color: Theme.mutedTextColor
                         font.pixelSize: 10
@@ -94,6 +95,7 @@ ScrollPage {
                         Layout.preferredWidth: 110
                     }
                     Text {
+                        textFormat: Text.PlainText
                         text: journalView.priorityLabel(priority)
                         color: journalView.priorityColor(priority)
                         font.pixelSize: 10
@@ -101,6 +103,7 @@ ScrollPage {
                         Layout.preferredWidth: 54
                     }
                     Text {
+                        textFormat: Text.PlainText
                         text: source
                         color: Theme.highlightColor
                         font.pixelSize: 10
@@ -108,6 +111,7 @@ ScrollPage {
                         Layout.preferredWidth: 110
                     }
                     Text {
+                        textFormat: Text.PlainText
                         text: message
                         color: Theme.textColor
                         elide: Text.ElideRight

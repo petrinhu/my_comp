@@ -51,12 +51,12 @@ ColumnLayout {
                         Keys.onDeletePressed: processExplorer.killRequested(modelData.pid, modelData.command)
                         contentItem: RowLayout {
                             anchors.fill: parent; anchors.leftMargin: 10; anchors.rightMargin: 10
-                            Text { text: modelData.pid; Layout.preferredWidth: 60; color: Theme.highlightColor; font.family: "Monospace" }
-                            Text { text: modelData.user; Layout.preferredWidth: 100; color: Theme.textColor; font.pixelSize: 11 }
-                            Text { text: modelData.cpu.toFixed(1); Layout.preferredWidth: 60; color: modelData.cpu > 50 ? Theme.criticalColor : Theme.successColor; font.bold: true; font.family: "Monospace" }
-                            Text { text: modelData.mem.toFixed(1); Layout.preferredWidth: 60; color: Theme.highlightColor; font.family: "Monospace" }
-                            Text { text: modelData.state; Layout.preferredWidth: 50; color: modelData.state === "R" ? Theme.successColor : Theme.mutedTextColor; font.bold: true }
-                            Text { text: modelData.command; Layout.fillWidth: true; color: Theme.textColor; elide: Text.ElideRight; font.family: "Monospace"; font.pixelSize: 11 }
+                            Text { textFormat: Text.PlainText; text: modelData.pid; Layout.preferredWidth: 60; color: Theme.highlightColor; font.family: "Monospace" }
+                            Text { textFormat: Text.PlainText; text: modelData.user; Layout.preferredWidth: 100; color: Theme.textColor; font.pixelSize: 11 }
+                            Text { textFormat: Text.PlainText; text: modelData.cpu.toFixed(1); Layout.preferredWidth: 60; color: modelData.cpu > 50 ? Theme.criticalColor : Theme.successColor; font.bold: true; font.family: "Monospace" }
+                            Text { textFormat: Text.PlainText; text: modelData.mem.toFixed(1); Layout.preferredWidth: 60; color: Theme.highlightColor; font.family: "Monospace" }
+                            Text { textFormat: Text.PlainText; text: modelData.state; Layout.preferredWidth: 50; color: modelData.state === "R" ? Theme.successColor : Theme.mutedTextColor; font.bold: true }
+                            Text { textFormat: Text.PlainText; text: modelData.command; Layout.fillWidth: true; color: Theme.textColor; elide: Text.ElideRight; font.family: "Monospace"; font.pixelSize: 11 }
                         }
 
                         onDoubleClicked: processExplorer.killRequested(modelData.pid, modelData.command)

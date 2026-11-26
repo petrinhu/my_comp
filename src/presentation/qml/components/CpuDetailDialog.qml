@@ -145,6 +145,7 @@ Dialog {
                             spacing: 12
                             
                             Text { 
+                                textFormat: Text.PlainText
                                 text: qsTr("C%1").arg(modelData.id)
                                 color: Theme.textColor
                                 font.pixelSize: 11
@@ -173,12 +174,14 @@ Dialog {
                                 
                                 RowLayout {
                                     Text { 
+                                        textFormat: Text.PlainText
                                         text: modelData.load.toFixed(1) + "%"
                                         color: Theme.textColor
                                         font.pixelSize: 10
                                     }
                                     Item { Layout.fillWidth: true }
                                     Text { 
+                                        textFormat: Text.PlainText
                                         text: (modelData.freq / 1000.0).toFixed(2) + " GHz"
                                         color: Theme.mutedTextColor
                                         font.pixelSize: 10

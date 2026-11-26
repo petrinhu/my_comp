@@ -35,8 +35,9 @@ ScrollPage {
                     spacing: 15
                     StatusDot { size: 10; active: modelData.activeState === "active" }
                     ColumnLayout { spacing: 2; Layout.fillWidth: true
-                        Text { text: modelData.scope === "user" ? qsTr("%1 (usuário)").arg(modelData.name) : modelData.name; color: Theme.textColor; font.bold: true; elide: Text.ElideRight; Layout.fillWidth: true }
+                        Text { textFormat: Text.PlainText; text: modelData.scope === "user" ? qsTr("%1 (usuário)").arg(modelData.name) : modelData.name; color: Theme.textColor; font.bold: true; elide: Text.ElideRight; Layout.fillWidth: true }
                         Text {
+                            textFormat: Text.PlainText
                             text: modelData.isEnabled ? qsTr("%1 · inicia no boot").arg(modelData.description) : modelData.description
                             color: Theme.mutedTextColor; font.pixelSize: 10; elide: Text.ElideRight; Layout.fillWidth: true
                         }

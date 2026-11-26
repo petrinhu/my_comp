@@ -64,8 +64,8 @@ Rectangle {
                 }
                 contentItem: RowLayout {
                     spacing: 12
-                    Text { text: navDelegate.modelData.icon; font.pixelSize: 18; color: navDelegate.highlighted ? Theme.highlightColor : Theme.textColor }
-                    Text { text: navDelegate.modelData.name; color: navDelegate.highlighted ? Theme.highlightColor : Theme.textColor; font.bold: navDelegate.highlighted }
+                    Text { textFormat: Text.PlainText; text: navDelegate.modelData.icon; font.pixelSize: 18; color: navDelegate.highlighted ? Theme.highlightColor : Theme.textColor }
+                    Text { textFormat: Text.PlainText; text: navDelegate.modelData.name; color: navDelegate.highlighted ? Theme.highlightColor : Theme.textColor; font.bold: navDelegate.highlighted }
                 }
             }
         }

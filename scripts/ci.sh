@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # scripts/ci.sh — BT-03
-# Pipeline local de CI consolidada: build + ctest + clang-tidy + cppcheck + wcag + valgrind.
+# Pipeline local de CI consolidada: build + ctest + clang-tidy + cppcheck + wcag + qml-plaintext + valgrind.
 #
 # Uso:
 #   scripts/ci.sh                  # roda todas as etapas
@@ -204,6 +204,11 @@ run_stage ctest stage_ctest
 [[ "$SKIP_TIDY"     == "0" ]] && run_stage clang-tidy stage_clang_tidy
 [[ "$SKIP_CPPCHECK" == "0" ]] && run_stage cppcheck stage_cppcheck
 run_stage wcag stage_wcag
+stage_qml_plaintext() {
+    # Gate MC-10: Text/Label com dado dinâmico declaram textFormat (AutoText renderiza marcação).
+    python3 -I "${ROOT_DIR}/scripts/check_qml_plaintext.py" "${ROOT_DIR}/src/presentation/qml"
+}
+run_stage qml-plaintext stage_qml_plaintext
 [[ "$SKIP_VALGRIND" == "0" ]] && run_stage valgrind stage_valgrind
 
 echo ""

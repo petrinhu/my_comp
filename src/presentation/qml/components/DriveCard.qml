@@ -20,22 +20,26 @@ Rectangle {
         RowLayout {
             Layout.fillWidth: true
             Text {
+                textFormat: Text.PlainText
                 text: (driveCard.drive.rotational ? "💿 " : "💾 ") + driveCard.drive.name
                 color: Theme.highlightColor; font.pixelSize: 16; font.bold: true
             }
             SmartBadge { smart: driveCard.drive.smart }
             Item { Layout.fillWidth: true }
             Text {
+                textFormat: Text.PlainText
                 text: Format.formatBytes(driveCard.drive.sizeBytes)
                 color: Theme.textColor; font.pixelSize: 13
             }
         }
         Text {
+            textFormat: Text.PlainText
             visible: driveCard.drive.vendor.length > 0 || driveCard.drive.model.length > 0
             text: (driveCard.drive.vendor + " " + driveCard.drive.model).trim()
             color: Theme.mutedTextColor; font.pixelSize: 11
         }
         Text {
+            textFormat: Text.PlainText
             visible: driveCard.drive.smart && driveCard.drive.smart.available
             text: driveCard.drive.smart
                 ? qsTr("🌡 %1°C  ·  ⏱ %2h  ·  📉 desgaste %3%").arg(driveCard.drive.smart.tempC).arg(driveCard.drive.smart.powerOnHours).arg(driveCard.drive.smart.wearPct)
@@ -62,6 +66,7 @@ Rectangle {
                     title: qsTr("Executar benchmark em /dev/%1?").arg(driveCard.drive.name)
                     standardButtons: Dialog.Ok | Dialog.Cancel
                     Text {
+                        textFormat: Text.PlainText
                         text: qsTr("hdparm -tT roda leitura apenas, mas toca o cache do sistema.\nRequer root/pkexec para acesso ao device bruto.")
                         color: Theme.textColor
                         wrapMode: Text.WordWrap
@@ -71,6 +76,7 @@ Rectangle {
                 }
             }
             Text {
+                textFormat: Text.PlainText
                 visible: storageViewModel.lastBenchmark.device === driveCard.drive.name
                       && storageViewModel.lastBenchmark.success === true
                 text: storageViewModel.lastBenchmark.device === driveCard.drive.name
@@ -81,6 +87,7 @@ Rectangle {
                 color: Theme.highlightColor; font.pixelSize: 11
             }
             Text {
+                textFormat: Text.PlainText
                 visible: storageViewModel.lastBenchmark.device === driveCard.drive.name
                       && storageViewModel.lastBenchmark.running !== true
                       && storageViewModel.lastBenchmark.success === false

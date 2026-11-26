@@ -27,8 +27,8 @@ ScrollPage {
             model: devStackViewModel.toolchains
             delegate: RowLayout {
                 width: ListView.view.width; height: 30
-                Text { text: modelData.name; font.bold: true; color: Theme.textColor; Layout.preferredWidth: 100 }
-                Text { text: modelData.version; color: Theme.mutedTextColor; Layout.fillWidth: true; elide: Text.ElideRight; font.family: "Monospace"; font.pixelSize: 11 }
+                Text { textFormat: Text.PlainText; text: modelData.name; font.bold: true; color: Theme.textColor; Layout.preferredWidth: 100 }
+                Text { textFormat: Text.PlainText; text: modelData.version; color: Theme.mutedTextColor; Layout.fillWidth: true; elide: Text.ElideRight; font.family: "Monospace"; font.pixelSize: 11 }
             }
         }
     }
@@ -49,11 +49,11 @@ ScrollPage {
                     StatusDot { size: 8; active: modelData.status.includes("Up") }
                     ColumnLayout {
                         spacing: 2
-                        Text { text: modelData.name; color: Theme.textColor; font.bold: true }
-                        Text { text: modelData.runtime + " • " + modelData.image; color: Theme.mutedTextColor; font.pixelSize: 10 }
+                        Text { textFormat: Text.PlainText; text: modelData.name; color: Theme.textColor; font.bold: true }
+                        Text { textFormat: Text.PlainText; text: modelData.runtime + " • " + modelData.image; color: Theme.mutedTextColor; font.pixelSize: 10 }
                     }
                     Item { Layout.fillWidth: true }
-                    Text { text: modelData.status; color: Theme.textColor; font.pixelSize: 11 }
+                    Text { textFormat: Text.PlainText; text: modelData.status; color: Theme.textColor; font.pixelSize: 11 }
                 }
             }
             Text { anchors.centerIn: parent; text: qsTr("Nenhum container detectado."); color: Theme.mutedTextColor; visible: parent.count === 0 }

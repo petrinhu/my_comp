@@ -49,12 +49,14 @@ Rectangle {
                 color: Theme.textColor; font.pixelSize: 11
             }
             Text {
+                textFormat: Text.PlainText
                 text: "▸ " + directoryScannerViewModel.currentPath
                 color: Theme.mutedTextColor; font.pixelSize: 10
                 elide: Text.ElideLeft; Layout.fillWidth: true
             }
         }
         Text {
+            textFormat: Text.PlainText
             visible: !directoryScannerViewModel.isScanning && directoryScannerViewModel.scannedRoot.length > 0
             text: directoryScannerViewModel.scannedRoot + ": " + Format.formatBytes(directoryScannerViewModel.totalSize)
             color: Theme.textColor; font.pixelSize: 12; font.bold: true

@@ -30,12 +30,14 @@ Rectangle {
                      : Theme.warningColor
             }
             Text {
+                textFormat: Text.PlainText
                 text: qsTr("%1 (PID %2)").arg(processItem.item.nome).arg(processItem.item.pid)
                 color: Theme.textColor
                 font.bold: true
                 Layout.fillWidth: true
             }
             Text {
+                textFormat: Text.PlainText
                 text: qsTr("VRAM: %1 MiB").arg(processItem.item.vramMb.toFixed(0))
                 color: Theme.highlightColor
                 font.family: "monospace"
@@ -44,6 +46,7 @@ Rectangle {
         }
 
         Text {
+            textFormat: Text.PlainText
             text: qsTr("Categoria: %1  ·  Regra: %2").arg(processItem.item.categoria).arg(processItem.item.regra)
                   + (processItem.item.detalhe.length > 0 ? "  ·  " + processItem.item.detalhe : "")
             color: Theme.mutedTextColor
@@ -53,6 +56,7 @@ Rectangle {
         }
 
         Text {
+            textFormat: Text.PlainText
             visible: processItem.item.sugestaoDescricao && processItem.item.sugestaoDescricao.length > 0
             text: "💡 " + processItem.item.sugestaoDescricao
             color: Theme.highlightColor
