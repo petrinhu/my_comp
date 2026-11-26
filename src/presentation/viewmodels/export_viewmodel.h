@@ -4,6 +4,7 @@
 #include <QString>
 #include <memory>
 #include <vector>
+#include "../../application/export/export_history.h"
 #include "../../domain/interfaces/i_export_provider.h"
 #include "../viewmodels/cpu_viewmodel.h"
 #include "../viewmodels/memory_viewmodel.h"
@@ -21,7 +22,8 @@ class ExportViewModel : public QObject {
     Q_PROPERTY(QVariantList exportHistory READ exportHistory NOTIFY exportHistoryChanged)
 
 public:
-    explicit ExportViewModel(QObject* parent = nullptr);
+    // history: histórico persistido (injetado pelo composition root; QA-07/MC-02).
+    explicit ExportViewModel(std::shared_ptr<application::ExportHistory> history, QObject* parent = nullptr);
 
     void add_provider(std::unique_ptr<domain::interfaces::IExportProvider> provider);
 
@@ -42,11 +44,9 @@ signals:
     void exportHistoryChanged();
 
 private:
-    static constexpr int MAX_HISTORY_ENTRIES = 50;
-    static constexpr const char* HISTORY_ARRAY_KEY = "export_history";
-
     // shared_ptr: o worker segura o provider escolhido sem tocar no vetor (que pode crescer).
     std::vector<std::shared_ptr<domain::interfaces::IExportProvider>> m_providers;
+    std::shared_ptr<application::ExportHistory> m_history;
     bool m_isBusy = false;
 
     // Observação defensiva: QPointer zera automaticamente se o QObject for destruído.
@@ -58,12 +58,6 @@ private:
     QPointer<DevStackViewModel> m_devVM;
 
     domain::models::ReportData collect_all_data();
-    // Struct em vez de dois QString adjacentes: impossível trocar formato e caminho (bugprone-easily-swappable-parameters).
-    struct HistoryEntry {
-        QString format_name;
-        QString file_path;
-    };
-    void append_to_history(const HistoryEntry& item);
 };
 
 }

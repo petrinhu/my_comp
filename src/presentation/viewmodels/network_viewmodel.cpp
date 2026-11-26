@@ -1,12 +1,13 @@
 #include "network_viewmodel.h"
 #include <QtConcurrent/QtConcurrent>
 #include <QPointer>
-#include <QSettings>
 
 namespace my_comp::presentation::viewmodels {
 
-NetworkViewModel::NetworkViewModel(std::shared_ptr<domain::interfaces::INetworkProvider> provider, QObject *parent)
-    : QObject(parent), m_provider(provider) {
+NetworkViewModel::NetworkViewModel(std::shared_ptr<domain::interfaces::INetworkProvider> provider,
+                                   std::shared_ptr<domain::interfaces::IPreferencesStore> preferences,
+                                   QObject *parent)
+    : QObject(parent), m_provider(std::move(provider)), m_preferences(std::move(preferences)) {
 
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &NetworkViewModel::refresh);
@@ -19,7 +20,7 @@ constexpr QLatin1String EXTERNAL_PROBE_KEY{"network/external_latency_probe"}; //
 void NetworkViewModel::load_preferences() {
     // Fora do ctor (MC-04: sem I/O no construtor); roda na primeira coleta.
     m_preferences_loaded = true;
-    m_external_probe_enabled = QSettings().value(EXTERNAL_PROBE_KEY, false).toBool();
+    m_external_probe_enabled = m_preferences && m_preferences->value(EXTERNAL_PROBE_KEY, false).toBool();
     if (m_provider) m_provider->set_external_probe_enabled(m_external_probe_enabled);
     if (m_external_probe_enabled) emit externalProbeEnabledChanged();
 }
@@ -29,7 +30,7 @@ void NetworkViewModel::setExternalProbeEnabled(bool enabled) {
     if (m_external_probe_enabled == enabled) return;
     m_external_probe_enabled = enabled;
     if (m_provider) m_provider->set_external_probe_enabled(enabled);
-    QSettings().setValue(EXTERNAL_PROBE_KEY, enabled);
+    if (m_preferences) m_preferences->set_value(EXTERNAL_PROBE_KEY, enabled);
     emit externalProbeEnabledChanged();
 }
 

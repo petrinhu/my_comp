@@ -110,6 +110,8 @@ Esta seção é preenchida pela Fase 2. Cada entrada registra o comando usado, o
 
 - **QA-05 (2026-11-26, parcial: contraste)**: auditoria da paleta achou 88 pares texto/fundo abaixo de 4,5:1 (no tema claro, `success` tinha 1,84:1, `warning` 1,92:1; texto branco sobre os toasts 2,1:1). Cores semânticas ganharam variante por tema (mesma matiz, luminosidade ajustada), toasts têm fundos próprios e o destaque da navegação usa `Theme.navActiveOpacity` (0,12). Novo gate `scripts/check_contrast.py` (estágio `wcag` do `ci.sh`) lê o `Theme.qml` e reprova qualquer par < 4,5:1 nos dois temas: 0 falhas. **Falta**: navegação por teclado (Tab/Enter; ações de serviço só por duplo-clique), `Accessible.name` em botões só com emoji, e texto com `opacity` < 1 em `VramProcessItem`/`VramConfigOrigin` (aguarda o merge da VRAM).
 
+- **QA-07 (2026-11-26)**: análise SOLID/SRP medida por script: nenhum arquivo de `src/` acima de 300 linhas (maior: 270), 0 ciclos de include entre headers, 0 includes cruzando camada no sentido proibido (MC-02). Achado corrigido: `ExportViewModel` (histórico) e `NetworkViewModel` (preferência do ping) usavam `QSettings` direto, I/O dentro da apresentação; agora há a porta `domain::interfaces::IPreferencesStore`, implementada por `infrastructure::persistence::QSettingsPreferencesStore` (mesmo formato de array, histórico existente continua legível) e o histórico virou `application::ExportHistory` (FIFO de 50). Achado registrado para depois do merge da VRAM: os localizadores de config da VRAM (`application/vram/configuracao/sublocators`) usam `QDir::homePath()` na camada de aplicação.
+
 ## TABELA UNIFICADA
 
 | ID | Onda | Grupo | Descrição Técnica | Prioridade | Pré-requisito | Dificuldade | Status | Estado Auditado |
@@ -282,7 +284,7 @@ Esta seção é preenchida pela Fase 2. Cada entrada registra o comando usado, o
 | QA-04 | — | 🔎 AU | T4 — Valgrind/ASan zero *definitely lost* e zero ERROR SUMMARY. **Zero vazamentos no nosso código**; suppressions em `valgrind.supp` para Intel VA-API (libmfx), libcuda, libavutil, libdrm, NVIDIA, Qt DBus metaobject cache, libdbus. 2 erros residuais são bugs de `posix_memalign(0)` em libnvidia-glcore | Alta | QA-01 | Alta | ✅ Concluído | ✓ |
 | QA-05 | — | 🔎 AU | A3 — WCAG AA (contraste ≥4,5:1, Tab/Enter, tooltips) | Média | DB-06, UX-01 | Média | 🟡 Parcial | ⚠ |
 | QA-06 | — | 🧪 TES | A6 — Cobertura LCOV medida em `src/domain/` e serviços (sem meta numérica, MC-07) | Média | QA-01, QA-03 | Alta | ⏳ Pendente | — |
-| QA-07 | — | 🔎 AU | A9 — Análise SOLID/SRP (classes >300 linhas, ciclos de include) | Alta | AR-01, AR-02 | Alta | ⏳ Pendente | — |
+| QA-07 | — | 🔎 AU | A9 — Análise SOLID/SRP (classes >300 linhas, ciclos de include) | Alta | AR-01, AR-02 | Alta | ✅ Concluído | ✓ |
 | QA-08 | — | 🔎 AU | A10 — Relatório final de auditoria consolidado | Alta | QA-01, QA-02, QA-03, QA-04, QA-05, QA-06, QA-07 | Baixa | ⏳ Pendente | — |
 | QA-09 | — | 📈 MEL | Null-pointer checks antes de dereference (`QPointer`, guards `if (!ptr) return`, raw pointer policy). Guards adicionados em `ProcessViewModel::killProcess`/`setPriority`, `CpuViewModel::initialize`/`refresh`, `UserMetadataViewModel::refresh`, `PowerViewModel::update`, `AudioViewModel` ctor. Todas as lambdas `self->` já têm `if (!self) return;` | Alta | QA-02 | Média | ✅ Concluído | ✓ |
 | QA-10 | — | 📈 MEL | Const-correctness e uso obrigatório de `override`/`final` em hierarquias virtuais | Média | QA-02 | Baixa | ⏳ Pendente | — |

@@ -15,8 +15,9 @@ namespace vm = presentation::viewmodels;
 namespace {
 
 // O export lê snapshots de outros VMs (observação via QPointer, sem ownership).
-std::unique_ptr<vm::ExportViewModel> compor_export(const SystemViewModels& sys, const ProcessViewModels& proc) {
-    auto exporter = std::make_unique<vm::ExportViewModel>();
+std::unique_ptr<vm::ExportViewModel> compor_export(const SharedInfrastructure& infra, const SystemViewModels& sys,
+                                                  const ProcessViewModels& proc) {
+    auto exporter = std::make_unique<vm::ExportViewModel>(std::make_shared<application::ExportHistory>(infra.preferences));
     exporter->add_provider(std::make_unique<infrastructure::exporters::JsonExportProvider>());
     exporter->add_provider(std::make_unique<infrastructure::exporters::MarkdownExportProvider>());
     exporter->add_provider(std::make_unique<infrastructure::exporters::HtmlExportProvider>());
@@ -36,7 +37,7 @@ AppViewModels compor_app() {
     vms.process = compor_processos(infra);
     vms.updates = compor_atualizacoes(infra);
     vms.audio = std::make_unique<vm::AudioViewModel>(std::make_shared<infrastructure::audio::QtAudioProvider>());
-    vms.exporter = compor_export(vms.system, vms.process);
+    vms.exporter = compor_export(infra, vms.system, vms.process);
     vms.vram_audit = std::make_unique<vramopt::presentation::viewmodels::VramAuditViewModel>(
         vramopt::composition::compor_servico_auditar_vram());
     vms.url_helper = std::make_unique<vm::UrlHelper>();
