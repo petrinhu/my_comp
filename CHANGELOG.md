@@ -2,6 +2,17 @@
 
 Todas as mudanças notáveis deste projeto serão documentadas neste arquivo seguindo [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) e [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.0-alpha.5] - 2026-11-26
+
+### Documentação
+
+- **leis**: GODS_LAWS do projeto e CLAUDE.md enxuto ([`3f287df`](#3f287df17e9938dc777fe74d72abe40200da1891))
+- **todo**: Alinha o H1 ao modelo canonico (`# TODO - <projeto>`) ([`7a6a735`](#7a6a7352c945ec44f5e6274c533147bdefed80f9))
+- **todo**: Normaliza TODO.md para a forma canonica (uma tabela, 9 colunas) ([`4f99abb`](#4f99abb3a4bd39d526be966d0761363ab8b663fc))
+
+### Manutenção
+
+- Migrate license to AGPL-3.0 ([`6a55cb8`](#6a55cb8c9a61a25375322d630063d500b33bcef0))
 ## [0.1.0-alpha.4] - 2026-04-30
 
 ### Adicionado
