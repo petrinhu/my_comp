@@ -1,5 +1,5 @@
 #!/bin/bash
-# deploy.sh — fluxo único de release + push para Codeberg.
+# deploy.sh — fluxo único de release + push para o GitHub (MC-11).
 #
 # Encadeia: build → (commit opcional) → release.sh (bump SemVer +
 # CHANGELOG + tag via git-cliff) → git push --follow-tags. O hook
@@ -10,7 +10,7 @@
 #   ./deploy.sh                       # apenas releaseia commits já criados e pusha
 #   ./deploy.sh "feat(x): mensagem"   # commita pendências + releaseia + pusha
 #
-# CLAUDE.md §11 documenta o esquema de versão (SemVer 2.0 + git-cliff).
+# MC-12 (GODS_LAWS.md) define o esquema de versão; docs/claude/release.md detalha o ferramental.
 
 set -euo pipefail
 
@@ -46,7 +46,7 @@ fi
 echo -e "${GREEN}[deploy] 3/4 — release semântica (git-cliff)${NC}"
 ./scripts/release.sh
 
-echo -e "${GREEN}[deploy] 4/4 — push para Codeberg (com tag)${NC}"
+echo -e "${GREEN}[deploy] 4/4 — push para o GitHub (com tag)${NC}"
 DEPLOY_SH_RUNNING=1 git push --follow-tags
 
 echo -e "${GREEN}[deploy] ✓ Build + release + push concluídos.${NC}"
