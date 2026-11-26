@@ -1,4 +1,6 @@
 #include <gtest/gtest.h>
+#include <QtTest/QSignalSpy>
+#include "../../src/presentation/viewmodels/firmware_viewmodel.h"
 #include <gmock/gmock.h>
 #include "../../src/domain/interfaces/i_firmware_provider.h"
 
@@ -8,6 +10,7 @@ using namespace my_comp::domain::models;
 #include "../../src/infrastructure/collectors/dbus_firmware_provider.h"
 
 using namespace my_comp::infrastructure::collectors;
+using my_comp::presentation::viewmodels::FirmwareViewModel;
 
 TEST(FirmwareMonitorAcceptance, ShouldCollectFromRealSystem) {
     DBusFirmwareProvider provider;
@@ -27,18 +30,18 @@ public:
     MOCK_METHOD(void, check_updates, (const QString&), (override));
 };
 
-TEST(FirmwareMonitorAcceptance, ShouldCollectFirmwareDevices) {
-    auto provider = std::make_unique<MockFirmwareProvider>();
-    
-    FirmwareDevice dev;
-    dev.name = "System Firmware";
-    dev.version = "1.2.3";
-    
-    std::vector<FirmwareDevice> devs = {dev};
-    
-    EXPECT_CALL(*provider, get_devices()).WillOnce(testing::Return(devs));
-    
-    auto result = provider->get_devices();
-    ASSERT_EQ(result.size(), 1);
-    EXPECT_EQ(result[0].name, "System Firmware");
+// QA-03: o usuário vê quantos dispositivos têm atualização de firmware (lógica do VM sobre
+// o provider; o D-Bus real fica no teste acima).
+TEST(FirmwareMonitorAcceptance, UserSeesHowManyDevicesHaveUpdates) {
+    auto provider = std::make_shared<testing::NiceMock<MockFirmwareProvider>>();
+    FirmwareDevice uefi; uefi.name = "System Firmware"; uefi.version = "1.2.3"; uefi.has_update = true;
+    FirmwareDevice ssd; ssd.name = "Samsung SSD"; ssd.version = "4B2QGXA7"; ssd.has_update = false;
+    ON_CALL(*provider, get_devices()).WillByDefault(testing::Return(std::vector<FirmwareDevice>{uefi, ssd}));
+
+    FirmwareViewModel vm(provider);
+    QSignalSpy changed(&vm, &FirmwareViewModel::devicesChanged);
+    vm.refresh();
+    ASSERT_TRUE(changed.wait(3000));
+    EXPECT_EQ(vm.devices().size(), 2);
+    EXPECT_EQ(vm.updateCount(), 1);
 }

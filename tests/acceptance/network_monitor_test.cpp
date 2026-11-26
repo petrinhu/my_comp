@@ -1,4 +1,7 @@
 #include <gtest/gtest.h>
+#include "../unit/fakes/in_memory_preferences_store.h"
+#include "../../src/presentation/viewmodels/network_viewmodel.h"
+#include <QtTest/QSignalSpy>
 #include <gmock/gmock.h>
 #include "../../src/domain/interfaces/i_network_provider.h"
 
@@ -11,6 +14,7 @@ using namespace my_comp::domain::models;
 #include <chrono>
 
 using namespace my_comp::infrastructure::collectors;
+using my_comp::presentation::viewmodels::NetworkViewModel;
 
 TEST(NetworkMonitorAcceptance, ShouldCollectFromRealSystem) {
     auto shell = std::make_shared<QProcessShellExecutor>();
@@ -30,16 +34,18 @@ public:
     MOCK_METHOD(NetworkStats, collect_stats, (), (override));
 };
 
-TEST(NetworkMonitorAcceptance, ShouldCollectRealisticNetworkData) {
-    auto provider = std::make_unique<MockNetworkProvider>();
-    
-    NetworkStats fake_stats;
-    fake_stats.total_rx_mbps = 2.5;
-    fake_stats.latency_ms = 15.0;
-    
-    EXPECT_CALL(*provider, collect_stats()).WillOnce(testing::Return(fake_stats));
-    
-    auto stats = provider->collect_stats();
-    EXPECT_GE(stats.total_rx_mbps, 0.0);
-    EXPECT_GE(stats.latency_ms, 0.0);
+// QA-03: com tráfego e sem sonda externa (padrão MC-10), o status é "Local Only".
+TEST(NetworkMonitorAcceptance, UserSeesLocalStatusWithoutExternalProbe) {
+    auto provider = std::make_shared<testing::NiceMock<MockNetworkProvider>>();
+    NetworkStats stats;
+    stats.total_rx_mbps = 2.5;
+    stats.latency_ms = -1.0; // sonda externa desligada
+    ON_CALL(*provider, collect_stats()).WillByDefault(testing::Return(stats));
+
+    NetworkViewModel vm(provider, std::make_shared<my_comp::tests::InMemoryPreferencesStore>());
+    QSignalSpy changed(&vm, &NetworkViewModel::statsChanged);
+    vm.refresh();
+    ASSERT_TRUE(changed.wait(3000));
+    EXPECT_EQ(vm.status(), QString("Local Only"));
+    EXPECT_FALSE(vm.externalProbeEnabled());
 }

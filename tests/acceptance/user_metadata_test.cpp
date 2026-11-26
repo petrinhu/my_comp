@@ -1,28 +1,28 @@
+// QA-03 — Aceitação: aba Usuário pela pilha real (UserMetadataViewModel →
+// LinuxUserMetadataProvider) contra o sistema (getpwuid_r, ambiente).
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
-#include <memory>
-#include "../../src/domain/interfaces/i_user_metadata_provider.h"
+#include <QtTest/QSignalSpy>
+#include <pwd.h>
+#include <unistd.h>
 
-using namespace my_comp::domain::interfaces;
-using namespace my_comp::domain::models;
+#include "../../src/infrastructure/collectors/linux_user_metadata_provider.h"
+#include "../../src/infrastructure/collectors/qprocess_shell_executor.h"
+#include "../../src/presentation/viewmodels/user_metadata_viewmodel.h"
 
-class MockUserMetadataProvider : public IUserMetadataProvider {
-public:
-    MOCK_METHOD(UserMetadata, get_user_metadata, (), (override));
-};
+using namespace my_comp::infrastructure::collectors;
+using my_comp::presentation::viewmodels::UserMetadataViewModel;
 
-TEST(UserMetadataAcceptance, ShouldCollectUserDataContract) {
-    auto provider = std::make_unique<MockUserMetadataProvider>();
-    
-    UserMetadata fake_data;
-    fake_data.currentUser = "petrus";
-    fake_data.shell = "/bin/bash";
-    fake_data.envVars["HOME"] = "/home/petrus";
-    
-    EXPECT_CALL(*provider, get_user_metadata()).WillOnce(testing::Return(fake_data));
-    
-    auto data = provider->get_user_metadata();
-    EXPECT_EQ(data.currentUser, "petrus");
-    EXPECT_EQ(data.shell, "/bin/bash");
-    EXPECT_EQ(data.envVars["HOME"], "/home/petrus");
+TEST(UserMetadataAcceptance, UserSeesOwnAccount) {
+    UserMetadataViewModel vm(std::make_shared<LinuxUserMetadataProvider>(std::make_shared<QProcessShellExecutor>()));
+    QSignalSpy changed(&vm, &UserMetadataViewModel::dataChanged);
+    vm.refresh();
+    if (changed.isEmpty()) {
+        ASSERT_TRUE(changed.wait(5000));
+    }
+
+    const passwd* pw = ::getpwuid(::getuid());
+    ASSERT_NE(pw, nullptr);
+    EXPECT_EQ(vm.currentUser(), QString::fromLocal8Bit(pw->pw_name));
+    EXPECT_EQ(vm.home(), QString::fromLocal8Bit(pw->pw_dir));
+    EXPECT_FALSE(vm.envVars().isEmpty());
 }

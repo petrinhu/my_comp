@@ -1,40 +1,42 @@
+// QA-03 — Aceitação: explorador de processos pela pilha real (ProcessViewModel →
+// LinuxProcessProvider) sobre o /proc deste processo.
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
-#include <memory>
-#include "../../src/domain/interfaces/i_process_provider.h"
+#include <QtTest/QSignalSpy>
+#include <unistd.h>
 
-using namespace my_comp::domain::interfaces;
-using namespace my_comp::domain::models;
+#include "../../src/infrastructure/collectors/linux_process_provider.h"
+#include "../../src/presentation/viewmodels/process_viewmodel.h"
 
-class MockProcessProvider : public IProcessProvider {
-public:
-    MOCK_METHOD(std::vector<ProcessInfo>, collect_processes, (), (override));
-    MOCK_METHOD(bool, kill_process, (int, int), (override));
-    MOCK_METHOD(bool, set_priority, (int, int), (override));
-};
+using my_comp::infrastructure::collectors::LinuxProcessProvider;
+using my_comp::presentation::viewmodels::ProcessViewModel;
 
-TEST(ProcessMonitorAcceptance, ShouldCollectProcessesContract) {
-    auto provider = std::make_unique<MockProcessProvider>();
-    
-    ProcessInfo p;
-    p.pid = 1;
-    p.command = "/sbin/init";
-    p.user = "root";
-    p.cpuPercent = 0.1;
-    
-    std::vector<ProcessInfo> procs = {p};
-    
-    EXPECT_CALL(*provider, collect_processes()).WillOnce(testing::Return(procs));
-    
-    auto result = provider->collect_processes();
-    ASSERT_EQ(result.size(), 1);
-    EXPECT_EQ(result[0].command, "/sbin/init");
-    EXPECT_EQ(result[0].user, "root");
+TEST(ProcessMonitorAcceptance, UserFindsOwnProcessByFilter) {
+    ProcessViewModel vm(std::make_shared<LinuxProcessProvider>());
+    QSignalSpy changed(&vm, &ProcessViewModel::processesChanged);
+    vm.refresh();
+    ASSERT_TRUE(changed.wait(5000));
+    ASSERT_FALSE(vm.processes().isEmpty());
+
+    // A coluna mostra o comm do /proc/<pid>/stat, que o kernel corta em 15 caracteres
+    // (TASK_COMM_LEN): "acceptance_tests" aparece como "acceptance_test".
+    const QString comm = QStringLiteral("acceptance_tests").left(15);
+    vm.setFilter(comm);
+    bool found_self = false;
+    for (const auto& p : vm.processes()) {
+        const auto m = p.toMap();
+        EXPECT_TRUE(m["command"].toString().contains(comm) || m["user"].toString().contains(comm));
+        found_self = found_self || m["pid"].toInt() == static_cast<int>(::getpid());
+    }
+    EXPECT_TRUE(found_self);
 }
 
-TEST(ProcessMonitorAcceptance, ShouldControlProcessLifecycle) {
-    auto provider = std::make_unique<MockProcessProvider>();
-    
-    EXPECT_CALL(*provider, kill_process(1234, 9)).WillOnce(testing::Return(true));
-    EXPECT_TRUE(provider->kill_process(1234, 9));
+// MC-10: pedir para matar o próprio app ou o grupo pela UI é recusado. Ação aceita faz o
+// VM recarregar a lista (processesChanged); recusada, não há refresh.
+TEST(ProcessMonitorAcceptance, KillingTheAppItselfIsRefused) {
+    ProcessViewModel vm(std::make_shared<LinuxProcessProvider>());
+    QSignalSpy changed(&vm, &ProcessViewModel::processesChanged);
+    vm.killProcess(static_cast<int>(::getpid()), 0);
+    vm.killProcess(0, 0);
+    vm.killProcess(-1, 0);
+    EXPECT_FALSE(changed.wait(800));
 }

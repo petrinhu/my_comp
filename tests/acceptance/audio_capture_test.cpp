@@ -1,4 +1,6 @@
 #include <gtest/gtest.h>
+#include "../../src/presentation/viewmodels/audio_viewmodel.h"
+#include <QtTest/QSignalSpy>
 #include <gmock/gmock.h>
 #include <QCoreApplication>
 #include <memory>
@@ -9,6 +11,7 @@
 using namespace my_comp::domain::interfaces;
 using namespace my_comp::domain::models;
 using namespace testing;
+using my_comp::presentation::viewmodels::AudioViewModel;
 
 class MockAudioProvider : public IAudioProvider {
 public:
@@ -17,16 +20,21 @@ public:
     MOCK_METHOD(bool, is_capturing, (), (const, override));
 };
 
-TEST(AudioCaptureAcceptance, ShouldManageCaptureLifecycle) {
-    auto provider = std::make_unique<MockAudioProvider>();
-    
-    EXPECT_CALL(*provider, start_capture()).WillOnce(Return(true));
-    EXPECT_CALL(*provider, is_capturing()).WillRepeatedly(Return(true));
-    EXPECT_CALL(*provider, stop_capture()).Times(1);
-    
-    EXPECT_TRUE(provider->start_capture());
-    EXPECT_TRUE(provider->is_capturing());
-    provider->stop_capture();
+// QA-03: o botão de captura liga e desliga pelo VM, refletindo isCapturing.
+TEST(AudioCaptureAcceptance, UserStartsAndStopsCapture) {
+    auto provider = std::make_shared<NiceMock<MockAudioProvider>>();
+    bool capturing = false;
+    ON_CALL(*provider, start_capture()).WillByDefault([&]() { capturing = true; return true; });
+    ON_CALL(*provider, stop_capture()).WillByDefault([&]() { capturing = false; });
+    ON_CALL(*provider, is_capturing()).WillByDefault([&]() { return capturing; });
+
+    AudioViewModel vm(provider);
+    QSignalSpy changed(&vm, &AudioViewModel::isCapturingChanged);
+    vm.start();
+    EXPECT_TRUE(vm.isCapturing());
+    vm.stop();
+    EXPECT_FALSE(vm.isCapturing());
+    EXPECT_EQ(changed.count(), 2);
 }
 
 TEST(AudioCaptureAcceptance, ShouldReceiveDataViaCallback) {
@@ -53,10 +61,6 @@ TEST(AudioCaptureAcceptance, ShouldReceiveDataViaCallback) {
 TEST(AudioCaptureAcceptance, ShouldGenerateFFTSpectrum) {
     using namespace my_comp::infrastructure::audio;
     // QtAudioProvider marshalha notify_data_ready via QueuedConnection — precisa de event loop.
-    int argc = 1;
-    char arg0[] = "test";
-    char* argv[] = {arg0};
-    QCoreApplication app(argc, argv);
 
     QtAudioProvider provider;
     AudioData captured;
