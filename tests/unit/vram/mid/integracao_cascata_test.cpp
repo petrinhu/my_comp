@@ -76,7 +76,7 @@ CenarioMontado montar() {
                           ClassificadorEmCascata{std::move(regras)}};
 }
 
-Processo procFirefoxIdle() {
+Processo proc_firefox_idle() {
     return Processo{
         PID{1234}, NomeProcesso{QStringLiteral("firefox")},
         BytesDeMemoria::de_megabytes(350), 0,
@@ -102,7 +102,7 @@ TEST(IntegracaoCascataTest, FirefoxIdleClassificadoPeloCatalogo) {
     EXPECT_CALL(*c.leitor_maps, bibliotecas_mapeadas(_)).Times(0);
     EXPECT_CALL(*c.amostrador, amostra_janela(_, _)).Times(0);
 
-    auto v = c.cascata.classificar(procFirefoxIdle());
+    auto v = c.cascata.classificar(proc_firefox_idle());
     EXPECT_EQ(v.categoria, Categoria::CandidatoObvioCpu);
     EXPECT_EQ(v.justificativa.regra, QStringLiteral("catalogo"));
 }
@@ -164,7 +164,7 @@ TEST(IntegracaoCascataTest, FeedbackVenceCatalogoMesmoQueCatalogoTambemDecidiria
         }));
     EXPECT_CALL(*c.catalogo, buscar(_)).Times(0);
 
-    auto v = c.cascata.classificar(procFirefoxIdle());
+    auto v = c.cascata.classificar(proc_firefox_idle());
     EXPECT_EQ(v.categoria, Categoria::PrecisaGpu);
     EXPECT_EQ(v.justificativa.regra, QStringLiteral("feedback"));
 }

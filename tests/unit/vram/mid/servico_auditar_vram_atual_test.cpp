@@ -49,7 +49,7 @@ using vramopt::tests::MockGpuBackend;
 
 namespace {
 
-ResultadoClassificacao classificacaoCpu() {
+ResultadoClassificacao classificacao_cpu() {
     return ResultadoClassificacao{
         .categoria = Categoria::CandidatoObvioCpu,
         .justificativa = Justificativa{
@@ -59,7 +59,7 @@ ResultadoClassificacao classificacaoCpu() {
     };
 }
 
-ResultadoClassificacao classificacaoGpu() {
+ResultadoClassificacao classificacao_gpu() {
     return ResultadoClassificacao{
         .categoria = Categoria::PrecisaGpu,
         .justificativa = Justificativa{
@@ -69,7 +69,7 @@ ResultadoClassificacao classificacaoGpu() {
     };
 }
 
-OrigemConfig origemFalsa() {
+OrigemConfig origem_falsa() {
     return OrigemConfig{
         .categoria = CategoriaOrigem::BrowserChromium,
         .tipo = QStringLiteral("browser-flag"),
@@ -113,11 +113,11 @@ TEST(ServicoAuditarVramAtualTest, AgrupaProcessosPorGpuEEnriqueceComTodosOsServi
         .WillOnce(Return(std::vector<Processo>{blender}));
 
     EXPECT_CALL(*classificador, classificar(_))
-        .WillOnce(Return(classificacaoCpu()))
-        .WillOnce(Return(classificacaoGpu()));
+        .WillOnce(Return(classificacao_cpu()))
+        .WillOnce(Return(classificacao_gpu()));
 
     EXPECT_CALL(*locator, localizar(_))
-        .WillOnce(Return(QVector<OrigemConfig>{origemFalsa()}))
+        .WillOnce(Return(QVector<OrigemConfig>{origem_falsa()}))
         .WillOnce(Return(QVector<OrigemConfig>{}));
 
     auto svc_class = std::make_shared<ServicoClassificarProcesso>(classificador);

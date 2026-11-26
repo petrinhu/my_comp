@@ -53,7 +53,7 @@ using ::testing::Return;
 
 namespace {
 
-RelatorioAuditoriaVram fazerRelatorioExemplo() {
+RelatorioAuditoriaVram fazer_relatorio_exemplo() {
     RelatorioAuditoriaVram r;
     GrupoAuditoriaGpu grupo{
         .gpu = GpuInfo{0, Fabricante::Nvidia, QStringLiteral("RTX 4070"),
@@ -105,7 +105,7 @@ TEST(VramAuditViewModelTest, AplicarRelatorioConverteEmissaoQVariant) {
     VramAuditViewModel vm{nullptr};
     QSignalSpy spy{&vm, &VramAuditViewModel::gruposChanged};
 
-    vm.aplicarRelatorio(fazerRelatorioExemplo());
+    vm.aplicar_relatorio(fazer_relatorio_exemplo());
 
     ASSERT_EQ(spy.count(), 1);
     const auto grupos = vm.grupos();
@@ -144,13 +144,13 @@ TEST(VramAuditViewModelTest, AplicarRelatorioConverteEmissaoQVariant) {
 
 TEST(VramAuditViewModelTest, RelatorioVazioGeraGruposVazios) {
     VramAuditViewModel vm{nullptr};
-    vm.aplicarRelatorio(RelatorioAuditoriaVram{});
+    vm.aplicar_relatorio(RelatorioAuditoriaVram{});
     EXPECT_TRUE(vm.grupos().isEmpty());
 }
 
 TEST(VramAuditViewModelTest, ItemExpoeChaveBinarioParaFeedback) {
     VramAuditViewModel vm{nullptr};
-    vm.aplicarRelatorio(fazerRelatorioExemplo());
+    vm.aplicar_relatorio(fazer_relatorio_exemplo());
     const auto item = vm.grupos().first().toMap()
         .value(QStringLiteral("itens")).toList().first().toMap();
     EXPECT_EQ(item.value(QStringLiteral("chaveBinario")).toString(), QStringLiteral("chrome"));

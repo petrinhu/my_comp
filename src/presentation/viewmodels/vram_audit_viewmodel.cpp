@@ -33,7 +33,7 @@ std::optional<domain::Categoria> categoria_de_feedback(const QString& texto) {
     return std::nullopt;
 }
 
-QString fabricanteString(domain::Fabricante f) {
+QString fabricante_string(domain::Fabricante f) {
     switch (f) {
         case domain::Fabricante::Nvidia:       return QStringLiteral("Nvidia");
         case domain::Fabricante::Intel:        return QStringLiteral("Intel");
@@ -43,7 +43,7 @@ QString fabricanteString(domain::Fabricante f) {
     return QStringLiteral("?");
 }
 
-QString categoriaString(domain::Categoria c) {
+QString categoria_string(domain::Categoria c) {
     switch (c) {
         case domain::Categoria::CandidatoObvioCpu: return QStringLiteral("CandidatoObvioCpu");
         case domain::Categoria::Indeterminado:     return QStringLiteral("Indeterminado");
@@ -52,7 +52,7 @@ QString categoriaString(domain::Categoria c) {
     return QStringLiteral("?");
 }
 
-QString sugestaoTipoString(application::TipoSugestao t) {
+QString sugestao_tipo_string(application::TipoSugestao t) {
     switch (t) {
         case application::TipoSugestao::Nenhuma: return QStringLiteral("Nenhuma");
         case application::TipoSugestao::AjustarConfigDoApp:
@@ -63,7 +63,7 @@ QString sugestaoTipoString(application::TipoSugestao t) {
     return QStringLiteral("?");
 }
 
-QString categoriaOrigemString(domain::CategoriaOrigem c) {
+QString categoria_origem_string(domain::CategoriaOrigem c) {
     switch (c) {
         case domain::CategoriaOrigem::BrowserChromium: return QStringLiteral("BrowserChromium");
         case domain::CategoriaOrigem::Firefox:         return QStringLiteral("Firefox");
@@ -73,7 +73,7 @@ QString categoriaOrigemString(domain::CategoriaOrigem c) {
     return QStringLiteral("?");
 }
 
-QString confiancaString(domain::Confianca c) {
+QString confianca_string(domain::Confianca c) {
     switch (c) {
         case domain::Confianca::Baixa: return QStringLiteral("Baixa");
         case domain::Confianca::Media: return QStringLiteral("Media");
@@ -82,22 +82,22 @@ QString confiancaString(domain::Confianca c) {
     return QStringLiteral("?");
 }
 
-QVariantMap origemToMap(const domain::OrigemConfig& o) {
+QVariantMap origem_to_map(const domain::OrigemConfig& o) {
     QVariantMap m;
-    m.insert(QStringLiteral("categoria"),       categoriaOrigemString(o.categoria));
+    m.insert(QStringLiteral("categoria"),       categoria_origem_string(o.categoria));
     m.insert(QStringLiteral("tipo"),            o.tipo);
     m.insert(QStringLiteral("caminho"),         o.caminho);
     m.insert(QStringLiteral("chave"),           o.chave);
     m.insert(QStringLiteral("valorAtual"),      o.valor_atual);
     m.insert(QStringLiteral("valorSugerido"),   o.valor_sugerido);
     m.insert(QStringLiteral("instrucao"),       o.instrucao_humana);
-    m.insert(QStringLiteral("confianca"),       confiancaString(o.confianca));
+    m.insert(QStringLiteral("confianca"),       confianca_string(o.confianca));
     m.insert(QStringLiteral("requerReinicio"),  o.requer_reinicio_app);
     m.insert(QStringLiteral("aplicavelAuto"),   o.aplicavel_automatico);
     return m;
 }
 
-QVariantMap itemToMap(const application::ItemAuditoriaVram& item) {
+QVariantMap item_to_map(const application::ItemAuditoriaVram& item) {
     QVariantMap m;
     m.insert(QStringLiteral("pid"),            item.processo.pid().valor());
     m.insert(QStringLiteral("nome"),           item.processo.nome().valor());
@@ -106,25 +106,25 @@ QVariantMap itemToMap(const application::ItemAuditoriaVram& item) {
              static_cast<qulonglong>(item.processo.vram_consumida().valor()));
     m.insert(QStringLiteral("vramMb"),
              static_cast<double>(item.processo.vram_consumida().valor()) / (1024.0 * 1024.0));
-    m.insert(QStringLiteral("categoria"),      categoriaString(item.classificacao.categoria));
+    m.insert(QStringLiteral("categoria"),      categoria_string(item.classificacao.categoria));
     m.insert(QStringLiteral("regra"),          item.classificacao.justificativa.regra);
     m.insert(QStringLiteral("detalhe"),        item.classificacao.justificativa.detalhe);
-    m.insert(QStringLiteral("sugestaoTipo"),   sugestaoTipoString(item.sugestao.tipo));
+    m.insert(QStringLiteral("sugestaoTipo"),   sugestao_tipo_string(item.sugestao.tipo));
     m.insert(QStringLiteral("sugestaoDescricao"), item.sugestao.descricao);
 
     QVariantList origens;
     origens.reserve(item.origens_config.size());
     for (const auto& o : item.origens_config) {
-        origens.append(origemToMap(o));
+        origens.append(origem_to_map(o));
     }
     m.insert(QStringLiteral("origensConfig"), origens);
     return m;
 }
 
-QVariantMap grupoToMap(const application::GrupoAuditoriaGpu& grupo) {
+QVariantMap grupo_to_map(const application::GrupoAuditoriaGpu& grupo) {
     QVariantMap m;
     m.insert(QStringLiteral("gpuId"),         grupo.gpu.id());
-    m.insert(QStringLiteral("gpuFabricante"), fabricanteString(grupo.gpu.fabricante()));
+    m.insert(QStringLiteral("gpuFabricante"), fabricante_string(grupo.gpu.fabricante()));
     m.insert(QStringLiteral("gpuModelo"),     grupo.gpu.modelo());
     m.insert(QStringLiteral("gpuVramTotalBytes"),
              static_cast<qulonglong>(grupo.gpu.vram_total().valor()));
@@ -134,17 +134,17 @@ QVariantMap grupoToMap(const application::GrupoAuditoriaGpu& grupo) {
     QVariantList itens;
     itens.reserve(static_cast<int>(grupo.itens.size()));
     for (const auto& item : grupo.itens) {
-        itens.append(itemToMap(item));
+        itens.append(item_to_map(item));
     }
     m.insert(QStringLiteral("itens"), itens);
     return m;
 }
 
-QVariantList relatorioToVariant(const application::RelatorioAuditoriaVram& r) {
+QVariantList relatorio_to_variant(const application::RelatorioAuditoriaVram& r) {
     QVariantList out;
     out.reserve(static_cast<int>(r.grupos.size()));
     for (const auto& g : r.grupos) {
-        out.append(grupoToMap(g));
+        out.append(grupo_to_map(g));
     }
     return out;
 }
@@ -157,9 +157,9 @@ VramAuditViewModel::VramAuditViewModel(
     QObject* parent)
     : QObject{parent}, m_servico{std::move(servico)}, m_feedback{std::move(feedback)} {}
 
-void VramAuditViewModel::aplicarRelatorio(
+void VramAuditViewModel::aplicar_relatorio(
     const application::RelatorioAuditoriaVram& relatorio) {
-    m_grupos = relatorioToVariant(relatorio);
+    m_grupos = relatorio_to_variant(relatorio);
     emit gruposChanged();
 }
 
@@ -177,7 +177,7 @@ void VramAuditViewModel::refresh() {
     auto _future = QtConcurrent::run([this, servico]() {
         const auto relatorio = servico->executar();
         QMetaObject::invokeMethod(this, [this, relatorio]() {
-            m_grupos = relatorioToVariant(relatorio);
+            m_grupos = relatorio_to_variant(relatorio);
             emit gruposChanged();
             m_busy.store(false);
             emit isBusyChanged();
@@ -185,11 +185,11 @@ void VramAuditViewModel::refresh() {
     });
 }
 
-void VramAuditViewModel::registrarFeedback(const QString& chaveBinario,
+void VramAuditViewModel::registrarFeedback(const QString& chave_binario,
                                            const QString& categoria,
                                            const QString& motivo) {
     const auto veredito = categoria_de_feedback(categoria);
-    const auto binario = chaveBinario.trimmed();
+    const auto binario = chave_binario.trimmed();
     if (!m_feedback || !veredito || binario.isEmpty() || binario.size() > TAMANHO_MAXIMO_CHAVE) {
         emit feedbackRegistrado(false);
         return;

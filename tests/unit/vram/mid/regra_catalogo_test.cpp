@@ -22,7 +22,7 @@ using vramopt::tests::MockCatalogoClassificacao;
 
 namespace {
 
-Processo processoFirefoxComDuasChaves() {
+Processo processo_firefox_com_duas_chaves() {
     return Processo{
         PID{1234},
         NomeProcesso{QStringLiteral("firefox")},
@@ -35,7 +35,7 @@ Processo processoFirefoxComDuasChaves() {
     };
 }
 
-EntradaCatalogo entradaFirefox() {
+EntradaCatalogo entrada_firefox() {
     return EntradaCatalogo{
         .id = QStringLiteral("firefox"),
         .binarios = {QStringLiteral("firefox")},
@@ -60,14 +60,14 @@ TEST(RegraCatalogoTest, AbstemSeNenhumaChaveCasa) {
     auto cat = std::make_shared<MockCatalogoClassificacao>();
     EXPECT_CALL(*cat, buscar(_)).WillRepeatedly(Return(std::nullopt));
     RegraCatalogo regra{cat};
-    EXPECT_FALSE(regra.avaliar(processoFirefoxComDuasChaves()).has_value());
+    EXPECT_FALSE(regra.avaliar(processo_firefox_com_duas_chaves()).has_value());
 }
 
 TEST(RegraCatalogoTest, ClassificaQuandoCatalogoCasa) {
     auto cat = std::make_shared<MockCatalogoClassificacao>();
-    EXPECT_CALL(*cat, buscar(_)).WillOnce(Return(entradaFirefox()));
+    EXPECT_CALL(*cat, buscar(_)).WillOnce(Return(entrada_firefox()));
     RegraCatalogo regra{cat};
-    auto r = regra.avaliar(processoFirefoxComDuasChaves());
+    auto r = regra.avaliar(processo_firefox_com_duas_chaves());
     ASSERT_TRUE(r.has_value());
     EXPECT_EQ(r->categoria, Categoria::CandidatoObvioCpu);
     EXPECT_EQ(r->justificativa.regra, QStringLiteral("catalogo"));
@@ -75,9 +75,9 @@ TEST(RegraCatalogoTest, ClassificaQuandoCatalogoCasa) {
 
 TEST(RegraCatalogoTest, JustificativaCitaIdDaEntradaECasamento) {
     auto cat = std::make_shared<MockCatalogoClassificacao>();
-    EXPECT_CALL(*cat, buscar(_)).WillOnce(Return(entradaFirefox()));
+    EXPECT_CALL(*cat, buscar(_)).WillOnce(Return(entrada_firefox()));
     RegraCatalogo regra{cat};
-    auto r = regra.avaliar(processoFirefoxComDuasChaves());
+    auto r = regra.avaliar(processo_firefox_com_duas_chaves());
     ASSERT_TRUE(r.has_value());
     EXPECT_TRUE(r->justificativa.detalhe.contains(QStringLiteral("firefox")));
 }

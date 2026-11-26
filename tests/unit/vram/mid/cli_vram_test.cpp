@@ -52,17 +52,17 @@ using vramopt::domain::OrigemConfig;
 using vramopt::domain::PID;
 using vramopt::domain::Processo;
 using vramopt::domain::ResultadoClassificacao;
-using vramopt::presentation::cli::executarComServico;
-using vramopt::presentation::cli::formatarRelatorio;
+using vramopt::presentation::cli::executar_com_servico;
+using vramopt::presentation::cli::formatar_relatorio;
 using vramopt::presentation::cli::OpcoesCliVram;
-using vramopt::presentation::cli::parsearOpcoes;
+using vramopt::presentation::cli::parsear_opcoes;
 using vramopt::tests::MockClassificadorProcessos;
 using vramopt::tests::MockConfigLocator;
 using vramopt::tests::MockGpuBackend;
 
 namespace {
 
-RelatorioAuditoriaVram fazerRelatorio() {
+RelatorioAuditoriaVram fazer_relatorio() {
     RelatorioAuditoriaVram r;
     GrupoAuditoriaGpu grupo{
         .gpu = GpuInfo{0, Fabricante::Nvidia, QStringLiteral("RTX 4070"),
@@ -89,25 +89,25 @@ RelatorioAuditoriaVram fazerRelatorio() {
 }
 
 TEST(CliVramOpcoesTest, JsonAtivaModoJson) {
-    auto opts = parsearOpcoes({QStringLiteral("--json")});
+    auto opts = parsear_opcoes({QStringLiteral("--json")});
     EXPECT_TRUE(opts.json);
     EXPECT_TRUE(opts.include_config_origins);
 }
 
 TEST(CliVramOpcoesTest, AllProcessesAtivaFlagCorrespondente) {
-    auto opts = parsearOpcoes({QStringLiteral("--all-processes")});
+    auto opts = parsear_opcoes({QStringLiteral("--all-processes")});
     EXPECT_TRUE(opts.all_processes);
     EXPECT_FALSE(opts.json);
 }
 
 TEST(CliVramOpcoesTest, NoConfigOriginsDesligaInclude) {
-    auto opts = parsearOpcoes({QStringLiteral("--no-config-origins")});
+    auto opts = parsear_opcoes({QStringLiteral("--no-config-origins")});
     EXPECT_FALSE(opts.include_config_origins);
 }
 
 TEST(CliVramFormatTest, ModoJsonProduzEstruturaValida) {
     OpcoesCliVram opts; opts.json = true;
-    const auto saida = formatarRelatorio(fazerRelatorio(), opts);
+    const auto saida = formatar_relatorio(fazer_relatorio(), opts);
 
     QJsonParseError err{};
     auto doc = QJsonDocument::fromJson(saida.toUtf8(), &err);
@@ -130,7 +130,7 @@ TEST(CliVramFormatTest, ModoJsonProduzEstruturaValida) {
 
 TEST(CliVramFormatTest, ModoTabularContemNomeECategoria) {
     OpcoesCliVram opts;
-    const auto saida = formatarRelatorio(fazerRelatorio(), opts);
+    const auto saida = formatar_relatorio(fazer_relatorio(), opts);
     EXPECT_TRUE(saida.contains(QStringLiteral("blender")));
     EXPECT_TRUE(saida.contains(QStringLiteral("gpu")));
     EXPECT_TRUE(saida.contains(QStringLiteral("RTX 4070")));
@@ -138,7 +138,7 @@ TEST(CliVramFormatTest, ModoTabularContemNomeECategoria) {
 
 TEST(CliVramFormatTest, RelatorioVazioImprimeMensagemAmigavel) {
     OpcoesCliVram opts;
-    const auto saida = formatarRelatorio(RelatorioAuditoriaVram{}, opts);
+    const auto saida = formatar_relatorio(RelatorioAuditoriaVram{}, opts);
     EXPECT_TRUE(saida.contains(QStringLiteral("Nenhuma GPU")));
 }
 
@@ -171,7 +171,7 @@ TEST(CliVramExecutarTest, ExecutarComServicoUsaMockEretornaZero) {
 
     QString buf;
     QTextStream out{&buf};
-    const int rc = executarComServico(svc, {QStringLiteral("--json")}, out);
+    const int rc = executar_com_servico(svc, {QStringLiteral("--json")}, out);
     EXPECT_EQ(rc, 0);
     EXPECT_TRUE(buf.contains(QStringLiteral("dummy")));
 }

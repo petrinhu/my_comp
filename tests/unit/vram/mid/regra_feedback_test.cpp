@@ -24,7 +24,7 @@ using vramopt::tests::MockRepositorioFeedback;
 
 namespace {
 
-Processo processoFirefox() {
+Processo processo_firefox() {
     return Processo{
         PID{1234},
         NomeProcesso{QStringLiteral("firefox")},
@@ -52,7 +52,7 @@ TEST(RegraFeedbackTest, AbstemSeNenhumaChaveCasaNoRepo) {
     EXPECT_CALL(*repo, buscar(_)).WillRepeatedly(Return(std::nullopt));
 
     RegraFeedback regra{repo};
-    EXPECT_FALSE(regra.avaliar(processoFirefox()).has_value());
+    EXPECT_FALSE(regra.avaliar(processo_firefox()).has_value());
 }
 
 TEST(RegraFeedbackTest, ClassificaQuandoFeedbackExiste) {
@@ -69,7 +69,7 @@ TEST(RegraFeedbackTest, ClassificaQuandoFeedbackExiste) {
     EXPECT_CALL(*repo, buscar(_)).WillOnce(Return(feedback));
 
     RegraFeedback regra{repo};
-    auto resultado = regra.avaliar(processoFirefox());
+    auto resultado = regra.avaliar(processo_firefox());
     ASSERT_TRUE(resultado.has_value());
     EXPECT_EQ(resultado->categoria, Categoria::PrecisaGpu);
     EXPECT_EQ(resultado->justificativa.regra, QStringLiteral("feedback"));
@@ -89,7 +89,7 @@ TEST(RegraFeedbackTest, JustificativaCitaIdEMotivo) {
     EXPECT_CALL(*repo, buscar(_)).WillOnce(Return(feedback));
 
     RegraFeedback regra{repo};
-    auto resultado = regra.avaliar(processoFirefox());
+    auto resultado = regra.avaliar(processo_firefox());
     ASSERT_TRUE(resultado.has_value());
     EXPECT_TRUE(resultado->justificativa.detalhe.contains(QStringLiteral("id=7")));
     EXPECT_TRUE(resultado->justificativa.detalhe.contains(

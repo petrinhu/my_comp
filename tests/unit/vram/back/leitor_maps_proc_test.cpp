@@ -13,7 +13,7 @@ using vramopt::domain::PID;
 using vramopt::infrastructure::LeitorMapsProc;
 
 namespace {
-void escreverMaps(const QString& root, int pid, const QByteArray& conteudo) {
+void escrever_maps(const QString& root, int pid, const QByteArray& conteudo) {
     const QString dir = QStringLiteral("%1/%2").arg(root).arg(pid);
     QDir{}.mkpath(dir);
     QFile f{dir + QStringLiteral("/maps")};
@@ -27,7 +27,7 @@ void escreverMaps(const QString& root, int pid, const QByteArray& conteudo) {
 TEST(LeitorMapsProcTest, ExtraiBibliotecasUnicasDoMaps) {
     QTemporaryDir tmp;
     ASSERT_TRUE(tmp.isValid());
-    escreverMaps(tmp.path(), 42,
+    escrever_maps(tmp.path(), 42,
         "55d0c0a00000-55d0c0a21000 r--p 00000000 103:02 1234   /usr/bin/python3.12\n"
         "7f1a2b000000-7f1a2b100000 r-xp 00000000 103:02 5678   /usr/lib64/libcudart.so.12.4.127\n"
         "7f1a2b100000-7f1a2b200000 r--p 00100000 103:02 5678   /usr/lib64/libcudart.so.12.4.127\n"

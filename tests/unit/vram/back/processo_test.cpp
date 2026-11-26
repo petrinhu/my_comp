@@ -14,7 +14,7 @@ using vramopt::domain::Processo;
 
 namespace {
 
-Processo construirProcessoFirefox() {
+Processo construir_processo_firefox() {
     return Processo{
         PID{1234},
         NomeProcesso{QStringLiteral("firefox")},
@@ -30,7 +30,7 @@ Processo construirProcessoFirefox() {
 }
 
 TEST(ProcessoTest, ExpoeAtributosDeConstrucao) {
-    auto p = construirProcessoFirefox();
+    auto p = construir_processo_firefox();
     EXPECT_EQ(p.pid().valor(), 1234);
     EXPECT_EQ(p.nome().valor(), QStringLiteral("firefox"));
     EXPECT_EQ(p.vram_consumida(), BytesDeMemoria::de_megabytes(350));

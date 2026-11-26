@@ -13,7 +13,7 @@ using vramopt::infrastructure::LeitorEnvironProc;
 
 namespace {
 
-void escreverEnviron(const QString& proc_root, int pid,
+void escrever_environ(const QString& proc_root, int pid,
                      const QList<QPair<QString, QString>>& kvs) {
     const QString dir = QStringLiteral("%1/%2").arg(proc_root).arg(pid);
     QDir{}.mkpath(dir);
@@ -33,7 +33,7 @@ TEST(LeitorEnvironProcTest, ParseiaEntradasSeparadasPorNul) {
     QTemporaryDir tmp;
     ASSERT_TRUE(tmp.isValid());
     const QString proc = tmp.path() + QStringLiteral("/proc");
-    escreverEnviron(proc, 1234, {
+    escrever_environ(proc, 1234, {
         {QStringLiteral("DRI_PRIME"), QStringLiteral("1")},
         {QStringLiteral("__NV_PRIME_RENDER_OFFLOAD"), QStringLiteral("1")},
         {QStringLiteral("HOME"), QStringLiteral("/home/user")},

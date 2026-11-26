@@ -59,7 +59,7 @@ CenarioMontado montar() {
     return CenarioMontado{arquivo, env, desktop, LocalizadorComposite{std::move(subs)}};
 }
 
-Processo procBrave() {
+Processo proc_brave() {
     return Processo{
         PID{1234}, NomeProcesso{QStringLiteral("brave-browser")},
         BytesDeMemoria::de_megabytes(350), 0,
@@ -67,7 +67,7 @@ Processo procBrave() {
     };
 }
 
-Processo procFirefox() {
+Processo proc_firefox() {
     return Processo{
         PID{4321}, NomeProcesso{QStringLiteral("firefox")},
         BytesDeMemoria::de_megabytes(250), 0,
@@ -75,14 +75,14 @@ Processo procFirefox() {
     };
 }
 
-Processo procDesconhecido() {
+Processo proc_desconhecido() {
     return Processo{
         PID{99}, NomeProcesso{QStringLiteral("meu-app-foo")},
         BytesDeMemoria::de_megabytes(50), 0, {}
     };
 }
 
-auto pathContem(const QString& sub) {
+auto path_contem(const QString& sub) {
     return Truly([sub](const QString& p) { return p.contains(sub); });
 }
 
@@ -92,14 +92,14 @@ TEST(IntegracaoLocalizadorCompositeTest, BraveAceleradoEmiteUmaOrigemBrowserChro
     auto c = montar();
 
     QByteArray local_state = R"({"hardware_acceleration_mode": {"enabled": true}})";
-    EXPECT_CALL(*c.arquivo, ler(pathContem(QStringLiteral("Local State"))))
+    EXPECT_CALL(*c.arquivo, ler(path_contem(QStringLiteral("Local State"))))
         .WillOnce(Return(local_state));
     EXPECT_CALL(*c.env, environ_de(_))
         .WillOnce(Return((QHash<QString, QString>{})));
     EXPECT_CALL(*c.desktop, entrada_de(_))
         .WillOnce(Return(std::nullopt));
 
-    auto origens = c.composite.localizar(procBrave());
+    auto origens = c.composite.localizar(proc_brave());
     ASSERT_EQ(origens.size(), 1);
     EXPECT_EQ(origens.first().categoria, CategoriaOrigem::BrowserChromium);
 }
@@ -108,18 +108,18 @@ TEST(IntegracaoLocalizadorCompositeTest, FirefoxDefaultEmiteTresOrigens) {
     auto c = montar();
 
     QByteArray profiles_ini = "[Profile0]\nName=p1\nIsRelative=1\nPath=abc.default-release\nDefault=1\n";
-    EXPECT_CALL(*c.arquivo, ler(pathContem(QStringLiteral("profiles.ini"))))
+    EXPECT_CALL(*c.arquivo, ler(path_contem(QStringLiteral("profiles.ini"))))
         .WillOnce(Return(profiles_ini));
-    EXPECT_CALL(*c.arquivo, ler(pathContem(QStringLiteral("user.js"))))
+    EXPECT_CALL(*c.arquivo, ler(path_contem(QStringLiteral("user.js"))))
         .WillOnce(Return(std::nullopt));
-    EXPECT_CALL(*c.arquivo, ler(pathContem(QStringLiteral("prefs.js"))))
+    EXPECT_CALL(*c.arquivo, ler(path_contem(QStringLiteral("prefs.js"))))
         .WillOnce(Return(std::nullopt));
     EXPECT_CALL(*c.env, environ_de(_))
         .WillOnce(Return((QHash<QString, QString>{})));
     EXPECT_CALL(*c.desktop, entrada_de(_))
         .WillOnce(Return(std::nullopt));
 
-    auto origens = c.composite.localizar(procFirefox());
+    auto origens = c.composite.localizar(proc_firefox());
     ASSERT_EQ(origens.size(), 3);
     for (const auto& o : origens) {
         EXPECT_EQ(o.categoria, CategoriaOrigem::Firefox);
@@ -130,7 +130,7 @@ TEST(IntegracaoLocalizadorCompositeTest, BraveComPrimeEDesktopWrapperEmiteTresOr
     auto c = montar();
 
     QByteArray local_state = R"({"hardware_acceleration_mode": {"enabled": true}})";
-    EXPECT_CALL(*c.arquivo, ler(pathContem(QStringLiteral("Local State"))))
+    EXPECT_CALL(*c.arquivo, ler(path_contem(QStringLiteral("Local State"))))
         .WillOnce(Return(local_state));
     QHash<QString, QString> env{
         {QStringLiteral("__NV_PRIME_RENDER_OFFLOAD"), QStringLiteral("1")},
@@ -142,16 +142,16 @@ TEST(IntegracaoLocalizadorCompositeTest, BraveComPrimeEDesktopWrapperEmiteTresOr
             .caminho_arquivo = QStringLiteral("/home/u/.local/share/applications/brave-browser.desktop"),
         }));
 
-    auto origens = c.composite.localizar(procBrave());
+    auto origens = c.composite.localizar(proc_brave());
     ASSERT_EQ(origens.size(), 3);
 
-    auto temCategoria = [&](CategoriaOrigem cat) {
+    auto tem_categoria = [&](CategoriaOrigem cat) {
         return std::any_of(origens.cbegin(), origens.cend(),
                            [cat](const auto& o) { return o.categoria == cat; });
     };
-    EXPECT_TRUE(temCategoria(CategoriaOrigem::BrowserChromium));
-    EXPECT_TRUE(temCategoria(CategoriaOrigem::PrimeEnv));
-    EXPECT_TRUE(temCategoria(CategoriaOrigem::DesktopWrapper));
+    EXPECT_TRUE(tem_categoria(CategoriaOrigem::BrowserChromium));
+    EXPECT_TRUE(tem_categoria(CategoriaOrigem::PrimeEnv));
+    EXPECT_TRUE(tem_categoria(CategoriaOrigem::DesktopWrapper));
 }
 
 TEST(IntegracaoLocalizadorCompositeTest, AppDesconhecidoSemConfigsEmiteZero) {
@@ -162,6 +162,6 @@ TEST(IntegracaoLocalizadorCompositeTest, AppDesconhecidoSemConfigsEmiteZero) {
     EXPECT_CALL(*c.desktop, entrada_de(_))
         .WillOnce(Return(std::nullopt));
 
-    auto origens = c.composite.localizar(procDesconhecido());
+    auto origens = c.composite.localizar(proc_desconhecido());
     EXPECT_TRUE(origens.isEmpty());
 }

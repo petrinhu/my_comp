@@ -30,7 +30,7 @@ int executar_cli_vram(int argc, char* argv[]) {
         sub_args << QString::fromUtf8(argv[i]);
     }
     QTextStream out{stdout};
-    return vramopt::presentation::cli::executarComServico(
+    return vramopt::presentation::cli::executar_com_servico(
         vramopt::composition::compor_servico_auditar_vram(), sub_args, out);
 }
 

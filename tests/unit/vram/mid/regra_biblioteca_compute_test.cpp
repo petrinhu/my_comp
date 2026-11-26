@@ -22,7 +22,7 @@ using vramopt::tests::MockLeitorMapsProcesso;
 
 namespace {
 
-Processo processoPython() {
+Processo processo_python() {
     return Processo{
         PID{4321}, NomeProcesso{QStringLiteral("python")},
         BytesDeMemoria::de_megabytes(2048), 0, {}
@@ -36,7 +36,7 @@ TEST(RegraBibliotecaComputeTest, ClassificaGpuQuandoLinkaCuda) {
     EXPECT_CALL(*leitor, bibliotecas_mapeadas(_))
         .WillOnce(Return(QStringList{QStringLiteral("/usr/lib64/libcuda.so.560")}));
     RegraBibliotecaCompute regra{leitor, ListaLibsCompute::padrao()};
-    auto r = regra.avaliar(processoPython());
+    auto r = regra.avaliar(processo_python());
     ASSERT_TRUE(r.has_value());
     EXPECT_EQ(r->categoria, Categoria::PrecisaGpu);
     EXPECT_EQ(r->justificativa.regra, QStringLiteral("biblioteca_compute"));
@@ -47,7 +47,7 @@ TEST(RegraBibliotecaComputeTest, JustificativaCitaSoEspecifica) {
     EXPECT_CALL(*leitor, bibliotecas_mapeadas(_))
         .WillOnce(Return(QStringList{QStringLiteral("/usr/lib64/libcudnn.so.9")}));
     RegraBibliotecaCompute regra{leitor, ListaLibsCompute::padrao()};
-    auto r = regra.avaliar(processoPython());
+    auto r = regra.avaliar(processo_python());
     ASSERT_TRUE(r.has_value());
     EXPECT_TRUE(r->justificativa.detalhe.contains(QStringLiteral("libcudnn.so")));
 }
@@ -58,12 +58,12 @@ TEST(RegraBibliotecaComputeTest, AbstemQuandoSoLibGL) {
         .WillOnce(Return(QStringList{QStringLiteral("/usr/lib64/libGL.so.1"),
                                      QStringLiteral("/usr/lib64/libvulkan.so.1")}));
     RegraBibliotecaCompute regra{leitor, ListaLibsCompute::padrao()};
-    EXPECT_FALSE(regra.avaliar(processoPython()).has_value());
+    EXPECT_FALSE(regra.avaliar(processo_python()).has_value());
 }
 
 TEST(RegraBibliotecaComputeTest, AbstemQuandoSemLibs) {
     auto leitor = std::make_shared<MockLeitorMapsProcesso>();
     EXPECT_CALL(*leitor, bibliotecas_mapeadas(_)).WillOnce(Return(QStringList{}));
     RegraBibliotecaCompute regra{leitor, ListaLibsCompute::padrao()};
-    EXPECT_FALSE(regra.avaliar(processoPython()).has_value());
+    EXPECT_FALSE(regra.avaliar(processo_python()).has_value());
 }

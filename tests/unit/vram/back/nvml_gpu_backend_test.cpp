@@ -55,7 +55,7 @@ public:
     }
 };
 
-void escreverComm(const QString& proc_root, std::uint32_t pid, const QString& comm) {
+void escrever_comm(const QString& proc_root, std::uint32_t pid, const QString& comm) {
     const QString dir = QStringLiteral("%1/%2").arg(proc_root).arg(pid);
     QDir{}.mkpath(dir);
     QFile f{dir + QStringLiteral("/comm")};
@@ -98,8 +98,8 @@ TEST(NvmlGpuBackendTest, MapeiaProcessosUsandoCommDoProcRoot) {
     ASSERT_TRUE(tmp.isValid());
     const QString proc = tmp.path() + QStringLiteral("/proc");
     QDir{}.mkpath(proc);
-    escreverComm(proc, 1234, QStringLiteral("blender"));
-    escreverComm(proc, 5678, QStringLiteral("ollama"));
+    escrever_comm(proc, 1234, QStringLiteral("blender"));
+    escrever_comm(proc, 5678, QStringLiteral("ollama"));
 
     auto adapter = std::make_shared<FakeNvmlAdapter>();
     adapter->devices = {
@@ -163,8 +163,8 @@ TEST(NvmlGpuBackendTest, GpuIdNegativoRetornaVazio) {
 TEST(NvmlGpuBackendTest, IncluiProcessosGraphicsAlemDosCompute) {
     QTemporaryDir tmp;
     ASSERT_TRUE(tmp.isValid());
-    escreverComm(tmp.path(), 100, QStringLiteral("python"));
-    escreverComm(tmp.path(), 200, QStringLiteral("firefox"));
+    escrever_comm(tmp.path(), 100, QStringLiteral("python"));
+    escrever_comm(tmp.path(), 200, QStringLiteral("firefox"));
 
     auto adapter = std::make_shared<FakeNvmlAdapter>();
     adapter->devices = {NvmlDeviceInfo{.nome = QStringLiteral("RTX"), .vram_total_bytes = 1ULL << 33}};
@@ -189,7 +189,7 @@ TEST(NvmlGpuBackendTest, IncluiProcessosGraphicsAlemDosCompute) {
 TEST(NvmlGpuBackendTest, DeduplicaPidPresenteNasDuasListas) {
     QTemporaryDir tmp;
     ASSERT_TRUE(tmp.isValid());
-    escreverComm(tmp.path(), 300, QStringLiteral("blender"));
+    escrever_comm(tmp.path(), 300, QStringLiteral("blender"));
 
     auto adapter = std::make_shared<FakeNvmlAdapter>();
     adapter->devices = {NvmlDeviceInfo{.nome = QStringLiteral("RTX"), .vram_total_bytes = 1ULL << 33}};
@@ -207,7 +207,7 @@ TEST(NvmlGpuBackendTest, DeduplicaPidPresenteNasDuasListas) {
 TEST(NvmlGpuBackendTest, ValorNaoDisponivelViraZero) {
     QTemporaryDir tmp;
     ASSERT_TRUE(tmp.isValid());
-    escreverComm(tmp.path(), 400, QStringLiteral("Xwayland"));
+    escrever_comm(tmp.path(), 400, QStringLiteral("Xwayland"));
 
     auto adapter = std::make_shared<FakeNvmlAdapter>();
     adapter->devices = {NvmlDeviceInfo{.nome = QStringLiteral("RTX"), .vram_total_bytes = 1ULL << 33}};

@@ -22,7 +22,7 @@ using vramopt::tests::MockLeitorDesktopFile;
 
 namespace {
 
-Processo processoQualquer() {
+Processo processo_qualquer() {
     return Processo{
         PID{1234}, NomeProcesso{QStringLiteral("firefox")},
         BytesDeMemoria::de_megabytes(350), 0, {}
@@ -36,7 +36,7 @@ TEST(RegraCategoriaDesktopTest, ClassificaCpuQuandoCategoriaBate) {
     EXPECT_CALL(*leitor, categorias_de(_))
         .WillOnce(Return(QStringList{QStringLiteral("WebBrowser")}));
     RegraCategoriaDesktop regra{leitor, MapaCategoriasDesktop::padrao()};
-    auto r = regra.avaliar(processoQualquer());
+    auto r = regra.avaliar(processo_qualquer());
     ASSERT_TRUE(r.has_value());
     EXPECT_EQ(r->categoria, Categoria::CandidatoObvioCpu);
     EXPECT_EQ(r->justificativa.regra, QStringLiteral("categoria_desktop"));
@@ -47,7 +47,7 @@ TEST(RegraCategoriaDesktopTest, ClassificaGpuQuandoCategoriaBate) {
     EXPECT_CALL(*leitor, categorias_de(_))
         .WillOnce(Return(QStringList{QStringLiteral("Game"), QStringLiteral("ActionGame")}));
     RegraCategoriaDesktop regra{leitor, MapaCategoriasDesktop::padrao()};
-    auto r = regra.avaliar(processoQualquer());
+    auto r = regra.avaliar(processo_qualquer());
     ASSERT_TRUE(r.has_value());
     EXPECT_EQ(r->categoria, Categoria::PrecisaGpu);
 }
@@ -57,12 +57,12 @@ TEST(RegraCategoriaDesktopTest, AbstemQuandoCategoriaForaDeAmbosBaldes) {
     EXPECT_CALL(*leitor, categorias_de(_))
         .WillOnce(Return(QStringList{QStringLiteral("AudioVideo"), QStringLiteral("Player")}));
     RegraCategoriaDesktop regra{leitor, MapaCategoriasDesktop::padrao()};
-    EXPECT_FALSE(regra.avaliar(processoQualquer()).has_value());
+    EXPECT_FALSE(regra.avaliar(processo_qualquer()).has_value());
 }
 
 TEST(RegraCategoriaDesktopTest, AbstemQuandoLeitorNaoDevolveCategorias) {
     auto leitor = std::make_shared<MockLeitorDesktopFile>();
     EXPECT_CALL(*leitor, categorias_de(_)).WillOnce(Return(QStringList{}));
     RegraCategoriaDesktop regra{leitor, MapaCategoriasDesktop::padrao()};
-    EXPECT_FALSE(regra.avaliar(processoQualquer()).has_value());
+    EXPECT_FALSE(regra.avaliar(processo_qualquer()).has_value());
 }

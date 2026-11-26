@@ -24,7 +24,7 @@ using vramopt::tests::MockLeitorArquivoConfig;
 
 namespace {
 
-Processo procFirefox() {
+Processo proc_firefox() {
     return Processo{
         PID{1234}, NomeProcesso{QStringLiteral("firefox")},
         BytesDeMemoria::de_megabytes(250), 0,
@@ -32,14 +32,14 @@ Processo procFirefox() {
     };
 }
 
-Processo procBrave() {
+Processo proc_brave() {
     return Processo{
         PID{4321}, NomeProcesso{QStringLiteral("brave-browser")},
         BytesDeMemoria::de_megabytes(250), 0, {}
     };
 }
 
-QByteArray profilesIniDefault() {
+QByteArray profiles_ini_default() {
     return QByteArray{
         "[Profile0]\n"
         "Name=default-release\n"
@@ -54,14 +54,14 @@ QByteArray profilesIniDefault() {
 TEST(LocalizadorFirefoxTest, AbstemQuandoNomeNaoEhFirefox) {
     auto leitor = std::make_shared<MockLeitorArquivoConfig>();
     LocalizadorFirefox loc{leitor};
-    EXPECT_TRUE(loc.localizar(procBrave()).isEmpty());
+    EXPECT_TRUE(loc.localizar(proc_brave()).isEmpty());
 }
 
 TEST(LocalizadorFirefoxTest, AbstemQuandoProfilesIniAusente) {
     auto leitor = std::make_shared<MockLeitorArquivoConfig>();
     EXPECT_CALL(*leitor, ler(_)).WillOnce(Return(std::nullopt));
     LocalizadorFirefox loc{leitor};
-    EXPECT_TRUE(loc.localizar(procFirefox()).isEmpty());
+    EXPECT_TRUE(loc.localizar(proc_firefox()).isEmpty());
 }
 
 TEST(LocalizadorFirefoxTest, AbstemQuandoNenhumProfileDefault) {
@@ -70,20 +70,20 @@ TEST(LocalizadorFirefoxTest, AbstemQuandoNenhumProfileDefault) {
         "[Profile0]\nName=p1\nIsRelative=1\nPath=p1.x\n";
     EXPECT_CALL(*leitor, ler(_)).WillOnce(Return(sem_default));
     LocalizadorFirefox loc{leitor};
-    EXPECT_TRUE(loc.localizar(procFirefox()).isEmpty());
+    EXPECT_TRUE(loc.localizar(proc_firefox()).isEmpty());
 }
 
 TEST(LocalizadorFirefoxTest, EmiteTresOrigensComPrefsAusente) {
     auto leitor = std::make_shared<MockLeitorArquivoConfig>();
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("profiles.ini")); })))
-        .WillOnce(Return(profilesIniDefault()));
+        .WillOnce(Return(profiles_ini_default()));
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("user.js")); })))
         .WillOnce(Return(std::nullopt));
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("prefs.js")); })))
         .WillOnce(Return(std::nullopt));
 
     LocalizadorFirefox loc{leitor};
-    auto origens = loc.localizar(procFirefox());
+    auto origens = loc.localizar(proc_firefox());
     ASSERT_EQ(origens.size(), 3);
     QStringList chaves;
     for (const auto& o : origens) {
@@ -102,14 +102,14 @@ TEST(LocalizadorFirefoxTest, NaoEmiteChaveJaCorretamenteSetadaEmUserJs) {
         "user_pref(\"layers.acceleration.disabled\", true);\n"
         "user_pref(\"webgl.disabled\", true);\n";
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("profiles.ini")); })))
-        .WillOnce(Return(profilesIniDefault()));
+        .WillOnce(Return(profiles_ini_default()));
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("user.js")); })))
         .WillOnce(Return(user_js));
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("prefs.js")); })))
         .WillOnce(Return(QByteArray{}));
 
     LocalizadorFirefox loc{leitor};
-    auto origens = loc.localizar(procFirefox());
+    auto origens = loc.localizar(proc_firefox());
     ASSERT_EQ(origens.size(), 1);
     EXPECT_EQ(origens.first().chave, QStringLiteral("gfx.webrender.all"));
 }
@@ -119,14 +119,14 @@ TEST(LocalizadorFirefoxTest, EmiteSugestaoComValorAtualLido) {
     QByteArray prefs =
         "user_pref(\"layers.acceleration.disabled\", false);\n";
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("profiles.ini")); })))
-        .WillOnce(Return(profilesIniDefault()));
+        .WillOnce(Return(profiles_ini_default()));
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("user.js")); })))
         .WillOnce(Return(std::nullopt));
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("prefs.js")); })))
         .WillOnce(Return(prefs));
 
     LocalizadorFirefox loc{leitor};
-    auto origens = loc.localizar(procFirefox());
+    auto origens = loc.localizar(proc_firefox());
     bool achou = false;
     for (const auto& o : origens) {
         if (o.chave == QStringLiteral("layers.acceleration.disabled")) {
@@ -140,14 +140,14 @@ TEST(LocalizadorFirefoxTest, EmiteSugestaoComValorAtualLido) {
 TEST(LocalizadorFirefoxTest, RequerReinicioESugereTrue) {
     auto leitor = std::make_shared<MockLeitorArquivoConfig>();
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("profiles.ini")); })))
-        .WillOnce(Return(profilesIniDefault()));
+        .WillOnce(Return(profiles_ini_default()));
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("user.js")); })))
         .WillOnce(Return(std::nullopt));
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("prefs.js")); })))
         .WillOnce(Return(std::nullopt));
 
     LocalizadorFirefox loc{leitor};
-    auto origens = loc.localizar(procFirefox());
+    auto origens = loc.localizar(proc_firefox());
     for (const auto& o : origens) {
         EXPECT_TRUE(o.requer_reinicio_app);
         if (o.chave != QStringLiteral("gfx.webrender.all")) {

@@ -39,10 +39,10 @@ public:
     // Fixa o veredito do processo pela chave de binário (VRAM-07). Entrada vinda do QML
     // é validada aqui; a gravação roda fora da thread de UI e termina em
     // feedbackRegistrado(). Com sucesso, dispara nova auditoria.
-    Q_INVOKABLE void registrarFeedback(const QString& chaveBinario, const QString& categoria,
+    Q_INVOKABLE void registrarFeedback(const QString& chave_binario, const QString& categoria,
                                        const QString& motivo);
 
-    void aplicarRelatorio(const application::RelatorioAuditoriaVram& relatorio);
+    void aplicar_relatorio(const application::RelatorioAuditoriaVram& relatorio);
 
 signals:
     void gruposChanged();
