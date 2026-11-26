@@ -39,6 +39,7 @@ AppViewModels compor_app() {
     vms.exporter = compor_export(vms.system, vms.process);
     vms.vram_audit = std::make_unique<vramopt::presentation::viewmodels::VramAuditViewModel>(
         vramopt::composition::compor_servico_auditar_vram());
+    vms.url_helper = std::make_unique<vm::UrlHelper>();
     return vms;
 }
 
@@ -67,6 +68,7 @@ void registrar_no_qml(QQmlContext& ctx, const AppViewModels& vms) {
     ctx.setContextProperty("audioViewModel", vms.audio.get());
     ctx.setContextProperty("exportViewModel", vms.exporter.get());
     ctx.setContextProperty("vramAuditViewModel", vms.vram_audit.get());
+    ctx.setContextProperty("urlHelper", vms.url_helper.get());
 }
 
 }
