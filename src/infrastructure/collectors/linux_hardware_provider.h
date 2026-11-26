@@ -7,7 +7,9 @@ namespace my_comp::infrastructure::collectors {
 
 class LinuxHardwareProvider : public domain::interfaces::IHardwareProvider {
 public:
-    explicit LinuxHardwareProvider(std::shared_ptr<IShellExecutor> executor);
+    // dmi_root: diretório com os arquivos SMBIOS do kernel (injetável para testes).
+    explicit LinuxHardwareProvider(std::shared_ptr<IShellExecutor> executor,
+                                   QString dmi_root = QStringLiteral("/sys/class/dmi/id"));
     domain::models::HardwareTopology collect_topology() override;
 
     // Públicos estáticos — pura lógica de parsing, expostos para fuzzing/teste isolado (BT-02).
@@ -18,6 +20,7 @@ public:
 
 private:
     std::shared_ptr<IShellExecutor> m_executor;
+    QString m_dmi_root;
 
     void collect_smbios(domain::models::HardwareTopology& topology);
     void collect_usb(domain::models::HardwareTopology& topology);

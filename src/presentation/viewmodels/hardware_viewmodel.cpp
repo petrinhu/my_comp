@@ -26,6 +26,7 @@ QVariantMap HardwareViewModel::smbios() const {
     map["boardVendor"] = m_data.smbios.boardVendor;
     map["boardVersion"] = m_data.smbios.boardVersion;
     map["boardSerial"] = m_data.smbios.boardSerial;
+    map["restricted"] = m_data.smbios.restrictedFields;
     return map;
 }
 
