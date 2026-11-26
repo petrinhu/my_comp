@@ -91,8 +91,9 @@ Item {
                         Layout.fillWidth: true
                     }
 
-                    Button {
+                    IconButton {
                         text: "✕"
+                        label: qsTr("Fechar aviso")
                         flat: true
                         implicitWidth: 28
                         implicitHeight: 28

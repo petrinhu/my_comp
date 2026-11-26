@@ -13,8 +13,8 @@ ScrollPage {
         PageTitle { text: qsTr("Hardware") }
         Item { Layout.fillWidth: true }
         BusyIndicator { running: firmwareViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
-        Button {
-            text: "🔄"
+        IconButton {
+            text: "🔄"; label: qsTr("Atualizar hardware")
             enabled: !firmwareViewModel.isBusy
             onClicked: { hardwareViewModel.refresh(); firmwareViewModel.refresh() }
         }

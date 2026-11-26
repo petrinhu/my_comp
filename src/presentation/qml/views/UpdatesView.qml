@@ -37,7 +37,7 @@ ScrollPage {
             }
         }
         BusyIndicator { running: updateViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
-        Button { text: "🔄"; onClicked: updateViewModel.refresh(); enabled: !updateViewModel.isBusy }
+        IconButton { text: "🔄"; label: qsTr("Procurar atualizações"); onClicked: updateViewModel.refresh(); enabled: !updateViewModel.isBusy }
     }
     Card {
         Layout.fillWidth: true
@@ -46,13 +46,20 @@ ScrollPage {
             id: updateListView
             anchors.fill: parent; anchors.margins: 10; clip: true
             interactive: false
+            // QA-05: Tab foca a lista, setas navegam, Enter instala (igual ao duplo-clique).
+            activeFocusOnTab: true; keyNavigationEnabled: true
             model: updateViewModel.updateModel
             delegate: ItemDelegate {
+                id: updateDelegate
                 width: ListView.view.width; height: 50
-                onDoubleClicked: {
+                focus: ListView.isCurrentItem
+                highlighted: ListView.isCurrentItem && ListView.view.activeFocus
+                function install() {
                     installationViewModel.startInstallation(name, provider)
                     updatesView.navigateRequested(11)
                 }
+                onDoubleClicked: updateDelegate.install()
+                Keys.onReturnPressed: updateDelegate.install()
                 background: Rectangle {
                     color: isCritical ? Qt.rgba(Theme.criticalColor.r, Theme.criticalColor.g, Theme.criticalColor.b, 0.08) : "transparent"
                     border.color: isCritical ? Theme.criticalColor : "transparent"

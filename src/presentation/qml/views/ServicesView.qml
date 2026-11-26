@@ -13,7 +13,7 @@ ScrollPage {
         PageTitle { text: qsTr("Serviços Systemd") }
         Item { Layout.fillWidth: true }
         Button { text: qsTr("🆕 Criar Daemon"); highlighted: true; onClicked: servicesView.createDaemonRequested() }
-        Button { text: "🔄"; onClicked: serviceViewModel.refresh() }
+        IconButton { text: "🔄"; label: qsTr("Atualizar serviços"); onClicked: serviceViewModel.refresh() }
     }
     Card {
         Layout.fillWidth: true
@@ -22,9 +22,14 @@ ScrollPage {
             id: serviceList
             anchors.fill: parent; anchors.margins: 10; clip: true
             interactive: false
+            // QA-05: Tab foca a lista, setas navegam, Enter alterna (igual ao duplo-clique).
+            activeFocusOnTab: true; keyNavigationEnabled: true
             model: serviceViewModel.services
             delegate: ItemDelegate {
                 width: ListView.view.width; height: 60
+                focus: ListView.isCurrentItem
+                highlighted: ListView.isCurrentItem && ListView.view.activeFocus
+                Keys.onReturnPressed: (modelData.activeState === "active") ? serviceViewModel.stopNow(modelData.name, modelData.scope) : serviceViewModel.enableAndStart(modelData.name, modelData.scope)
                 onDoubleClicked: (modelData.activeState === "active") ? serviceViewModel.stopNow(modelData.name, modelData.scope) : serviceViewModel.enableAndStart(modelData.name, modelData.scope)
                 contentItem: RowLayout {
                     spacing: 15
@@ -37,19 +42,19 @@ ScrollPage {
                         }
                     }
                     RowLayout {
-                        Button {
+                        IconButton {
                             text: "▶️"; flat: true; visible: modelData.activeState !== "active"
-                            ToolTip.visible: hovered; ToolTip.text: qsTr("Habilitar no boot e iniciar (enable --now)")
+                            label: qsTr("Habilitar %1 no boot e iniciar (enable --now)").arg(modelData.name)
                             onClicked: serviceViewModel.enableAndStart(modelData.name, modelData.scope)
                         }
-                        Button {
+                        IconButton {
                             text: "⏸️"; flat: true; visible: modelData.activeState === "active"
-                            ToolTip.visible: hovered; ToolTip.text: qsTr("Parar só nesta sessão (stop)")
+                            label: qsTr("Parar %1 só nesta sessão (stop)").arg(modelData.name)
                             onClicked: serviceViewModel.stopNow(modelData.name, modelData.scope)
                         }
-                        Button {
+                        IconButton {
                             text: "⏹️"; flat: true
-                            ToolTip.visible: hovered; ToolTip.text: qsTr("Desabilitar no boot e parar (disable --now)")
+                            label: qsTr("Desabilitar %1 no boot e parar (disable --now)").arg(modelData.name)
                             onClicked: serviceViewModel.disableAndStop(modelData.name, modelData.scope)
                         }
                     }

@@ -11,7 +11,7 @@ ScrollPage {
     RowLayout {
         PageTitle { text: qsTr("Storage") }
         Item { Layout.fillWidth: true }
-        Button { text: "🔄"; onClicked: storageViewModel.refreshInventory() }
+        IconButton { text: "🔄"; label: qsTr("Atualizar discos"); onClicked: storageViewModel.refreshInventory() }
     }
 
     Repeater {

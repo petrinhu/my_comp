@@ -31,7 +31,7 @@ ScrollPage {
         PageTitle { text: qsTr("Analisador de Journal") }
         Item { Layout.fillWidth: true }
         BusyIndicator { running: diagnosticViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
-        Button { text: "🔄"; onClicked: diagnosticViewModel.refresh(); enabled: !diagnosticViewModel.isBusy }
+        IconButton { text: "🔄"; label: qsTr("Atualizar journal"); onClicked: diagnosticViewModel.refresh(); enabled: !diagnosticViewModel.isBusy }
     }
     RowLayout {
         Layout.fillWidth: true; spacing: 10
@@ -75,10 +75,15 @@ ScrollPage {
             id: journalListView
             anchors.fill: parent; anchors.margins: 10; clip: true
             interactive: false
+            // QA-05: Tab foca a lista, setas navegam, Enter pesquisa (igual ao duplo-clique).
+            activeFocusOnTab: true; keyNavigationEnabled: true
             model: diagnosticViewModel.logModel
             delegate: ItemDelegate {
                 width: ListView.view.width; height: 46
+                focus: ListView.isCurrentItem
+                highlighted: ListView.isCurrentItem && ListView.view.activeFocus
                 onDoubleClicked: diagnosticViewModel.searchOnline(source + " " + message)
+                Keys.onReturnPressed: diagnosticViewModel.searchOnline(source + " " + message)
                 contentItem: RowLayout {
                     spacing: 8
                     Text {
