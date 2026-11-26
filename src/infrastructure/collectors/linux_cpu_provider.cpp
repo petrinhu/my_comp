@@ -32,7 +32,7 @@ domain::models::CpuStats LinuxCpuProvider::collect_stats() {
 }
 
 domain::models::CpuArchitecture LinuxCpuProvider::collect_architecture() {
-    domain::models::CpuArchitecture arch = {"", "", 0, 0, {}, "", "", ""};
+    domain::models::CpuArchitecture arch;
     
     // 1. Ler /proc/cpuinfo
     std::ifstream cpuinfo("/proc/cpuinfo");
@@ -44,8 +44,8 @@ domain::models::CpuArchitecture LinuxCpuProvider::collect_architecture() {
     
     while (std::getline(cpuinfo, line)) {
         std::smatch match;
-        if (std::regex_search(line, match, model_regex)) arch.model_name = match[1];
-        if (std::regex_search(line, match, vendor_regex)) arch.vendor_id = match[1];
+        if (std::regex_search(line, match, model_regex)) arch.model_name = QString::fromStdString(match[1].str());
+        if (std::regex_search(line, match, vendor_regex)) arch.vendor_id = QString::fromStdString(match[1].str());
         if (std::regex_search(line, match, cores_regex)) arch.physical_cores = parse_integer<int>(match[1].str()).value_or(0);
         if (std::regex_search(line, match, threads_regex)) arch.logical_threads = parse_integer<int>(match[1].str()).value_or(0);
     }
@@ -54,18 +54,23 @@ domain::models::CpuArchitecture LinuxCpuProvider::collect_architecture() {
     for (int i = 0; i < 4; ++i) {
         const std::string cache_path = "/sys/devices/system/cpu/cpu0/cache/index" + std::to_string(i);
         if (fs::exists(cache_path)) {
-            domain::models::CacheInfo ci;
             std::ifstream level_file(cache_path + "/level");
             std::ifstream type_file(cache_path + "/type");
             std::ifstream size_file(cache_path + "/size");
-            level_file >> ci.level;
-            type_file >> ci.type;
-            size_file >> ci.size;
+            std::string level;
+            std::string type;
+            std::string size;
+            level_file >> level;
+            type_file >> type;
+            size_file >> size;
+            const domain::models::CacheInfo ci{QString::fromStdString(level),
+                                               QString::fromStdString(type),
+                                               QString::fromStdString(size)};
             arch.caches.push_back(ci);
             
-            if (ci.level == "1" && ci.type == "Data") arch.l1_cache = ci.size;
-            if (ci.level == "2") arch.l2_cache = ci.size;
-            if (ci.level == "3") arch.l3_cache = ci.size;
+            if (ci.level == QLatin1String("1") && ci.type == QLatin1String("Data")) arch.l1_cache = ci.size;
+            if (ci.level == QLatin1String("2")) arch.l2_cache = ci.size;
+            if (ci.level == QLatin1String("3")) arch.l3_cache = ci.size;
         }
     }
     
