@@ -4,6 +4,10 @@
 > completa de verificação em projetos **C · C++ · Python · Rust · Node.js/TypeScript**.
 > As seções T1–T12 e A1–A10 cobrem C/C++/Qt. As seções T13–T15 e A11–A13 cobrem os demais stacks.
 > Adapte os caminhos e nomes de módulos conforme o projeto alvo.
+>
+> **Nota do my_comp (MC-01):** as metas numéricas de cobertura deste documento (70%, 80%, 90%)
+> são referência genérica. No my_comp vale a [MC-07](../GODS_LAWS.md#mc-07): cobertura **medida,
+> sem meta numérica** (L-35). Em conflito, o `GODS_LAWS.md` prevalece.
 
 ---
 
