@@ -33,7 +33,7 @@ domain::models::StorageStats LinuxStorageProvider::collect_stats() {
            >> writes >> writes_merged >> sectors_written >> time_write;
         
         // Filtro básico para discos físicos (nvmeXn1, sdX)
-        bool is_physical = (dev_name.compare(0, 4, "nvme") == 0 && dev_name.find('p') == std::string::npos) ||
+        const bool is_physical = (dev_name.compare(0, 4, "nvme") == 0 && dev_name.find('p') == std::string::npos) ||
                            (dev_name.compare(0, 2, "sd") == 0 && dev_name.size() == 3);
         
         if (!is_physical) continue;
@@ -43,10 +43,10 @@ domain::models::StorageStats LinuxStorageProvider::collect_stats() {
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - last.timestamp).count();
             
             if (duration > 0) {
-                double seconds = static_cast<double>(duration) / 1000.0;
+                const double seconds = static_cast<double>(duration) / 1000.0;
                 // Setores no Linux são tipicamente 512 bytes
-                double read_mb = static_cast<double>(sectors_read - last.sectors_read) * 512.0 / (1024.0 * 1024.0);
-                double write_mb = static_cast<double>(sectors_written - last.sectors_written) * 512.0 / (1024.0 * 1024.0);
+                const double read_mb = static_cast<double>(sectors_read - last.sectors_read) * 512.0 / (1024.0 * 1024.0);
+                const double write_mb = static_cast<double>(sectors_written - last.sectors_written) * 512.0 / (1024.0 * 1024.0);
                 
                 domain::models::DriveStat drive;
                 drive.name = QString::fromStdString(dev_name);

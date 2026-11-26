@@ -21,7 +21,7 @@ std::vector<domain::models::FirmwareDevice> DBusFirmwareProvider::get_devices() 
         return devices;
     }
 
-    QDBusMessage msg = m_interface->call("GetDevices");
+    const QDBusMessage msg = m_interface->call("GetDevices");
     if (msg.type() == QDBusMessage::ErrorMessage) {
         qWarning() << "[Firmware] Failed to get devices:" << msg.errorMessage();
         return devices;
@@ -32,7 +32,7 @@ std::vector<domain::models::FirmwareDevice> DBusFirmwareProvider::get_devices() 
         return devices;
     }
 
-    QVariant arg0 = msg.arguments().at(0);
+    const QVariant arg0 = msg.arguments().at(0);
     if (!arg0.canConvert<QDBusArgument>()) {
         qWarning() << "[Firmware] Unexpected return type:" << arg0.typeName();
         return devices;

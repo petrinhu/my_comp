@@ -42,7 +42,7 @@ RegraComportamento::avaliar(const domain::vram::Processo& processo) const {
     const bool vram_trivial       = a.vram_media <= vram_trivial_efet;
     const bool compute_idle       = a.compute_utilizacao_media < m_limiares.compute_idle;
 
-    domain::vram::Justificativa just{
+    const domain::vram::Justificativa just{
         .regra = QStringLiteral("comportamento"),
         .detalhe = detalhe_da_amostra(a),
     };

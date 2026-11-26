@@ -21,7 +21,7 @@ namespace {
 
 // Subcomando CLI: my_comp vram [--json|--all-processes|--no-config-origins]
 int executar_cli_vram(int argc, char* argv[]) {
-    QCoreApplication cli_app(argc, argv);
+    const QCoreApplication cli_app(argc, argv);
     // Mesmos nomes da GUI: o feedback VRAM vive em AppDataLocation, que deriva deles.
     QCoreApplication::setOrganizationName(QStringLiteral("my_comp"));
     QCoreApplication::setApplicationName(QStringLiteral("my_comp"));

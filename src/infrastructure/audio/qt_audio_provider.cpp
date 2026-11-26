@@ -74,7 +74,7 @@ void QtAudioProvider::writeData(const char* data, qint64 len) {
 }
 
 void QtAudioProvider::process_raw_data(const char* data, qint64 len) {
-    int sampleCount = static_cast<int>(len / sizeof(float));
+    const int sampleCount = static_cast<int>(len / sizeof(float));
     // Buffer entregue pelo QAudioSink como char*, mas QAudioFormat define amostras Float32 — cast é legítimo.
     // cppcheck-suppress invalidPointerCast
     const float* samples = reinterpret_cast<const float*>(data);
@@ -92,7 +92,7 @@ void QtAudioProvider::process_samples(const float* samples, int count) {
     float peak = 0;
     
     for (int i = 0; i < count; ++i) {
-        float s = samples[i];
+        const float s = samples[i];
         sumSq += s * s;
         peak = std::max(peak, std::abs(s));
     }
@@ -110,11 +110,11 @@ void QtAudioProvider::process_samples(const float* samples, int count) {
 
 std::vector<float> QtAudioProvider::calculate_fft(const float* samples, int count) {
     if (count < 2) return {};
-    size_t n = std::bit_floor(static_cast<size_t>(count));
+    const size_t n = std::bit_floor(static_cast<size_t>(count));
     std::vector<std::complex<double>> data(n);
     
     for (size_t i = 0; i < n; ++i) {
-        double multiplier = 0.5 * (1.0 - std::cos(2.0 * M_PI * static_cast<double>(i) / static_cast<double>(n - 1)));
+        const double multiplier = 0.5 * (1.0 - std::cos(2.0 * M_PI * static_cast<double>(i) / static_cast<double>(n - 1)));
         data[i] = static_cast<double>(samples[i]) * multiplier;
     }
 
@@ -126,13 +126,13 @@ std::vector<float> QtAudioProvider::calculate_fft(const float* samples, int coun
     }
 
     for (size_t len = 2; len <= n; len <<= 1) {
-        double ang = 2.0 * M_PI / static_cast<double>(len);
-        std::complex<double> wlen(std::cos(ang), std::sin(ang));
+        const double ang = 2.0 * M_PI / static_cast<double>(len);
+        const std::complex<double> wlen(std::cos(ang), std::sin(ang));
         for (size_t i = 0; i < n; i += len) {
             std::complex<double> w(1);
             for (size_t j = 0; j < len / 2; ++j) {
-                std::complex<double> u = data[i + j];
-                std::complex<double> v = data[i + j + len / 2] * w;
+                const std::complex<double> u = data[i + j];
+                const std::complex<double> v = data[i + j + len / 2] * w;
                 data[i + j] = u + v;
                 data[i + j + len / 2] = u - v;
                 w *= wlen;

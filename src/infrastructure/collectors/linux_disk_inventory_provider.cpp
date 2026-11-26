@@ -25,7 +25,7 @@ void collect_partitions(const QJsonArray& nodes, std::vector<Partition>& out) {
             p.uuid = obj.value("uuid").toString();
 
             if (!p.mount.isEmpty()) {
-                QStorageInfo info(p.mount);
+                const QStorageInfo info(p.mount);
                 if (info.isValid() && info.isReady()) {
                     const qint64 total = info.bytesTotal();
                     const qint64 free = info.bytesAvailable();

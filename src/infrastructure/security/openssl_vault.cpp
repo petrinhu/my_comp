@@ -28,9 +28,9 @@ domain::models::VaultData OpenSslVault::encrypt(const std::vector<uint8_t>& plai
     }
 
     std::vector<uint8_t> key_local(key.begin(), key.end());
-    KeyCleanser cleanser{key_local};
+    const KeyCleanser cleanser{key_local};
 
-    std::unique_ptr<EVP_CIPHER_CTX, decltype(&EVP_CIPHER_CTX_free)> ctx(EVP_CIPHER_CTX_new(), EVP_CIPHER_CTX_free);
+    std::unique_ptr<EVP_CIPHER_CTX, decltype(&EVP_CIPHER_CTX_free)> const ctx(EVP_CIPHER_CTX_new(), EVP_CIPHER_CTX_free);
     if (!ctx) throw std::runtime_error("Falha ao criar OpenSSL CTX");
 
     if (EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1)
@@ -62,9 +62,9 @@ std::vector<uint8_t> OpenSslVault::decrypt(const domain::models::VaultData& data
     if (data.iv.size() != GCM_IV_SIZE || data.tag.size() != GCM_TAG_SIZE) return {};
 
     std::vector<uint8_t> key_local(key.begin(), key.end());
-    KeyCleanser cleanser{key_local};
+    const KeyCleanser cleanser{key_local};
 
-    std::unique_ptr<EVP_CIPHER_CTX, decltype(&EVP_CIPHER_CTX_free)> ctx(EVP_CIPHER_CTX_new(), EVP_CIPHER_CTX_free);
+    std::unique_ptr<EVP_CIPHER_CTX, decltype(&EVP_CIPHER_CTX_free)> const ctx(EVP_CIPHER_CTX_new(), EVP_CIPHER_CTX_free);
     if (!ctx) return {};
 
     if (EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_gcm(), nullptr, nullptr, nullptr) != 1)
@@ -74,7 +74,7 @@ std::vector<uint8_t> OpenSslVault::decrypt(const domain::models::VaultData& data
         return {};
 
     std::vector<uint8_t> plaintext(data.ciphertext.size());
-    KeyCleanser plaintext_cleanser{plaintext}; // zera o buffer em qualquer saída
+    const KeyCleanser plaintext_cleanser{plaintext}; // zera o buffer em qualquer saída
     int out_len = 0;
     if (EVP_DecryptUpdate(ctx.get(), plaintext.data(), &out_len, data.ciphertext.data(), static_cast<int>(data.ciphertext.size())) != 1)
         return {};
@@ -84,7 +84,7 @@ std::vector<uint8_t> OpenSslVault::decrypt(const domain::models::VaultData& data
         return {};
 
     int final_len = 0;
-    int ret = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + out_len, &final_len);
+    const int ret = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + out_len, &final_len);
 
     if (ret <= 0) {
         return {}; // tag inválida: plaintext parcial é descartado e zerado pelo cleanser

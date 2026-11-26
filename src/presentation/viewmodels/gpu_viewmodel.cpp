@@ -27,7 +27,7 @@ void GpuViewModel::update_stats() {
     if (m_busy || m_providers.empty()) return;
     m_busy = true;
 
-    QPointer<GpuViewModel> self(this);
+    const QPointer<GpuViewModel> self(this);
     auto providers = m_providers;
     (void)QtConcurrent::run([self, providers]() {
         std::vector<domain::models::GpuStats> all;

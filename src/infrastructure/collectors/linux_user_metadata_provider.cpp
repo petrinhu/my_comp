@@ -26,8 +26,8 @@ domain::models::UserMetadata LinuxUserMetadataProvider::get_user_metadata() {
 }
 
 void LinuxUserMetadataProvider::collect_current_user(domain::models::UserMetadata& metadata) {
-    uid_t uid = getuid();
-    gid_t gid = getgid();
+    const uid_t uid = getuid();
+    const gid_t gid = getgid();
     
     struct passwd pwd;
     struct passwd *result;
@@ -89,12 +89,12 @@ void LinuxUserMetadataProvider::collect_login_history(domain::models::UserMetada
 }
 
 void LinuxUserMetadataProvider::collect_system_users(domain::models::UserMetadata& metadata) {
-    std::lock_guard<std::mutex> lock(g_user_mutex);
+    const std::lock_guard<std::mutex> lock(g_user_mutex);
     setpwent();
     struct passwd *pw;
     while ((pw = getpwent()) != nullptr) {
         if (pw->pw_uid >= 1000 && pw->pw_uid < 65534) {
-            QString user_info = QString("%1 (UID:%2, Shell:%3, Home:%4)")
+            const QString user_info = QString("%1 (UID:%2, Shell:%3, Home:%4)")
                 .arg(QString::fromLocal8Bit(pw->pw_name))
                 .arg(pw->pw_uid)
                 .arg(QString::fromLocal8Bit(pw->pw_shell))

@@ -140,7 +140,7 @@ IntelI915GpuBackend::IntelI915GpuBackend(QString drm_root, QString proc_root)
       m_proc_root{std::move(proc_root)} {}
 
 bool IntelI915GpuBackend::sistema_tem_gpu_intel(const QString& drm_root) {
-    QDir dir{drm_root};
+    const QDir dir{drm_root};
     if (!dir.exists()) {
         return false;
     }
@@ -161,7 +161,7 @@ bool IntelI915GpuBackend::sistema_tem_gpu_intel(const QString& drm_root) {
 std::vector<IntelI915GpuBackend::CardIntel>
 IntelI915GpuBackend::descobrir_cards() const {
     std::vector<CardIntel> cards;
-    QDir dir{m_drm_root};
+    const QDir dir{m_drm_root};
     if (!dir.exists()) {
         return cards;
     }
@@ -212,7 +212,7 @@ IntelI915GpuBackend::enumerar_processos_vram(int gpu_id) const {
     }
     const QString pdev = it->pci_slot;
 
-    QDir proc{m_proc_root};
+    const QDir proc{m_proc_root};
     if (!proc.exists()) {
         return {};
     }
@@ -228,7 +228,7 @@ IntelI915GpuBackend::enumerar_processos_vram(int gpu_id) const {
             continue;
         }
         const QString fdinfo_dir = proc.absoluteFilePath(nome) + QStringLiteral("/fdinfo");
-        QDir fd{fdinfo_dir};
+        const QDir fd{fdinfo_dir};
         if (!fd.exists()) {
             continue;
         }

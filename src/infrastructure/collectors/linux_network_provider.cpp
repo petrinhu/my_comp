@@ -17,7 +17,7 @@ LinuxNetworkProvider::LinuxNetworkProvider(std::shared_ptr<IShellExecutor> shell
         std::stringstream ss(line);
         std::string iface_raw; ss >> iface_raw;
         if (iface_raw.empty()) continue;
-        std::string iface_name = iface_raw.substr(0, iface_raw.find(':'));
+        const std::string iface_name = iface_raw.substr(0, iface_raw.find(':'));
         uint64_t rx_bytes, rx_packets, rx_errs, rx_drop, rx_fifo, rx_frame, rx_compressed, rx_multi, tx_bytes;
         ss >> rx_bytes >> rx_packets >> rx_errs >> rx_drop >> rx_fifo >> rx_frame >> rx_compressed >> rx_multi >> tx_bytes;
         m_last_samples[iface_name] = {rx_bytes, tx_bytes, now};
@@ -40,7 +40,7 @@ domain::models::NetworkStats LinuxNetworkProvider::collect_stats() {
         ss >> iface_raw;
         if (iface_raw.empty()) continue;
         
-        std::string iface_name = iface_raw.substr(0, iface_raw.find(':'));
+        const std::string iface_name = iface_raw.substr(0, iface_raw.find(':'));
         if (iface_name == "lo") continue;
         
         uint64_t rx_bytes, rx_packets, rx_errs, rx_drop, rx_fifo, rx_frame, rx_compressed, rx_multi;
@@ -53,9 +53,9 @@ domain::models::NetworkStats LinuxNetworkProvider::collect_stats() {
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(now - last.timestamp).count();
             
             if (duration > 0) {
-                double seconds = static_cast<double>(duration) / 1000.0;
-                double rx_mbps = (static_cast<double>(rx_bytes - last.rx_bytes) * 8.0) / (1024.0 * 1024.0 * seconds);
-                double tx_mbps = (static_cast<double>(tx_bytes - last.tx_bytes) * 8.0) / (1024.0 * 1024.0 * seconds);
+                const double seconds = static_cast<double>(duration) / 1000.0;
+                const double rx_mbps = (static_cast<double>(rx_bytes - last.rx_bytes) * 8.0) / (1024.0 * 1024.0 * seconds);
+                const double tx_mbps = (static_cast<double>(tx_bytes - last.tx_bytes) * 8.0) / (1024.0 * 1024.0 * seconds);
                 
                 domain::models::InterfaceStat istat;
                 istat.name = QString::fromStdString(iface_name);
@@ -89,9 +89,9 @@ double LinuxNetworkProvider::measure_latency() {
     QString output;
     // Só roda com opt-in do usuário (MC-10): pinga o DNS público 1.1.1.1.
     // Sem rede, falha e devolve -1 (não medida).
-    QStringList args = {"-c", "1", "-W", "1", "1.1.1.1"};
+    const QStringList args = {"-c", "1", "-W", "1", "1.1.1.1"};
     if (m_shell->execute("ping", args, output) == 0) {
-        QRegularExpression regex("(?:time|tempo)=([\\d.]+) ms");
+        const QRegularExpression regex("(?:time|tempo)=([\\d.]+) ms");
         auto match = regex.match(output);
         if (match.hasMatch()) {
             return match.captured(1).toDouble();

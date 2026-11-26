@@ -25,7 +25,7 @@ void DirectoryScannerViewModel::scan(const QString& path) {
     emit progressChanged();
     emit resultChanged();
 
-    QPointer<DirectoryScannerViewModel> self(this);
+    const QPointer<DirectoryScannerViewModel> self(this);
     auto scanner = m_scanner;
     auto token = m_cancel_token;
 

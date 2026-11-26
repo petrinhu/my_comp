@@ -70,7 +70,7 @@ void DevStackViewModel::refresh() {
     m_isBusy = true;
     emit isBusyChanged();
 
-    QPointer<DevStackViewModel> self(this);
+    const QPointer<DevStackViewModel> self(this);
     auto provider = m_provider;
     (void)QtConcurrent::run([self, provider]() {
         auto result = provider->collect_dev_stacks();

@@ -72,7 +72,7 @@ void ServiceViewModel::refresh() {
     if (m_isBusy) return;
     setBusy(true);
 
-    QPointer<ServiceViewModel> self(this);
+    const QPointer<ServiceViewModel> self(this);
     auto provider = m_provider;
     (void)QtConcurrent::run([self, provider]() {
         auto result = provider->get_services();
@@ -89,7 +89,7 @@ void ServiceViewModel::refresh() {
 
 void ServiceViewModel::run_action(Action action, const QString& name, const QString& scope) {
     setBusy(true);
-    QPointer<ServiceViewModel> self(this);
+    const QPointer<ServiceViewModel> self(this);
     auto provider = m_provider;
     const auto service_scope = parse_scope(scope);
     (void)QtConcurrent::run([self, provider, action, name, service_scope]() {
@@ -118,7 +118,7 @@ void ServiceViewModel::disableAndStop(const QString& name, const QString& scope)
 
 void ServiceViewModel::createDaemon(const QString& exe_path, const QString& params) {
     setBusy(true);
-    QPointer<ServiceViewModel> self(this);
+    const QPointer<ServiceViewModel> self(this);
     auto provider = m_provider;
     (void)QtConcurrent::run([self, provider, exe_path, params]() {
         const auto result = provider->create_daemon(exe_path, params);

@@ -24,7 +24,7 @@ constexpr const char* REPORT_CSS =
 QString html_escape(const QString& raw) {
     QString out;
     out.reserve(raw.size());
-    for (QChar c : raw) {
+    for (const QChar c : raw) {
         if (c == QLatin1Char('&')) out += QStringLiteral("&amp;");
         else if (c == QLatin1Char('<')) out += QStringLiteral("&lt;");
         else if (c == QLatin1Char('>')) out += QStringLiteral("&gt;");

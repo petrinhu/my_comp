@@ -104,7 +104,7 @@ std::vector<float> AudioViewModel::transformSpectrum(const std::vector<float>& f
 
 void AudioViewModel::update_data(const domain::models::AudioData& data) {
     QVariantList waveList;
-    int waveStep = std::max(1, static_cast<int>(data.waveform.size()) / 256);
+    const int waveStep = std::max(1, static_cast<int>(data.waveform.size()) / 256);
     for (size_t i = 0; i < data.waveform.size(); i += static_cast<size_t>(waveStep)) {
         waveList.append(data.waveform[i]);
     }
@@ -113,7 +113,7 @@ void AudioViewModel::update_data(const domain::models::AudioData& data) {
     if (!data.spectrum.empty()) {
         auto bands = transformSpectrum(data.spectrum, kSampleRateHz);
         specList.reserve(static_cast<int>(bands.size()));
-        for (float v : bands) specList.append(v);
+        for (const float v : bands) specList.append(v);
     }
 
     m_waveform = waveList;

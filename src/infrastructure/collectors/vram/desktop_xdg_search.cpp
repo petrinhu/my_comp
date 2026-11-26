@@ -60,7 +60,7 @@ QStringList listar_desktop_files(const QStringList& xdg_dirs) {
     QStringList paths;
     for (const auto& d : xdg_dirs) {
         const QString applications = d + QStringLiteral("/applications");
-        QDir dir{applications};
+        const QDir dir{applications};
         if (!dir.exists()) {
             continue;
         }

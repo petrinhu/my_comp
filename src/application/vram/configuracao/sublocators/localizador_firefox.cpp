@@ -57,7 +57,7 @@ std::optional<QString> profile_default_de_ini(const QByteArray& ini) {
 
 std::optional<QString> ler_user_pref(const QByteArray& conteudo, const QString& chave) {
     static const QString tpl = QStringLiteral(R"(user_pref\s*\(\s*"%1"\s*,\s*([^)]+?)\s*\)\s*;)");
-    QRegularExpression re{tpl.arg(QRegularExpression::escape(chave))};
+    const QRegularExpression re{tpl.arg(QRegularExpression::escape(chave))};
     auto match = re.match(QString::fromUtf8(conteudo));
     if (!match.hasMatch()) {
         return std::nullopt;
@@ -131,7 +131,7 @@ LocalizadorFirefox::localizar(const domain::vram::Processo& processo) const {
 
         const QString caminho_principal = user_opt.has_value() ? user_js : prefs_js;
 
-        domain::vram::OrigemConfig o{
+        const domain::vram::OrigemConfig o{
             .categoria = domain::vram::CategoriaOrigem::Firefox,
             .tipo = QStringLiteral("browser-flag"),
             .caminho = caminho_principal,

@@ -19,7 +19,7 @@ void MemoryViewModel::refresh() {
     if (m_busy) return;
     m_busy = true;
 
-    QPointer<MemoryViewModel> self(this);
+    const QPointer<MemoryViewModel> self(this);
     auto provider = m_provider;
     (void)QtConcurrent::run([self, provider]() {
         auto stats = provider->collect_stats();

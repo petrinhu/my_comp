@@ -14,7 +14,7 @@ std::vector<domain::models::UpdatePackage> PacmanUpdateProvider::check_updates()
     // pacman -Qu output:
     // package_name old_version -> new_version
     if (m_executor->execute("pacman", {"-Qu"}, output) == 0) {
-        QStringList lines = output.split('\n', Qt::SkipEmptyParts);
+        const QStringList lines = output.split('\n', Qt::SkipEmptyParts);
         for (const QString& line : lines) {
             QStringList parts = line.trimmed().split(QRegularExpression("\\s+"));
             if (parts.size() >= 4 && parts[2] == "->") {

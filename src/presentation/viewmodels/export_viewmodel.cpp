@@ -99,12 +99,12 @@ void ExportViewModel::exportReport(int formatIndex, const QString& filePath) {
 
     // Normalizar file:// URIs → caminho local via QUrl (evita parsing ad-hoc de percent-encoding).
     QString cleanPath = filePath;
-    QUrl url(filePath);
+    const QUrl url(filePath);
     if (url.isLocalFile()) cleanPath = url.toLocalFile();
 
     // Valida permissão de escrita no diretório pai antes de disparar o job assíncrono.
-    QFileInfo fi(cleanPath);
-    QFileInfo parent(fi.absolutePath());
+    const QFileInfo fi(cleanPath);
+    const QFileInfo parent(fi.absolutePath());
     if (!parent.exists() || !parent.isDir() || !parent.isWritable()) {
         emit exportFinished(false, "Pasta de destino inválida ou sem permissão de escrita: " + parent.absoluteFilePath());
         return;
@@ -120,7 +120,7 @@ void ExportViewModel::exportReport(int formatIndex, const QString& filePath) {
     const auto provider = m_providers[static_cast<std::size_t>(formatIndex)];
     const QString format_name = provider->get_format_name();
 
-    QPointer<ExportViewModel> self(this);
+    const QPointer<ExportViewModel> self(this);
     (void)QtConcurrent::run([self, provider, data, cleanPath, format_name]() {
         const bool success = provider->export_report(data, cleanPath);
         QMetaObject::invokeMethod(self.data(), [self, success, cleanPath, format_name]() {

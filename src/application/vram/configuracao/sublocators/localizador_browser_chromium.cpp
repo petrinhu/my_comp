@@ -66,7 +66,7 @@ LocalizadorBrowserChromium::localizar(const domain::vram::Processo& processo) co
         ? QStringLiteral("true (default)")
         : QStringLiteral("true");
 
-    domain::vram::OrigemConfig o{
+    const domain::vram::OrigemConfig o{
         .categoria = domain::vram::CategoriaOrigem::BrowserChromium,
         .tipo = QStringLiteral("browser-flag"),
         .caminho = caminho,
