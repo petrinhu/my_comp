@@ -98,7 +98,12 @@ void DiagnosticViewModel::setCurrentFilter(int filter) {
 }
 
 void DiagnosticViewModel::setLogLimit(int n) {
-    if (n < 0) n = 0;
+    // 0 significa "ilimitado" no provedor (journalctl sem -n): um negativo é recusado,
+    // em vez de virar silenciosamente a leitura do journal inteiro.
+    if (n < 0) {
+        qWarning() << "[DiagnosticVM] Limite negativo ignorado:" << n;
+        return;
+    }
     if (m_log_limit != n) {
         m_log_limit = n;
         emit logLimitChanged();
