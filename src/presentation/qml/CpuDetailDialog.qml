@@ -4,14 +4,14 @@ import QtQuick.Layouts
 
 Dialog {
     id: cpuDetailRoot
-    title: "CPU Deep Dive"
+    title: qsTr("CPU Deep Dive")
     width: 700
     height: 600
     modal: true
     anchors.centerIn: Overlay.overlay
     
     background: Rectangle {
-        color: root.isDark ? "#2a2e32" : "#ffffff"
+        color: root.dialogBg
         radius: 12
         border.color: root.borderColor
         border.width: 1
@@ -19,7 +19,7 @@ Dialog {
 
     header: Rectangle {
         height: 60
-        color: root.isDark ? "#1a1c1e" : "#f8f9fa"
+        color: root.dialogHeaderBg
         radius: 12
         
         RowLayout {
@@ -28,7 +28,7 @@ Dialog {
             anchors.rightMargin: 15
             
             Text { 
-                text: "📊 Detalhes da CPU"
+                text: qsTr("📊 Detalhes da CPU")
                 color: root.textColor
                 font.pixelSize: 18
                 font.bold: true 
@@ -61,7 +61,7 @@ Dialog {
 
         // --- SEÇÃO 1: ARQUITETURA (FIXA) ---
         Text { 
-            text: "ARQUITETURA E CACHE"
+            text: qsTr("ARQUITETURA E CACHE")
             color: root.highlightColor
             font.pixelSize: 12
             font.bold: true 
@@ -71,7 +71,7 @@ Dialog {
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 200
-            color: root.isDark ? "#1a1c1e" : "#fdfdfd"
+            color: root.dialogSectionBg
             radius: 8
             border.color: root.borderColor
             border.width: 1
@@ -83,14 +83,14 @@ Dialog {
                 rowSpacing: 12
                 columnSpacing: 40
                 
-                LabelValue { label: "Modelo:"; value: cpuViewModel.modelName }
-                LabelValue { label: "Fabricante:"; value: cpuViewModel.vendorId }
-                LabelValue { label: "Threads Lógicas:"; value: cpuViewModel.logicalThreads.toString() }
-                LabelValue { label: "Temperatura:"; value: cpuViewModel.temperature.toFixed(1) + "°C" }
-                LabelValue { label: "L1 Cache:"; value: cpuViewModel.l1Cache }
-                LabelValue { label: "L2 Cache:"; value: cpuViewModel.l2Cache }
-                LabelValue { label: "L3 Cache:"; value: cpuViewModel.l3Cache }
-                LabelValue { label: "Cores Físicos:"; value: cpuViewModel.physicalCores.toString() }
+                LabelValue { label: qsTr("Modelo:"); value: cpuViewModel.modelName }
+                LabelValue { label: qsTr("Fabricante:"); value: cpuViewModel.vendorId }
+                LabelValue { label: qsTr("Threads Lógicas:"); value: cpuViewModel.logicalThreads.toString() }
+                LabelValue { label: qsTr("Temperatura:"); value: cpuViewModel.temperature.toFixed(1) + "°C" }
+                LabelValue { label: qsTr("L1 Cache:"); value: cpuViewModel.l1Cache }
+                LabelValue { label: qsTr("L2 Cache:"); value: cpuViewModel.l2Cache }
+                LabelValue { label: qsTr("L3 Cache:"); value: cpuViewModel.l3Cache }
+                LabelValue { label: qsTr("Cores Físicos:"); value: cpuViewModel.physicalCores.toString() }
             }
         }
 
@@ -98,7 +98,7 @@ Dialog {
 
         // --- SEÇÃO 2: MONITORAMENTO (FIXA / CONTEÚDO ROLÁVEL) ---
         Text { 
-            text: "MONITORAMENTO EM TEMPO REAL (POR CORE)"
+            text: qsTr("MONITORAMENTO EM TEMPO REAL (POR CORE)")
             color: root.highlightColor
             font.pixelSize: 12
             font.bold: true 
@@ -108,7 +108,7 @@ Dialog {
         Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            color: root.isDark ? "#1a1c1e" : "#fdfdfd"
+            color: root.dialogSectionBg
             radius: 8
             border.color: root.borderColor
             border.width: 1
@@ -125,7 +125,7 @@ Dialog {
                     contentItem: Rectangle {
                         implicitWidth: 6
                         radius: 3
-                        color: root.isDark ? "#4d4d4d" : "#bcbebf"
+                        color: root.borderColor
                     }
                 }
                 
@@ -142,7 +142,7 @@ Dialog {
                             spacing: 12
                             
                             Text { 
-                                text: "C" + modelData.id
+                                text: qsTr("C%1").arg(modelData.id)
                                 color: root.textColor
                                 font.pixelSize: 11
                                 font.bold: true
@@ -156,7 +156,7 @@ Dialog {
                                 Rectangle {
                                     Layout.fillWidth: true
                                     height: 8
-                                    color: root.isDark ? "#3e444a" : "#e0e0e0"
+                                    color: root.coreLoadTrackColor
                                     radius: 4
                                     
                                     Rectangle {
@@ -177,7 +177,7 @@ Dialog {
                                     Item { Layout.fillWidth: true }
                                     Text { 
                                         text: (modelData.freq / 1000.0).toFixed(2) + " GHz"
-                                        color: "#7f8c8d"
+                                        color: root.mutedTextColor
                                         font.pixelSize: 10
                                     }
                                 }
@@ -195,7 +195,7 @@ Dialog {
         spacing: 10
         Text { 
             text: label
-            color: "#7f8c8d"
+            color: root.mutedTextColor
             font.pixelSize: 12
             Layout.preferredWidth: 100
         }

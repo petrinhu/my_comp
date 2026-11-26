@@ -10,9 +10,12 @@ Item {
     anchors.fill: parent
     z: 1000
 
-    readonly property color successColor: "#2ecc71"
-    readonly property color errorColor: "#e74c3c"
-    readonly property color infoColor: "#3498db"
+    // Cores injetadas pela paleta central de Main.qml (o id "root" deste arquivo
+    // sombreia o de Main, por isso as cores chegam como propriedades).
+    property color successColor
+    property color errorColor
+    property color infoColor
+    property color contrastTextColor
     readonly property int autoDismissMs: 4000
 
     ListModel { id: toastModel }
@@ -74,7 +77,7 @@ Item {
                             if (model.kind === "error") return "✕"
                             return "ℹ"
                         }
-                        color: "white"
+                        color: root.contrastTextColor
                         font.pixelSize: 18
                         font.bold: true
                         Layout.preferredWidth: 20
@@ -82,7 +85,7 @@ Item {
 
                     Text {
                         text: model.message
-                        color: "white"
+                        color: root.contrastTextColor
                         font.pixelSize: 13
                         wrapMode: Text.WordWrap
                         Layout.fillWidth: true
@@ -96,7 +99,7 @@ Item {
                         onClicked: root.dismiss(index)
                         contentItem: Text {
                             text: parent.text
-                            color: "white"
+                            color: root.contrastTextColor
                             font.pixelSize: 14
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter

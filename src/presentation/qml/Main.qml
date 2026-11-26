@@ -36,6 +36,31 @@ Window {
     readonly property color highlightColor: isDark ? "#3daee9" : "#1b6acb"
     readonly property color criticalColor: isDark ? "#ff4d4d" : "#c0392b"
 
+    // --- Paleta semântica central (Breeze Dark/Light) ---
+    // Único lugar com literais de cor; os demais arquivos QML referenciam root.<nome> (MC-05).
+    readonly property color mutedTextColor: "#7f8c8d"        // texto secundário/legendas
+    readonly property color successColor: "#2ecc71"          // OK, ativo, saudável
+    readonly property color successStrongColor: "#27ae60"    // candidato seguro (VRAM: CPU basta)
+    readonly property color warningColor: "#f39c12"          // atenção/inconclusivo
+    readonly property color errorColor: "#e74c3c"            // erro (journal err, toast, precisa GPU)
+    readonly property color infoColor: "#3498db"             // toast informativo
+    readonly property color inactiveColor: "#95a5a6"         // indicador inativo/desligado
+    readonly property color contrastTextColor: "#ffffff"     // texto sobre fundo colorido/escuro fixo
+    readonly property color hoverColor: isDark ? "#3e444a" : "#e8e8e8"
+    readonly property color pressedColor: isDark ? "#454a4f" : "#d0d0d0"
+    readonly property color subtleBg: isDark ? "#2a2e32" : "#f5f5f5"           // botões discretos, cabeçalhos de tabela
+    readonly property color insetBg: isDark ? "#2b3036" : "#f0f2f5"            // sub-cartões aninhados
+    readonly property color progressTrackColor: isDark ? "#2a2e32" : "#e0e0e0" // trilho de ProgressBar
+    readonly property color coreLoadTrackColor: isDark ? "#3e444a" : "#e0e0e0" // trilho da carga por core
+    readonly property color dialogBg: isDark ? "#2a2e32" : "#ffffff"
+    readonly property color dialogHeaderBg: isDark ? "#1a1c1e" : "#f8f9fa"
+    readonly property color dialogSectionBg: isDark ? "#1a1c1e" : "#fdfdfd"
+    // Console de instalação: esquema escuro fixo, independente de isDark.
+    readonly property color consoleBg: "#1e1e1e"
+    readonly property color consolePanelBg: "#2c3e50"
+    readonly property color consoleTextColor: "#dcdcdc"
+    readonly property color consoleMutedTextColor: "#bdc3c7"
+
     property int currentView: 0
 
     // Helper para formatação humana de bytes (KiB/MiB/GiB/TiB).
@@ -89,7 +114,13 @@ Window {
 
     CpuDetailDialog { id: cpuDetailDialog }
 
-    ToastOverlay { id: toastOverlay }
+    ToastOverlay {
+        id: toastOverlay
+        successColor: root.successColor
+        errorColor: root.errorColor
+        infoColor: root.infoColor
+        contrastTextColor: root.contrastTextColor
+    }
 
     Connections {
         target: exportViewModel
@@ -108,7 +139,7 @@ Window {
     // Dialog para Criar Daemon
     Dialog {
         id: daemonDialog
-        title: "Criar Novo Daemon de Usuário"
+        title: qsTr("Criar Novo Daemon de Usuário")
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
         width: 400
@@ -123,26 +154,26 @@ Window {
                 Layout.fillWidth: true
                 TextField {
                     id: exePathField
-                    placeholderText: "Caminho do executável..."
+                    placeholderText: qsTr("Caminho do executável...")
                     Layout.fillWidth: true
                     readOnly: true
                 }
                 Button { 
-                    text: "Selecionar"
+                    text: qsTr("Selecionar")
                     onClicked: fileDialog.open()
                 }
             }
             
             TextField {
                 id: paramsField
-                placeholderText: "Parâmetros opcionais (ex: --verbose)"
+                placeholderText: qsTr("Parâmetros opcionais (ex: --verbose)")
                 Layout.fillWidth: true
             }
             
             Text {
-                text: "O daemon será criado em ~/.config/systemd/user/"
+                text: qsTr("O daemon será criado em ~/.config/systemd/user/")
                 font.pixelSize: 10
-                color: "#7f8c8d"
+                color: root.mutedTextColor
             }
         }
 
@@ -157,7 +188,7 @@ Window {
 
     FileDialog {
         id: fileDialog
-        title: "Selecionar Executável"
+        title: qsTr("Selecionar Executável")
         currentFolder: StandardPaths.writableLocation(StandardPaths.ApplicationsLocation)
         onAccepted: {
             let path = selectedFile.toString().replace("file://", "")
@@ -167,7 +198,7 @@ Window {
 
     FolderDialog {
         id: exportFolderDialog
-        title: "Selecionar Pasta para Exportação"
+        title: qsTr("Selecionar Pasta para Exportação")
         currentFolder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
         onAccepted: {
             let path = selectedFolder.toString().replace("file://", "")
@@ -177,7 +208,7 @@ Window {
 
     Dialog {
         id: killConfirmDialog
-        title: "Encerrar Processo?"
+        title: qsTr("Encerrar Processo?")
         x: (parent.width - width) / 2
         y: (parent.height - height) / 2
         modal: true
@@ -194,8 +225,8 @@ Window {
 
         ColumnLayout {
             spacing: 10
-            Text { text: "Deseja realmente encerrar o processo?"; color: root.textColor }
-            Text { text: "<b>" + killConfirmDialog.targetName + "</b> (PID: " + killConfirmDialog.targetPid + ")"; color: root.criticalColor; textFormat: Text.StyledText }
+            Text { text: qsTr("Deseja realmente encerrar o processo?"); color: root.textColor }
+            Text { text: qsTr("<b>%1</b> (PID: %2)").arg(killConfirmDialog.targetName).arg(killConfirmDialog.targetPid); color: root.criticalColor; textFormat: Text.StyledText }
         }
 
         onAccepted: processViewModel.killProcess(targetPid)
@@ -218,7 +249,7 @@ Window {
                 spacing: 8
 
                 Text {
-                    text: "my_comp"
+                    text: qsTr("my_comp")
                     color: root.highlightColor
                     font.pixelSize: 26
                     font.bold: true
@@ -232,15 +263,15 @@ Window {
                     flat: true
                     onClicked: root.themeMode = (root.themeMode + 1) % 3
                     background: Rectangle {
-                        color: themeToggle.pressed ? (root.isDark ? "#454a4f" : "#d0d0d0") : 
-                               themeToggle.hovered ? (root.isDark ? "#3e444a" : "#e8e8e8") : 
-                               (root.isDark ? "#2a2e32" : "#f5f5f5")
+                        color: themeToggle.pressed ? root.pressedColor :
+                               themeToggle.hovered ? root.hoverColor :
+                               root.subtleBg
                         radius: 6
                     }
                     contentItem: RowLayout {
                         spacing: 10
                         Text { text: root.themeMode === 0 ? "☀️" : root.themeMode === 1 ? "🌙" : "🌓"; color: root.textColor }
-                        Text { text: root.themeMode === 0 ? "Light" : root.themeMode === 1 ? "Dark" : "Auto"; color: root.textColor; font.bold: true }
+                        Text { text: root.themeMode === 0 ? qsTr("Light") : root.themeMode === 1 ? qsTr("Dark") : qsTr("Auto"); color: root.textColor; font.bold: true }
                     }
                 }
 
@@ -248,17 +279,17 @@ Window {
 
                 Repeater {
                     model: [
-                        {name: "Dashboard", icon: "📊"},
-                        {name: "Updates", icon: "📦"},
-                        {name: "Journal", icon: "📜"},
-                        {name: "Services", icon: "⚙️"},
-                        {name: "Network", icon: "🌐"},
-                        {name: "Hardware", icon: "💻"},
-                        {name: "Dev Tools", icon: "🛠️"},
-                        {name: "Security", icon: "🛡️"},
-                        {name: "Export", icon: "📤"},
-                        {name: "Storage", icon: "💾"},
-                        {name: "VRAM", icon: "🎮"}
+                        {name: qsTr("Dashboard"), icon: "📊"},
+                        {name: qsTr("Updates"), icon: "📦"},
+                        {name: qsTr("Journal"), icon: "📜"},
+                        {name: qsTr("Services"), icon: "⚙️"},
+                        {name: qsTr("Network"), icon: "🌐"},
+                        {name: qsTr("Hardware"), icon: "💻"},
+                        {name: qsTr("Dev Tools"), icon: "🛠️"},
+                        {name: qsTr("Security"), icon: "🛡️"},
+                        {name: qsTr("Export"), icon: "📤"},
+                        {name: qsTr("Storage"), icon: "💾"},
+                        {name: qsTr("VRAM"), icon: "🎮"}
                     ]
                     delegate: ItemDelegate {
                         id: navDelegate
@@ -268,7 +299,7 @@ Window {
                         ToolTip.visible: hovered
                         ToolTip.text: modelData.name
                         background: Rectangle {
-                            color: navDelegate.highlighted ? root.highlightColor : (navDelegate.hovered ? (root.isDark ? "#3e444a" : "#e8e8e8") : "transparent")
+                            color: navDelegate.highlighted ? root.highlightColor : (navDelegate.hovered ? root.hoverColor : "transparent")
                             opacity: navDelegate.highlighted ? 0.2 : 1.0
                             radius: 6
                         }
@@ -280,7 +311,7 @@ Window {
                     }
                 }
                 Item { Layout.fillHeight: true }
-                Text { text: "v2.0 Alpha"; color: root.highlightColor; font.pixelSize: 10; font.bold: true; Layout.alignment: Qt.AlignHCenter } 
+                Text { text: qsTr("v2.0 Alpha"); color: root.highlightColor; font.pixelSize: 10; font.bold: true; Layout.alignment: Qt.AlignHCenter } 
             }
         }
 
@@ -297,16 +328,16 @@ Window {
                 ColumnLayout {
                     width: parent.width
                     anchors.margins: 25; spacing: 25
-                    Text { text: "Mission Control"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                    Text { text: qsTr("Mission Control"); color: root.textColor; font.pixelSize: 24; font.bold: true }
                     GridLayout {
                         columns: root.width > 800 ? 3 : 2
                         Layout.fillWidth: true; rowSpacing: 15; columnSpacing: 15
-                        DashboardCard { title: "CPU"; value: cpuViewModel.totalLoad.toFixed(1) + "%"; onClicked: cpuDetailDialog.open() }
-                        DashboardCard { title: "MEM"; value: memoryViewModel.ramUsagePercent.toFixed(1) + "%"; onClicked: root.currentView = 5 /* Hardware */ }
-                        DashboardCard { title: "DISK"; value: storageViewModel.totalThroughput; onClicked: root.currentView = 5 /* Hardware */ }
-                        DashboardCard { title: "NET"; value: networkViewModel.latency.toFixed(0) + "ms"; onClicked: root.currentView = 4 /* Network */ }
-                        DashboardCard { title: "POWER"; value: powerViewModel.batteryPercent.toFixed(0) + "%"; onClicked: root.currentView = 5 /* Hardware */ }
-                        DashboardCard { title: "CORE"; value: systemInfoViewModel.kernelVersion; onClicked: root.currentView = 2 /* Journal */ }
+                        DashboardCard { title: qsTr("CPU"); value: cpuViewModel.totalLoad.toFixed(1) + "%"; onClicked: cpuDetailDialog.open() }
+                        DashboardCard { title: qsTr("MEM"); value: memoryViewModel.ramUsagePercent.toFixed(1) + "%"; onClicked: root.currentView = 5 /* Hardware */ }
+                        DashboardCard { title: qsTr("DISK"); value: storageViewModel.totalThroughput; onClicked: root.currentView = 5 /* Hardware */ }
+                        DashboardCard { title: qsTr("NET"); value: networkViewModel.latency.toFixed(0) + "ms"; onClicked: root.currentView = 4 /* Network */ }
+                        DashboardCard { title: qsTr("POWER"); value: powerViewModel.batteryPercent.toFixed(0) + "%"; onClicked: root.currentView = 5 /* Hardware */ }
+                        DashboardCard { title: qsTr("CORE"); value: systemInfoViewModel.kernelVersion; onClicked: root.currentView = 2 /* Journal */ }
                     }
 
                     // Audio Waveform & Spectrum Visualizer
@@ -318,11 +349,11 @@ Window {
                             
                             ColumnLayout {
                                 Layout.preferredWidth: 80
-                                Text { text: "AUDIO"; color: root.highlightColor; font.bold: true; font.pixelSize: 10 }
+                                Text { text: qsTr("AUDIO"); color: root.highlightColor; font.bold: true; font.pixelSize: 10 }
                                 RowLayout {
                                     spacing: 4
-                                    Rectangle { width: 6; height: 50; color: "#2ecc71"; opacity: 0.2; radius: 2 
-                                        Rectangle { anchors.bottom: parent.bottom; width: 6; height: parent.height * Math.min(1.0, audioViewModel.rms * 2); color: "#2ecc71"; radius: 2 }
+                                    Rectangle { width: 6; height: 50; color: root.successColor; opacity: 0.2; radius: 2 
+                                        Rectangle { anchors.bottom: parent.bottom; width: 6; height: parent.height * Math.min(1.0, audioViewModel.rms * 2); color: root.successColor; radius: 2 }
                                     }
                                     Rectangle { width: 6; height: 50; color: root.criticalColor; opacity: 0.2; radius: 2 
                                         Rectangle { anchors.bottom: parent.bottom; width: 6; height: parent.height * Math.min(1.0, audioViewModel.peak); color: root.criticalColor; radius: 2 }
@@ -400,10 +431,10 @@ Window {
                         spacing: 10
                         
                         RowLayout {
-                            Text { text: "Explorador de Processos"; color: root.textColor; font.pixelSize: 18; font.bold: true }
+                            Text { text: qsTr("Explorador de Processos"); color: root.textColor; font.pixelSize: 18; font.bold: true }
                             Item { Layout.fillWidth: true }
                             TextField {
-                                placeholderText: "Filtrar (Nome/User)..."
+                                placeholderText: qsTr("Filtrar (Nome/User)...")
                                 onTextChanged: processViewModel.filter = text
                                 Layout.preferredWidth: 200
                             }
@@ -417,7 +448,8 @@ Window {
                                 // Header clicável para ordenação (dispara processViewModel.setSortField)
                                 RowLayout {
                                     Layout.fillWidth: true; height: 30
-                                    Rectangle { Layout.fillWidth: true; Layout.fillHeight: true; color: root.isDark ? "#2a2e32" : "#f5f5f5"; border.color: root.borderColor
+                                    Rectangle { id: processSortHeader; Layout.fillWidth: true; Layout.fillHeight: true; color: root.subtleBg; border.color: root.borderColor
+                                        // Funções chamadas qualificadas por id: lookup não-qualificado do QML não alcança objetos intermediários.
                                         function applySort(field) {
                                             if (processViewModel.sortField === field) {
                                                 processViewModel.sortAscending = !processViewModel.sortAscending
@@ -433,23 +465,23 @@ Window {
                                         }
                                         RowLayout { anchors.fill: parent; anchors.leftMargin: 10; anchors.rightMargin: 10; spacing: 0
                                             Item { Layout.preferredWidth: 60; Layout.fillHeight: true
-                                                Text { anchors.verticalCenter: parent.verticalCenter; text: "PID" + arrow("pid"); font.bold: true; color: root.textColor }
-                                                MouseArea { anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: applySort("pid") }
+                                                Text { anchors.verticalCenter: parent.verticalCenter; text: qsTr("PID") + processSortHeader.arrow("pid"); font.bold: true; color: root.textColor }
+                                                MouseArea { anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: processSortHeader.applySort("pid") }
                                             }
                                             Item { Layout.preferredWidth: 100; Layout.fillHeight: true
-                                                Text { anchors.verticalCenter: parent.verticalCenter; text: "USER" + arrow("user"); font.bold: true; color: root.textColor }
-                                                MouseArea { anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: applySort("user") }
+                                                Text { anchors.verticalCenter: parent.verticalCenter; text: qsTr("USER") + processSortHeader.arrow("user"); font.bold: true; color: root.textColor }
+                                                MouseArea { anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: processSortHeader.applySort("user") }
                                             }
                                             Item { Layout.preferredWidth: 60; Layout.fillHeight: true
-                                                Text { anchors.verticalCenter: parent.verticalCenter; text: "CPU%" + arrow("cpu"); font.bold: true; color: root.textColor }
-                                                MouseArea { anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: applySort("cpu") }
+                                                Text { anchors.verticalCenter: parent.verticalCenter; text: qsTr("CPU%") + processSortHeader.arrow("cpu"); font.bold: true; color: root.textColor }
+                                                MouseArea { anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: processSortHeader.applySort("cpu") }
                                             }
                                             Item { Layout.preferredWidth: 60; Layout.fillHeight: true
-                                                Text { anchors.verticalCenter: parent.verticalCenter; text: "MEM%" + arrow("mem"); font.bold: true; color: root.textColor }
-                                                MouseArea { anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: applySort("mem") }
+                                                Text { anchors.verticalCenter: parent.verticalCenter; text: qsTr("MEM%") + processSortHeader.arrow("mem"); font.bold: true; color: root.textColor }
+                                                MouseArea { anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: processSortHeader.applySort("mem") }
                                             }
-                                            Text { text: "STATE"; font.bold: true; Layout.preferredWidth: 50; color: root.textColor }
-                                            Text { text: "COMMAND"; font.bold: true; Layout.fillWidth: true; color: root.textColor }
+                                            Text { text: qsTr("STATE"); font.bold: true; Layout.preferredWidth: 50; color: root.textColor }
+                                            Text { text: qsTr("COMMAND"); font.bold: true; Layout.fillWidth: true; color: root.textColor }
                                         }
                                     }
                                 }
@@ -469,9 +501,9 @@ Window {
                                                 anchors.fill: parent; anchors.leftMargin: 10; anchors.rightMargin: 10
                                                 Text { text: modelData.pid; Layout.preferredWidth: 60; color: root.highlightColor; font.family: "Monospace" }
                                                 Text { text: modelData.user; Layout.preferredWidth: 100; color: root.textColor; font.pixelSize: 11 }
-                                                Text { text: modelData.cpu.toFixed(1); Layout.preferredWidth: 60; color: modelData.cpu > 50 ? root.criticalColor : "#2ecc71"; font.bold: true; font.family: "Monospace" }
+                                                Text { text: modelData.cpu.toFixed(1); Layout.preferredWidth: 60; color: modelData.cpu > 50 ? root.criticalColor : root.successColor; font.bold: true; font.family: "Monospace" }
                                                 Text { text: modelData.mem.toFixed(1); Layout.preferredWidth: 60; color: root.highlightColor; font.family: "Monospace" }
-                                                Text { text: modelData.state; Layout.preferredWidth: 50; color: modelData.state === "R" ? "#2ecc71" : "#7f8c8d"; font.bold: true }
+                                                Text { text: modelData.state; Layout.preferredWidth: 50; color: modelData.state === "R" ? root.successColor : root.mutedTextColor; font.bold: true }
                                                 Text { text: modelData.command; Layout.fillWidth: true; color: root.textColor; elide: Text.ElideRight; font.family: "Monospace"; font.pixelSize: 11 }
                                             }
                                             
@@ -495,7 +527,7 @@ Window {
                     anchors.margins: 25; spacing: 15
                     RowLayout {
                         Layout.fillWidth: true
-                        Text { text: "Central de Atualizações"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                        Text { text: qsTr("Central de Atualizações"); color: root.textColor; font.pixelSize: 24; font.bold: true }
                         Rectangle {
                             visible: updateViewModel.totalUpdates > 0
                             Layout.preferredHeight: 22
@@ -506,14 +538,14 @@ Window {
                                 id: countText
                                 anchors.centerIn: parent
                                 text: updateViewModel.totalUpdates
-                                color: "white"
+                                color: root.contrastTextColor
                                 font.bold: true
                                 font.pixelSize: 12
                             }
                         }
                         Item { Layout.fillWidth: true }
                         Button {
-                            text: "Atualizar Tudo"
+                            text: qsTr("Atualizar Tudo")
                             highlighted: true
                             onClicked: {
                                 installationViewModel.startUpgradeAll()
@@ -553,7 +585,7 @@ Window {
                                         visible: isCritical
                                     }
                                     Text { text: name; color: root.textColor; font.bold: true; Layout.fillWidth: true }
-                                    Text { text: source; color: "#7f8c8d"; font.pixelSize: 10; Layout.preferredWidth: 60 }
+                                    Text { text: source; color: root.mutedTextColor; font.pixelSize: 10; Layout.preferredWidth: 60 }
                                     Text {
                                         text: (currentVersion && currentVersion.length > 0)
                                               ? (currentVersion + " → " + newVersion)
@@ -580,42 +612,42 @@ Window {
                     function priorityColor(p) {
                     // 0-2 emerg/alert/crit, 3 err, 4 warn, 5 notice, 6 info, 7 debug
                     if (p <= 2) return root.criticalColor
-                    if (p === 3) return "#e74c3c"
-                    if (p === 4) return "#f39c12"
+                    if (p === 3) return root.errorColor
+                    if (p === 4) return root.warningColor
                     if (p === 5) return root.highlightColor
                     return root.textColor
                 }
                 function priorityLabel(p) {
-                    if (p === 0) return "EMERG"
-                    if (p === 1) return "ALERT"
-                    if (p === 2) return "CRIT"
-                    if (p === 3) return "ERR"
-                    if (p === 4) return "WARN"
-                    if (p === 5) return "NOTICE"
-                    if (p === 6) return "INFO"
-                    return "DEBUG"
+                    if (p === 0) return qsTr("EMERG")
+                    if (p === 1) return qsTr("ALERT")
+                    if (p === 2) return qsTr("CRIT")
+                    if (p === 3) return qsTr("ERR")
+                    if (p === 4) return qsTr("WARN")
+                    if (p === 5) return qsTr("NOTICE")
+                    if (p === 6) return qsTr("INFO")
+                    return qsTr("DEBUG")
                 }
                 RowLayout {
-                    Text { text: "Analisador de Journal"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                    Text { text: qsTr("Analisador de Journal"); color: root.textColor; font.pixelSize: 24; font.bold: true }
                     Item { Layout.fillWidth: true }
                     BusyIndicator { running: diagnosticViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
                     Button { text: "🔄"; onClicked: diagnosticViewModel.refresh(); enabled: !diagnosticViewModel.isBusy }
                 }
                 RowLayout {
                     Layout.fillWidth: true; spacing: 10
-                    Text { text: "Filtro:"; color: root.textColor }
+                    Text { text: qsTr("Filtro:"); color: root.textColor }
                     ComboBox {
                         id: filterCombo
                         Layout.preferredWidth: 200
-                        model: ["Erros críticos", "Hardware/Firmware", "Boot", "Desktop (KDE/Wayland)", "Segurança/Rede", "Todos"]
+                        model: [qsTr("Erros críticos"), qsTr("Hardware/Firmware"), qsTr("Boot"), qsTr("Desktop (KDE/Wayland)"), qsTr("Segurança/Rede"), qsTr("Todos")]
                         currentIndex: diagnosticViewModel.currentFilter
                         onActivated: diagnosticViewModel.currentFilter = currentIndex
                     }
-                    Text { text: "Buscar:"; color: root.textColor }
+                    Text { text: qsTr("Buscar:"); color: root.textColor }
                     TextField {
                         id: journalSearchField
                         Layout.fillWidth: true
-                        placeholderText: "termo (journalctl -g)…"
+                        placeholderText: qsTr("termo (journalctl -g)…")
                         text: diagnosticViewModel.searchQuery
                         onAccepted: {
                             diagnosticViewModel.searchQuery = text
@@ -623,13 +655,13 @@ Window {
                         }
                     }
                     Button {
-                        text: "Buscar"
+                        text: qsTr("Buscar")
                         onClicked: {
                             diagnosticViewModel.searchQuery = journalSearchField.text
                             diagnosticViewModel.performSearch()
                         }
                     }
-                    Text { text: "Limite:"; color: root.textColor }
+                    Text { text: qsTr("Limite:"); color: root.textColor }
                     SpinBox {
                         from: 50; to: 2000; stepSize: 50
                         value: diagnosticViewModel.logLimit
@@ -652,7 +684,7 @@ Window {
                                     spacing: 8
                                     Text {
                                         text: timestamp
-                                        color: "#7f8c8d"
+                                        color: root.mutedTextColor
                                         font.pixelSize: 10
                                         font.family: "monospace"
                                         Layout.preferredWidth: 110
@@ -693,9 +725,9 @@ Window {
                     width: parent.width
                     anchors.margins: 25; spacing: 15
                     RowLayout {
-                        Text { text: "Serviços Systemd"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                        Text { text: qsTr("Serviços Systemd"); color: root.textColor; font.pixelSize: 24; font.bold: true }
                         Item { Layout.fillWidth: true }
-                        Button { text: "🆕 Criar Daemon"; highlighted: true; onClicked: daemonDialog.open() }
+                        Button { text: qsTr("🆕 Criar Daemon"); highlighted: true; onClicked: daemonDialog.open() }
                         Button { text: "🔄"; onClicked: serviceViewModel.refresh() }
                     }
                     Rectangle {
@@ -712,10 +744,10 @@ Window {
                                 onDoubleClicked: (modelData.activeState === "active") ? serviceViewModel.pauseService(modelData.name) : serviceViewModel.startService(modelData.name)
                                 contentItem: RowLayout {
                                     spacing: 15
-                                    Rectangle { width: 10; height: 10; radius: 5; color: modelData.activeState === "active" ? "#2ecc71" : "#95a5a6" }
+                                    Rectangle { width: 10; height: 10; radius: 5; color: modelData.activeState === "active" ? root.successColor : root.inactiveColor }
                                     ColumnLayout { spacing: 2; Layout.fillWidth: true
                                         Text { text: modelData.name; color: root.textColor; font.bold: true; elide: Text.ElideRight; Layout.fillWidth: true }
-                                        Text { text: modelData.description; color: "#7f8c8d"; font.pixelSize: 10; elide: Text.ElideRight; Layout.fillWidth: true }
+                                        Text { text: modelData.description; color: root.mutedTextColor; font.pixelSize: 10; elide: Text.ElideRight; Layout.fillWidth: true }
                                     }
                                     RowLayout {
                                         Button { text: "▶️"; flat: true; visible: modelData.activeState !== "active"; onClicked: serviceViewModel.startService(modelData.name) }
@@ -740,7 +772,7 @@ Window {
                     anchors.margins: 25; spacing: 15
 
                     RowLayout {
-                        Text { text: "Rede"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                        Text { text: qsTr("Rede"); color: root.textColor; font.pixelSize: 24; font.bold: true }
                         Item { Layout.fillWidth: true }
                         Button { text: "🔄"; onClicked: networkViewModel.refresh() }
                     }
@@ -748,11 +780,11 @@ Window {
                     GridLayout {
                         columns: root.width > 800 ? 3 : 2
                         Layout.fillWidth: true; rowSpacing: 15; columnSpacing: 15
-                        DashboardCard { title: "STATUS"; value: networkViewModel.status }
-                        DashboardCard { title: "LATÊNCIA"; value: networkViewModel.latency.toFixed(0) + " ms" }
-                        DashboardCard { title: "INTERFACE"; value: networkViewModel.activeInterface || "—" }
-                        DashboardCard { title: "RX"; value: networkViewModel.totalRx.toFixed(2) + " Mbps" }
-                        DashboardCard { title: "TX"; value: networkViewModel.totalTx.toFixed(2) + " Mbps" }
+                        DashboardCard { title: qsTr("STATUS"); value: networkViewModel.status }
+                        DashboardCard { title: qsTr("LATÊNCIA"); value: networkViewModel.latency.toFixed(0) + " ms" }
+                        DashboardCard { title: qsTr("INTERFACE"); value: networkViewModel.activeInterface || "—" }
+                        DashboardCard { title: qsTr("RX"); value: networkViewModel.totalRx.toFixed(2) + " Mbps" }
+                        DashboardCard { title: qsTr("TX"); value: networkViewModel.totalTx.toFixed(2) + " Mbps" }
                     }
 
                     Item { Layout.fillHeight: true }
@@ -769,7 +801,7 @@ Window {
                     anchors.margins: 25; spacing: 15
                     RowLayout {
                         Layout.fillWidth: true
-                        Text { text: "Hardware"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                        Text { text: qsTr("Hardware"); color: root.textColor; font.pixelSize: 24; font.bold: true }
                         Item { Layout.fillWidth: true }
                         BusyIndicator { running: firmwareViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
                         Button {
@@ -782,7 +814,7 @@ Window {
                     ColumnLayout {
                         Layout.fillWidth: true; spacing: 20
 
-                        Text { text: "🖥️ SISTEMA (SMBIOS)"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                        Text { text: qsTr("🖥️ SISTEMA (SMBIOS)"); color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
                         Rectangle {
                             Layout.fillWidth: true; Layout.preferredHeight: smbiosGrid.implicitHeight + 20
                             color: root.cardColor; radius: 8; border.color: root.borderColor
@@ -790,22 +822,22 @@ Window {
                                 id: smbiosGrid
                                 anchors.fill: parent; anchors.margins: 12
                                 columns: 2; columnSpacing: 12; rowSpacing: 6
-                                Text { text: "Fabricante:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                Text { text: qsTr("Fabricante:"); color: root.mutedTextColor; font.pixelSize: 11 }
                                 Text { text: hardwareViewModel.smbios.vendor || "—"; color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
-                                Text { text: "Modelo:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                Text { text: qsTr("Modelo:"); color: root.mutedTextColor; font.pixelSize: 11 }
                                 Text { text: hardwareViewModel.smbios.model || "—"; color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
-                                Text { text: "Versão:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                Text { text: qsTr("Versão:"); color: root.mutedTextColor; font.pixelSize: 11 }
                                 Text { text: hardwareViewModel.smbios.version || "—"; color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
-                                Text { text: "Serial:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                Text { text: qsTr("Serial:"); color: root.mutedTextColor; font.pixelSize: 11 }
                                 Text { text: hardwareViewModel.smbios.serial || "—"; color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight; font.family: "Monospace" }
-                                Text { text: "SKU:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                Text { text: qsTr("SKU:"); color: root.mutedTextColor; font.pixelSize: 11 }
                                 Text { text: hardwareViewModel.smbios.sku || "—"; color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
-                                Text { text: "Placa-mãe:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                Text { text: qsTr("Placa-mãe:"); color: root.mutedTextColor; font.pixelSize: 11 }
                                 Text { text: (hardwareViewModel.smbios.boardVendor || "") + " " + (hardwareViewModel.smbios.boardName || ""); color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
                             }
                         }
 
-                        Text { text: "🔌 USB"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                        Text { text: qsTr("🔌 USB"); color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
                         Rectangle {
                             Layout.fillWidth: true; Layout.preferredHeight: 180
                             color: root.cardColor; radius: 8; border.color: root.borderColor
@@ -816,14 +848,14 @@ Window {
                                 ScrollBar.vertical: ScrollBar {}
                                 delegate: RowLayout {
                                     width: usbList.width; height: 28; spacing: 12
-                                    Text { text: (modelData.vendorId || "") + ":" + (modelData.productId || ""); color: "#7f8c8d"; font.family: "Monospace"; font.pixelSize: 11; Layout.preferredWidth: 110 }
-                                    Text { text: modelData.name || "(sem nome)"; color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
-                                    Text { text: "bus " + (modelData.bus || "—"); color: "#7f8c8d"; font.pixelSize: 11 }
+                                    Text { text: (modelData.vendorId || "") + ":" + (modelData.productId || ""); color: root.mutedTextColor; font.family: "Monospace"; font.pixelSize: 11; Layout.preferredWidth: 110 }
+                                    Text { text: modelData.name || qsTr("(sem nome)"); color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
+                                    Text { text: qsTr("bus %1").arg(modelData.bus || "—"); color: root.mutedTextColor; font.pixelSize: 11 }
                                 }
                             }
                         }
 
-                        Text { text: "📡 BLUETOOTH"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                        Text { text: qsTr("📡 BLUETOOTH"); color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
                         Rectangle {
                             Layout.fillWidth: true; Layout.preferredHeight: 140
                             color: root.cardColor; radius: 8; border.color: root.borderColor
@@ -834,14 +866,14 @@ Window {
                                 ScrollBar.vertical: ScrollBar {}
                                 delegate: RowLayout {
                                     width: btList.width; height: 28; spacing: 12
-                                    Rectangle { width: 8; height: 8; radius: 4; color: modelData.paired ? "#2ecc71" : "#95a5a6" }
-                                    Text { text: modelData.name || "(sem nome)"; color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
-                                    Text { text: modelData.address || ""; color: "#7f8c8d"; font.family: "Monospace"; font.pixelSize: 11 }
+                                    Rectangle { width: 8; height: 8; radius: 4; color: modelData.paired ? root.successColor : root.inactiveColor }
+                                    Text { text: modelData.name || qsTr("(sem nome)"); color: root.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
+                                    Text { text: modelData.address || ""; color: root.mutedTextColor; font.family: "Monospace"; font.pixelSize: 11 }
                                 }
                             }
                         }
 
-                        Text { text: "🎮 GPU"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                        Text { text: qsTr("🎮 GPU"); color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
                         Rectangle {
                             Layout.fillWidth: true; Layout.preferredHeight: 160
                             color: root.cardColor; radius: 8; border.color: root.borderColor
@@ -855,13 +887,13 @@ Window {
                                     RowLayout {
                                         Layout.fillWidth: true; spacing: 10
                                         Text { text: (modelData.vendor || "—") + " · " + (modelData.modelName || "—"); color: root.textColor; font.bold: true; Layout.fillWidth: true; elide: Text.ElideRight }
-                                        Text { text: (modelData.temp > 0 ? modelData.temp.toFixed(0) + " °C" : "—"); color: "#7f8c8d"; font.family: "Monospace"; font.pixelSize: 11 }
+                                        Text { text: (modelData.temp > 0 ? modelData.temp.toFixed(0) + " °C" : "—"); color: root.mutedTextColor; font.family: "Monospace"; font.pixelSize: 11 }
                                     }
                                     RowLayout {
                                         Layout.fillWidth: true; spacing: 10
-                                        Text { text: "Carga:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                        Text { text: qsTr("Carga:"); color: root.mutedTextColor; font.pixelSize: 11 }
                                         Text { text: modelData.load.toFixed(0) + " %"; color: root.textColor; font.pixelSize: 11; Layout.preferredWidth: 60 }
-                                        Text { text: "VRAM:"; color: "#7f8c8d"; font.pixelSize: 11 }
+                                        Text { text: qsTr("VRAM:"); color: root.mutedTextColor; font.pixelSize: 11 }
                                         Text {
                                             text: (modelData.vramTotal > 0)
                                                 ? (modelData.vramUsed.toFixed(0) + " / " + modelData.vramTotal.toFixed(0) + " MiB (" + modelData.vramPercent.toFixed(0) + " %)")
@@ -874,7 +906,7 @@ Window {
                             }
                         }
 
-                        Text { text: "🔧 FIRMWARE (fwupd)"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                        Text { text: qsTr("🔧 FIRMWARE (fwupd)"); color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
                         Rectangle {
                             Layout.fillWidth: true; Layout.preferredHeight: 140
                             color: root.cardColor; radius: 8; border.color: root.borderColor
@@ -904,13 +936,13 @@ Window {
                     anchors.margins: 25; spacing: 15
                     RowLayout {
                         Layout.fillWidth: true
-                        Text { text: "Desenvolvimento & Containers"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                        Text { text: qsTr("Desenvolvimento & Containers"); color: root.textColor; font.pixelSize: 24; font.bold: true }
                         Item { Layout.fillWidth: true }
                         BusyIndicator { running: devStackViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
                         Button { text: "🔄"; onClicked: devStackViewModel.refresh(); enabled: !devStackViewModel.isBusy }
                     }
 
-                    Text { text: "🛠️ COMPILADORES & RUNTIMES"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                    Text { text: qsTr("🛠️ COMPILADORES & RUNTIMES"); color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
                     Rectangle {
                         Layout.fillWidth: true
                         Layout.preferredHeight: Math.max(200, toolchainList.contentHeight + 20)
@@ -923,12 +955,12 @@ Window {
                             delegate: RowLayout {
                                 width: ListView.view.width; height: 30
                                 Text { text: modelData.name; font.bold: true; color: root.textColor; Layout.preferredWidth: 100 }
-                                Text { text: modelData.version; color: "#7f8c8d"; Layout.fillWidth: true; elide: Text.ElideRight; font.family: "Monospace"; font.pixelSize: 11 }
+                                Text { text: modelData.version; color: root.mutedTextColor; Layout.fillWidth: true; elide: Text.ElideRight; font.family: "Monospace"; font.pixelSize: 11 }
                             }
                         }
                     }
 
-                    Text { text: "🐳 CONTAINERS (PODMAN/DOCKER)"; color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
+                    Text { text: qsTr("🐳 CONTAINERS (PODMAN/DOCKER)"); color: root.highlightColor; font.bold: true; font.pixelSize: 12 }
                     Rectangle {
                         Layout.fillWidth: true
                         Layout.preferredHeight: Math.max(300, containerList.contentHeight + 20)
@@ -942,17 +974,17 @@ Window {
                                 width: ListView.view.width; height: 50
                                 contentItem: RowLayout {
                                     spacing: 15
-                                    Rectangle { width: 8; height: 8; radius: 4; color: modelData.status.includes("Up") ? "#2ecc71" : "#95a5a6" }
+                                    Rectangle { width: 8; height: 8; radius: 4; color: modelData.status.includes("Up") ? root.successColor : root.inactiveColor }
                                     ColumnLayout {
                                         spacing: 2
                                         Text { text: modelData.name; color: root.textColor; font.bold: true }
-                                        Text { text: modelData.runtime + " • " + modelData.image; color: "#7f8c8d"; font.pixelSize: 10 }
+                                        Text { text: modelData.runtime + " • " + modelData.image; color: root.mutedTextColor; font.pixelSize: 10 }
                                     }
                                     Item { Layout.fillWidth: true }
                                     Text { text: modelData.status; color: root.textColor; font.pixelSize: 11 }
                                 }
                             }
-                            Text { anchors.centerIn: parent; text: "Nenhum container detectado."; color: "#7f8c8d"; visible: parent.count === 0 }
+                            Text { anchors.centerIn: parent; text: qsTr("Nenhum container detectado."); color: root.mutedTextColor; visible: parent.count === 0 }
                         }
                     }
                 }
@@ -966,7 +998,7 @@ Window {
                 ColumnLayout {
                     width: parent.width
                     anchors.margins: 25; spacing: 15
-                    Text { text: "Segurança"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                    Text { text: qsTr("Segurança"); color: root.textColor; font.pixelSize: 24; font.bold: true }
                     Rectangle {
                         Layout.fillWidth: true
                         Layout.preferredHeight: Math.max(600, loginHistoryList.contentHeight + 20)
@@ -990,20 +1022,20 @@ Window {
                 ColumnLayout {
                     width: parent.width
                     anchors.margins: 25; spacing: 20
-                    Text { text: "Centro de Exportação"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                    Text { text: qsTr("Centro de Exportação"); color: root.textColor; font.pixelSize: 24; font.bold: true }
 
                     Rectangle {
                         Layout.fillWidth: true; Layout.preferredHeight: 300; color: root.cardColor; radius: 8; border.color: root.borderColor
                         ColumnLayout {
                             anchors.centerIn: parent; width: parent.width * 0.8; spacing: 15
 
-                            Text { text: "Gerar Relatório Completo do Sistema"; color: root.highlightColor; font.bold: true }
+                            Text { text: qsTr("Gerar Relatório Completo do Sistema"); color: root.highlightColor; font.bold: true }
 
                             RowLayout {
                                 spacing: 10
                                 TextField {
                                     id: fileNameField
-                                    placeholderText: "Nome do arquivo (ex: relatorio_hoje)"
+                                    placeholderText: qsTr("Nome do arquivo (ex: relatorio_hoje)")
                                     Layout.fillWidth: true
                                     text: "my_comp_report_" + Qt.formatDateTime(new Date(), "yyyyMMdd")
                                 }
@@ -1018,13 +1050,13 @@ Window {
                                 spacing: 10
                                 TextField {
                                     id: exportPathField
-                                    placeholderText: "Pasta de destino..."
+                                    placeholderText: qsTr("Pasta de destino...")
                                     Layout.fillWidth: true
                                     readOnly: true
                                     text: exportViewModel.defaultExportPath
                                 }
                                 Button {
-                                    text: "Escolher Pasta"
+                                    text: qsTr("Escolher Pasta")
                                     onClicked: exportFolderDialog.open()
                                 }
                             }
@@ -1032,7 +1064,7 @@ Window {
                             Item { Layout.preferredHeight: 20 }
 
                             Button {
-                                text: "🚀 Gerar Relatório Agora"
+                                text: qsTr("🚀 Gerar Relatório Agora")
                                 Layout.alignment: Qt.AlignHCenter
                                 highlighted: true
                                 enabled: !exportViewModel.isBusy && exportPathField.text !== ""
@@ -1046,7 +1078,7 @@ Window {
                             Text {
                                 id: statusMsg
                                 text: ""
-                                color: "#2ecc71"
+                                color: root.successColor
                                 Layout.alignment: Qt.AlignHCenter
                                 font.pixelSize: 12
                             }
@@ -1062,7 +1094,7 @@ Window {
                         target: exportViewModel
                         function onExportFinished(success, message) {
                             statusMsg.text = message
-                            statusMsg.color = success ? "#2ecc71" : root.criticalColor
+                            statusMsg.color = success ? root.successColor : root.criticalColor
                         }
                     }
                 }
@@ -1078,7 +1110,7 @@ Window {
                     anchors.margins: 25; spacing: 15
 
                     RowLayout {
-                        Text { text: "Storage"; color: root.textColor; font.pixelSize: 24; font.bold: true }
+                        Text { text: qsTr("Storage"); color: root.textColor; font.pixelSize: 24; font.bold: true }
                         Item { Layout.fillWidth: true }
                         Button { text: "🔄"; onClicked: storageViewModel.refreshInventory() }
                     }
@@ -1111,16 +1143,16 @@ Window {
                                         }
                                         readonly property string label: {
                                             switch (severity) {
-                                                case "ok":      return "✓ Saudável";
-                                                case "warn":    return "⚠ Atenção";
-                                                case "risk":    return "✗ Risco";
-                                                default:        return "SMART N/A";
+                                                case "ok":      return qsTr("✓ Saudável");
+                                                case "warn":    return qsTr("⚠ Atenção");
+                                                case "risk":    return qsTr("✗ Risco");
+                                                default:        return qsTr("SMART N/A");
                                             }
                                         }
                                         readonly property color fg: {
                                             switch (severity) {
-                                                case "ok":      return "#2ecc71";
-                                                case "warn":    return "#f39c12";
+                                                case "ok":      return root.successColor;
+                                                case "warn":    return root.warningColor;
                                                 case "risk":    return root.criticalColor;
                                                 default:        return root.textColor;
                                             }
@@ -1142,12 +1174,13 @@ Window {
                                         ToolTip.text: {
                                             if (!smartBadge.smart || !smartBadge.smart.available) {
                                                 return smartBadge.smart && smartBadge.smart.errorMessage
-                                                    ? "SMART indisponível: " + smartBadge.smart.errorMessage
-                                                    : "SMART indisponível (smartctl ausente ou sem permissão)";
+                                                    ? qsTr("SMART indisponível: %1").arg(smartBadge.smart.errorMessage)
+                                                    : qsTr("SMART indisponível (smartctl ausente ou sem permissão)");
                                             }
-                                            return "Temp: " + smartBadge.smart.tempC + "°C · "
-                                                 + "Power-On: " + smartBadge.smart.powerOnHours + "h · "
-                                                 + "Desgaste: " + smartBadge.smart.wearPct + "%";
+                                            return qsTr("Temp: %1°C · Power-On: %2h · Desgaste: %3%")
+                                                 .arg(smartBadge.smart.tempC)
+                                                 .arg(smartBadge.smart.powerOnHours)
+                                                 .arg(smartBadge.smart.wearPct);
                                         }
                                         MouseArea { id: smartMouse; anchors.fill: parent; hoverEnabled: true }
                                     }
@@ -1165,7 +1198,7 @@ Window {
                                 Text {
                                     visible: modelData.smart && modelData.smart.available
                                     text: modelData.smart
-                                        ? "🌡 " + modelData.smart.tempC + "°C  ·  ⏱ " + modelData.smart.powerOnHours + "h  ·  📉 desgaste " + modelData.smart.wearPct + "%"
+                                        ? qsTr("🌡 %1°C  ·  ⏱ %2h  ·  📉 desgaste %3%").arg(modelData.smart.tempC).arg(modelData.smart.powerOnHours).arg(modelData.smart.wearPct)
                                         : ""
                                     color: root.textColor; opacity: 0.65; font.pixelSize: 10
                                 }
@@ -1178,7 +1211,7 @@ Window {
                                         RowLayout {
                                             Layout.fillWidth: true
                                             Text {
-                                                text: modelData.name + (modelData.mount.length > 0 ? "  @  " + modelData.mount : "  (não montado)")
+                                                text: modelData.mount.length > 0 ? modelData.name + "  @  " + modelData.mount : qsTr("%1  (não montado)").arg(modelData.name)
                                                 color: root.textColor; font.pixelSize: 12; font.bold: true
                                             }
                                             Item { Layout.fillWidth: true }
@@ -1192,15 +1225,15 @@ Window {
                                             ProgressBar {
                                                 Layout.fillWidth: true
                                                 from: 0; to: 100; value: modelData.usedPercent
-                                                background: Rectangle { color: root.isDark ? "#2a2e32" : "#e0e0e0"; radius: 4; implicitHeight: 8 }
+                                                background: Rectangle { color: root.progressTrackColor; radius: 4; implicitHeight: 8 }
                                                 contentItem: Item {
                                                     Rectangle {
                                                         width: parent.width * (modelData.usedPercent / 100.0)
                                                         height: parent.height
                                                         radius: 4
                                                         color: modelData.usedPercent >= 90 ? root.criticalColor
-                                                             : modelData.usedPercent >= 70 ? "#f39c12"
-                                                             : "#2ecc71"
+                                                             : modelData.usedPercent >= 70 ? root.warningColor
+                                                             : root.successColor
                                                     }
                                                 }
                                             }
@@ -1217,7 +1250,7 @@ Window {
                                 RowLayout {
                                     Layout.fillWidth: true; Layout.topMargin: 8
                                     Button {
-                                        text: storageViewModel.isBenchmarking ? "⏳ Executando…" : "⚡ Benchmark (hdparm)"
+                                        text: storageViewModel.isBenchmarking ? qsTr("⏳ Executando…") : qsTr("⚡ Benchmark (hdparm)")
                                         enabled: !storageViewModel.isBenchmarking
                                         onClicked: benchmarkConfirmDialog.open()
 
@@ -1225,10 +1258,10 @@ Window {
                                             id: benchmarkConfirmDialog
                                             modal: true
                                             anchors.centerIn: parent
-                                            title: "Executar benchmark em /dev/" + modelData.name + "?"
+                                            title: qsTr("Executar benchmark em /dev/%1?").arg(modelData.name)
                                             standardButtons: Dialog.Ok | Dialog.Cancel
                                             Text {
-                                                text: "hdparm -tT roda leitura apenas, mas toca o cache do sistema.\nRequer root/pkexec para acesso ao device bruto."
+                                                text: qsTr("hdparm -tT roda leitura apenas, mas toca o cache do sistema.\nRequer root/pkexec para acesso ao device bruto.")
                                                 color: root.textColor
                                                 wrapMode: Text.WordWrap
                                                 width: 360
@@ -1240,8 +1273,9 @@ Window {
                                         visible: storageViewModel.lastBenchmark.device === modelData.name
                                               && storageViewModel.lastBenchmark.success === true
                                         text: storageViewModel.lastBenchmark.device === modelData.name
-                                            ? "Seq: " + (storageViewModel.lastBenchmark.seqReadMbS || 0).toFixed(1) + " MB/s · "
-                                            + "Cache: " + (storageViewModel.lastBenchmark.cachedMbS || 0).toFixed(1) + " MB/s"
+                                            ? qsTr("Seq: %1 MB/s · Cache: %2 MB/s")
+                                                .arg((storageViewModel.lastBenchmark.seqReadMbS || 0).toFixed(1))
+                                                .arg((storageViewModel.lastBenchmark.cachedMbS || 0).toFixed(1))
                                             : ""
                                         color: root.highlightColor; font.pixelSize: 11
                                     }
@@ -1268,9 +1302,9 @@ Window {
                             id: scannerColumn
                             anchors.fill: parent; anchors.margins: 15; spacing: 10
 
-                            Text { text: "🔎 Scanner de Diretório"; color: root.highlightColor; font.pixelSize: 15; font.bold: true }
+                            Text { text: qsTr("🔎 Scanner de Diretório"); color: root.highlightColor; font.pixelSize: 15; font.bold: true }
                             Text {
-                                text: "Varre recursivamente uma pasta e lista os 20 subdiretórios mais pesados. Pseudo-filesystems (/proc, /sys, /run, /dev) e symlinks são ignorados."
+                                text: qsTr("Varre recursivamente uma pasta e lista os 20 subdiretórios mais pesados. Pseudo-filesystems (/proc, /sys, /run, /dev) e symlinks são ignorados.")
                                 color: root.textColor; opacity: 0.7; font.pixelSize: 10; wrapMode: Text.WordWrap
                                 Layout.fillWidth: true
                             }
@@ -1283,7 +1317,7 @@ Window {
                                     text: "/home"
                                 }
                                 Button {
-                                    text: directoryScannerViewModel.isScanning ? "Cancelar" : "Varrer"
+                                    text: directoryScannerViewModel.isScanning ? qsTr("Cancelar") : qsTr("Varrer")
                                     onClicked: {
                                         if (directoryScannerViewModel.isScanning) {
                                             directoryScannerViewModel.cancel();
@@ -1298,8 +1332,9 @@ Window {
                                 Layout.fillWidth: true
                                 BusyIndicator { running: true; implicitWidth: 20; implicitHeight: 20 }
                                 Text {
-                                    text: directoryScannerViewModel.filesScanned + " arquivos · "
-                                        + root.formatBytes(directoryScannerViewModel.bytesScanned)
+                                    text: qsTr("%1 arquivos · %2")
+                                        .arg(directoryScannerViewModel.filesScanned)
+                                        .arg(root.formatBytes(directoryScannerViewModel.bytesScanned))
                                     color: root.textColor; font.pixelSize: 11
                                 }
                                 Text {
@@ -1328,7 +1363,7 @@ Window {
                                         from: 0
                                         to: directoryScannerViewModel.totalSize > 0 ? directoryScannerViewModel.totalSize : 1
                                         value: modelData.sizeBytes
-                                        background: Rectangle { color: root.isDark ? "#2a2e32" : "#e0e0e0"; radius: 3; implicitHeight: 6 }
+                                        background: Rectangle { color: root.progressTrackColor; radius: 3; implicitHeight: 6 }
                                         contentItem: Item {
                                             Rectangle {
                                                 width: parent.width * (directoryScannerViewModel.totalSize > 0 ? (modelData.sizeBytes / directoryScannerViewModel.totalSize) : 0)
@@ -1343,7 +1378,7 @@ Window {
                                         Layout.preferredWidth: 90; horizontalAlignment: Text.AlignRight
                                     }
                                     Text {
-                                        text: modelData.fileCount + " arq · " + modelData.dirCount + " dir"
+                                        text: qsTr("%1 arq · %2 dir").arg(modelData.fileCount).arg(modelData.dirCount)
                                         color: root.textColor; opacity: 0.6; font.pixelSize: 10
                                         Layout.preferredWidth: 120
                                     }
@@ -1370,14 +1405,14 @@ Window {
                         Layout.fillWidth: true
                         spacing: 10
                         Text {
-                            text: "🎮 Auditoria de uso de VRAM"
+                            text: qsTr("🎮 Auditoria de uso de VRAM")
                             color: root.textColor
                             font.pixelSize: 22
                             font.bold: true
                             Layout.fillWidth: true
                         }
                         Button {
-                            text: vramAuditViewModel.isBusy ? "⏳ Auditando..." : "🔄 Atualizar"
+                            text: vramAuditViewModel.isBusy ? qsTr("⏳ Auditando...") : qsTr("🔄 Atualizar")
                             enabled: !vramAuditViewModel.isBusy
                             onClicked: vramAuditViewModel.refresh()
                         }
@@ -1385,8 +1420,8 @@ Window {
 
                     Text {
                         text: vramAuditViewModel.grupos.length === 0
-                              ? "Nenhuma GPU detectada ou auditoria ainda não executada. Clique em \"Atualizar\"."
-                              : "Cada processo é classificado pela cascata Catálogo → Categoria desktop → Comportamento. Verde = candidato a desligar GPU; Amarelo = inconclusivo; Vermelho = precisa GPU."
+                              ? qsTr("Nenhuma GPU detectada ou auditoria ainda não executada. Clique em \"Atualizar\".")
+                              : qsTr("Cada processo é classificado pela cascata Catálogo → Categoria desktop → Comportamento. Verde = candidato a desligar GPU; Amarelo = inconclusivo; Vermelho = precisa GPU.")
                         color: root.textColor
                         opacity: 0.85
                         wrapMode: Text.WordWrap
@@ -1412,8 +1447,8 @@ Window {
                                     anchors.margins: 9
                                     spacing: 12
                                     Text {
-                                        text: "GPU " + modelData.gpuId + " — " + modelData.gpuFabricante
-                                              + " · " + modelData.gpuModelo
+                                        text: qsTr("GPU %1 — %2 · %3")
+                                              .arg(modelData.gpuId).arg(modelData.gpuFabricante).arg(modelData.gpuModelo)
                                         color: root.textColor
                                         font.bold: true
                                         font.pixelSize: 14
@@ -1421,8 +1456,8 @@ Window {
                                     }
                                     Text {
                                         text: modelData.gpuVramTotalMb > 0
-                                              ? "VRAM total: " + modelData.gpuVramTotalMb.toFixed(0) + " MiB"
-                                              : "VRAM total: —"
+                                              ? qsTr("VRAM total: %1 MiB").arg(modelData.gpuVramTotalMb.toFixed(0))
+                                              : qsTr("VRAM total: —")
                                         color: root.highlightColor
                                         font.pixelSize: 12
                                         font.family: "monospace"
@@ -1450,18 +1485,18 @@ Window {
                                             spacing: 10
                                             Rectangle {
                                                 width: 10; height: 10; radius: 5
-                                                color: modelData.categoria === "PrecisaGpu" ? "#e74c3c"
-                                                     : modelData.categoria === "CandidatoObvioCpu" ? "#27ae60"
-                                                     : "#f39c12"
+                                                color: modelData.categoria === "PrecisaGpu" ? root.errorColor
+                                                     : modelData.categoria === "CandidatoObvioCpu" ? root.successStrongColor
+                                                     : root.warningColor
                                             }
                                             Text {
-                                                text: modelData.nome + " (PID " + modelData.pid + ")"
+                                                text: qsTr("%1 (PID %2)").arg(modelData.nome).arg(modelData.pid)
                                                 color: root.textColor
                                                 font.bold: true
                                                 Layout.fillWidth: true
                                             }
                                             Text {
-                                                text: "VRAM: " + modelData.vramMb.toFixed(0) + " MiB"
+                                                text: qsTr("VRAM: %1 MiB").arg(modelData.vramMb.toFixed(0))
                                                 color: root.highlightColor
                                                 font.family: "monospace"
                                                 font.pixelSize: 11
@@ -1469,8 +1504,7 @@ Window {
                                         }
 
                                         Text {
-                                            text: "Categoria: " + modelData.categoria
-                                                  + "  ·  Regra: " + modelData.regra
+                                            text: qsTr("Categoria: %1  ·  Regra: %2").arg(modelData.categoria).arg(modelData.regra)
                                                   + (modelData.detalhe.length > 0 ? "  ·  " + modelData.detalhe : "")
                                             color: root.textColor
                                             opacity: 0.75
@@ -1495,7 +1529,7 @@ Window {
                                                 Layout.fillWidth: true
                                                 Layout.leftMargin: 18
                                                 Layout.topMargin: 4
-                                                color: root.isDark ? "#2b3036" : "#f0f2f5"
+                                                color: root.insetBg
                                                 radius: 4
                                                 implicitHeight: origCol.implicitHeight + 8
 
@@ -1505,10 +1539,10 @@ Window {
                                                     anchors.margins: 6
                                                     spacing: 2
                                                     Text {
-                                                        text: "[" + modelData.categoria + "] "
-                                                              + modelData.chave + " = " + modelData.valorAtual
-                                                              + "  →  sugerido: " + modelData.valorSugerido
-                                                              + "  (" + modelData.confianca + ")"
+                                                        text: qsTr("[%1] %2 = %3  →  sugerido: %4  (%5)")
+                                                              .arg(modelData.categoria).arg(modelData.chave)
+                                                              .arg(modelData.valorAtual).arg(modelData.valorSugerido)
+                                                              .arg(modelData.confianca)
                                                         color: root.textColor
                                                         font.family: "monospace"
                                                         font.pixelSize: 11
@@ -1544,7 +1578,7 @@ Window {
     component DashboardCard : Rectangle {
         property string title; property string value; signal clicked
         Layout.fillWidth: true; Layout.preferredHeight: 100; radius: 10
-        color: ma.pressed ? (root.isDark ? "#3e444a" : "#e8e8e8") : root.cardColor
+        color: ma.pressed ? root.hoverColor : root.cardColor
         border.color: root.borderColor
         scale: ma.pressed ? 0.98 : 1.0
         Behavior on scale { NumberAnimation { duration: 50 } }
@@ -1554,7 +1588,7 @@ Window {
             id: ma; anchors.fill: parent; onClicked: parent.clicked(); hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             ToolTip.visible: containsMouse
-            ToolTip.text: "Clique para detalhes de " + title
+            ToolTip.text: qsTr("Clique para detalhes de %1").arg(title)
         }
         ColumnLayout {
             anchors.centerIn: parent
@@ -1568,6 +1602,6 @@ Window {
         Layout.fillWidth: true; Layout.fillHeight: true; spacing: 10
         Text { text: icon; font.pixelSize: 48; Layout.alignment: Qt.AlignHCenter }
         Text { text: title; color: root.textColor; font.pixelSize: 20; font.bold: true; Layout.alignment: Qt.AlignHCenter }
-        Text { text: desc; color: "#7f8c8d"; Layout.alignment: Qt.AlignHCenter }
+        Text { text: desc; color: root.mutedTextColor; Layout.alignment: Qt.AlignHCenter }
     }
 }
