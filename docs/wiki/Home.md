@@ -1,4 +1,4 @@
-# my_comp — Wiki
+# my_comp: Wiki
 
 [![Versão](https://img.shields.io/github/v/tag/petrinhu/my_comp?include_prereleases&sort=semver&label=vers%C3%A3o)](https://github.com/petrinhu/my_comp/blob/main/CHANGELOG.md)
 [![Licença: AGPL-3.0](https://img.shields.io/github/license/petrinhu/my_comp?label=licen%C3%A7a)](https://github.com/petrinhu/my_comp/blob/main/LICENSE)

@@ -13,7 +13,7 @@ fluxo pós-feature na [MC-08](../../GODS_LAWS.md#mc-08).
 | `scripts/release.sh` | Orquestra: bump → atualiza `VERSION` + `CHANGELOG.md` → commit `chore(release): vX` → tag anotada. |
 | `scripts/hooks/pre-push` | Bloqueia `git push` direto (sem release). Bypass explícito: `DEPLOY_SH_RUNNING=1`. |
 | `deploy.sh` | Caminho normal de push: build → commit opcional → `release.sh` → `git push --follow-tags` para o GitHub. |
-| `scripts/ci.sh` | Pré-CI local (build, ctest, clang-tidy, cppcheck, valgrind) — rodar antes do `deploy.sh` (MC-07). |
+| `scripts/ci.sh` | Pré-CI local (build, ctest, clang-tidy, cppcheck, valgrind); rodar antes do `deploy.sh` (MC-07). |
 
 ## Regras de bump (git-cliff 2.14, conferidas empiricamente)
 
