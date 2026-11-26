@@ -53,14 +53,14 @@ QByteArray profiles_ini_default() {
 
 TEST(LocalizadorFirefoxTest, AbstemQuandoNomeNaoEhFirefox) {
     auto leitor = std::make_shared<MockLeitorArquivoConfig>();
-    LocalizadorFirefox loc{leitor};
+    LocalizadorFirefox loc{leitor, QStringLiteral("/home/teste")};
     EXPECT_TRUE(loc.localizar(proc_brave()).isEmpty());
 }
 
 TEST(LocalizadorFirefoxTest, AbstemQuandoProfilesIniAusente) {
     auto leitor = std::make_shared<MockLeitorArquivoConfig>();
     EXPECT_CALL(*leitor, ler(_)).WillOnce(Return(std::nullopt));
-    LocalizadorFirefox loc{leitor};
+    LocalizadorFirefox loc{leitor, QStringLiteral("/home/teste")};
     EXPECT_TRUE(loc.localizar(proc_firefox()).isEmpty());
 }
 
@@ -69,7 +69,7 @@ TEST(LocalizadorFirefoxTest, AbstemQuandoNenhumProfileDefault) {
     QByteArray sem_default =
         "[Profile0]\nName=p1\nIsRelative=1\nPath=p1.x\n";
     EXPECT_CALL(*leitor, ler(_)).WillOnce(Return(sem_default));
-    LocalizadorFirefox loc{leitor};
+    LocalizadorFirefox loc{leitor, QStringLiteral("/home/teste")};
     EXPECT_TRUE(loc.localizar(proc_firefox()).isEmpty());
 }
 
@@ -82,7 +82,7 @@ TEST(LocalizadorFirefoxTest, EmiteTresOrigensComPrefsAusente) {
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("prefs.js")); })))
         .WillOnce(Return(std::nullopt));
 
-    LocalizadorFirefox loc{leitor};
+    LocalizadorFirefox loc{leitor, QStringLiteral("/home/teste")};
     auto origens = loc.localizar(proc_firefox());
     ASSERT_EQ(origens.size(), 3);
     QStringList chaves;
@@ -108,7 +108,7 @@ TEST(LocalizadorFirefoxTest, NaoEmiteChaveJaCorretamenteSetadaEmUserJs) {
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("prefs.js")); })))
         .WillOnce(Return(QByteArray{}));
 
-    LocalizadorFirefox loc{leitor};
+    LocalizadorFirefox loc{leitor, QStringLiteral("/home/teste")};
     auto origens = loc.localizar(proc_firefox());
     ASSERT_EQ(origens.size(), 1);
     EXPECT_EQ(origens.first().chave, QStringLiteral("gfx.webrender.all"));
@@ -125,7 +125,7 @@ TEST(LocalizadorFirefoxTest, EmiteSugestaoComValorAtualLido) {
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("prefs.js")); })))
         .WillOnce(Return(prefs));
 
-    LocalizadorFirefox loc{leitor};
+    LocalizadorFirefox loc{leitor, QStringLiteral("/home/teste")};
     auto origens = loc.localizar(proc_firefox());
     bool achou = false;
     for (const auto& o : origens) {
@@ -146,7 +146,7 @@ TEST(LocalizadorFirefoxTest, RequerReinicioESugereTrue) {
     EXPECT_CALL(*leitor, ler(Truly([](const QString& p){ return p.contains(QStringLiteral("prefs.js")); })))
         .WillOnce(Return(std::nullopt));
 
-    LocalizadorFirefox loc{leitor};
+    LocalizadorFirefox loc{leitor, QStringLiteral("/home/teste")};
     auto origens = loc.localizar(proc_firefox());
     for (const auto& o : origens) {
         EXPECT_TRUE(o.requer_reinicio_app);
@@ -154,4 +154,13 @@ TEST(LocalizadorFirefoxTest, RequerReinicioESugereTrue) {
             EXPECT_EQ(o.valor_sugerido, QStringLiteral("true"));
         }
     }
+}
+
+// AUDIT-34 (MC-02): o home vem da composição; a camada de aplicação não consulta QDir.
+TEST(LocalizadorFirefoxTest, UsaOHomeInjetado) {
+    auto leitor = std::make_shared<MockLeitorArquivoConfig>();
+    EXPECT_CALL(*leitor, ler(QStringLiteral("/home/teste/.mozilla/firefox/profiles.ini")))
+        .WillOnce(Return(std::nullopt));
+    const LocalizadorFirefox loc{leitor, QStringLiteral("/home/teste")};
+    EXPECT_TRUE(loc.localizar(proc_firefox()).isEmpty());
 }

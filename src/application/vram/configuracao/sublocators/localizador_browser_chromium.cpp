@@ -3,7 +3,6 @@
 #include "application/vram/configuracao/sublocators/tabela_paths_browser_chromium.h"
 
 #include <QByteArray>
-#include <QDir>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
@@ -13,19 +12,15 @@ namespace my_comp::application::vram {
 
 namespace {
 
-QString homePath() {
-    return QDir::homePath();
-}
-
-QString construir_caminho_absoluto(const QString& sufixo_local_state) {
-    return QStringLiteral("%1/%2").arg(homePath(), sufixo_local_state);
+QString construir_caminho_absoluto(const QString& home, const QString& sufixo_local_state) {
+    return QStringLiteral("%1/%2").arg(home, sufixo_local_state);
 }
 
 }
 
 LocalizadorBrowserChromium::LocalizadorBrowserChromium(
-    std::shared_ptr<domain::vram::ILeitorArquivoConfig> leitor)
-    : m_leitor{std::move(leitor)} {}
+    std::shared_ptr<domain::vram::ILeitorArquivoConfig> leitor, QString home_dir)
+    : m_leitor{std::move(leitor)}, m_home_dir{std::move(home_dir)} {}
 
 QVector<domain::vram::OrigemConfig>
 LocalizadorBrowserChromium::localizar(const domain::vram::Processo& processo) const {
@@ -35,7 +30,7 @@ LocalizadorBrowserChromium::localizar(const domain::vram::Processo& processo) co
         return {};
     }
 
-    const QString caminho = construir_caminho_absoluto(it.value());
+    const QString caminho = construir_caminho_absoluto(m_home_dir, it.value());
     auto conteudo_opt = m_leitor->ler(caminho);
     if (!conteudo_opt.has_value()) {
         return {};

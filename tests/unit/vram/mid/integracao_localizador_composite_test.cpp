@@ -51,8 +51,8 @@ CenarioMontado montar() {
     auto desktop = std::make_shared<MockLeitorDesktopExec>();
 
     std::vector<std::shared_ptr<IConfigLocator>> subs = {
-        std::make_shared<LocalizadorBrowserChromium>(arquivo),
-        std::make_shared<LocalizadorFirefox>(arquivo),
+        std::make_shared<LocalizadorBrowserChromium>(arquivo, QStringLiteral("/home/teste")),
+        std::make_shared<LocalizadorFirefox>(arquivo, QStringLiteral("/home/teste")),
         std::make_shared<LocalizadorEnvVar>(env),
         std::make_shared<LocalizadorDesktopWrapper>(desktop),
     };
