@@ -65,9 +65,7 @@ git add VERSION CHANGELOG.md
 git commit -m "chore(release): v$NEXT_VERSION
 
 Bump automático via git-cliff a partir dos commits Conventional desde
-o tag anterior. CHANGELOG.md atualizado com a seção de v$NEXT_VERSION.
-
-Co-Authored-By: Claude Opus 4.7 (1M context) <noreply@anthropic.com>"
+o tag anterior. CHANGELOG.md atualizado com a seção de v$NEXT_VERSION."
 git tag -a "v$NEXT_VERSION" -m "Release v$NEXT_VERSION
 
 Veja CHANGELOG.md para detalhes da seção [$NEXT_VERSION]."
