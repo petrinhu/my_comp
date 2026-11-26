@@ -45,7 +45,8 @@ private:
     static constexpr int MAX_HISTORY_ENTRIES = 50;
     static constexpr const char* HISTORY_ARRAY_KEY = "export_history";
 
-    std::vector<std::unique_ptr<domain::interfaces::IExportProvider>> m_providers;
+    // shared_ptr: o worker segura o provider escolhido sem tocar no vetor (que pode crescer).
+    std::vector<std::shared_ptr<domain::interfaces::IExportProvider>> m_providers;
     bool m_isBusy = false;
 
     // Observação defensiva: QPointer zera automaticamente se o QObject for destruído.

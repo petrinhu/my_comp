@@ -165,15 +165,16 @@ void ExportViewModel::exportReport(int formatIndex, const QString& filePath) {
     m_isBusy = true;
     emit isBusyChanged();
 
+    // Snapshot na thread principal: os VMs são escritos aqui (QueuedConnection), então lê-los
+    // no worker era data race — implicit sharing do Qt é reentrante, não thread-safe para a
+    // mesma instância. O worker recebe só cópias por valor (MC-05, AUDITORIAS §I4).
+    const domain::models::ReportData data = collect_all_data();
+    const auto provider = m_providers[static_cast<std::size_t>(formatIndex)];
+    const QString format_name = provider->get_format_name();
+
     QPointer<ExportViewModel> self(this);
-    (void)QtConcurrent::run([self, formatIndex, cleanPath]() {
-        if (!self) return;
-        // collect_all_data acessa cached getters dos VMs (QString/int/QVariantList são
-        // copy-on-write com refcount atômico); os VMs rodam updates via QueuedConnection
-        // na main thread, leituras concorrentes aqui retornam snapshot válido.
-        auto data = self->collect_all_data();
-        bool success = self->m_providers[formatIndex]->export_report(data, cleanPath);
-        QString format_name = self->m_providers[formatIndex]->get_format_name();
+    (void)QtConcurrent::run([self, provider, data, cleanPath, format_name]() {
+        const bool success = provider->export_report(data, cleanPath);
         QMetaObject::invokeMethod(self.data(), [self, success, cleanPath, format_name]() {
             if (!self) return;
             self->m_isBusy = false;

@@ -1,20 +1,17 @@
 #include "gpu_viewmodel.h"
-#include "../../infrastructure/collectors/nvidia_gpu_provider.h"
-#include "../../infrastructure/collectors/sysfs_gpu_provider.h"
+#include <QPointer>
 #include <QVariantMap>
-#include <QProcess>
+#include <QtConcurrent/QtConcurrent>
 
 namespace my_comp::presentation::viewmodels {
 
-GpuViewModel::GpuViewModel(std::shared_ptr<infrastructure::collectors::IShellExecutor> executor, QObject* parent)
-    : QObject(parent), m_executor(executor) {
-    // CLAUDE.md §4: timer não arranca no ctor; initialize() materializa I/O (which + spawn).
-    m_timer = new QTimer(this);
-    connect(m_timer, &QTimer::timeout, this, &GpuViewModel::update_stats);
-}
-
 GpuViewModel::GpuViewModel(std::vector<std::unique_ptr<domain::interfaces::IGpuProvider>> providers, QObject* parent)
-    : QObject(parent), m_providers(std::move(providers)) {
+    : QObject(parent) {
+    m_providers.reserve(providers.size());
+    for (auto& provider : providers) {
+        m_providers.push_back(std::move(provider));
+    }
+    // MC-04: timer não arranca no ctor; initialize() dispara a primeira coleta.
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &GpuViewModel::update_stats);
 }
@@ -27,36 +24,45 @@ void GpuViewModel::initialize() {
 }
 
 void GpuViewModel::update_stats() {
-    // Inicialização tardia (Lazy Init) para evitar shell no construtor
-    if (m_providers.empty() && m_executor) {
-        QString output;
-        if (m_executor->execute("which", {"nvidia-smi"}, output) == 0) {
-            m_providers.push_back(std::make_unique<infrastructure::collectors::NvidiaGpuProvider>(m_executor));
-        } else {
-            m_providers.push_back(std::make_unique<infrastructure::collectors::SysfsGpuProvider>());
+    if (m_busy || m_providers.empty()) return;
+    m_busy = true;
+
+    QPointer<GpuViewModel> self(this);
+    auto providers = m_providers;
+    (void)QtConcurrent::run([self, providers]() {
+        std::vector<domain::models::GpuStats> all;
+        for (const auto& provider : providers) {
+            auto stats = provider->collect_stats();
+            all.insert(all.end(), stats.begin(), stats.end());
         }
+        QMetaObject::invokeMethod(self.data(), [self, all]() {
+            if (!self) return;
+            self->m_busy = false;
+            self->apply_stats(all);
+        }, Qt::QueuedConnection);
+    });
+}
+
+void GpuViewModel::apply_stats(const std::vector<domain::models::GpuStats>& stats_list) {
+    QVariantList new_list;
+    for (const auto& stats : stats_list) {
+        QVariantMap map;
+        map["modelName"] = stats.model_name;
+        map["vendor"] = stats.vendor;
+        map["load"] = stats.load_percent;
+        map["temp"] = stats.temperature;
+        map["vramUsed"] = static_cast<double>(stats.vram_used_mb);
+        map["vramTotal"] = static_cast<double>(stats.vram_total_mb);
+        map["vramPercent"] = stats.vram_usage_percent;
+        new_list.append(map);
     }
 
-    QVariantList newList;
-    for (const auto& provider : m_providers) {
-        auto stats_list = provider->collect_stats();
-        for (const auto& stats : stats_list) {
-            QVariantMap map;
-            map["modelName"] = stats.model_name;
-            map["vendor"] = stats.vendor;
-            map["load"] = stats.load_percent;
-            map["temp"] = stats.temperature;
-            map["vramUsed"] = static_cast<double>(stats.vram_used_mb);
-            map["vramTotal"] = static_cast<double>(stats.vram_total_mb);
-            map["vramPercent"] = stats.vram_usage_percent;
-            newList.append(map);
-        }
-    }
-
-    if (m_gpus != newList) {
-        m_gpus = newList;
+    // Primeira coleta sempre notifica (a UI sai do estado "carregando" mesmo sem GPU).
+    if (m_gpus != new_list || !m_has_emitted) {
+        m_gpus = new_list;
+        m_has_emitted = true;
         emit gpusChanged();
     }
 }
 
-} // namespace my_comp::presentation::viewmodels
+}

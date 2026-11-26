@@ -335,7 +335,7 @@ Window {
                         DashboardCard { title: qsTr("CPU"); value: cpuViewModel.totalLoad.toFixed(1) + "%"; onClicked: cpuDetailDialog.open() }
                         DashboardCard { title: qsTr("MEM"); value: memoryViewModel.ramUsagePercent.toFixed(1) + "%"; onClicked: root.currentView = 5 /* Hardware */ }
                         DashboardCard { title: qsTr("DISK"); value: storageViewModel.totalThroughput; onClicked: root.currentView = 5 /* Hardware */ }
-                        DashboardCard { title: qsTr("NET"); value: networkViewModel.latency.toFixed(0) + "ms"; onClicked: root.currentView = 4 /* Network */ }
+                        DashboardCard { title: qsTr("NET"); value: networkViewModel.latency >= 0 ? networkViewModel.latency.toFixed(0) + "ms" : networkViewModel.status; onClicked: root.currentView = 4 /* Network */ }
                         DashboardCard { title: qsTr("POWER"); value: powerViewModel.batteryPercent.toFixed(0) + "%"; onClicked: root.currentView = 5 /* Hardware */ }
                         DashboardCard { title: qsTr("CORE"); value: systemInfoViewModel.kernelVersion; onClicked: root.currentView = 2 /* Journal */ }
                     }
@@ -781,10 +781,26 @@ Window {
                         columns: root.width > 800 ? 3 : 2
                         Layout.fillWidth: true; rowSpacing: 15; columnSpacing: 15
                         DashboardCard { title: qsTr("STATUS"); value: networkViewModel.status }
-                        DashboardCard { title: qsTr("LATÊNCIA"); value: networkViewModel.latency.toFixed(0) + " ms" }
+                        DashboardCard { title: qsTr("LATÊNCIA"); value: networkViewModel.latency >= 0 ? networkViewModel.latency.toFixed(0) + " ms" : "—" }
                         DashboardCard { title: qsTr("INTERFACE"); value: networkViewModel.activeInterface || "—" }
                         DashboardCard { title: qsTr("RX"); value: networkViewModel.totalRx.toFixed(2) + " Mbps" }
                         DashboardCard { title: qsTr("TX"); value: networkViewModel.totalTx.toFixed(2) + " Mbps" }
+                    }
+
+                    // MC-10: a medição de latência pinga um host da internet; desligada por padrão.
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Switch {
+                            id: externalProbeSwitch
+                            checked: networkViewModel.externalProbeEnabled
+                            onToggled: networkViewModel.externalProbeEnabled = checked
+                        }
+                        Text {
+                            Layout.fillWidth: true
+                            wrapMode: Text.WordWrap
+                            color: root.mutedTextColor
+                            text: qsTr("Medir latência pingando 1.1.1.1 (Cloudflare). Envia um pacote ICMP para a internet a cada atualização; desligado, nada sai da rede local.")
+                        }
                     }
 
                     Item { Layout.fillHeight: true }

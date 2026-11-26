@@ -81,15 +81,15 @@ domain::models::NetworkStats LinuxNetworkProvider::collect_stats() {
         m_last_samples[iface_name] = {rx_bytes, tx_bytes, now};
     }
     
-    stats.latency_ms = measure_latency();
+    stats.latency_ms = m_external_probe_enabled ? measure_latency() : -1.0;
     
     return stats;
 }
 
 double LinuxNetworkProvider::measure_latency() {
     QString output;
-    // Pinga o Cloudflare DNS (1.1.1.1) - rápido e confiável. 
-    // Em ambiente offline, isso falhará graciosamente retornando 0 ou alto.
+    // Só roda com opt-in do usuário (MC-10): pinga o DNS público 1.1.1.1.
+    // Sem rede, falha e devolve -1 (não medida).
     QStringList args = {"-c", "1", "-W", "1", "1.1.1.1"};
     if (m_shell->execute("ping", args, output) == 0) {
         QRegularExpression regex("(?:time|tempo)=([\\d.]+) ms");
@@ -98,7 +98,7 @@ double LinuxNetworkProvider::measure_latency() {
             return match.captured(1).toDouble();
         }
     }
-    return 0.0;
+    return -1.0;
 }
 
 } // namespace my_comp::infrastructure::collectors

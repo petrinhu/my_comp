@@ -15,7 +15,7 @@ struct NetworkStats {
     std::vector<InterfaceStat> interfaces;
     double total_rx_mbps = 0.0;
     double total_tx_mbps = 0.0;
-    double latency_ms = 0.0;
+    double latency_ms = -1.0; // < 0 = não medida (sonda externa desligada ou falhou)
     QString active_interface;
 };
 

@@ -11,6 +11,7 @@
 #include <QMediaDevices>
 #include <QAudioDevice>
 #include <QTimer>
+#include <QStandardPaths>
 #include <memory>
 
 using namespace Qt::StringLiterals;
@@ -49,6 +50,8 @@ using namespace Qt::StringLiterals;
 #include "infrastructure/exporters/markdown_export_provider.h"
 #include "infrastructure/exporters/html_export_provider.h"
 #include "infrastructure/collectors/linux_cpu_provider.h"
+#include "infrastructure/collectors/nvidia_gpu_provider.h"
+#include "infrastructure/collectors/sysfs_gpu_provider.h"
 
 #include "infrastructure/collectors/linux_memory_provider.h"
 #include "infrastructure/collectors/dbus_firmware_provider.h"
@@ -165,7 +168,14 @@ int main(int argc, char *argv[])
     auto cpu_vm = std::make_unique<my_comp::presentation::viewmodels::CpuViewModel>(cpu_provider);
     auto memory_vm = std::make_unique<my_comp::presentation::viewmodels::MemoryViewModel>(memory_provider);
     auto firmware_vm = std::make_unique<my_comp::presentation::viewmodels::FirmwareViewModel>(firmware_provider);
-    auto gpu_vm = std::make_unique<my_comp::presentation::viewmodels::GpuViewModel>(shell);
+    // GPU: nvidia-smi quando presente; senão sysfs (genérico AMD/Intel). Só busca no PATH, sem spawn.
+    std::vector<std::unique_ptr<my_comp::domain::interfaces::IGpuProvider>> gpu_providers;
+    if (!QStandardPaths::findExecutable("nvidia-smi").isEmpty()) {
+        gpu_providers.push_back(std::make_unique<my_comp::infrastructure::collectors::NvidiaGpuProvider>(shell));
+    } else {
+        gpu_providers.push_back(std::make_unique<my_comp::infrastructure::collectors::SysfsGpuProvider>());
+    }
+    auto gpu_vm = std::make_unique<my_comp::presentation::viewmodels::GpuViewModel>(std::move(gpu_providers));
     auto power_vm = std::make_unique<my_comp::presentation::viewmodels::PowerViewModel>();
     auto storage_vm = std::make_unique<my_comp::presentation::viewmodels::StorageViewModel>(storage_provider, disk_inventory_provider, smart_provider, benchmark_provider);
     auto directory_scanner_vm = std::make_unique<my_comp::presentation::viewmodels::DirectoryScannerViewModel>(directory_scanner);
