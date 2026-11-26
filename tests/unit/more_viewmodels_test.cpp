@@ -36,9 +36,9 @@ public:
 class MockServiceProvider : public IServiceProvider {
 public:
     MOCK_METHOD(std::vector<ServiceInfo>, get_services, (), (override));
-    MOCK_METHOD(bool, start_service, (const QString&), (override));
-    MOCK_METHOD(bool, pause_service, (const QString&), (override));
-    MOCK_METHOD(bool, stop_service, (const QString&), (override));
+    MOCK_METHOD(bool, start_service, (const QString&, ServiceScope), (override));
+    MOCK_METHOD(bool, pause_service, (const QString&, ServiceScope), (override));
+    MOCK_METHOD(bool, stop_service, (const QString&, ServiceScope), (override));
     MOCK_METHOD(OperationResult, create_daemon, (const QString&, const QString&), (override));
 };
 
@@ -124,7 +124,7 @@ TEST(ServiceViewModelTest, ShouldRefreshDataAndHandleCommands) {
     s.isEnabled = true;
 
     EXPECT_CALL(*provider, get_services()).WillRepeatedly(Return(std::vector<ServiceInfo>{s}));
-    EXPECT_CALL(*provider, start_service(_)).WillRepeatedly(Return(true));
+    EXPECT_CALL(*provider, start_service(_, _)).WillRepeatedly(Return(true));
 
     ServiceViewModel vm(provider);
     QSignalSpy spy(&vm, &ServiceViewModel::servicesChanged);
@@ -135,7 +135,7 @@ TEST(ServiceViewModelTest, ShouldRefreshDataAndHandleCommands) {
     auto list = vm.services();
     EXPECT_FALSE(list.isEmpty());
 
-    vm.startService("test.service");
+    vm.startService("test.service", "system");
     // startService também é assíncrono e chama refresh() no sucesso
     spy.wait(2000);
 }
@@ -154,4 +154,27 @@ TEST(ServiceViewModelTest, CreateDaemonForwardsProviderMessage) {
     ASSERT_TRUE(finished.wait(2000));
     EXPECT_FALSE(finished.at(0).at(0).toBool());
     EXPECT_EQ(finished.at(0).at(1).toString(), QString("O arquivo /tmp/x não é executável."));
+}
+
+// SV-01b: o VM expõe o escopo como campo para o QML e o repassa ao provider.
+TEST(ServiceViewModelTest, ExposesScopeAndForwardsItToProvider) {
+    auto provider = std::make_shared<NiceMock<MockServiceProvider>>();
+    ServiceInfo user_unit;
+    user_unit.name = "syncthing.service";
+    user_unit.activeState = "inactive";
+    user_unit.scope = ServiceScope::User;
+    ON_CALL(*provider, get_services()).WillByDefault(Return(std::vector<ServiceInfo>{user_unit}));
+    EXPECT_CALL(*provider, start_service(QString("syncthing.service"), ServiceScope::User)).WillOnce(Return(true));
+
+    ServiceViewModel vm(provider);
+    QSignalSpy changed(&vm, &ServiceViewModel::servicesChanged);
+    vm.refresh();
+    ASSERT_TRUE(changed.wait(2000));
+    const auto row = vm.services().at(0).toMap();
+    EXPECT_EQ(row["name"].toString(), QString("syncthing.service"));
+    EXPECT_EQ(row["scope"].toString(), QString("user"));
+
+    QSignalSpy finished(&vm, &ServiceViewModel::operationFinished);
+    vm.startService("syncthing.service", "user");
+    ASSERT_TRUE(finished.wait(2000));
 }
