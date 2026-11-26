@@ -32,7 +32,7 @@ const QDateTime k_t0 = QDateTime::fromSecsSinceEpoch(1'700'000'000, QTimeZone::u
 EntradaFeedback feedback(const QString& binario, Categoria veredito, const QString& motivo) {
     return EntradaFeedback{
         .id = 0,
-        .chave = ChaveProcesso::deBinario(binario),
+        .chave = ChaveProcesso::de_binario(binario),
         .veredito = veredito,
         .motivo = motivo,
         .criado_em = k_t0,
@@ -85,8 +85,8 @@ TEST(RepositorioFeedbackCifradoTest, LerSemDadosNaoCriaArquivos) {
     QTemporaryDir tmp;
     ASSERT_TRUE(tmp.isValid());
     auto repo = repo_em(tmp.path());
-    EXPECT_FALSE(repo->buscar(ChaveProcesso::deBinario(QStringLiteral("firefox"))).has_value());
-    EXPECT_TRUE(repo->listarTodos().isEmpty());
+    EXPECT_FALSE(repo->buscar(ChaveProcesso::de_binario(QStringLiteral("firefox"))).has_value());
+    EXPECT_TRUE(repo->listar_todos().isEmpty());
     EXPECT_FALSE(QFile::exists(caminho_dados(tmp.path())));
     EXPECT_FALSE(QFile::exists(caminho_chave(tmp.path())));
 }
@@ -98,15 +98,15 @@ TEST(RepositorioFeedbackCifradoTest, InserirEBuscarAtribuiIdSequencial) {
     repo->inserir(feedback(QStringLiteral("firefox"), Categoria::PrecisaGpu, QStringLiteral("WebGL")));
     repo->inserir(feedback(QStringLiteral("slack"), Categoria::CandidatoObvioCpu, QStringLiteral("chat")));
 
-    const auto f = repo->buscar(ChaveProcesso::deBinario(QStringLiteral("firefox")));
+    const auto f = repo->buscar(ChaveProcesso::de_binario(QStringLiteral("firefox")));
     ASSERT_TRUE(f.has_value());
     EXPECT_EQ(f->id, 1);
     EXPECT_EQ(f->veredito, Categoria::PrecisaGpu);
     EXPECT_EQ(f->motivo, QStringLiteral("WebGL"));
-    const auto s = repo->buscar(ChaveProcesso::deBinario(QStringLiteral("slack")));
+    const auto s = repo->buscar(ChaveProcesso::de_binario(QStringLiteral("slack")));
     ASSERT_TRUE(s.has_value());
     EXPECT_EQ(s->id, 2);
-    EXPECT_FALSE(repo->buscar(ChaveProcesso::deWmClass(QStringLiteral("firefox"))).has_value());
+    EXPECT_FALSE(repo->buscar(ChaveProcesso::de_wm_class(QStringLiteral("firefox"))).has_value());
 }
 
 TEST(RepositorioFeedbackCifradoTest, PersisteEntreInstancias) {
@@ -116,7 +116,7 @@ TEST(RepositorioFeedbackCifradoTest, PersisteEntreInstancias) {
         feedback(QStringLiteral("firefox"), Categoria::PrecisaGpu, QStringLiteral("WebGL")));
 
     auto outra = repo_em(tmp.path());
-    const auto f = outra->buscar(ChaveProcesso::deBinario(QStringLiteral("firefox")));
+    const auto f = outra->buscar(ChaveProcesso::de_binario(QStringLiteral("firefox")));
     ASSERT_TRUE(f.has_value());
     EXPECT_EQ(f->id, 1);
     EXPECT_EQ(f->veredito, Categoria::PrecisaGpu);
@@ -124,7 +124,7 @@ TEST(RepositorioFeedbackCifradoTest, PersisteEntreInstancias) {
     EXPECT_FALSE(f->revisado_em.has_value());
     // O contador de ids também persiste: o próximo não reaproveita o 1.
     outra->inserir(feedback(QStringLiteral("slack"), Categoria::CandidatoObvioCpu, QString{}));
-    EXPECT_EQ(outra->buscar(ChaveProcesso::deBinario(QStringLiteral("slack")))->id, 2);
+    EXPECT_EQ(outra->buscar(ChaveProcesso::de_binario(QStringLiteral("slack")))->id, 2);
 }
 
 TEST(RepositorioFeedbackCifradoTest, ArquivoNoDiscoNaoContemTextoClaroETem0600) {
@@ -150,7 +150,7 @@ TEST(RepositorioFeedbackCifradoTest, InserirMesmaChaveSubstituiVeredito) {
     auto repo = repo_em(tmp.path());
     repo->inserir(feedback(QStringLiteral("firefox"), Categoria::PrecisaGpu, QStringLiteral("a")));
     repo->inserir(feedback(QStringLiteral("firefox"), Categoria::CandidatoObvioCpu, QStringLiteral("b")));
-    const auto todos = repo->listarTodos();
+    const auto todos = repo->listar_todos();
     ASSERT_EQ(todos.size(), 1);
     EXPECT_EQ(todos.front().veredito, Categoria::CandidatoObvioCpu);
     EXPECT_EQ(todos.front().motivo, QStringLiteral("b"));
@@ -163,11 +163,11 @@ TEST(RepositorioFeedbackCifradoTest, AtualizarVistoEmERemoverPersistem) {
     repo->inserir(feedback(QStringLiteral("firefox"), Categoria::PrecisaGpu, QString{}));
     repo->inserir(feedback(QStringLiteral("slack"), Categoria::CandidatoObvioCpu, QString{}));
     const auto depois = k_t0.addDays(3);
-    repo->atualizarVistoEm(1, depois);
+    repo->atualizar_visto_em(1, depois);
     repo->remover(2);
 
     auto outra = repo_em(tmp.path());
-    const auto todos = outra->listarTodos();
+    const auto todos = outra->listar_todos();
     ASSERT_EQ(todos.size(), 1);
     EXPECT_EQ(todos.front().id, 1);
     EXPECT_EQ(todos.front().visto_em, depois);
@@ -186,10 +186,10 @@ TEST(RepositorioFeedbackCifradoTest, ArquivoAdulteradoNaoCarregaENaoESobrescrito
     }
 
     auto repo = repo_em(tmp.path());
-    EXPECT_FALSE(repo->buscar(ChaveProcesso::deBinario(QStringLiteral("firefox"))).has_value());
+    EXPECT_FALSE(repo->buscar(ChaveProcesso::de_binario(QStringLiteral("firefox"))).has_value());
     // Escrita não destrói o arquivo que não conseguimos ler: fica só em memória.
     repo->inserir(feedback(QStringLiteral("slack"), Categoria::CandidatoObvioCpu, QString{}));
-    EXPECT_TRUE(repo->buscar(ChaveProcesso::deBinario(QStringLiteral("slack"))).has_value());
+    EXPECT_TRUE(repo->buscar(ChaveProcesso::de_binario(QStringLiteral("slack"))).has_value());
     EXPECT_EQ(ler_tudo(caminho_dados(tmp.path())), bruto);
 }
 
@@ -201,7 +201,7 @@ TEST(RepositorioFeedbackCifradoTest, DadosSemChaveNaoCarregamENaoSaoSobrescritos
     ASSERT_TRUE(QFile::remove(caminho_chave(tmp.path())));
 
     auto repo = repo_em(tmp.path());
-    EXPECT_TRUE(repo->listarTodos().isEmpty());
+    EXPECT_TRUE(repo->listar_todos().isEmpty());
     repo->inserir(feedback(QStringLiteral("slack"), Categoria::CandidatoObvioCpu, QString{}));
     EXPECT_EQ(ler_tudo(caminho_dados(tmp.path())), original);
     EXPECT_FALSE(QFile::exists(caminho_chave(tmp.path())));
@@ -216,7 +216,7 @@ TEST(RepositorioFeedbackCifradoTest, ArquivoTruncadoNaoDerruba) {
         ASSERT_TRUE(f.open(QIODevice::WriteOnly));
         f.write(RepositorioFeedbackCifrado::cabecalho() + QByteArray(5, 'x'));
     }
-    EXPECT_TRUE(repo_em(tmp.path())->listarTodos().isEmpty());
+    EXPECT_TRUE(repo_em(tmp.path())->listar_todos().isEmpty());
 }
 
 TEST(RepositorioFeedbackCifradoTest, EntradasDecifradasInvalidasSaoIgnoradas) {
@@ -238,10 +238,10 @@ TEST(RepositorioFeedbackCifradoTest, EntradasDecifradasInvalidasSaoIgnoradas) {
         "lixo"
     ]})");
     auto repo = repo_em(tmp.path());
-    const auto todos = repo->listarTodos();
+    const auto todos = repo->listar_todos();
     ASSERT_EQ(todos.size(), 1);
     EXPECT_EQ(todos.front().id, 3);
     EXPECT_EQ(todos.front().chave.valor(), QStringLiteral("firefox"));
     repo->inserir(feedback(QStringLiteral("novo"), Categoria::PrecisaGpu, QString{}));
-    EXPECT_EQ(repo->buscar(ChaveProcesso::deBinario(QStringLiteral("novo")))->id, 10);
+    EXPECT_EQ(repo->buscar(ChaveProcesso::de_binario(QStringLiteral("novo")))->id, 10);
 }

@@ -34,7 +34,7 @@ LocalizadorEnvVar::LocalizadorEnvVar(std::shared_ptr<domain::ILeitorEnviron> lei
 
 QVector<domain::OrigemConfig>
 LocalizadorEnvVar::localizar(const domain::Processo& processo) const {
-    const auto env = m_leitor->environDe(processo.pid());
+    const auto env = m_leitor->environ_de(processo.pid());
     if (env.isEmpty()) {
         return {};
     }

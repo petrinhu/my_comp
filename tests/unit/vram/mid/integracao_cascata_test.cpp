@@ -79,8 +79,8 @@ CenarioMontado montar() {
 Processo procFirefoxIdle() {
     return Processo{
         PID{1234}, NomeProcesso{QStringLiteral("firefox")},
-        BytesDeMemoria::deMegabytes(350), 0,
-        {ChaveProcesso::deBinario(QStringLiteral("firefox"))}
+        BytesDeMemoria::de_megabytes(350), 0,
+        {ChaveProcesso::de_binario(QStringLiteral("firefox"))}
     };
 }
 
@@ -98,9 +98,9 @@ TEST(IntegracaoCascataTest, FirefoxIdleClassificadoPeloCatalogo) {
         .veredito = Categoria::CandidatoObvioCpu,
         .justificativa = QStringLiteral("Navegador."),
     }));
-    EXPECT_CALL(*c.leitor_desktop, categoriasDe(_)).Times(0);
-    EXPECT_CALL(*c.leitor_maps, bibliotecasMapeadas(_)).Times(0);
-    EXPECT_CALL(*c.amostrador, amostraJanela(_, _)).Times(0);
+    EXPECT_CALL(*c.leitor_desktop, categorias_de(_)).Times(0);
+    EXPECT_CALL(*c.leitor_maps, bibliotecas_mapeadas(_)).Times(0);
+    EXPECT_CALL(*c.amostrador, amostra_janela(_, _)).Times(0);
 
     auto v = c.cascata.classificar(procFirefoxIdle());
     EXPECT_EQ(v.categoria, Categoria::CandidatoObvioCpu);
@@ -112,14 +112,14 @@ TEST(IntegracaoCascataTest, PythonComCudaClassificadoPelaBibliotecaCompute) {
 
     EXPECT_CALL(*c.repo, buscar(_)).WillRepeatedly(Return(std::nullopt));
     EXPECT_CALL(*c.catalogo, buscar(_)).WillRepeatedly(Return(std::nullopt));
-    EXPECT_CALL(*c.leitor_desktop, categoriasDe(_)).WillOnce(Return(QStringList{}));
-    EXPECT_CALL(*c.leitor_maps, bibliotecasMapeadas(_))
+    EXPECT_CALL(*c.leitor_desktop, categorias_de(_)).WillOnce(Return(QStringList{}));
+    EXPECT_CALL(*c.leitor_maps, bibliotecas_mapeadas(_))
         .WillOnce(Return(QStringList{QStringLiteral("/usr/lib64/libcudart.so.12")}));
-    EXPECT_CALL(*c.amostrador, amostraJanela(_, _)).Times(0);
+    EXPECT_CALL(*c.amostrador, amostra_janela(_, _)).Times(0);
 
     Processo python{PID{4321}, NomeProcesso{QStringLiteral("python")},
-                    BytesDeMemoria::deMegabytes(2000), 0,
-                    {ChaveProcesso::deBinario(QStringLiteral("python"))}};
+                    BytesDeMemoria::de_megabytes(2000), 0,
+                    {ChaveProcesso::de_binario(QStringLiteral("python"))}};
     auto v = c.cascata.classificar(python);
     EXPECT_EQ(v.categoria, Categoria::PrecisaGpu);
     EXPECT_EQ(v.justificativa.regra, QStringLiteral("biblioteca_compute"));
@@ -130,20 +130,20 @@ TEST(IntegracaoCascataTest, AppDesconhecidoLeveCaiEmComportamento) {
 
     EXPECT_CALL(*c.repo, buscar(_)).WillRepeatedly(Return(std::nullopt));
     EXPECT_CALL(*c.catalogo, buscar(_)).WillRepeatedly(Return(std::nullopt));
-    EXPECT_CALL(*c.leitor_desktop, categoriasDe(_)).WillOnce(Return(QStringList{}));
-    EXPECT_CALL(*c.leitor_maps, bibliotecasMapeadas(_)).WillOnce(Return(QStringList{}));
-    EXPECT_CALL(*c.amostrador, amostraJanela(_, _))
+    EXPECT_CALL(*c.leitor_desktop, categorias_de(_)).WillOnce(Return(QStringList{}));
+    EXPECT_CALL(*c.leitor_maps, bibliotecas_mapeadas(_)).WillOnce(Return(QStringList{}));
+    EXPECT_CALL(*c.amostrador, amostra_janela(_, _))
         .WillOnce(Return(AmostraJanela{
-            .vram_media = BytesDeMemoria::deMegabytes(50),
-            .vram_total_gpu = BytesDeMemoria::deMegabytes(8192),
+            .vram_media = BytesDeMemoria::de_megabytes(50),
+            .vram_total_gpu = BytesDeMemoria::de_megabytes(8192),
             .compute_utilizacao_media = 0.01,
             .amostras = 30,
             .janela = std::chrono::seconds{30},
         }));
 
     Processo desc{PID{99}, NomeProcesso{QStringLiteral("foo")},
-                  BytesDeMemoria::deMegabytes(50), 0,
-                  {ChaveProcesso::deBinario(QStringLiteral("foo"))}};
+                  BytesDeMemoria::de_megabytes(50), 0,
+                  {ChaveProcesso::de_binario(QStringLiteral("foo"))}};
     auto v = c.cascata.classificar(desc);
     EXPECT_EQ(v.categoria, Categoria::CandidatoObvioCpu);
     EXPECT_EQ(v.justificativa.regra, QStringLiteral("comportamento"));
@@ -155,7 +155,7 @@ TEST(IntegracaoCascataTest, FeedbackVenceCatalogoMesmoQueCatalogoTambemDecidiria
     EXPECT_CALL(*c.repo, buscar(_))
         .WillOnce(Return(vramopt::domain::EntradaFeedback{
             .id = 7,
-            .chave = ChaveProcesso::deBinario(QStringLiteral("firefox")),
+            .chave = ChaveProcesso::de_binario(QStringLiteral("firefox")),
             .veredito = Categoria::PrecisaGpu,
             .motivo = QStringLiteral("uso WebGL diariamente"),
             .criado_em = QDateTime::currentDateTimeUtc(),

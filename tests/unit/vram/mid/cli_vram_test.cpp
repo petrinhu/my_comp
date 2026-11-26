@@ -66,15 +66,15 @@ RelatorioAuditoriaVram fazerRelatorio() {
     RelatorioAuditoriaVram r;
     GrupoAuditoriaGpu grupo{
         .gpu = GpuInfo{0, Fabricante::Nvidia, QStringLiteral("RTX 4070"),
-                       BytesDeMemoria::deMegabytes(12288)},
+                       BytesDeMemoria::de_megabytes(12288)},
         .itens = {},
     };
     grupo.itens.push_back(ItemAuditoriaVram{
         .processo = Processo{PID{1234},
                              NomeProcesso{QStringLiteral("blender")},
-                             BytesDeMemoria::deMegabytes(2048),
+                             BytesDeMemoria::de_megabytes(2048),
                              0,
-                             {ChaveProcesso::deBinario(QStringLiteral("blender"))}},
+                             {ChaveProcesso::de_binario(QStringLiteral("blender"))}},
         .classificacao = ResultadoClassificacao{
             .categoria = Categoria::PrecisaGpu,
             .justificativa = Justificativa{.regra = QStringLiteral("comportamento"), .detalhe = {}},
@@ -148,13 +148,13 @@ TEST(CliVramExecutarTest, ExecutarComServicoUsaMockEretornaZero) {
     auto locator = std::make_shared<MockConfigLocator>();
 
     GpuInfo gpu{0, Fabricante::Nvidia, QStringLiteral("Stub"),
-                BytesDeMemoria::deMegabytes(8192)};
+                BytesDeMemoria::de_megabytes(8192)};
     Processo proc{PID{42}, NomeProcesso{QStringLiteral("dummy")},
-                  BytesDeMemoria::deMegabytes(128), 0,
-                  {ChaveProcesso::deBinario(QStringLiteral("dummy"))}};
+                  BytesDeMemoria::de_megabytes(128), 0,
+                  {ChaveProcesso::de_binario(QStringLiteral("dummy"))}};
 
-    EXPECT_CALL(*backend, enumerarGpus()).WillOnce(Return(std::vector<GpuInfo>{gpu}));
-    EXPECT_CALL(*backend, enumerarProcessosVram(0))
+    EXPECT_CALL(*backend, enumerar_gpus()).WillOnce(Return(std::vector<GpuInfo>{gpu}));
+    EXPECT_CALL(*backend, enumerar_processos_vram(0))
         .WillOnce(Return(std::vector<Processo>{proc}));
     EXPECT_CALL(*classificador, classificar(::testing::_))
         .WillOnce(Return(ResultadoClassificacao{

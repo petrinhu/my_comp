@@ -38,10 +38,10 @@ public:
 
     // id <= 0 recebe o próximo id livre; feedback para uma chave já marcada substitui o anterior.
     void inserir(const domain::EntradaFeedback& entrada) override;
-    void atualizarVistoEm(int id, QDateTime quando) override;
+    void atualizar_visto_em(int id, QDateTime quando) override;
     void remover(int id) override;
 
-    [[nodiscard]] QVector<domain::EntradaFeedback> listarTodos() const override;
+    [[nodiscard]] QVector<domain::EntradaFeedback> listar_todos() const override;
 
 private:
     void garantir_carregado() const;   // exige m_mutex travado

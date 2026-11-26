@@ -192,7 +192,7 @@ IntelI915GpuBackend::descobrirCards() const {
 }
 
 std::vector<vramopt::domain::GpuInfo>
-IntelI915GpuBackend::enumerarGpus() const {
+IntelI915GpuBackend::enumerar_gpus() const {
     std::vector<domain::GpuInfo> gpus;
     const auto cards = descobrirCards();
     gpus.reserve(cards.size());
@@ -203,7 +203,7 @@ IntelI915GpuBackend::enumerarGpus() const {
 }
 
 std::vector<vramopt::domain::Processo>
-IntelI915GpuBackend::enumerarProcessosVram(int gpu_id) const {
+IntelI915GpuBackend::enumerar_processos_vram(int gpu_id) const {
     const auto cards = descobrirCards();
     auto it = std::find_if(cards.begin(), cards.end(),
                            [gpu_id](const CardIntel& c) { return c.id_local == gpu_id; });
@@ -257,7 +257,7 @@ IntelI915GpuBackend::enumerarProcessosVram(int gpu_id) const {
     for (const int pid_n : pids) {
         const QString nome = nome_por_pid.value(pid_n, QStringLiteral("?"));
         std::vector<domain::ChaveProcesso> chaves;
-        chaves.push_back(domain::ChaveProcesso::deBinario(nome));
+        chaves.push_back(domain::ChaveProcesso::de_binario(nome));
         processos.emplace_back(domain::PID{pid_n},
                                domain::NomeProcesso{nome},
                                domain::BytesDeMemoria{bytes_por_pid.value(pid_n)},

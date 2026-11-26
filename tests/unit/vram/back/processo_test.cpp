@@ -18,11 +18,11 @@ Processo construirProcessoFirefox() {
     return Processo{
         PID{1234},
         NomeProcesso{QStringLiteral("firefox")},
-        BytesDeMemoria::deMegabytes(350),
+        BytesDeMemoria::de_megabytes(350),
         /*gpu_id=*/0,
         {
-            ChaveProcesso::deBinario(QStringLiteral("firefox")),
-            ChaveProcesso::deWmClass(QStringLiteral("firefox")),
+            ChaveProcesso::de_binario(QStringLiteral("firefox")),
+            ChaveProcesso::de_wm_class(QStringLiteral("firefox")),
         }
     };
 }
@@ -33,8 +33,8 @@ TEST(ProcessoTest, ExpoeAtributosDeConstrucao) {
     auto p = construirProcessoFirefox();
     EXPECT_EQ(p.pid().valor(), 1234);
     EXPECT_EQ(p.nome().valor(), QStringLiteral("firefox"));
-    EXPECT_EQ(p.vramConsumida(), BytesDeMemoria::deMegabytes(350));
-    EXPECT_EQ(p.gpuId(), 0);
+    EXPECT_EQ(p.vram_consumida(), BytesDeMemoria::de_megabytes(350));
+    EXPECT_EQ(p.gpu_id(), 0);
     EXPECT_EQ(p.chaves().size(), 2U);
 }
 

@@ -52,7 +52,7 @@ TEST(FactoryGpuBackendTest, RetornaNullBackendQuandoNvmlIndisponivelESemIntel) {
 
     auto backend = criarBackendCompositoCom(deps);
     ASSERT_NE(backend, nullptr);
-    EXPECT_TRUE(backend->enumerarGpus().empty());
+    EXPECT_TRUE(backend->enumerar_gpus().empty());
 }
 
 TEST(FactoryGpuBackendTest, AgregaApenasNvmlQuandoIntelAusente) {
@@ -69,7 +69,7 @@ TEST(FactoryGpuBackendTest, AgregaApenasNvmlQuandoIntelAusente) {
     deps.sistema_tem_intel = [](const QString&) { return false; };
 
     auto backend = criarBackendCompositoCom(deps);
-    const auto gpus = backend->enumerarGpus();
+    const auto gpus = backend->enumerar_gpus();
     ASSERT_EQ(gpus.size(), 1U);
     EXPECT_EQ(gpus[0].fabricante(), vramopt::domain::Fabricante::Nvidia);
 }
@@ -101,7 +101,7 @@ TEST(FactoryGpuBackendTest, AgregaApenasIntelQuandoNvmlIndisponivel) {
     deps.proc_root = tmp.path() + QStringLiteral("/proc");
 
     auto backend = criarBackendCompositoCom(deps);
-    const auto gpus = backend->enumerarGpus();
+    const auto gpus = backend->enumerar_gpus();
     ASSERT_EQ(gpus.size(), 1U);
     EXPECT_EQ(gpus[0].fabricante(), vramopt::domain::Fabricante::Intel);
 }

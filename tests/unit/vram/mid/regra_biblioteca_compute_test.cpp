@@ -25,7 +25,7 @@ namespace {
 Processo processoPython() {
     return Processo{
         PID{4321}, NomeProcesso{QStringLiteral("python")},
-        BytesDeMemoria::deMegabytes(2048), 0, {}
+        BytesDeMemoria::de_megabytes(2048), 0, {}
     };
 }
 
@@ -33,7 +33,7 @@ Processo processoPython() {
 
 TEST(RegraBibliotecaComputeTest, ClassificaGpuQuandoLinkaCuda) {
     auto leitor = std::make_shared<MockLeitorMapsProcesso>();
-    EXPECT_CALL(*leitor, bibliotecasMapeadas(_))
+    EXPECT_CALL(*leitor, bibliotecas_mapeadas(_))
         .WillOnce(Return(QStringList{QStringLiteral("/usr/lib64/libcuda.so.560")}));
     RegraBibliotecaCompute regra{leitor, ListaLibsCompute::padrao()};
     auto r = regra.avaliar(processoPython());
@@ -44,7 +44,7 @@ TEST(RegraBibliotecaComputeTest, ClassificaGpuQuandoLinkaCuda) {
 
 TEST(RegraBibliotecaComputeTest, JustificativaCitaSoEspecifica) {
     auto leitor = std::make_shared<MockLeitorMapsProcesso>();
-    EXPECT_CALL(*leitor, bibliotecasMapeadas(_))
+    EXPECT_CALL(*leitor, bibliotecas_mapeadas(_))
         .WillOnce(Return(QStringList{QStringLiteral("/usr/lib64/libcudnn.so.9")}));
     RegraBibliotecaCompute regra{leitor, ListaLibsCompute::padrao()};
     auto r = regra.avaliar(processoPython());
@@ -54,7 +54,7 @@ TEST(RegraBibliotecaComputeTest, JustificativaCitaSoEspecifica) {
 
 TEST(RegraBibliotecaComputeTest, AbstemQuandoSoLibGL) {
     auto leitor = std::make_shared<MockLeitorMapsProcesso>();
-    EXPECT_CALL(*leitor, bibliotecasMapeadas(_))
+    EXPECT_CALL(*leitor, bibliotecas_mapeadas(_))
         .WillOnce(Return(QStringList{QStringLiteral("/usr/lib64/libGL.so.1"),
                                      QStringLiteral("/usr/lib64/libvulkan.so.1")}));
     RegraBibliotecaCompute regra{leitor, ListaLibsCompute::padrao()};
@@ -63,7 +63,7 @@ TEST(RegraBibliotecaComputeTest, AbstemQuandoSoLibGL) {
 
 TEST(RegraBibliotecaComputeTest, AbstemQuandoSemLibs) {
     auto leitor = std::make_shared<MockLeitorMapsProcesso>();
-    EXPECT_CALL(*leitor, bibliotecasMapeadas(_)).WillOnce(Return(QStringList{}));
+    EXPECT_CALL(*leitor, bibliotecas_mapeadas(_)).WillOnce(Return(QStringList{}));
     RegraBibliotecaCompute regra{leitor, ListaLibsCompute::padrao()};
     EXPECT_FALSE(regra.avaliar(processoPython()).has_value());
 }

@@ -11,7 +11,7 @@ public:
     explicit LeitorDesktopExecXdg(QStringList xdg_dirs = {});
 
     [[nodiscard]] std::optional<domain::EntradaDesktopExec>
-        entradaDe(const domain::Processo& processo) const override;
+        entrada_de(const domain::Processo& processo) const override;
 
 private:
     QStringList m_xdg_dirs;

@@ -13,7 +13,7 @@ TEST(EntradaFeedbackTest, AgregaCampos) {
     auto agora = QDateTime::currentDateTimeUtc();
     EntradaFeedback ef{
         .id          = 42,
-        .chave       = ChaveProcesso::deBinario(QStringLiteral("firefox")),
+        .chave       = ChaveProcesso::de_binario(QStringLiteral("firefox")),
         .veredito    = Categoria::CandidatoObvioCpu,
         .motivo      = QStringLiteral("baixa carga típica"),
         .criado_em   = agora,

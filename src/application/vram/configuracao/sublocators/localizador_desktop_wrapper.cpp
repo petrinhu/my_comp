@@ -28,7 +28,7 @@ LocalizadorDesktopWrapper::LocalizadorDesktopWrapper(
 
 QVector<domain::OrigemConfig>
 LocalizadorDesktopWrapper::localizar(const domain::Processo& processo) const {
-    auto entrada_opt = m_leitor->entradaDe(processo);
+    auto entrada_opt = m_leitor->entrada_de(processo);
     if (!entrada_opt.has_value()) {
         return {};
     }

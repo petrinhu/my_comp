@@ -16,7 +16,7 @@ public:
     virtual ~ILeitorMapsProcesso() = default;
 
     [[nodiscard]] virtual QStringList
-        bibliotecasMapeadas(const PID& pid) const = 0;
+        bibliotecas_mapeadas(const PID& pid) const = 0;
 };
 
 }

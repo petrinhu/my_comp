@@ -11,7 +11,7 @@ public:
     explicit LeitorDesktopFileXdg(QStringList xdg_dirs = {});
 
     [[nodiscard]] QStringList
-        categoriasDe(const domain::Processo& processo) const override;
+        categorias_de(const domain::Processo& processo) const override;
 
 private:
     QStringList m_xdg_dirs;

@@ -33,7 +33,7 @@ TEST(ComposicaoVramTest, CatalogoDaComposicaoEOEmpacotado) {
     const auto catalogo = vramopt::composition::compor_catalogo_classificacao();
     ASSERT_NE(catalogo, nullptr);
     const auto firefox = catalogo->buscar(
-        vramopt::domain::ChaveProcesso::deBinario(QStringLiteral("firefox")));
+        vramopt::domain::ChaveProcesso::de_binario(QStringLiteral("firefox")));
     ASSERT_TRUE(firefox.has_value());
     EXPECT_EQ(firefox->veredito, vramopt::domain::Categoria::CandidatoObvioCpu);
 }
@@ -64,19 +64,19 @@ TEST(ComposicaoVramTest, BackendDaAuditoriaAlimentaOAmostrador) {
     using ::testing::Return;
 
     auto real = std::make_shared<vramopt::tests::MockGpuBackend>();
-    EXPECT_CALL(*real, enumerarGpus()).WillOnce(Return(std::vector<GpuInfo>{
-        GpuInfo{0, Fabricante::Intel, QStringLiteral("Arc"), BytesDeMemoria::deMegabytes(4096)}}));
-    EXPECT_CALL(*real, enumerarProcessosVram(0)).WillOnce(Return(std::vector<Processo>{
-        Processo{PID{77}, NomeProcesso{QStringLiteral("foo")}, BytesDeMemoria::deMegabytes(40), 0,
-                 {ChaveProcesso::deBinario(QStringLiteral("foo"))}}}));
+    EXPECT_CALL(*real, enumerar_gpus()).WillOnce(Return(std::vector<GpuInfo>{
+        GpuInfo{0, Fabricante::Intel, QStringLiteral("Arc"), BytesDeMemoria::de_megabytes(4096)}}));
+    EXPECT_CALL(*real, enumerar_processos_vram(0)).WillOnce(Return(std::vector<Processo>{
+        Processo{PID{77}, NomeProcesso{QStringLiteral("foo")}, BytesDeMemoria::de_megabytes(40), 0,
+                 {ChaveProcesso::de_binario(QStringLiteral("foo"))}}}));
 
     const auto montado = vramopt::composition::compor_backend_com_amostrador(real);
     ASSERT_NE(montado.backend, nullptr);
     ASSERT_NE(montado.amostrador, nullptr);
-    (void)montado.backend->enumerarGpus();
-    (void)montado.backend->enumerarProcessosVram(0);
+    (void)montado.backend->enumerar_gpus();
+    (void)montado.backend->enumerar_processos_vram(0);
 
-    const auto a = montado.amostrador->amostraJanela(PID{77}, std::chrono::seconds{30});
+    const auto a = montado.amostrador->amostra_janela(PID{77}, std::chrono::seconds{30});
     EXPECT_EQ(a.amostras, 1);
-    EXPECT_EQ(a.vram_media, BytesDeMemoria::deMegabytes(40));
+    EXPECT_EQ(a.vram_media, BytesDeMemoria::de_megabytes(40));
 }

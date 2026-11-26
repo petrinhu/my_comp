@@ -19,8 +19,8 @@ public:
 
     [[nodiscard]] const PID&             pid()  const noexcept { return m_pid; }
     [[nodiscard]] const NomeProcesso&    nome() const noexcept { return m_nome; }
-    [[nodiscard]] BytesDeMemoria         vramConsumida() const noexcept { return m_vram; }
-    [[nodiscard]] int                    gpuId() const noexcept { return m_gpu_id; }
+    [[nodiscard]] BytesDeMemoria         vram_consumida() const noexcept { return m_vram; }
+    [[nodiscard]] int                    gpu_id() const noexcept { return m_gpu_id; }
     [[nodiscard]] const std::vector<ChaveProcesso>& chaves() const noexcept { return m_chaves; }
 
 private:

@@ -25,7 +25,7 @@ namespace {
 Processo processoQualquer() {
     return Processo{
         PID{1234}, NomeProcesso{QStringLiteral("firefox")},
-        BytesDeMemoria::deMegabytes(350), 0, {}
+        BytesDeMemoria::de_megabytes(350), 0, {}
     };
 }
 
@@ -33,7 +33,7 @@ Processo processoQualquer() {
 
 TEST(RegraCategoriaDesktopTest, ClassificaCpuQuandoCategoriaBate) {
     auto leitor = std::make_shared<MockLeitorDesktopFile>();
-    EXPECT_CALL(*leitor, categoriasDe(_))
+    EXPECT_CALL(*leitor, categorias_de(_))
         .WillOnce(Return(QStringList{QStringLiteral("WebBrowser")}));
     RegraCategoriaDesktop regra{leitor, MapaCategoriasDesktop::padrao()};
     auto r = regra.avaliar(processoQualquer());
@@ -44,7 +44,7 @@ TEST(RegraCategoriaDesktopTest, ClassificaCpuQuandoCategoriaBate) {
 
 TEST(RegraCategoriaDesktopTest, ClassificaGpuQuandoCategoriaBate) {
     auto leitor = std::make_shared<MockLeitorDesktopFile>();
-    EXPECT_CALL(*leitor, categoriasDe(_))
+    EXPECT_CALL(*leitor, categorias_de(_))
         .WillOnce(Return(QStringList{QStringLiteral("Game"), QStringLiteral("ActionGame")}));
     RegraCategoriaDesktop regra{leitor, MapaCategoriasDesktop::padrao()};
     auto r = regra.avaliar(processoQualquer());
@@ -54,7 +54,7 @@ TEST(RegraCategoriaDesktopTest, ClassificaGpuQuandoCategoriaBate) {
 
 TEST(RegraCategoriaDesktopTest, AbstemQuandoCategoriaForaDeAmbosBaldes) {
     auto leitor = std::make_shared<MockLeitorDesktopFile>();
-    EXPECT_CALL(*leitor, categoriasDe(_))
+    EXPECT_CALL(*leitor, categorias_de(_))
         .WillOnce(Return(QStringList{QStringLiteral("AudioVideo"), QStringLiteral("Player")}));
     RegraCategoriaDesktop regra{leitor, MapaCategoriasDesktop::padrao()};
     EXPECT_FALSE(regra.avaliar(processoQualquer()).has_value());
@@ -62,7 +62,7 @@ TEST(RegraCategoriaDesktopTest, AbstemQuandoCategoriaForaDeAmbosBaldes) {
 
 TEST(RegraCategoriaDesktopTest, AbstemQuandoLeitorNaoDevolveCategorias) {
     auto leitor = std::make_shared<MockLeitorDesktopFile>();
-    EXPECT_CALL(*leitor, categoriasDe(_)).WillOnce(Return(QStringList{}));
+    EXPECT_CALL(*leitor, categorias_de(_)).WillOnce(Return(QStringList{}));
     RegraCategoriaDesktop regra{leitor, MapaCategoriasDesktop::padrao()};
     EXPECT_FALSE(regra.avaliar(processoQualquer()).has_value());
 }

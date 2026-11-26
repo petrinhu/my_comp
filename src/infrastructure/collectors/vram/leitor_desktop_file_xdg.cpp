@@ -11,7 +11,7 @@ LeitorDesktopFileXdg::LeitorDesktopFileXdg(QStringList xdg_dirs)
                                     : std::move(xdg_dirs)} {}
 
 QStringList
-LeitorDesktopFileXdg::categoriasDe(const domain::Processo& processo) const {
+LeitorDesktopFileXdg::categorias_de(const domain::Processo& processo) const {
     const auto found = desktop_xdg::encontrarPorProcesso(m_xdg_dirs, processo);
     if (!found.has_value()) {
         return {};

@@ -8,7 +8,7 @@ namespace vramopt::tests {
 
 class MockLeitorDesktopFile : public vramopt::domain::ILeitorDesktopFile {
 public:
-    MOCK_METHOD(QStringList, categoriasDe, (const vramopt::domain::Processo&), (const, override));
+    MOCK_METHOD(QStringList, categorias_de, (const vramopt::domain::Processo&), (const, override));
 };
 
 }

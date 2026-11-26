@@ -8,7 +8,7 @@ namespace {
 
 QString detalheDaAmostra(const domain::AmostraJanela& a) {
     return QStringLiteral("VRAM %1%/total, compute %2% media, janela %3s")
-        .arg(a.razaoVramSobreTotal() * 100.0, 0, 'f', 1)
+        .arg(a.razao_vram_sobre_total() * 100.0, 0, 'f', 1)
         .arg(a.compute_utilizacao_media * 100.0, 0, 'f', 1)
         .arg(a.janela.count());
 }
@@ -25,14 +25,14 @@ RegraComportamento::RegraComportamento(
 
 std::optional<domain::ResultadoClassificacao>
 RegraComportamento::avaliar(const domain::Processo& processo) const {
-    const auto a = m_amostrador->amostraJanela(processo.pid(), m_janela);
+    const auto a = m_amostrador->amostra_janela(processo.pid(), m_janela);
     if (a.amostras <= 0) {
         return std::nullopt; // sem dados não há veredito; zeros pareceriam "trivial + ocioso"
     }
 
     const bool compute_sustentado = a.compute_utilizacao_media >= m_limiares.compute_sustentado;
-    const auto vram_alta_efet     = m_limiares.vramAltaEfetivo(a.vram_total_gpu);
-    const auto vram_trivial_efet  = m_limiares.vramTrivialEfetivo(a.vram_total_gpu);
+    const auto vram_alta_efet     = m_limiares.vram_alta_efetivo(a.vram_total_gpu);
+    const auto vram_trivial_efet  = m_limiares.vram_trivial_efetivo(a.vram_total_gpu);
     const bool vram_alta          = a.vram_media >= vram_alta_efet;
     const bool vram_trivial       = a.vram_media <= vram_trivial_efet;
     const bool compute_idle       = a.compute_utilizacao_media < m_limiares.compute_idle;

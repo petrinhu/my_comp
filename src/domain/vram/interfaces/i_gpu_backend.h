@@ -16,10 +16,10 @@ public:
     IGpuBackend& operator=(IGpuBackend&&) = delete;
     virtual ~IGpuBackend() = default;
 
-    [[nodiscard]] virtual std::vector<GpuInfo> enumerarGpus() const = 0;
+    [[nodiscard]] virtual std::vector<GpuInfo> enumerar_gpus() const = 0;
 
     [[nodiscard]] virtual std::vector<Processo>
-        enumerarProcessosVram(int gpu_id) const = 0;
+        enumerar_processos_vram(int gpu_id) const = 0;
 };
 
 }

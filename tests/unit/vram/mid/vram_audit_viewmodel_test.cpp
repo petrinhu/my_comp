@@ -57,16 +57,16 @@ RelatorioAuditoriaVram fazerRelatorioExemplo() {
     RelatorioAuditoriaVram r;
     GrupoAuditoriaGpu grupo{
         .gpu = GpuInfo{0, Fabricante::Nvidia, QStringLiteral("RTX 4070"),
-                       BytesDeMemoria::deMegabytes(12288)},
+                       BytesDeMemoria::de_megabytes(12288)},
         .itens = {},
     };
     ItemAuditoriaVram item{
         .processo = Processo{
             PID{1234},
             NomeProcesso{QStringLiteral("chrome")},
-            BytesDeMemoria::deMegabytes(450),
+            BytesDeMemoria::de_megabytes(450),
             0,
-            {ChaveProcesso::deBinario(QStringLiteral("chrome"))}
+            {ChaveProcesso::de_binario(QStringLiteral("chrome"))}
         },
         .classificacao = ResultadoClassificacao{
             .categoria = Categoria::CandidatoObvioCpu,
@@ -158,7 +158,7 @@ TEST(VramAuditViewModelTest, ItemExpoeChaveBinarioParaFeedback) {
 
 TEST(VramAuditViewModelTest, RegistrarFeedbackGravaPelaChaveBinarioEAvisa) {
     auto repo = std::make_shared<MockRepositorioFeedback>();
-    const auto chave = ChaveProcesso::deBinario(QStringLiteral("firefox"));
+    const auto chave = ChaveProcesso::de_binario(QStringLiteral("firefox"));
     EXPECT_CALL(*repo, buscar(chave)).WillOnce(Return(std::nullopt));
     EXPECT_CALL(*repo, inserir(AllOf(Field(&EntradaFeedback::chave, chave),
                                      Field(&EntradaFeedback::veredito, Categoria::PrecisaGpu))));

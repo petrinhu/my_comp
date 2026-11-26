@@ -8,7 +8,7 @@ namespace vramopt::tests {
 
 class MockLeitorMapsProcesso : public vramopt::domain::ILeitorMapsProcesso {
 public:
-    MOCK_METHOD(QStringList, bibliotecasMapeadas,
+    MOCK_METHOD(QStringList, bibliotecas_mapeadas,
                 (const vramopt::domain::PID&), (const, override));
 };
 

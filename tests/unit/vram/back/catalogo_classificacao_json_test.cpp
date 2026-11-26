@@ -52,19 +52,19 @@ TEST(CatalogoClassificacaoJsonTest, ParseiaEntradasValidas) {
 TEST(CatalogoClassificacaoJsonTest, BuscaPorBinarioWmClassEDesktopId) {
     const CatalogoClassificacaoJson cat{parsear_catalogo_json(k_catalogo_minimo).entradas};
 
-    auto por_bin = cat.buscar(ChaveProcesso::deBinario(QStringLiteral("firefox-bin")));
+    auto por_bin = cat.buscar(ChaveProcesso::de_binario(QStringLiteral("firefox-bin")));
     ASSERT_TRUE(por_bin.has_value());
     EXPECT_EQ(por_bin->id, QStringLiteral("firefox"));
 
     // WM_CLASS e desktop id variam de caixa entre toolkits/distros.
-    auto por_wm = cat.buscar(ChaveProcesso::deWmClass(QStringLiteral("Firefox")));
+    auto por_wm = cat.buscar(ChaveProcesso::de_wm_class(QStringLiteral("Firefox")));
     ASSERT_TRUE(por_wm.has_value());
     EXPECT_EQ(por_wm->id, QStringLiteral("firefox"));
 
-    auto por_desk = cat.buscar(ChaveProcesso::deDesktopId(QStringLiteral("org.mozilla.firefox.desktop")));
+    auto por_desk = cat.buscar(ChaveProcesso::de_desktop_id(QStringLiteral("org.mozilla.firefox.desktop")));
     ASSERT_TRUE(por_desk.has_value());
 
-    auto kwin = cat.buscar(ChaveProcesso::deBinario(QStringLiteral("kwin_wayland")));
+    auto kwin = cat.buscar(ChaveProcesso::de_binario(QStringLiteral("kwin_wayland")));
     ASSERT_TRUE(kwin.has_value());
     EXPECT_EQ(kwin->veredito, Categoria::PrecisaGpu);
 }
@@ -72,13 +72,13 @@ TEST(CatalogoClassificacaoJsonTest, BuscaPorBinarioWmClassEDesktopId) {
 TEST(CatalogoClassificacaoJsonTest, BinarioCasaSoComCaixaExata) {
     const CatalogoClassificacaoJson cat{parsear_catalogo_json(k_catalogo_minimo).entradas};
     // Nomes de executável no Linux diferenciam caixa.
-    EXPECT_FALSE(cat.buscar(ChaveProcesso::deBinario(QStringLiteral("Firefox"))).has_value());
+    EXPECT_FALSE(cat.buscar(ChaveProcesso::de_binario(QStringLiteral("Firefox"))).has_value());
 }
 
 TEST(CatalogoClassificacaoJsonTest, TipoDeChaveNaoSeMistura) {
     const CatalogoClassificacaoJson cat{parsear_catalogo_json(k_catalogo_minimo).entradas};
-    EXPECT_FALSE(cat.buscar(ChaveProcesso::deWmClass(QStringLiteral("kwin_wayland"))).has_value());
-    EXPECT_FALSE(cat.buscar(ChaveProcesso::deBinario(QStringLiteral("desconhecido"))).has_value());
+    EXPECT_FALSE(cat.buscar(ChaveProcesso::de_wm_class(QStringLiteral("kwin_wayland"))).has_value());
+    EXPECT_FALSE(cat.buscar(ChaveProcesso::de_binario(QStringLiteral("desconhecido"))).has_value());
 }
 
 TEST(CatalogoClassificacaoJsonTest, JsonMalformadoDevolveVazioSemLancar) {
@@ -120,10 +120,10 @@ TEST(CatalogoClassificacaoJsonTest, ChaveRepetidaEntreEntradasMantemAPrimeira) {
         {"id": "segunda", "binarios": ["x", "y"], "veredito": "CandidatoObvioCpu", "justificativa": "2"}
     ]})");
     const CatalogoClassificacaoJson cat{r.entradas};
-    auto x = cat.buscar(ChaveProcesso::deBinario(QStringLiteral("x")));
+    auto x = cat.buscar(ChaveProcesso::de_binario(QStringLiteral("x")));
     ASSERT_TRUE(x.has_value());
     EXPECT_EQ(x->id, QStringLiteral("primeira"));
-    auto y = cat.buscar(ChaveProcesso::deBinario(QStringLiteral("y")));
+    auto y = cat.buscar(ChaveProcesso::de_binario(QStringLiteral("y")));
     ASSERT_TRUE(y.has_value());
     EXPECT_EQ(y->id, QStringLiteral("segunda"));
 }
@@ -141,11 +141,11 @@ TEST(CatalogoClassificacaoJsonTest, CatalogoEmpacotadoCarregaSemRejeicoes) {
     EXPECT_EQ(r.rejeitadas, 0);
 
     const CatalogoClassificacaoJson cat{r.entradas};
-    auto firefox = cat.buscar(ChaveProcesso::deBinario(QStringLiteral("firefox")));
+    auto firefox = cat.buscar(ChaveProcesso::de_binario(QStringLiteral("firefox")));
     ASSERT_TRUE(firefox.has_value());
     EXPECT_EQ(firefox->veredito, Categoria::CandidatoObvioCpu);
 
-    auto kwin = cat.buscar(ChaveProcesso::deBinario(QStringLiteral("kwin_wayland")));
+    auto kwin = cat.buscar(ChaveProcesso::de_binario(QStringLiteral("kwin_wayland")));
     ASSERT_TRUE(kwin.has_value());
     EXPECT_EQ(kwin->veredito, Categoria::PrecisaGpu);
 }

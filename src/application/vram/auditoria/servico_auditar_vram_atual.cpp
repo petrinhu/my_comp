@@ -15,12 +15,12 @@ ServicoAuditarVramAtual::ServicoAuditarVramAtual(
 RelatorioAuditoriaVram ServicoAuditarVramAtual::executar() const {
     RelatorioAuditoriaVram relatorio;
 
-    const auto gpus = m_backend->enumerarGpus();
+    const auto gpus = m_backend->enumerar_gpus();
     relatorio.grupos.reserve(gpus.size());
 
     for (const auto& gpu : gpus) {
         GrupoAuditoriaGpu grupo{.gpu = gpu, .itens = {}};
-        const auto processos = m_backend->enumerarProcessosVram(gpu.id());
+        const auto processos = m_backend->enumerar_processos_vram(gpu.id());
         grupo.itens.reserve(processos.size());
 
         for (const auto& processo : processos) {

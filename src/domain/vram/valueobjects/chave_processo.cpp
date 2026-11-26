@@ -11,13 +11,13 @@ ChaveProcesso::ChaveProcesso(TipoChave tipo, QString valor)
     }
 }
 
-ChaveProcesso ChaveProcesso::deBinario(QString valor) {
+ChaveProcesso ChaveProcesso::de_binario(QString valor) {
     return ChaveProcesso{TipoChave::Binario, std::move(valor)};
 }
-ChaveProcesso ChaveProcesso::deWmClass(QString valor) {
+ChaveProcesso ChaveProcesso::de_wm_class(QString valor) {
     return ChaveProcesso{TipoChave::WmClass, std::move(valor)};
 }
-ChaveProcesso ChaveProcesso::deDesktopId(QString valor) {
+ChaveProcesso ChaveProcesso::de_desktop_id(QString valor) {
     return ChaveProcesso{TipoChave::DesktopId, std::move(valor)};
 }
 

@@ -26,11 +26,11 @@ Processo processoFirefoxComDuasChaves() {
     return Processo{
         PID{1234},
         NomeProcesso{QStringLiteral("firefox")},
-        BytesDeMemoria::deMegabytes(350),
+        BytesDeMemoria::de_megabytes(350),
         0,
         {
-            ChaveProcesso::deBinario(QStringLiteral("firefox")),
-            ChaveProcesso::deWmClass(QStringLiteral("firefox")),
+            ChaveProcesso::de_binario(QStringLiteral("firefox")),
+            ChaveProcesso::de_wm_class(QStringLiteral("firefox")),
         }
     };
 }

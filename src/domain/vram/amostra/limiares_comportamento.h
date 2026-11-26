@@ -13,8 +13,8 @@ struct LimiaresComportamento {
     double         compute_sustentado{0.0};
 
     [[nodiscard]] static LimiaresComportamento padrao() noexcept;
-    [[nodiscard]] BytesDeMemoria vramTrivialEfetivo(BytesDeMemoria vram_total_gpu) const noexcept;
-    [[nodiscard]] BytesDeMemoria vramAltaEfetivo(BytesDeMemoria vram_total_gpu)    const noexcept;
+    [[nodiscard]] BytesDeMemoria vram_trivial_efetivo(BytesDeMemoria vram_total_gpu) const noexcept;
+    [[nodiscard]] BytesDeMemoria vram_alta_efetivo(BytesDeMemoria vram_total_gpu)    const noexcept;
 };
 
 }

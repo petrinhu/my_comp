@@ -16,7 +16,7 @@ public:
     virtual ~ILeitorDesktopFile() = default;
 
     [[nodiscard]] virtual QStringList
-        categoriasDe(const Processo& processo) const = 0;
+        categorias_de(const Processo& processo) const = 0;
 };
 
 }

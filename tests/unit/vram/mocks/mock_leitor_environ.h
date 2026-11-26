@@ -8,7 +8,7 @@ namespace vramopt::tests {
 
 class MockLeitorEnviron : public vramopt::domain::ILeitorEnviron {
 public:
-    MOCK_METHOD((QHash<QString, QString>), environDe, (const vramopt::domain::PID&), (const, override));
+    MOCK_METHOD((QHash<QString, QString>), environ_de, (const vramopt::domain::PID&), (const, override));
 };
 
 }

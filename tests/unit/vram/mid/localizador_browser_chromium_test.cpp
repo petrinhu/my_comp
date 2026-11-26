@@ -26,16 +26,16 @@ namespace {
 Processo procBrave() {
     return Processo{
         PID{1234}, NomeProcesso{QStringLiteral("brave-browser")},
-        BytesDeMemoria::deMegabytes(350), 0,
-        {ChaveProcesso::deBinario(QStringLiteral("brave-browser"))}
+        BytesDeMemoria::de_megabytes(350), 0,
+        {ChaveProcesso::de_binario(QStringLiteral("brave-browser"))}
     };
 }
 
 Processo procFirefox() {
     return Processo{
         PID{4321}, NomeProcesso{QStringLiteral("firefox")},
-        BytesDeMemoria::deMegabytes(250), 0,
-        {ChaveProcesso::deBinario(QStringLiteral("firefox"))}
+        BytesDeMemoria::de_megabytes(250), 0,
+        {ChaveProcesso::de_binario(QStringLiteral("firefox"))}
     };
 }
 

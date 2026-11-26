@@ -10,7 +10,7 @@ RegraCategoriaDesktop::RegraCategoriaDesktop(
 
 std::optional<domain::ResultadoClassificacao>
 RegraCategoriaDesktop::avaliar(const domain::Processo& processo) const {
-    auto categorias = m_leitor->categoriasDe(processo);
+    auto categorias = m_leitor->categorias_de(processo);
     auto v = m_mapa.classificarPor(categorias);
     if (!v.has_value()) {
         return std::nullopt;

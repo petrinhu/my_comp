@@ -56,9 +56,9 @@ std::optional<domain::ChaveProcesso> chave_de(const QString& tipo, const QString
     if (valor.isEmpty() || valor.size() > TAMANHO_MAXIMO_VALOR) {
         return std::nullopt;
     }
-    if (tipo == QStringLiteral("binario"))    return domain::ChaveProcesso::deBinario(valor);
-    if (tipo == QStringLiteral("wm_class"))   return domain::ChaveProcesso::deWmClass(valor);
-    if (tipo == QStringLiteral("desktop_id")) return domain::ChaveProcesso::deDesktopId(valor);
+    if (tipo == QStringLiteral("binario"))    return domain::ChaveProcesso::de_binario(valor);
+    if (tipo == QStringLiteral("wm_class"))   return domain::ChaveProcesso::de_wm_class(valor);
+    if (tipo == QStringLiteral("desktop_id")) return domain::ChaveProcesso::de_desktop_id(valor);
     return std::nullopt;
 }
 
@@ -333,7 +333,7 @@ void RepositorioFeedbackCifrado::inserir(const domain::EntradaFeedback& entrada)
     persistir();
 }
 
-void RepositorioFeedbackCifrado::atualizarVistoEm(int id, QDateTime quando) {
+void RepositorioFeedbackCifrado::atualizar_visto_em(int id, QDateTime quando) {
     const std::lock_guard trava{m_mutex};
     garantir_carregado();
     for (auto& e : m_entradas) {
@@ -353,7 +353,7 @@ void RepositorioFeedbackCifrado::remover(int id) {
     }
 }
 
-QVector<domain::EntradaFeedback> RepositorioFeedbackCifrado::listarTodos() const {
+QVector<domain::EntradaFeedback> RepositorioFeedbackCifrado::listar_todos() const {
     const std::lock_guard trava{m_mutex};
     garantir_carregado();
     return m_entradas;

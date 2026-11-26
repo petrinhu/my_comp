@@ -6,11 +6,11 @@ using vramopt::infrastructure::NullGpuBackend;
 
 TEST(NullGpuBackendTest, NaoEnumeraGpus) {
     NullGpuBackend backend;
-    EXPECT_TRUE(backend.enumerarGpus().empty());
+    EXPECT_TRUE(backend.enumerar_gpus().empty());
 }
 
 TEST(NullGpuBackendTest, NaoEnumeraProcessos) {
     NullGpuBackend backend;
-    EXPECT_TRUE(backend.enumerarProcessosVram(0).empty());
-    EXPECT_TRUE(backend.enumerarProcessosVram(99).empty());
+    EXPECT_TRUE(backend.enumerar_processos_vram(0).empty());
+    EXPECT_TRUE(backend.enumerar_processos_vram(99).empty());
 }

@@ -11,10 +11,10 @@ public:
     explicit IntelI915GpuBackend(QString drm_root = QStringLiteral("/sys/class/drm"),
                                  QString proc_root = QStringLiteral("/proc"));
 
-    [[nodiscard]] std::vector<domain::GpuInfo> enumerarGpus() const override;
+    [[nodiscard]] std::vector<domain::GpuInfo> enumerar_gpus() const override;
 
     [[nodiscard]] std::vector<domain::Processo>
-        enumerarProcessosVram(int gpu_id) const override;
+        enumerar_processos_vram(int gpu_id) const override;
 
     [[nodiscard]] static bool sistemaTemGpuIntel(const QString& drm_root);
 

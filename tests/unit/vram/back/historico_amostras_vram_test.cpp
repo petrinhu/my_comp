@@ -37,18 +37,18 @@ struct RelogioFalso {
 };
 
 Processo proc(int pid, const QString& nome, std::uint64_t mb, int gpu = 0) {
-    return Processo{PID{pid}, NomeProcesso{nome}, BytesDeMemoria::deMegabytes(mb), gpu,
-                    {ChaveProcesso::deBinario(nome)}};
+    return Processo{PID{pid}, NomeProcesso{nome}, BytesDeMemoria::de_megabytes(mb), gpu,
+                    {ChaveProcesso::de_binario(nome)}};
 }
 
-const BytesDeMemoria k_total = BytesDeMemoria::deMegabytes(8192);
+const BytesDeMemoria k_total = BytesDeMemoria::de_megabytes(8192);
 
 }
 
 TEST(HistoricoAmostrasVramTest, SemDadosDevolveZeroAmostras) {
     RelogioFalso relogio;
     const HistoricoAmostrasVram h{relogio.funcao()};
-    const auto a = h.amostraJanela(PID{42}, 30s);
+    const auto a = h.amostra_janela(PID{42}, 30s);
     EXPECT_EQ(a.amostras, 0);
     EXPECT_EQ(a.janela, 30s);
     EXPECT_EQ(a.vram_media, BytesDeMemoria{0});
@@ -61,9 +61,9 @@ TEST(HistoricoAmostrasVramTest, AgregaMediaDaVramNaJanela) {
     relogio.agora += 10s;
     h.registrar(proc(10, QStringLiteral("foo"), 300), k_total);
 
-    const auto a = h.amostraJanela(PID{10}, 30s);
+    const auto a = h.amostra_janela(PID{10}, 30s);
     EXPECT_EQ(a.amostras, 2);
-    EXPECT_EQ(a.vram_media, BytesDeMemoria::deMegabytes(200));
+    EXPECT_EQ(a.vram_media, BytesDeMemoria::de_megabytes(200));
     EXPECT_EQ(a.vram_total_gpu, k_total);
     EXPECT_EQ(a.janela, 30s);
     // Nenhum backend expõe utilização por processo ainda: fica 0 (documentado).
@@ -77,12 +77,12 @@ TEST(HistoricoAmostrasVramTest, AmostrasForaDaJanelaNaoEntram) {
     relogio.agora += 40s;
     h.registrar(proc(10, QStringLiteral("foo"), 100), k_total);
 
-    const auto a = h.amostraJanela(PID{10}, 30s);
+    const auto a = h.amostra_janela(PID{10}, 30s);
     EXPECT_EQ(a.amostras, 1);
-    EXPECT_EQ(a.vram_media, BytesDeMemoria::deMegabytes(100));
+    EXPECT_EQ(a.vram_media, BytesDeMemoria::de_megabytes(100));
 
     relogio.agora += 31s;
-    EXPECT_EQ(h.amostraJanela(PID{10}, 30s).amostras, 0);
+    EXPECT_EQ(h.amostra_janela(PID{10}, 30s).amostras, 0);
 }
 
 TEST(HistoricoAmostrasVramTest, PidsSaoIndependentes) {
@@ -90,8 +90,8 @@ TEST(HistoricoAmostrasVramTest, PidsSaoIndependentes) {
     HistoricoAmostrasVram h{relogio.funcao()};
     h.registrar(proc(10, QStringLiteral("foo"), 100), k_total);
     h.registrar(proc(11, QStringLiteral("bar"), 900), k_total);
-    EXPECT_EQ(h.amostraJanela(PID{10}, 30s).vram_media, BytesDeMemoria::deMegabytes(100));
-    EXPECT_EQ(h.amostraJanela(PID{11}, 30s).vram_media, BytesDeMemoria::deMegabytes(900));
+    EXPECT_EQ(h.amostra_janela(PID{10}, 30s).vram_media, BytesDeMemoria::de_megabytes(100));
+    EXPECT_EQ(h.amostra_janela(PID{11}, 30s).vram_media, BytesDeMemoria::de_megabytes(900));
 }
 
 TEST(HistoricoAmostrasVramTest, PidReaproveitadoPorOutroProcessoZeraHistorico) {
@@ -100,9 +100,9 @@ TEST(HistoricoAmostrasVramTest, PidReaproveitadoPorOutroProcessoZeraHistorico) {
     h.registrar(proc(10, QStringLiteral("antigo"), 4000), k_total);
     relogio.agora += 5s;
     h.registrar(proc(10, QStringLiteral("novo"), 100), k_total);
-    const auto a = h.amostraJanela(PID{10}, 30s);
+    const auto a = h.amostra_janela(PID{10}, 30s);
     EXPECT_EQ(a.amostras, 1);
-    EXPECT_EQ(a.vram_media, BytesDeMemoria::deMegabytes(100));
+    EXPECT_EQ(a.vram_media, BytesDeMemoria::de_megabytes(100));
 }
 
 TEST(HistoricoAmostrasVramTest, LimitaAmostrasPorPid) {
@@ -111,7 +111,7 @@ TEST(HistoricoAmostrasVramTest, LimitaAmostrasPorPid) {
     for (std::size_t i = 0; i < HistoricoAmostrasVram::MAXIMO_AMOSTRAS_POR_PID + 50; ++i) {
         h.registrar(proc(10, QStringLiteral("foo"), 100), k_total);
     }
-    EXPECT_EQ(h.amostraJanela(PID{10}, 30s).amostras,
+    EXPECT_EQ(h.amostra_janela(PID{10}, 30s).amostras,
               static_cast<int>(HistoricoAmostrasVram::MAXIMO_AMOSTRAS_POR_PID));
 }
 
@@ -128,25 +128,25 @@ TEST(GpuBackendComHistoricoTest, DelegaERegistraCadaProcessoComTotalDaGpu) {
     RelogioFalso relogio;
     auto historico = std::make_shared<HistoricoAmostrasVram>(relogio.funcao());
     auto interno = std::make_shared<MockGpuBackend>();
-    EXPECT_CALL(*interno, enumerarGpus())
+    EXPECT_CALL(*interno, enumerar_gpus())
         .WillRepeatedly(Return(std::vector<GpuInfo>{
             GpuInfo{0, Fabricante::Nvidia, QStringLiteral("RTX"), k_total}}));
-    EXPECT_CALL(*interno, enumerarProcessosVram(0))
+    EXPECT_CALL(*interno, enumerar_processos_vram(0))
         .WillOnce(Return(std::vector<Processo>{proc(10, QStringLiteral("foo"), 100)}))
         .WillOnce(Return(std::vector<Processo>{proc(10, QStringLiteral("foo"), 300)}));
 
     const GpuBackendComHistorico backend{interno, historico};
-    ASSERT_EQ(backend.enumerarGpus().size(), 1U);
-    const auto primeira = backend.enumerarProcessosVram(0);
+    ASSERT_EQ(backend.enumerar_gpus().size(), 1U);
+    const auto primeira = backend.enumerar_processos_vram(0);
     ASSERT_EQ(primeira.size(), 1U);
     EXPECT_EQ(primeira.front().pid(), PID{10});  // repassa o resultado sem alterar
     relogio.agora += 10s;
-    (void)backend.enumerarGpus();
-    (void)backend.enumerarProcessosVram(0);
+    (void)backend.enumerar_gpus();
+    (void)backend.enumerar_processos_vram(0);
 
-    const auto a = historico->amostraJanela(PID{10}, 30s);
+    const auto a = historico->amostra_janela(PID{10}, 30s);
     EXPECT_EQ(a.amostras, 2);
-    EXPECT_EQ(a.vram_media, BytesDeMemoria::deMegabytes(200));
+    EXPECT_EQ(a.vram_media, BytesDeMemoria::de_megabytes(200));
     EXPECT_EQ(a.vram_total_gpu, k_total);
 }
 
@@ -154,12 +154,12 @@ TEST(GpuBackendComHistoricoTest, GpuDesconhecidaRegistraTotalZero) {
     RelogioFalso relogio;
     auto historico = std::make_shared<HistoricoAmostrasVram>(relogio.funcao());
     auto interno = std::make_shared<MockGpuBackend>();
-    EXPECT_CALL(*interno, enumerarProcessosVram(3))
+    EXPECT_CALL(*interno, enumerar_processos_vram(3))
         .WillOnce(Return(std::vector<Processo>{proc(20, QStringLiteral("bar"), 64, 3)}));
 
     const GpuBackendComHistorico backend{interno, historico};
-    (void)backend.enumerarProcessosVram(3);
-    const auto a = historico->amostraJanela(PID{20}, 30s);
+    (void)backend.enumerar_processos_vram(3);
+    const auto a = historico->amostra_janela(PID{20}, 30s);
     EXPECT_EQ(a.amostras, 1);
     EXPECT_EQ(a.vram_total_gpu, BytesDeMemoria{0});
 }

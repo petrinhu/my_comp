@@ -8,7 +8,7 @@ namespace vramopt::tests {
 
 class MockLeitorDesktopExec : public vramopt::domain::ILeitorDesktopExec {
 public:
-    MOCK_METHOD(std::optional<vramopt::domain::EntradaDesktopExec>, entradaDe,
+    MOCK_METHOD(std::optional<vramopt::domain::EntradaDesktopExec>, entrada_de,
                 (const vramopt::domain::Processo&), (const, override));
 };
 

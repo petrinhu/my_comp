@@ -103,9 +103,9 @@ QVariantMap itemToMap(const application::ItemAuditoriaVram& item) {
     m.insert(QStringLiteral("nome"),           item.processo.nome().valor());
     m.insert(QStringLiteral("chaveBinario"),   chave_binario_de(item.processo));
     m.insert(QStringLiteral("vramBytes"),
-             static_cast<qulonglong>(item.processo.vramConsumida().valor()));
+             static_cast<qulonglong>(item.processo.vram_consumida().valor()));
     m.insert(QStringLiteral("vramMb"),
-             static_cast<double>(item.processo.vramConsumida().valor()) / (1024.0 * 1024.0));
+             static_cast<double>(item.processo.vram_consumida().valor()) / (1024.0 * 1024.0));
     m.insert(QStringLiteral("categoria"),      categoriaString(item.classificacao.categoria));
     m.insert(QStringLiteral("regra"),          item.classificacao.justificativa.regra);
     m.insert(QStringLiteral("detalhe"),        item.classificacao.justificativa.detalhe);
@@ -127,9 +127,9 @@ QVariantMap grupoToMap(const application::GrupoAuditoriaGpu& grupo) {
     m.insert(QStringLiteral("gpuFabricante"), fabricanteString(grupo.gpu.fabricante()));
     m.insert(QStringLiteral("gpuModelo"),     grupo.gpu.modelo());
     m.insert(QStringLiteral("gpuVramTotalBytes"),
-             static_cast<qulonglong>(grupo.gpu.vramTotal().valor()));
+             static_cast<qulonglong>(grupo.gpu.vram_total().valor()));
     m.insert(QStringLiteral("gpuVramTotalMb"),
-             static_cast<double>(grupo.gpu.vramTotal().valor()) / (1024.0 * 1024.0));
+             static_cast<double>(grupo.gpu.vram_total().valor()) / (1024.0 * 1024.0));
 
     QVariantList itens;
     itens.reserve(static_cast<int>(grupo.itens.size()));
@@ -195,7 +195,7 @@ void VramAuditViewModel::registrarFeedback(const QString& chaveBinario,
         return;
     }
     auto servico = m_feedback;
-    auto chave = domain::ChaveProcesso::deBinario(binario);
+    auto chave = domain::ChaveProcesso::de_binario(binario);
     auto _future = QtConcurrent::run([this, servico, chave, v = *veredito, motivo]() {
         const bool ok = servico->executar(chave, v, motivo);
         QMetaObject::invokeMethod(this, [this, ok]() {

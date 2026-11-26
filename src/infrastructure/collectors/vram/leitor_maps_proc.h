@@ -11,7 +11,7 @@ class LeitorMapsProc final : public domain::ILeitorMapsProcesso {
 public:
     explicit LeitorMapsProc(QString proc_root = QStringLiteral("/proc"));
 
-    [[nodiscard]] QStringList bibliotecasMapeadas(const domain::PID& pid) const override;
+    [[nodiscard]] QStringList bibliotecas_mapeadas(const domain::PID& pid) const override;
 
 private:
     QString m_proc_root;

@@ -32,7 +32,7 @@ ServicoRegistrarFeedback servico_com(const std::shared_ptr<MockRepositorioFeedba
 
 TEST(ServicoRegistrarFeedbackTest, PrimeiroFeedbackCriaEntradaNova) {
     auto repo = std::make_shared<MockRepositorioFeedback>();
-    const auto chave = ChaveProcesso::deBinario(QStringLiteral("firefox"));
+    const auto chave = ChaveProcesso::de_binario(QStringLiteral("firefox"));
     EXPECT_CALL(*repo, buscar(chave)).WillOnce(Return(std::nullopt));
     EntradaFeedback gravada{.chave = chave};
     EXPECT_CALL(*repo, inserir(_)).WillOnce(SaveArg<0>(&gravada));
@@ -49,7 +49,7 @@ TEST(ServicoRegistrarFeedbackTest, PrimeiroFeedbackCriaEntradaNova) {
 
 TEST(ServicoRegistrarFeedbackTest, RevisarMantemIdECriacaoEMarcaRevisao) {
     auto repo = std::make_shared<MockRepositorioFeedback>();
-    const auto chave = ChaveProcesso::deBinario(QStringLiteral("firefox"));
+    const auto chave = ChaveProcesso::de_binario(QStringLiteral("firefox"));
     const auto antes = k_agora.addDays(-10);
     EXPECT_CALL(*repo, buscar(chave)).WillOnce(Return(EntradaFeedback{
         .id = 7, .chave = chave, .veredito = Categoria::PrecisaGpu, .motivo = QStringLiteral("a"),
@@ -68,7 +68,7 @@ TEST(ServicoRegistrarFeedbackTest, RevisarMantemIdECriacaoEMarcaRevisao) {
 TEST(ServicoRegistrarFeedbackTest, IndeterminadoNaoFixaVeredito) {
     auto repo = std::make_shared<MockRepositorioFeedback>();
     EXPECT_CALL(*repo, inserir(_)).Times(0);
-    EXPECT_FALSE(servico_com(repo).executar(ChaveProcesso::deBinario(QStringLiteral("x")),
+    EXPECT_FALSE(servico_com(repo).executar(ChaveProcesso::de_binario(QStringLiteral("x")),
                                             Categoria::Indeterminado, QString{}));
 }
 
@@ -77,6 +77,6 @@ TEST(ServicoRegistrarFeedbackTest, MotivoLongoETruncado) {
     EXPECT_CALL(*repo, buscar(_)).WillOnce(Return(std::nullopt));
     EXPECT_CALL(*repo, inserir(Field(&EntradaFeedback::motivo, ::testing::SizeIs(
         static_cast<int>(ServicoRegistrarFeedback::TAMANHO_MAXIMO_MOTIVO)))));
-    EXPECT_TRUE(servico_com(repo).executar(ChaveProcesso::deBinario(QStringLiteral("x")),
+    EXPECT_TRUE(servico_com(repo).executar(ChaveProcesso::de_binario(QStringLiteral("x")),
                                            Categoria::PrecisaGpu, QString(5000, QLatin1Char('m'))));
 }

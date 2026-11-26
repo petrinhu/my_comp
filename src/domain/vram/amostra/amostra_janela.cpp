@@ -2,8 +2,8 @@
 
 namespace vramopt::domain {
 
-double AmostraJanela::razaoVramSobreTotal() const noexcept {
-    return vram_media.razaoSobre(vram_total_gpu);
+double AmostraJanela::razao_vram_sobre_total() const noexcept {
+    return vram_media.razao_sobre(vram_total_gpu);
 }
 
 }

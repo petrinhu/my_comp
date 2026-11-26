@@ -24,7 +24,7 @@ void HistoricoAmostrasVram::registrar(const domain::Processo& processo,
     }
     historico.amostras.push_back(Amostra{
         .quando = agora,
-        .vram = processo.vramConsumida(),
+        .vram = processo.vram_consumida(),
         .vram_total_gpu = vram_total_gpu,
     });
     while (historico.amostras.size() > MAXIMO_AMOSTRAS_POR_PID) {
@@ -33,7 +33,7 @@ void HistoricoAmostrasVram::registrar(const domain::Processo& processo,
 }
 
 domain::AmostraJanela
-HistoricoAmostrasVram::amostraJanela(const domain::PID& pid, std::chrono::seconds janela) const {
+HistoricoAmostrasVram::amostra_janela(const domain::PID& pid, std::chrono::seconds janela) const {
     domain::AmostraJanela resultado;
     resultado.janela = janela;
 

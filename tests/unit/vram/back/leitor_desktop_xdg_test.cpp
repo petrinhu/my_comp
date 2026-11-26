@@ -61,7 +61,7 @@ TEST(LeitorDesktopExecXdgTest, EncontraPorPrefixDoExecQuandoNomeBate) {
 
     LeitorDesktopExecXdg leitor{{xdg}};
     const auto resultado =
-        leitor.entradaDe(fazerProcesso(100, QStringLiteral("blender")));
+        leitor.entrada_de(fazerProcesso(100, QStringLiteral("blender")));
 
     ASSERT_TRUE(resultado.has_value());
     EXPECT_EQ(resultado->exec, QStringLiteral("blender %f"));
@@ -77,8 +77,8 @@ TEST(LeitorDesktopExecXdgTest, ResolvePrimeiroPorChaveDesktopId) {
                     QStringLiteral("Application;"));
 
     LeitorDesktopExecXdg leitor{{xdg}};
-    auto resultado = leitor.entradaDe(fazerProcesso(101, QStringLiteral("foo"),
-        {ChaveProcesso::deDesktopId(QStringLiteral("org.example.foo"))}));
+    auto resultado = leitor.entrada_de(fazerProcesso(101, QStringLiteral("foo"),
+        {ChaveProcesso::de_desktop_id(QStringLiteral("org.example.foo"))}));
     ASSERT_TRUE(resultado.has_value());
     EXPECT_TRUE(resultado->exec.contains(QStringLiteral("wrapper")));
 }
@@ -92,7 +92,7 @@ TEST(LeitorDesktopExecXdgTest, RetornaNulloptQuandoNaoCasa) {
                     QStringLiteral("Graphics;"));
 
     LeitorDesktopExecXdg leitor{{xdg}};
-    EXPECT_FALSE(leitor.entradaDe(fazerProcesso(1, QStringLiteral("blender"))).has_value());
+    EXPECT_FALSE(leitor.entrada_de(fazerProcesso(1, QStringLiteral("blender"))).has_value());
 }
 
 TEST(LeitorDesktopFileXdgTest, ExtraiCategoriasDoArquivoDesktop) {
@@ -104,7 +104,7 @@ TEST(LeitorDesktopFileXdgTest, ExtraiCategoriasDoArquivoDesktop) {
                     QStringLiteral("Graphics;VectorGraphics;"));
 
     LeitorDesktopFileXdg leitor{{xdg}};
-    const auto cats = leitor.categoriasDe(fazerProcesso(1, QStringLiteral("inkscape")));
+    const auto cats = leitor.categorias_de(fazerProcesso(1, QStringLiteral("inkscape")));
     EXPECT_TRUE(cats.contains(QStringLiteral("Graphics")));
     EXPECT_TRUE(cats.contains(QStringLiteral("VectorGraphics")));
 }
@@ -114,7 +114,7 @@ TEST(LeitorDesktopFileXdgTest, RetornaVazioQuandoNaoEncontra) {
     ASSERT_TRUE(tmp.isValid());
     const QString xdg = tmp.path() + QStringLiteral("/share");
     LeitorDesktopFileXdg leitor{{xdg}};
-    EXPECT_TRUE(leitor.categoriasDe(fazerProcesso(1, QStringLiteral("ausente"))).isEmpty());
+    EXPECT_TRUE(leitor.categorias_de(fazerProcesso(1, QStringLiteral("ausente"))).isEmpty());
 }
 
 TEST(LeitorDesktopFileXdgTest, IgnoraSecoesAlternativasDoArquivo) {
@@ -130,7 +130,7 @@ TEST(LeitorDesktopFileXdgTest, IgnoraSecoesAlternativasDoArquivo) {
     f.close();
 
     LeitorDesktopFileXdg leitor{{xdg}};
-    const auto cats = leitor.categoriasDe(fazerProcesso(1, QStringLiteral("multi")));
+    const auto cats = leitor.categorias_de(fazerProcesso(1, QStringLiteral("multi")));
     EXPECT_TRUE(cats.contains(QStringLiteral("Real")));
     EXPECT_FALSE(cats.contains(QStringLiteral("Falsa")));
 }

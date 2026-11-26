@@ -10,9 +10,9 @@ namespace vramopt::tests {
 
 class MockGpuBackend : public vramopt::domain::IGpuBackend {
 public:
-    MOCK_METHOD(std::vector<vramopt::domain::GpuInfo>, enumerarGpus,
+    MOCK_METHOD(std::vector<vramopt::domain::GpuInfo>, enumerar_gpus,
                 (), (const, override));
-    MOCK_METHOD(std::vector<vramopt::domain::Processo>, enumerarProcessosVram,
+    MOCK_METHOD(std::vector<vramopt::domain::Processo>, enumerar_processos_vram,
                 (int), (const, override));
 };
 

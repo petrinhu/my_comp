@@ -17,7 +17,7 @@ constexpr qint64 LIMITE_BYTES_MAPS = 16LL * 1024 * 1024; // entrada externa: tet
 LeitorMapsProc::LeitorMapsProc(QString proc_root)
     : m_proc_root{std::move(proc_root)} {}
 
-QStringList LeitorMapsProc::bibliotecasMapeadas(const domain::PID& pid) const {
+QStringList LeitorMapsProc::bibliotecas_mapeadas(const domain::PID& pid) const {
     QStringList resultado;
     QFile f{QStringLiteral("%1/%2/maps").arg(m_proc_root).arg(pid.valor())};
     if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {

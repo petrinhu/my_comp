@@ -17,7 +17,7 @@ public:
     virtual ~IAmostradorComportamento() = default;
 
     [[nodiscard]] virtual AmostraJanela
-        amostraJanela(const PID& pid, std::chrono::seconds janela) const = 0;
+        amostra_janela(const PID& pid, std::chrono::seconds janela) const = 0;
 };
 
 }

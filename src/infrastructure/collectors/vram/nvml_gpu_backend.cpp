@@ -35,7 +35,7 @@ NvmlGpuBackend::NvmlGpuBackend(std::shared_ptr<INvmlAdapter> adapter,
       m_proc_root{std::move(proc_root)} {}
 
 std::vector<vramopt::domain::GpuInfo>
-NvmlGpuBackend::enumerarGpus() const {
+NvmlGpuBackend::enumerar_gpus() const {
     std::vector<domain::GpuInfo> gpus;
     if (!m_adapter || !m_adapter->isAvailable()) {
         return gpus;
@@ -56,7 +56,7 @@ NvmlGpuBackend::enumerarGpus() const {
 }
 
 std::vector<vramopt::domain::Processo>
-NvmlGpuBackend::enumerarProcessosVram(int gpu_id) const {
+NvmlGpuBackend::enumerar_processos_vram(int gpu_id) const {
     std::vector<domain::Processo> processos;
     if (!m_adapter || !m_adapter->isAvailable() || gpu_id < 0) {
         return processos;
@@ -82,7 +82,7 @@ NvmlGpuBackend::enumerarProcessosVram(int gpu_id) const {
         const NvmlProcessoInfo r{.pid = pid, .bytes = bytes};
         const auto nome = lerComm(m_proc_root, r.pid);
         std::vector<domain::ChaveProcesso> chaves;
-        chaves.push_back(domain::ChaveProcesso::deBinario(nome));
+        chaves.push_back(domain::ChaveProcesso::de_binario(nome));
         processos.emplace_back(domain::PID{static_cast<std::int32_t>(r.pid)},
                                domain::NomeProcesso{nome},
                                domain::BytesDeMemoria{r.bytes},

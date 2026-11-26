@@ -52,7 +52,7 @@ QString formatarJson(const application::RelatorioAuditoriaVram& rel,
         g[QStringLiteral("fabricante")] = fabricanteString(grupo.gpu.fabricante());
         g[QStringLiteral("modelo")] = grupo.gpu.modelo();
         g[QStringLiteral("vram_total_bytes")] =
-            static_cast<qint64>(grupo.gpu.vramTotal().valor());
+            static_cast<qint64>(grupo.gpu.vram_total().valor());
 
         QJsonArray itens;
         for (const auto& item : grupo.itens) {
@@ -60,7 +60,7 @@ QString formatarJson(const application::RelatorioAuditoriaVram& rel,
             it[QStringLiteral("pid")] = item.processo.pid().valor();
             it[QStringLiteral("nome")] = item.processo.nome().valor();
             it[QStringLiteral("vram_bytes")] =
-                static_cast<qint64>(item.processo.vramConsumida().valor());
+                static_cast<qint64>(item.processo.vram_consumida().valor());
             it[QStringLiteral("categoria")] =
                 categoriaString(item.classificacao.categoria);
             it[QStringLiteral("regra")] = item.classificacao.justificativa.regra;
@@ -94,7 +94,7 @@ QString formatarTabular(const application::RelatorioAuditoriaVram& rel,
                    .arg(grupo.gpu.id())
                    .arg(fabricanteString(grupo.gpu.fabricante()),
                         grupo.gpu.modelo());
-        const auto vram_total_mb = grupo.gpu.vramTotal().valor() / (1024ULL * 1024ULL);
+        const auto vram_total_mb = grupo.gpu.vram_total().valor() / (1024ULL * 1024ULL);
         if (vram_total_mb > 0) {
             out += QStringLiteral("%1 MiB ===\n").arg(vram_total_mb);
         } else {
@@ -110,7 +110,7 @@ QString formatarTabular(const application::RelatorioAuditoriaVram& rel,
                    .arg(QStringLiteral("VRAM (MiB)"), -12)
                    .arg(QStringLiteral("CATEGORIA"));
         for (const auto& item : grupo.itens) {
-            const auto vram_mb = item.processo.vramConsumida().valor() / (1024ULL * 1024ULL);
+            const auto vram_mb = item.processo.vram_consumida().valor() / (1024ULL * 1024ULL);
             out += QStringLiteral("  %1  %2  %3  %4\n")
                        .arg(item.processo.pid().valor(), -7)
                        .arg(item.processo.nome().valor(), -24)

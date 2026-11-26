@@ -12,10 +12,10 @@ class CompositeGpuBackend final : public domain::IGpuBackend {
 public:
     explicit CompositeGpuBackend(std::vector<std::shared_ptr<domain::IGpuBackend>> backends);
 
-    [[nodiscard]] std::vector<domain::GpuInfo> enumerarGpus() const override;
+    [[nodiscard]] std::vector<domain::GpuInfo> enumerar_gpus() const override;
 
     [[nodiscard]] std::vector<domain::Processo>
-        enumerarProcessosVram(int gpu_id) const override;
+        enumerar_processos_vram(int gpu_id) const override;
 
 private:
     struct EntradaGpu {

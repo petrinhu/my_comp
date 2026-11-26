@@ -27,7 +27,7 @@ namespace {
 
 Processo proc() {
     return Processo{PID{1234}, NomeProcesso{QStringLiteral("x")},
-                    BytesDeMemoria::deMegabytes(100), 0, {}};
+                    BytesDeMemoria::de_megabytes(100), 0, {}};
 }
 
 OrigemConfig fab(CategoriaOrigem c, const QString& tipo) {

@@ -70,12 +70,12 @@ TEST(IntelI915GpuBackendTest, EnumeraGpusFiltrandoPorVendor8086) {
 
     IntelI915GpuBackend backend{drm, tmp.path() + QStringLiteral("/proc")};
 
-    const auto gpus = backend.enumerarGpus();
+    const auto gpus = backend.enumerar_gpus();
     ASSERT_EQ(gpus.size(), 1U);
     EXPECT_EQ(gpus[0].id(), 0);
     EXPECT_EQ(gpus[0].fabricante(), Fabricante::Intel);
     EXPECT_TRUE(gpus[0].modelo().contains(QStringLiteral("9A49")));
-    EXPECT_EQ(gpus[0].vramTotal().valor(), 4ULL * 1024 * 1024 * 1024);
+    EXPECT_EQ(gpus[0].vram_total().valor(), 4ULL * 1024 * 1024 * 1024);
 }
 
 TEST(IntelI915GpuBackendTest, IgnoraEntradasDeConector) {
@@ -88,7 +88,7 @@ TEST(IntelI915GpuBackendTest, IgnoraEntradasDeConector) {
                     QStringLiteral("0000:00:02.0"), 0);
 
     IntelI915GpuBackend backend{drm, tmp.path() + QStringLiteral("/proc")};
-    EXPECT_EQ(backend.enumerarGpus().size(), 1U);
+    EXPECT_EQ(backend.enumerar_gpus().size(), 1U);
 }
 
 TEST(IntelI915GpuBackendTest, RetornaProcessosViaFdinfoMatchPorPdev) {
@@ -109,13 +109,13 @@ TEST(IntelI915GpuBackendTest, RetornaProcessosViaFdinfoMatchPorPdev) {
                        QStringLiteral("0000:99:99.0"), 99);
 
     IntelI915GpuBackend backend{drm, proc};
-    const auto procs = backend.enumerarProcessosVram(0);
+    const auto procs = backend.enumerar_processos_vram(0);
 
     ASSERT_EQ(procs.size(), 1U);
     EXPECT_EQ(procs[0].pid().valor(), 1234);
     EXPECT_EQ(procs[0].nome().valor(), QStringLiteral("blender"));
-    EXPECT_EQ(procs[0].vramConsumida().valor(), 256ULL * 1024 * 1024);
-    EXPECT_EQ(procs[0].gpuId(), 0);
+    EXPECT_EQ(procs[0].vram_consumida().valor(), 256ULL * 1024 * 1024);
+    EXPECT_EQ(procs[0].gpu_id(), 0);
     ASSERT_EQ(procs[0].chaves().size(), 1U);
     EXPECT_EQ(procs[0].chaves().front().valor(), QStringLiteral("blender"));
 }
@@ -128,15 +128,15 @@ TEST(IntelI915GpuBackendTest, RetornaVazioParaGpuIdInexistente) {
     montarCardSysfs(drm, 0, QStringLiteral("0x8086"), QStringLiteral("8086:9A49"),
                     QStringLiteral("0000:00:02.0"), 0);
     IntelI915GpuBackend backend{drm, tmp.path() + QStringLiteral("/proc")};
-    EXPECT_TRUE(backend.enumerarProcessosVram(99).empty());
+    EXPECT_TRUE(backend.enumerar_processos_vram(99).empty());
 }
 
 TEST(IntelI915GpuBackendTest, RetornaVazioQuandoDrmRootAusente) {
     IntelI915GpuBackend backend{
         QStringLiteral("/tmp/inexistente_xyz_12345"),
         QStringLiteral("/tmp/inexistente_proc_xyz")};
-    EXPECT_TRUE(backend.enumerarGpus().empty());
-    EXPECT_TRUE(backend.enumerarProcessosVram(0).empty());
+    EXPECT_TRUE(backend.enumerar_gpus().empty());
+    EXPECT_TRUE(backend.enumerar_processos_vram(0).empty());
 }
 
 TEST(IntelI915GpuBackendTest, SistemaTemGpuIntelDetectaCorretamente) {

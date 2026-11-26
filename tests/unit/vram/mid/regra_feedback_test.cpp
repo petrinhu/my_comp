@@ -28,9 +28,9 @@ Processo processoFirefox() {
     return Processo{
         PID{1234},
         NomeProcesso{QStringLiteral("firefox")},
-        BytesDeMemoria::deMegabytes(350),
+        BytesDeMemoria::de_megabytes(350),
         0,
-        {ChaveProcesso::deBinario(QStringLiteral("firefox"))},
+        {ChaveProcesso::de_binario(QStringLiteral("firefox"))},
     };
 }
 
@@ -59,7 +59,7 @@ TEST(RegraFeedbackTest, ClassificaQuandoFeedbackExiste) {
     auto repo = std::make_shared<MockRepositorioFeedback>();
     EntradaFeedback feedback{
         .id = 42,
-        .chave = ChaveProcesso::deBinario(QStringLiteral("firefox")),
+        .chave = ChaveProcesso::de_binario(QStringLiteral("firefox")),
         .veredito = Categoria::PrecisaGpu,
         .motivo = QStringLiteral("preciso de aceleração de WebGL"),
         .criado_em = QDateTime::currentDateTimeUtc(),
@@ -79,7 +79,7 @@ TEST(RegraFeedbackTest, JustificativaCitaIdEMotivo) {
     auto repo = std::make_shared<MockRepositorioFeedback>();
     EntradaFeedback feedback{
         .id = 7,
-        .chave = ChaveProcesso::deBinario(QStringLiteral("firefox")),
+        .chave = ChaveProcesso::de_binario(QStringLiteral("firefox")),
         .veredito = Categoria::CandidatoObvioCpu,
         .motivo = QStringLiteral("desliguei aceleração e não senti diferença"),
         .criado_em = QDateTime::currentDateTimeUtc(),

@@ -8,18 +8,18 @@ GpuBackendComHistorico::GpuBackendComHistorico(std::shared_ptr<domain::IGpuBacke
                                                std::shared_ptr<HistoricoAmostrasVram> historico)
     : m_interno{std::move(interno)}, m_historico{std::move(historico)} {}
 
-std::vector<domain::GpuInfo> GpuBackendComHistorico::enumerarGpus() const {
-    auto gpus = m_interno->enumerarGpus();
+std::vector<domain::GpuInfo> GpuBackendComHistorico::enumerar_gpus() const {
+    auto gpus = m_interno->enumerar_gpus();
     const std::lock_guard trava{m_mutex};
     m_vram_total_por_gpu.clear();
     for (const auto& gpu : gpus) {
-        m_vram_total_por_gpu.insert_or_assign(gpu.id(), gpu.vramTotal());
+        m_vram_total_por_gpu.insert_or_assign(gpu.id(), gpu.vram_total());
     }
     return gpus;
 }
 
-std::vector<domain::Processo> GpuBackendComHistorico::enumerarProcessosVram(int gpu_id) const {
-    auto processos = m_interno->enumerarProcessosVram(gpu_id);
+std::vector<domain::Processo> GpuBackendComHistorico::enumerar_processos_vram(int gpu_id) const {
+    auto processos = m_interno->enumerar_processos_vram(gpu_id);
     if (!m_historico) {
         return processos;
     }

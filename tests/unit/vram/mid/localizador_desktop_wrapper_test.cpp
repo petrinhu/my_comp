@@ -25,7 +25,7 @@ namespace {
 
 Processo proc() {
     return Processo{PID{1234}, NomeProcesso{QStringLiteral("firefox")},
-                    BytesDeMemoria::deMegabytes(100), 0, {}};
+                    BytesDeMemoria::de_megabytes(100), 0, {}};
 }
 
 EntradaDesktopExec entrada(QString exec, QString caminho =
@@ -37,14 +37,14 @@ EntradaDesktopExec entrada(QString exec, QString caminho =
 
 TEST(LocalizadorDesktopWrapperTest, AbstemQuandoLeitorDevolveNullopt) {
     auto leitor = std::make_shared<MockLeitorDesktopExec>();
-    EXPECT_CALL(*leitor, entradaDe(_)).WillOnce(Return(std::nullopt));
+    EXPECT_CALL(*leitor, entrada_de(_)).WillOnce(Return(std::nullopt));
     LocalizadorDesktopWrapper loc{leitor};
     EXPECT_TRUE(loc.localizar(proc()).isEmpty());
 }
 
 TEST(LocalizadorDesktopWrapperTest, AbstemQuandoExecSemWrapper) {
     auto leitor = std::make_shared<MockLeitorDesktopExec>();
-    EXPECT_CALL(*leitor, entradaDe(_))
+    EXPECT_CALL(*leitor, entrada_de(_))
         .WillOnce(Return(entrada(QStringLiteral("firefox %u"))));
     LocalizadorDesktopWrapper loc{leitor};
     EXPECT_TRUE(loc.localizar(proc()).isEmpty());
@@ -52,7 +52,7 @@ TEST(LocalizadorDesktopWrapperTest, AbstemQuandoExecSemWrapper) {
 
 TEST(LocalizadorDesktopWrapperTest, EmiteOrigemQuandoExecComecaComPrimeRun) {
     auto leitor = std::make_shared<MockLeitorDesktopExec>();
-    EXPECT_CALL(*leitor, entradaDe(_))
+    EXPECT_CALL(*leitor, entrada_de(_))
         .WillOnce(Return(entrada(QStringLiteral("prime-run firefox %u"))));
     LocalizadorDesktopWrapper loc{leitor};
     auto origens = loc.localizar(proc());
@@ -70,7 +70,7 @@ TEST(LocalizadorDesktopWrapperTest, EmiteOrigemQuandoExecComecaComPrimeRun) {
 
 TEST(LocalizadorDesktopWrapperTest, EmiteConfiancaMediaParaGamemoderun) {
     auto leitor = std::make_shared<MockLeitorDesktopExec>();
-    EXPECT_CALL(*leitor, entradaDe(_))
+    EXPECT_CALL(*leitor, entrada_de(_))
         .WillOnce(Return(entrada(QStringLiteral("gamemoderun firefox %u"))));
     LocalizadorDesktopWrapper loc{leitor};
     auto origens = loc.localizar(proc());
@@ -80,7 +80,7 @@ TEST(LocalizadorDesktopWrapperTest, EmiteConfiancaMediaParaGamemoderun) {
 
 TEST(LocalizadorDesktopWrapperTest, ReconheceOptirun) {
     auto leitor = std::make_shared<MockLeitorDesktopExec>();
-    EXPECT_CALL(*leitor, entradaDe(_))
+    EXPECT_CALL(*leitor, entrada_de(_))
         .WillOnce(Return(entrada(QStringLiteral("optirun firefox"))));
     LocalizadorDesktopWrapper loc{leitor};
     EXPECT_EQ(loc.localizar(proc()).size(), 1);
@@ -88,7 +88,7 @@ TEST(LocalizadorDesktopWrapperTest, ReconheceOptirun) {
 
 TEST(LocalizadorDesktopWrapperTest, IgnoraEspacosIniciaisDoExec) {
     auto leitor = std::make_shared<MockLeitorDesktopExec>();
-    EXPECT_CALL(*leitor, entradaDe(_))
+    EXPECT_CALL(*leitor, entrada_de(_))
         .WillOnce(Return(entrada(QStringLiteral("   prime-run firefox  "))));
     LocalizadorDesktopWrapper loc{leitor};
     EXPECT_EQ(loc.localizar(proc()).size(), 1);

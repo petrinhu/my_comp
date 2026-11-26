@@ -11,11 +11,11 @@ public:
 
     explicit BytesDeMemoria(underlying_t valor) noexcept : m_valor{valor} {}
 
-    [[nodiscard]] static BytesDeMemoria deMegabytes(underlying_t mb) noexcept;
-    [[nodiscard]] static BytesDeMemoria deKilobytes(underlying_t kb) noexcept;
+    [[nodiscard]] static BytesDeMemoria de_megabytes(underlying_t mb) noexcept;
+    [[nodiscard]] static BytesDeMemoria de_kilobytes(underlying_t kb) noexcept;
 
     [[nodiscard]] underlying_t valor() const noexcept { return m_valor; }
-    [[nodiscard]] double razaoSobre(BytesDeMemoria total) const noexcept;
+    [[nodiscard]] double razao_sobre(BytesDeMemoria total) const noexcept;
 
     [[nodiscard]] auto operator<=>(const BytesDeMemoria&) const noexcept = default;
     [[nodiscard]] bool operator==(const BytesDeMemoria&) const noexcept = default;

@@ -3,7 +3,7 @@
 // Amostrador de comportamento (VRAM-08) que não bloqueia a auditoria: em vez de amostrar
 // por conta própria durante a janela, guarda o que as próprias auditorias já coletam.
 // Cada enumeração de processos (via GpuBackendComHistorico) registra uma amostra por PID;
-// amostraJanela() agrega as amostras dentro da janela pedida. Sem amostra na janela,
+// amostra_janela() agrega as amostras dentro da janela pedida. Sem amostra na janela,
 // devolve amostras = 0 e a RegraComportamento se abstém.
 //
 // Limitação: nenhum backend (NVML/i915) expõe hoje utilização de compute por processo,
@@ -44,7 +44,7 @@ public:
     void registrar(const domain::Processo& processo, domain::BytesDeMemoria vram_total_gpu);
 
     [[nodiscard]] domain::AmostraJanela
-        amostraJanela(const domain::PID& pid, std::chrono::seconds janela) const override;
+        amostra_janela(const domain::PID& pid, std::chrono::seconds janela) const override;
 
     [[nodiscard]] std::size_t pids_rastreados() const;
 

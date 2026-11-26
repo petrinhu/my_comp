@@ -17,7 +17,7 @@ public:
     virtual ~ILeitorEnviron() = default;
 
     [[nodiscard]] virtual QHash<QString, QString>
-        environDe(const PID& pid) const = 0;
+        environ_de(const PID& pid) const = 0;
 };
 
 }

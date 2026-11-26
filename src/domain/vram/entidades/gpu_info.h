@@ -16,7 +16,7 @@ public:
     [[nodiscard]] int             id() const noexcept { return m_id; }
     [[nodiscard]] Fabricante      fabricante() const noexcept { return m_fabricante; }
     [[nodiscard]] const QString&  modelo() const noexcept { return m_modelo; }
-    [[nodiscard]] BytesDeMemoria  vramTotal() const noexcept { return m_vram_total; }
+    [[nodiscard]] BytesDeMemoria  vram_total() const noexcept { return m_vram_total; }
 
 private:
     int            m_id;

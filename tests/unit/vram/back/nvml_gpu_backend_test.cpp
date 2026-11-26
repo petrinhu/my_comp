@@ -70,8 +70,8 @@ TEST(NvmlGpuBackendTest, AdapterIndisponivelDevolveListasVazias) {
     adapter->disponivel = false;
 
     NvmlGpuBackend backend{adapter};
-    EXPECT_TRUE(backend.enumerarGpus().empty());
-    EXPECT_TRUE(backend.enumerarProcessosVram(0).empty());
+    EXPECT_TRUE(backend.enumerar_gpus().empty());
+    EXPECT_TRUE(backend.enumerar_processos_vram(0).empty());
 }
 
 TEST(NvmlGpuBackendTest, EnumeraGpusComNomeEvram) {
@@ -84,12 +84,12 @@ TEST(NvmlGpuBackendTest, EnumeraGpusComNomeEvram) {
     };
 
     NvmlGpuBackend backend{adapter};
-    const auto gpus = backend.enumerarGpus();
+    const auto gpus = backend.enumerar_gpus();
     ASSERT_EQ(gpus.size(), 2U);
     EXPECT_EQ(gpus[0].id(), 0);
     EXPECT_EQ(gpus[0].fabricante(), Fabricante::Nvidia);
     EXPECT_EQ(gpus[0].modelo(), QStringLiteral("NVIDIA RTX 4070"));
-    EXPECT_EQ(gpus[0].vramTotal().valor(), 12ULL * 1024 * 1024 * 1024);
+    EXPECT_EQ(gpus[0].vram_total().valor(), 12ULL * 1024 * 1024 * 1024);
     EXPECT_EQ(gpus[1].id(), 1);
 }
 
@@ -114,12 +114,12 @@ TEST(NvmlGpuBackendTest, MapeiaProcessosUsandoCommDoProcRoot) {
     };
 
     NvmlGpuBackend backend{adapter, proc};
-    const auto procs = backend.enumerarProcessosVram(0);
+    const auto procs = backend.enumerar_processos_vram(0);
     ASSERT_EQ(procs.size(), 2U);
     EXPECT_EQ(procs[0].pid().valor(), 1234);
     EXPECT_EQ(procs[0].nome().valor(), QStringLiteral("blender"));
-    EXPECT_EQ(procs[0].vramConsumida().valor(), 256ULL * 1024 * 1024);
-    EXPECT_EQ(procs[0].gpuId(), 0);
+    EXPECT_EQ(procs[0].vram_consumida().valor(), 256ULL * 1024 * 1024);
+    EXPECT_EQ(procs[0].gpu_id(), 0);
     ASSERT_EQ(procs[0].chaves().size(), 1U);
     EXPECT_EQ(procs[0].chaves().front().valor(), QStringLiteral("blender"));
 
@@ -143,7 +143,7 @@ TEST(NvmlGpuBackendTest, FallbackParaInterrogacaoQuandoCommAusente) {
     };
 
     NvmlGpuBackend backend{adapter, proc};
-    const auto procs = backend.enumerarProcessosVram(0);
+    const auto procs = backend.enumerar_processos_vram(0);
     ASSERT_EQ(procs.size(), 1U);
     EXPECT_EQ(procs[0].nome().valor(), QStringLiteral("?"));
 }
@@ -155,7 +155,7 @@ TEST(NvmlGpuBackendTest, GpuIdNegativoRetornaVazio) {
                        .vram_total_bytes = 0},
     };
     NvmlGpuBackend backend{adapter};
-    EXPECT_TRUE(backend.enumerarProcessosVram(-1).empty());
+    EXPECT_TRUE(backend.enumerar_processos_vram(-1).empty());
 }
 
 // Browsers, compositores e jogos usam contexto gráfico, não compute: sem a lista graphics
@@ -172,14 +172,14 @@ TEST(NvmlGpuBackendTest, IncluiProcessosGraphicsAlemDosCompute) {
     adapter->graphics_por_idx = {{NvmlProcessoInfo{.pid = 200, .bytes = 300ULL << 20}}};
 
     NvmlGpuBackend backend{adapter, tmp.path()};
-    const auto procs = backend.enumerarProcessosVram(0);
+    const auto procs = backend.enumerar_processos_vram(0);
     ASSERT_EQ(procs.size(), 2U);
     bool viu_firefox = false;
     for (const auto& p : procs) {
         if (p.pid().valor() == 200) {
             viu_firefox = true;
             EXPECT_EQ(p.nome().valor(), QStringLiteral("firefox"));
-            EXPECT_EQ(p.vramConsumida().valor(), 300ULL << 20);
+            EXPECT_EQ(p.vram_consumida().valor(), 300ULL << 20);
         }
     }
     EXPECT_TRUE(viu_firefox);
@@ -197,9 +197,9 @@ TEST(NvmlGpuBackendTest, DeduplicaPidPresenteNasDuasListas) {
     adapter->graphics_por_idx = {{NvmlProcessoInfo{.pid = 300, .bytes = 800ULL << 20}}};
 
     NvmlGpuBackend backend{adapter, tmp.path()};
-    const auto procs = backend.enumerarProcessosVram(0);
+    const auto procs = backend.enumerar_processos_vram(0);
     ASSERT_EQ(procs.size(), 1U);
-    EXPECT_EQ(procs[0].vramConsumida().valor(), 800ULL << 20); // maior dos dois relatos
+    EXPECT_EQ(procs[0].vram_consumida().valor(), 800ULL << 20); // maior dos dois relatos
 }
 
 // NVML devolve NVML_VALUE_NOT_AVAILABLE (~0ULL) quando não consegue medir (ex.: sem
@@ -214,7 +214,7 @@ TEST(NvmlGpuBackendTest, ValorNaoDisponivelViraZero) {
     adapter->graphics_por_idx = {{NvmlProcessoInfo{.pid = 400, .bytes = ~0ULL}}};
 
     NvmlGpuBackend backend{adapter, tmp.path()};
-    const auto procs = backend.enumerarProcessosVram(0);
+    const auto procs = backend.enumerar_processos_vram(0);
     ASSERT_EQ(procs.size(), 1U);
-    EXPECT_EQ(procs[0].vramConsumida().valor(), 0U);
+    EXPECT_EQ(procs[0].vram_consumida().valor(), 0U);
 }

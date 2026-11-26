@@ -2,15 +2,15 @@
 
 namespace vramopt::domain {
 
-BytesDeMemoria BytesDeMemoria::deMegabytes(underlying_t mb) noexcept {
+BytesDeMemoria BytesDeMemoria::de_megabytes(underlying_t mb) noexcept {
     return BytesDeMemoria{mb * 1024 * 1024};
 }
 
-BytesDeMemoria BytesDeMemoria::deKilobytes(underlying_t kb) noexcept {
+BytesDeMemoria BytesDeMemoria::de_kilobytes(underlying_t kb) noexcept {
     return BytesDeMemoria{kb * 1024};
 }
 
-double BytesDeMemoria::razaoSobre(BytesDeMemoria total) const noexcept {
+double BytesDeMemoria::razao_sobre(BytesDeMemoria total) const noexcept {
     if (total.m_valor == 0) {
         return 0.0;
     }

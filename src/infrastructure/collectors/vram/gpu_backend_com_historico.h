@@ -19,10 +19,10 @@ public:
     GpuBackendComHistorico(std::shared_ptr<domain::IGpuBackend>  interno,
                            std::shared_ptr<HistoricoAmostrasVram> historico);
 
-    [[nodiscard]] std::vector<domain::GpuInfo> enumerarGpus() const override;
+    [[nodiscard]] std::vector<domain::GpuInfo> enumerar_gpus() const override;
 
     [[nodiscard]] std::vector<domain::Processo>
-        enumerarProcessosVram(int gpu_id) const override;
+        enumerar_processos_vram(int gpu_id) const override;
 
 private:
     std::shared_ptr<domain::IGpuBackend>          m_interno;

@@ -24,15 +24,15 @@ public:
     [[nodiscard]] std::optional<domain::EntradaFeedback>
         buscar(const domain::ChaveProcesso&) const override { return std::nullopt; }
     void inserir(const domain::EntradaFeedback&) override {}
-    void atualizarVistoEm(int, QDateTime) override {}
+    void atualizar_visto_em(int, QDateTime) override {}
     void remover(int) override {}
-    [[nodiscard]] QVector<domain::EntradaFeedback> listarTodos() const override { return {}; }
+    [[nodiscard]] QVector<domain::EntradaFeedback> listar_todos() const override { return {}; }
 };
 
 class AmostradorComportamentoNulo final : public domain::IAmostradorComportamento {
 public:
     [[nodiscard]] domain::AmostraJanela
-        amostraJanela(const domain::PID&, std::chrono::seconds janela) const override {
+        amostra_janela(const domain::PID&, std::chrono::seconds janela) const override {
         domain::AmostraJanela a;
         a.janela = janela; // amostras = 0 → RegraComportamento se abstém
         return a;
