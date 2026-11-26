@@ -31,8 +31,8 @@ TEST(LinuxCpuProviderTest, ShouldCollectArchitectureFromRealSystem) {
     auto arch = provider.collect_architecture();
     
     // No Fedora/Linux, essas informações devem estar disponíveis em /proc/cpuinfo
-    EXPECT_FALSE(arch.model_name.empty());
-    EXPECT_FALSE(arch.vendor_id.empty());
+    EXPECT_FALSE(arch.model_name.isEmpty());
+    EXPECT_FALSE(arch.vendor_id.isEmpty());
     EXPECT_GT(arch.physical_cores, 0);
     EXPECT_GT(arch.logical_threads, 0);
     

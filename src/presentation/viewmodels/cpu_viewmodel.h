@@ -32,13 +32,13 @@ public:
     double temperature() const { return m_stats.temperature; }
     QVariantList coreLoads() const;
 
-    QString modelName() const { return QString::fromStdString(m_arch.model_name); }
-    QString vendorId() const { return QString::fromStdString(m_arch.vendor_id); }
+    QString modelName() const { return m_arch.model_name; }
+    QString vendorId() const { return m_arch.vendor_id; }
     int physicalCores() const { return m_arch.physical_cores; }
     int logicalThreads() const { return m_arch.logical_threads; }
-    QString l1Cache() const { return QString::fromStdString(m_arch.l1_cache); }
-    QString l2Cache() const { return QString::fromStdString(m_arch.l2_cache); }
-    QString l3Cache() const { return QString::fromStdString(m_arch.l3_cache); }
+    QString l1Cache() const { return m_arch.l1_cache; }
+    QString l2Cache() const { return m_arch.l2_cache; }
+    QString l3Cache() const { return m_arch.l3_cache; }
 
     Q_INVOKABLE void initialize();
 

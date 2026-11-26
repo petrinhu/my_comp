@@ -35,3 +35,15 @@ TEST(CpuViewModelTest, ShouldRefreshStatsFromProvider) {
     EXPECT_EQ(vm.modelName(), "Test CPU");
     EXPECT_DOUBLE_EQ(vm.totalLoad(), 50.0);
 }
+
+// QA-12: os modelos de domínio usam QString (fronteira Qt); CpuArchitecture era a exceção.
+TEST(CpuArchitectureTest, CamposDeTextoSaoQString) {
+    static_assert(std::is_same_v<decltype(CpuArchitecture::model_name), QString>);
+    static_assert(std::is_same_v<decltype(CpuArchitecture::vendor_id), QString>);
+    static_assert(std::is_same_v<decltype(CpuArchitecture::l1_cache), QString>);
+    static_assert(std::is_same_v<decltype(CacheInfo::size), QString>);
+
+    CpuArchitecture arch;
+    arch.model_name = QStringLiteral("Processador Genérico ®");
+    EXPECT_EQ(arch.model_name.size(), 22);
+}
