@@ -7,7 +7,7 @@ namespace my_comp::presentation::viewmodels {
 
 CpuViewModel::CpuViewModel(std::shared_ptr<domain::interfaces::ICpuProvider> provider, QObject *parent)
     : QObject(parent), m_provider(provider) {
-    // CLAUDE.md §4: ctor não faz I/O. Trabalho pesado vai para initialize().
+    // MC-04: ctor não faz I/O. Trabalho pesado vai para initialize().
     m_timer = new QTimer(this);
     connect(m_timer, &QTimer::timeout, this, &CpuViewModel::refresh);
 }

@@ -6,7 +6,7 @@ namespace my_comp::presentation::viewmodels {
 
 HardwareViewModel::HardwareViewModel(std::shared_ptr<domain::interfaces::IHardwareProvider> provider, QObject* parent)
     : QObject(parent), m_provider(std::move(provider)) {
-    // CLAUDE.md §4: ctor não faz I/O. HardwareProvider::collect_topology spawna lsusb + bluetoothctl.
+    // MC-04: ctor não faz I/O. HardwareProvider::collect_topology spawna lsusb + bluetoothctl.
 }
 
 void HardwareViewModel::initialize() {

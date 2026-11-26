@@ -75,7 +75,7 @@ TEST(SystemInfoViewModelTest, ShouldLoadDataAfterRefresh) {
 
     EXPECT_CALL(*provider, get_system_info()).WillRepeatedly(Return(info));
 
-    // Ctor não faz I/O por política (CLAUDE.md §4). Dados só chegam após refresh().
+    // Ctor não faz I/O por política (MC-04). Dados só chegam após refresh().
     SystemInfoViewModel vm(provider);
     EXPECT_TRUE(vm.distro().isEmpty());
 

@@ -27,7 +27,7 @@ TEST(CpuViewModelTest, ShouldRefreshStatsFromProvider) {
     EXPECT_CALL(*provider, collect_stats()).WillRepeatedly(Return(stats));
 
     CpuViewModel vm(provider);
-    // CLAUDE.md §4 + AR-07: ctor não faz I/O. initialize() lê arquitetura e dispara 1º refresh.
+    // MC-04 + AR-07: ctor não faz I/O. initialize() lê arquitetura e dispara 1º refresh.
     QSignalSpy spy(&vm, &CpuViewModel::statsChanged);
     vm.initialize();
     ASSERT_TRUE(spy.wait(2000)); // refresh() é async (QtConcurrent + invokeMethod).
