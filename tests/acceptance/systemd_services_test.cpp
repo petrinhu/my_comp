@@ -9,9 +9,9 @@ using namespace my_comp::domain::models;
 class MockServiceProvider : public IServiceProvider {
 public:
     MOCK_METHOD(std::vector<ServiceInfo>, get_services, (), (override));
-    MOCK_METHOD(bool, start_service, (const QString&, ServiceScope), (override));
-    MOCK_METHOD(bool, pause_service, (const QString&, ServiceScope), (override));
-    MOCK_METHOD(bool, stop_service, (const QString&, ServiceScope), (override));
+    MOCK_METHOD(OperationResult, enable_and_start, (const QString&, ServiceScope), (override));
+    MOCK_METHOD(OperationResult, stop, (const QString&, ServiceScope), (override));
+    MOCK_METHOD(OperationResult, disable_and_stop, (const QString&, ServiceScope), (override));
     MOCK_METHOD(OperationResult, create_daemon, (const QString&, const QString&), (override));
 };
 
@@ -20,13 +20,13 @@ TEST(SystemdServicesAcceptance, ShouldControlServiceLifecycle) {
     
     QString serviceName = "bluetooth.service";
     
-    EXPECT_CALL(*provider, start_service(serviceName, ServiceScope::System)).WillOnce(testing::Return(true));
-    EXPECT_CALL(*provider, pause_service(serviceName, ServiceScope::System)).WillOnce(testing::Return(true));
-    EXPECT_CALL(*provider, stop_service(serviceName, ServiceScope::System)).WillOnce(testing::Return(true));
+    EXPECT_CALL(*provider, enable_and_start(serviceName, ServiceScope::System)).WillOnce(testing::Return(OperationResult{.ok = true, .message = {}}));
+    EXPECT_CALL(*provider, stop(serviceName, ServiceScope::System)).WillOnce(testing::Return(OperationResult{.ok = true, .message = {}}));
+    EXPECT_CALL(*provider, disable_and_stop(serviceName, ServiceScope::System)).WillOnce(testing::Return(OperationResult{.ok = true, .message = {}}));
     
-    EXPECT_TRUE(provider->start_service(serviceName, ServiceScope::System));
-    EXPECT_TRUE(provider->pause_service(serviceName, ServiceScope::System));
-    EXPECT_TRUE(provider->stop_service(serviceName, ServiceScope::System));
+    EXPECT_TRUE(provider->enable_and_start(serviceName, ServiceScope::System).ok);
+    EXPECT_TRUE(provider->stop(serviceName, ServiceScope::System).ok);
+    EXPECT_TRUE(provider->disable_and_stop(serviceName, ServiceScope::System).ok);
 }
 
 TEST(SystemdServicesAcceptance, ShouldCreateNewDaemon) {

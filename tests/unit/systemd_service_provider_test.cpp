@@ -79,8 +79,8 @@ TEST_F(SystemdServiceProviderTest, ShouldIssueStartAndStopViaSystemctl) {
     auto shell = std::make_shared<MockShellExecutor>();
     SystemdServiceProvider provider(shell);
 
-    provider.start_service("foo.service", ServiceScope::System);
-    provider.stop_service("bar.service", ServiceScope::User);
+    (void)provider.enable_and_start("foo.service", ServiceScope::System);
+    (void)provider.disable_and_stop("bar.service", ServiceScope::User);
 
     ASSERT_EQ(shell->calls.size(), 2u);
     EXPECT_EQ(shell->calls[0].args, (QStringList{"enable", "--now", "foo.service"}));
@@ -248,4 +248,30 @@ TEST_F(SystemdServiceProviderTest, EnabledStateComesFromListUnitFiles) {
     EXPECT_FALSE(services[1].isEnabled);  // disabled, mesmo "loaded"
     EXPECT_TRUE(services[2].isEnabled);   // instância herda do template getty@.service
     EXPECT_FALSE(services[3].isEnabled);  // static: não é habilitável
+}
+
+namespace {
+struct FailingShell : public IShellExecutor {
+    int execute(const QString&, const QStringList&, QString&) override { return 1; }
+    ShellResult run_capturing(const QString&, const QStringList&, int) override {
+        return {.exit_code = 1, .out = {}, .err = "Failed to stop cups.service: Access denied\nSee system logs."};
+    }
+};
+} // namespace
+
+// SV-02c: a UI dizia só "Falha ao parar X"; o motivo do systemctl tem que chegar.
+TEST_F(SystemdServiceProviderTest, FailureCarriesSystemctlStderr) {
+    SystemdServiceProvider provider(std::make_shared<FailingShell>());
+    const auto r = provider.stop("cups.service", ServiceScope::System);
+    EXPECT_FALSE(r.ok);
+    EXPECT_TRUE(r.message.contains("Access denied")) << r.message.toStdString();
+    EXPECT_TRUE(r.message.contains("cups.service")) << r.message.toStdString();
+}
+
+TEST_F(SystemdServiceProviderTest, SuccessMessageSaysWhatHappened) {
+    auto shell = std::make_shared<MockShellExecutor>();
+    SystemdServiceProvider provider(shell);
+    EXPECT_TRUE(provider.enable_and_start("sshd.service", ServiceScope::System).message.contains("habilitado"));
+    EXPECT_TRUE(provider.stop("sshd.service", ServiceScope::System).message.contains("parado"));
+    EXPECT_TRUE(provider.disable_and_stop("sshd.service", ServiceScope::System).message.contains("desabilitado"));
 }

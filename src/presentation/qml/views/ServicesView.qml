@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import ".."
 import "../components"
 
-// ABA 3 - Serviços systemd: lista com iniciar/pausar/parar. "Criar Daemon" abre o diálogo global (Main.qml).
+// ABA 3 - Serviços systemd: habilitar+iniciar / parar (sessão) / desabilitar+parar. "Criar Daemon" abre o diálogo global (Main.qml).
 ScrollPage {
     id: servicesView
     signal createDaemonRequested()
@@ -25,7 +25,7 @@ ScrollPage {
             model: serviceViewModel.services
             delegate: ItemDelegate {
                 width: ListView.view.width; height: 60
-                onDoubleClicked: (modelData.activeState === "active") ? serviceViewModel.pauseService(modelData.name, modelData.scope) : serviceViewModel.startService(modelData.name, modelData.scope)
+                onDoubleClicked: (modelData.activeState === "active") ? serviceViewModel.stopNow(modelData.name, modelData.scope) : serviceViewModel.enableAndStart(modelData.name, modelData.scope)
                 contentItem: RowLayout {
                     spacing: 15
                     StatusDot { size: 10; active: modelData.activeState === "active" }
@@ -37,9 +37,21 @@ ScrollPage {
                         }
                     }
                     RowLayout {
-                        Button { text: "▶️"; flat: true; visible: modelData.activeState !== "active"; onClicked: serviceViewModel.startService(modelData.name, modelData.scope) }
-                        Button { text: "⏸️"; flat: true; visible: modelData.activeState === "active"; onClicked: serviceViewModel.pauseService(modelData.name, modelData.scope) }
-                        Button { text: "⏹️"; flat: true; onClicked: serviceViewModel.stopService(modelData.name, modelData.scope) }
+                        Button {
+                            text: "▶️"; flat: true; visible: modelData.activeState !== "active"
+                            ToolTip.visible: hovered; ToolTip.text: qsTr("Habilitar no boot e iniciar (enable --now)")
+                            onClicked: serviceViewModel.enableAndStart(modelData.name, modelData.scope)
+                        }
+                        Button {
+                            text: "⏸️"; flat: true; visible: modelData.activeState === "active"
+                            ToolTip.visible: hovered; ToolTip.text: qsTr("Parar só nesta sessão (stop)")
+                            onClicked: serviceViewModel.stopNow(modelData.name, modelData.scope)
+                        }
+                        Button {
+                            text: "⏹️"; flat: true
+                            ToolTip.visible: hovered; ToolTip.text: qsTr("Desabilitar no boot e parar (disable --now)")
+                            onClicked: serviceViewModel.disableAndStop(modelData.name, modelData.scope)
+                        }
                     }
                 }
             }

@@ -98,16 +98,34 @@ bool SystemdServiceProvider::run_systemctl(const QStringList& args, bool user_mo
     return m_executor->execute("systemctl", finalArgs, output) == 0;
 }
 
-bool SystemdServiceProvider::start_service(const QString& name, domain::models::ServiceScope scope) {
-    return run_systemctl({"enable", "--now", name}, scope == domain::models::ServiceScope::User);
+domain::models::OperationResult SystemdServiceProvider::control(const QStringList& args,
+                                                                domain::models::ServiceScope scope,
+                                                                const QString& done, const QString& failed) {
+    QStringList final_args = args;
+    if (scope == domain::models::ServiceScope::User) final_args.prepend("--user");
+    const auto r = m_executor->run_capturing("systemctl", final_args);
+    if (r.exit_code == 0) return {.ok = true, .message = done};
+    // SV-02c: o motivo real (ex.: "Access denied") chega à UI; só a 1ª linha cabe no toast.
+    const QString reason = r.err.section(QLatin1Char('\n'), 0, 0).trimmed();
+    return {.ok = false, .message = reason.isEmpty() ? failed : failed + ": " + reason};
 }
 
-bool SystemdServiceProvider::pause_service(const QString& name, domain::models::ServiceScope scope) {
-    return run_systemctl({"stop", name}, scope == domain::models::ServiceScope::User);
+domain::models::OperationResult SystemdServiceProvider::enable_and_start(const QString& name, domain::models::ServiceScope scope) {
+    return control({"enable", "--now", name}, scope,
+                   QStringLiteral("%1 habilitado no boot e iniciado.").arg(name),
+                   QStringLiteral("Falha ao habilitar %1").arg(name));
 }
 
-bool SystemdServiceProvider::stop_service(const QString& name, domain::models::ServiceScope scope) {
-    return run_systemctl({"disable", "--now", name}, scope == domain::models::ServiceScope::User);
+domain::models::OperationResult SystemdServiceProvider::stop(const QString& name, domain::models::ServiceScope scope) {
+    return control({"stop", name}, scope,
+                   QStringLiteral("%1 parado nesta sessão (continua habilitado no boot, se estava).").arg(name),
+                   QStringLiteral("Falha ao parar %1").arg(name));
+}
+
+domain::models::OperationResult SystemdServiceProvider::disable_and_stop(const QString& name, domain::models::ServiceScope scope) {
+    return control({"disable", "--now", name}, scope,
+                   QStringLiteral("%1 desabilitado no boot e parado.").arg(name),
+                   QStringLiteral("Falha ao desabilitar %1").arg(name));
 }
 
 namespace {

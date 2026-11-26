@@ -36,9 +36,9 @@ public:
 class MockServiceProvider : public IServiceProvider {
 public:
     MOCK_METHOD(std::vector<ServiceInfo>, get_services, (), (override));
-    MOCK_METHOD(bool, start_service, (const QString&, ServiceScope), (override));
-    MOCK_METHOD(bool, pause_service, (const QString&, ServiceScope), (override));
-    MOCK_METHOD(bool, stop_service, (const QString&, ServiceScope), (override));
+    MOCK_METHOD(OperationResult, enable_and_start, (const QString&, ServiceScope), (override));
+    MOCK_METHOD(OperationResult, stop, (const QString&, ServiceScope), (override));
+    MOCK_METHOD(OperationResult, disable_and_stop, (const QString&, ServiceScope), (override));
     MOCK_METHOD(OperationResult, create_daemon, (const QString&, const QString&), (override));
 };
 
@@ -124,7 +124,7 @@ TEST(ServiceViewModelTest, ShouldRefreshDataAndHandleCommands) {
     s.isEnabled = true;
 
     EXPECT_CALL(*provider, get_services()).WillRepeatedly(Return(std::vector<ServiceInfo>{s}));
-    EXPECT_CALL(*provider, start_service(_, _)).WillRepeatedly(Return(true));
+    EXPECT_CALL(*provider, enable_and_start(_, _)).WillRepeatedly(Return(OperationResult{.ok = true, .message = "ok"}));
 
     ServiceViewModel vm(provider);
     QSignalSpy spy(&vm, &ServiceViewModel::servicesChanged);
@@ -135,8 +135,8 @@ TEST(ServiceViewModelTest, ShouldRefreshDataAndHandleCommands) {
     auto list = vm.services();
     EXPECT_FALSE(list.isEmpty());
 
-    vm.startService("test.service", "system");
-    // startService também é assíncrono e chama refresh() no sucesso
+    vm.enableAndStart("test.service", "system");
+    // enableAndStart também é assíncrono e chama refresh() no sucesso
     spy.wait(2000);
 }
 
@@ -164,7 +164,7 @@ TEST(ServiceViewModelTest, ExposesScopeAndForwardsItToProvider) {
     user_unit.activeState = "inactive";
     user_unit.scope = ServiceScope::User;
     ON_CALL(*provider, get_services()).WillByDefault(Return(std::vector<ServiceInfo>{user_unit}));
-    EXPECT_CALL(*provider, start_service(QString("syncthing.service"), ServiceScope::User)).WillOnce(Return(true));
+    EXPECT_CALL(*provider, enable_and_start(QString("syncthing.service"), ServiceScope::User)).WillOnce(Return(OperationResult{.ok = true, .message = "ok"}));
 
     ServiceViewModel vm(provider);
     QSignalSpy changed(&vm, &ServiceViewModel::servicesChanged);
@@ -175,6 +175,20 @@ TEST(ServiceViewModelTest, ExposesScopeAndForwardsItToProvider) {
     EXPECT_EQ(row["scope"].toString(), QString("user"));
 
     QSignalSpy finished(&vm, &ServiceViewModel::operationFinished);
-    vm.startService("syncthing.service", "user");
+    vm.enableAndStart("syncthing.service", "user");
     ASSERT_TRUE(finished.wait(2000));
+}
+
+// SV-02c: o motivo vindo do provider chega ao toast.
+TEST(ServiceViewModelTest, ControlFailureForwardsProviderMessage) {
+    auto provider = std::make_shared<NiceMock<MockServiceProvider>>();
+    ON_CALL(*provider, get_services()).WillByDefault(Return(std::vector<ServiceInfo>{}));
+    EXPECT_CALL(*provider, disable_and_stop(QString("cups.service"), ServiceScope::System))
+        .WillOnce(Return(OperationResult{.ok = false, .message = "Falha ao desabilitar cups.service: Access denied"}));
+    ServiceViewModel vm(provider);
+    QSignalSpy finished(&vm, &ServiceViewModel::operationFinished);
+    vm.disableAndStop("cups.service", "system");
+    ASSERT_TRUE(finished.wait(2000));
+    EXPECT_FALSE(finished.at(0).at(0).toBool());
+    EXPECT_TRUE(finished.at(0).at(1).toString().contains("Access denied"));
 }

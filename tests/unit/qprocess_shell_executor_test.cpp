@@ -32,3 +32,12 @@ TEST(ShellTimeoutPolicyTest, LongRunningOperationsGetLongerThanDefault) {
     EXPECT_GT(PACKAGE_MANAGER_TIMEOUT_MS, DEFAULT_SHELL_TIMEOUT_MS);
     EXPECT_GT(BENCHMARK_TIMEOUT_MS, DEFAULT_SHELL_TIMEOUT_MS);
 }
+
+// SV-02c: stderr e exit code precisam chegar a quem chamou (antes só iam para o log).
+TEST(QProcessShellExecutorTest, RunCapturingReturnsStdoutStderrAndExitCode) {
+    QProcessShellExecutor shell;
+    const auto r = shell.run_capturing("sh", {"-c", "echo saida; echo erro >&2; exit 3"});
+    EXPECT_EQ(r.exit_code, 3);
+    EXPECT_EQ(r.out.trimmed(), QString("saida"));
+    EXPECT_EQ(r.err.trimmed(), QString("erro"));
+}

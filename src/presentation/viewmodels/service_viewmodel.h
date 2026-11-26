@@ -27,9 +27,9 @@ public:
 
     Q_INVOKABLE void refresh();
     // scope: "system" ou "user" (campo `scope` de cada item de `services`).
-    Q_INVOKABLE void startService(const QString& name, const QString& scope);
-    Q_INVOKABLE void pauseService(const QString& name, const QString& scope);
-    Q_INVOKABLE void stopService(const QString& name, const QString& scope);
+    Q_INVOKABLE void enableAndStart(const QString& name, const QString& scope);  // persiste + liga
+    Q_INVOKABLE void stopNow(const QString& name, const QString& scope);         // só esta sessão
+    Q_INVOKABLE void disableAndStop(const QString& name, const QString& scope);  // persiste + desliga
     Q_INVOKABLE void createDaemon(const QString& exe_path, const QString& params);
 
 signals:
@@ -42,6 +42,9 @@ signals:
 private:
     void setBusy(bool busy);
     void rebuildProcessedList();
+    using Action = domain::models::OperationResult (domain::interfaces::IServiceProvider::*)(
+        const QString&, domain::models::ServiceScope);
+    void run_action(Action action, const QString& name, const QString& scope);
     std::shared_ptr<domain::interfaces::IServiceProvider> m_provider;
     std::vector<domain::models::ServiceInfo> m_data;
     QVariantList m_processedList;
