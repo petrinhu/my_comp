@@ -89,21 +89,16 @@ Window {
     FileDialog {
         id: fileDialog
         title: qsTr("Selecionar Executável")
-        currentFolder: StandardPaths.writableLocation(StandardPaths.ApplicationsLocation)
-        onAccepted: {
-            let path = selectedFile.toString().replace("file://", "")
-            daemonDialog.exePath = decodeURIComponent(path)
-        }
+        // UX-02c: ApplicationsLocation é ~/.local/share/applications (.desktop), não binários.
+        currentFolder: StandardPaths.writableLocation(StandardPaths.HomeLocation)
+        onAccepted: daemonDialog.exePath = urlHelper.toLocalPath(selectedFile)
     }
 
     FolderDialog {
         id: exportFolderDialog
         title: qsTr("Selecionar Pasta para Exportação")
         currentFolder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
-        onAccepted: {
-            let path = selectedFolder.toString().replace("file://", "")
-            exportView.exportPath = decodeURIComponent(path)
-        }
+        onAccepted: exportView.exportPath = urlHelper.toLocalPath(selectedFolder)
     }
 
     KillProcessDialog { id: killConfirmDialog }

@@ -96,6 +96,7 @@ set(CORE_SOURCES
     src/presentation/viewmodels/installation_viewmodel.cpp
     src/presentation/viewmodels/directory_scanner_viewmodel.cpp
     src/presentation/viewmodels/vram_audit_viewmodel.cpp
+    src/presentation/viewmodels/url_helper.h
     src/presentation/cli/cli_vram.cpp
 
     # ----- Feature VRAM (unificada no my_comp — Fase B) -----
@@ -228,6 +229,7 @@ set(UNIT_TEST_SOURCES
     tests/unit/installer_adapter_test.cpp
     tests/unit/qprocess_shell_executor_test.cpp
     tests/unit/shell_timeout_usage_test.cpp
+    tests/unit/url_helper_test.cpp
     
 
 

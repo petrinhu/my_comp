@@ -9,6 +9,7 @@
 #include "composition/updates_composition.h"
 #include "presentation/viewmodels/audio_viewmodel.h"
 #include "presentation/viewmodels/export_viewmodel.h"
+#include "presentation/viewmodels/url_helper.h"
 #include "presentation/viewmodels/vram_audit_viewmodel.h"
 
 #include <memory>
@@ -25,6 +26,7 @@ struct AppViewModels {
     std::unique_ptr<presentation::viewmodels::AudioViewModel> audio;
     std::unique_ptr<presentation::viewmodels::ExportViewModel> exporter;
     std::unique_ptr<vramopt::presentation::viewmodels::VramAuditViewModel> vram_audit;
+    std::unique_ptr<presentation::viewmodels::UrlHelper> url_helper;
 };
 
 [[nodiscard]] AppViewModels compor_app();
