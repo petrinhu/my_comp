@@ -1,4 +1,5 @@
 #include "linux_hardware_provider.h"
+#include <QRegularExpression>
 #include <fstream>
 #include <filesystem>
 #include <QStringList>
@@ -59,17 +60,39 @@ void LinuxHardwareProvider::parse_lsusb_output(const QString& output, std::vecto
     }
 }
 
+namespace {
+// MAC vai para o argv do `bluetoothctl info`: só endereço bem formado passa (MC-10).
+bool is_valid_mac(const QString& s) {
+    static const QRegularExpression mac(QStringLiteral("^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$"));
+    return mac.match(s).hasMatch();
+}
+} // namespace
+
 void LinuxHardwareProvider::parse_bluetoothctl_output(const QString& output, std::vector<domain::models::BluetoothDevice>& devices) {
-    // bluetoothctl devices format: Device XX:XX:XX:XX:XX:XX Name
+    // `bluetoothctl devices`: "Device XX:XX:XX:XX:XX:XX Nome". Lista também dispositivos só
+    // conhecidos (não pareados), então paired/connected vêm do `info` (HW-02b).
     const QStringList lines = output.split('\n', Qt::SkipEmptyParts);
     for (const QString& line : lines) {
         const QStringList parts = line.split(' ', Qt::SkipEmptyParts);
-        if (parts.size() < 3) continue;
-        domain::models::BluetoothDevice dev = {"", "", false, false, ""};
+        if (parts.size() < 3 || parts[0] != QLatin1String("Device") || !is_valid_mac(parts[1])) continue;
+        domain::models::BluetoothDevice dev;
         dev.address = parts[1];
         dev.name = parts.mid(2).join(' ');
-        dev.paired = true; // bluetoothctl devices lista pareados por padrao
         devices.push_back(dev);
+    }
+}
+
+void LinuxHardwareProvider::parse_bluetoothctl_info(const QString& output, domain::models::BluetoothDevice& device) {
+    // Linhas "\tChave: valor"; só as que mudam o estado exibido.
+    for (const QString& raw : output.split('\n', Qt::SkipEmptyParts)) {
+        const QString line = raw.trimmed();
+        const auto colon = line.indexOf(QLatin1Char(':'));
+        if (colon <= 0) continue;
+        const QString key = line.left(colon);
+        const QString value = line.mid(colon + 1).trimmed();
+        if (key == QLatin1String("Paired")) device.paired = (value == QLatin1String("yes"));
+        else if (key == QLatin1String("Connected")) device.connected = (value == QLatin1String("yes"));
+        else if (key == QLatin1String("Icon")) device.type = value;
     }
 }
 
@@ -84,6 +107,13 @@ void LinuxHardwareProvider::collect_bluetooth(domain::models::HardwareTopology& 
     QString output;
     if (m_executor->execute("bluetoothctl", {"devices"}, output) == 0) {
         parse_bluetoothctl_output(output, topology.bluetoothDevices);
+    }
+    // Roda na thread de coleta do HardwareViewModel (QtConcurrent), não na UI.
+    for (auto& dev : topology.bluetoothDevices) {
+        QString info;
+        if (m_executor->execute("bluetoothctl", {"info", dev.address}, info) == 0) {
+            parse_bluetoothctl_info(info, dev);
+        }
     }
 }
 

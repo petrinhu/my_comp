@@ -230,6 +230,7 @@ set(UNIT_TEST_SOURCES
     tests/unit/qprocess_shell_executor_test.cpp
     tests/unit/shell_timeout_usage_test.cpp
     tests/unit/url_helper_test.cpp
+    tests/unit/linux_hardware_bluetooth_test.cpp
     
 
 
