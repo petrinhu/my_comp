@@ -11,7 +11,7 @@ domain::models::BenchmarkResult HdparmBenchmarkProvider::run(const QString& devi
     QString out;
     QElapsedTimer t;
     t.start();
-    const int rc = m_shell->execute("hdparm", {"-tT", "/dev/" + device}, out);
+    const int rc = m_shell->execute_with_timeout("hdparm", {"-tT", "/dev/" + device}, out, BENCHMARK_TIMEOUT_MS);
     r.duration_s = t.elapsed() / 1000.0;
 
     if (rc != 0 || out.isEmpty()) {

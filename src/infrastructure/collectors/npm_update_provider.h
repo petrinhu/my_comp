@@ -27,7 +27,7 @@ public:
         std::vector<domain::models::UpdatePackage> updates;
 
         // npm outdated -g --json retorna exit code 1 quando há updates
-        shell_->execute("npm", {"outdated", "-g", "--json"}, output);
+        shell_->execute_with_timeout("npm", {"outdated", "-g", "--json"}, output, PACKAGE_MANAGER_TIMEOUT_MS);
 
         QJsonDocument doc = QJsonDocument::fromJson(output.toUtf8());
         if (!doc.isObject()) return updates;

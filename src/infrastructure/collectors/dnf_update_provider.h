@@ -26,7 +26,7 @@ public:
         QString output;
         std::vector<domain::models::UpdatePackage> updates;
 
-        if (shell_->execute("dnf", {"check-update", "--quiet"}, output) == 100) {
+        if (shell_->execute_with_timeout("dnf", {"check-update", "--quiet"}, output, PACKAGE_MANAGER_TIMEOUT_MS) == 100) {
             auto lines = output.split('\n', Qt::SkipEmptyParts);
             for (const auto& line : lines) {
                 auto parts = line.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);

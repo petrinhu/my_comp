@@ -119,3 +119,42 @@ TEST(OpenSslVaultTest, ShouldRoundTripEmptyPlaintext) {
     vaultData.tag[0] ^= 0xFF;
     EXPECT_TRUE(vault.decrypt(vaultData, key).empty());
 }
+
+// CONTRACT §8.3: VaultData vem de disco (entrada externa). O OpenSSL lê exatamente
+// 12 bytes de IV e 16 de tag; tamanhos menores causavam leitura fora do buffer.
+TEST(OpenSslVaultTest, DecryptRejectsShortOrLongIv) {
+    OpenSslVault vault;
+    std::vector<uint8_t> key(32, 0x07);
+    auto data = vault.encrypt({1, 2, 3, 4}, key);
+
+    auto short_iv = data;
+    short_iv.iv.resize(4);
+    EXPECT_TRUE(vault.decrypt(short_iv, key).empty());
+
+    auto empty_iv = data;
+    empty_iv.iv.clear();
+    EXPECT_TRUE(vault.decrypt(empty_iv, key).empty());
+
+    auto long_iv = data;
+    long_iv.iv.push_back(0x00);
+    EXPECT_TRUE(vault.decrypt(long_iv, key).empty());
+}
+
+TEST(OpenSslVaultTest, DecryptRejectsShortTag) {
+    OpenSslVault vault;
+    std::vector<uint8_t> key(32, 0x07);
+    auto data = vault.encrypt({1, 2, 3, 4}, key);
+
+    auto short_tag = data;
+    short_tag.tag.resize(8);
+    EXPECT_TRUE(vault.decrypt(short_tag, key).empty());
+
+    auto empty_tag = data;
+    empty_tag.tag.clear();
+    EXPECT_TRUE(vault.decrypt(empty_tag, key).empty());
+
+    // Red determinístico: com 17 bytes o OpenSSL usa os 16 primeiros e decifra com sucesso.
+    auto long_tag = data;
+    long_tag.tag.push_back(0x00);
+    EXPECT_TRUE(vault.decrypt(long_tag, key).empty());
+}

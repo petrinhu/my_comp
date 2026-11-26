@@ -8,6 +8,8 @@ namespace my_comp::infrastructure::collectors {
 class QProcessShellExecutor : public IShellExecutor {
 public:
     int execute(const QString& command, const QStringList& args, QString& output) override;
+    int execute_with_timeout(const QString& command, const QStringList& args, QString& output,
+                             int timeout_ms) override;
 };
 
 } // namespace my_comp::infrastructure::collectors

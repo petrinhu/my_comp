@@ -12,7 +12,7 @@ std::vector<domain::models::UpdatePackage> SnapUpdateProvider::check_updates() {
     std::vector<domain::models::UpdatePackage> updates;
     QString output;
 
-    if (m_executor->execute("snap", {"refresh", "--list"}, output) == 0) {
+    if (m_executor->execute_with_timeout("snap", {"refresh", "--list"}, output, PACKAGE_MANAGER_TIMEOUT_MS) == 0) {
         QStringList lines = output.split('\n', Qt::SkipEmptyParts);
         for (int i = 1; i < lines.size(); ++i) {
             QStringList parts = lines[i].trimmed().split(QRegularExpression("\\s+"));

@@ -25,7 +25,7 @@ public:
         QString output;
         std::vector<domain::models::UpdatePackage> updates;
 
-        if (shell_->execute("flatpak", {"remote-ls", "--updates", "--columns=name,version,application"}, output) == 0) {
+        if (shell_->execute_with_timeout("flatpak", {"remote-ls", "--updates", "--columns=name,version,application"}, output, PACKAGE_MANAGER_TIMEOUT_MS) == 0) {
             auto lines = output.split('\n', Qt::SkipEmptyParts);
             for (const auto& line : lines) {
                 auto parts = line.split('\t', Qt::SkipEmptyParts);

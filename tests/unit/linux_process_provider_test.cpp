@@ -1,4 +1,7 @@
 #include <gtest/gtest.h>
+#include <sys/resource.h>
+#include <unistd.h>
+#include <cerrno>
 #include "../../src/infrastructure/collectors/linux_process_provider.h"
 #include <unistd.h>
 
@@ -38,4 +41,38 @@ TEST(LinuxProcessProviderTest, ShouldHandleKillAndPriorityGracefully) {
     provider.set_priority(999999, 10);
     
     // Sucesso ou falha depende de permissões, mas a chamada não deve crashar.
+}
+
+// MC-10 (validar entrada externa): kill(0, …) atinge o grupo inteiro do próprio app e
+// kill(-1, …) atinge todos os processos do usuário; PID 1 é o init. Sinal 0 só checa
+// permissão — seguro para o red: no código antigo essas chamadas retornavam true.
+TEST(LinuxProcessProviderTest, KillRejectsPidsThatTargetGroupsOrInit) {
+    LinuxProcessProvider provider;
+    EXPECT_FALSE(provider.kill_process(0, 0));
+    EXPECT_FALSE(provider.kill_process(-1, 0));
+    EXPECT_FALSE(provider.kill_process(-12345, 0));
+    EXPECT_FALSE(provider.kill_process(1, 0));
+}
+
+TEST(LinuxProcessProviderTest, KillRejectsOwnProcess) {
+    LinuxProcessProvider provider;
+    EXPECT_FALSE(provider.kill_process(static_cast<int>(::getpid()), 0));
+}
+
+TEST(LinuxProcessProviderTest, KillRejectsInvalidSignal) {
+    LinuxProcessProvider provider;
+    EXPECT_FALSE(provider.kill_process(999999, -1));
+    EXPECT_FALSE(provider.kill_process(999999, 4096));
+}
+
+TEST(LinuxProcessProviderTest, SetPriorityRejectsSelfInitAndOutOfRangeNice) {
+    LinuxProcessProvider provider;
+    errno = 0;
+    const int current_nice = ::getpriority(PRIO_PROCESS, 0);
+    // pid 0 = o próprio processo: no código antigo setpriority(…, 0, nice atual) tinha sucesso.
+    EXPECT_FALSE(provider.set_priority(0, current_nice));
+    EXPECT_FALSE(provider.set_priority(-1, current_nice));
+    EXPECT_FALSE(provider.set_priority(1, current_nice));
+    EXPECT_FALSE(provider.set_priority(static_cast<int>(::getpid()), 20));
+    EXPECT_FALSE(provider.set_priority(static_cast<int>(::getpid()), -21));
 }

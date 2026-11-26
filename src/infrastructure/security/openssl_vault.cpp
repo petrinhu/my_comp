@@ -6,9 +6,13 @@
 namespace my_comp::infrastructure::security {
 
 namespace {
+// RAII: zera o buffer sensível (chave ou plaintext) ao sair do escopo.
 struct KeyCleanser {
+    explicit KeyCleanser(std::vector<uint8_t>& buffer) : k(buffer) {}
     std::vector<uint8_t>& k;
     ~KeyCleanser() { OPENSSL_cleanse(k.data(), k.size()); }
+    KeyCleanser(const KeyCleanser&) = delete;
+    KeyCleanser& operator=(const KeyCleanser&) = delete;
 };
 }
 
@@ -19,7 +23,7 @@ domain::models::VaultData OpenSslVault::encrypt(const std::vector<uint8_t>& plai
 
     domain::models::VaultData data;
     data.iv.resize(GCM_IV_SIZE);
-    if (RAND_bytes(data.iv.data(), GCM_IV_SIZE) != 1) {
+    if (RAND_bytes(data.iv.data(), static_cast<int>(GCM_IV_SIZE)) != 1) {
         throw std::runtime_error("Falha ao gerar IV aleatório (RAND_bytes)");
     }
 
@@ -45,7 +49,7 @@ domain::models::VaultData OpenSslVault::encrypt(const std::vector<uint8_t>& plai
         throw std::runtime_error("Falha ao finalizar criptografia");
 
     data.tag.resize(GCM_TAG_SIZE);
-    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, GCM_TAG_SIZE, data.tag.data()) != 1)
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_GET_TAG, static_cast<int>(GCM_TAG_SIZE), data.tag.data()) != 1)
         throw std::runtime_error("Falha ao obter tag GCM");
 
     return data;
@@ -53,6 +57,9 @@ domain::models::VaultData OpenSslVault::encrypt(const std::vector<uint8_t>& plai
 
 std::vector<uint8_t> OpenSslVault::decrypt(const domain::models::VaultData& data, const std::vector<uint8_t>& key) {
     if (key.size() != AES_KEY_SIZE) return {};
+    // VaultData vem de armazenamento (entrada externa): o OpenSSL lê exatamente
+    // GCM_IV_SIZE/GCM_TAG_SIZE bytes, então tamanhos diferentes = over-read ou tag truncada.
+    if (data.iv.size() != GCM_IV_SIZE || data.tag.size() != GCM_TAG_SIZE) return {};
 
     std::vector<uint8_t> key_local(key.begin(), key.end());
     KeyCleanser cleanser{key_local};
@@ -67,23 +74,23 @@ std::vector<uint8_t> OpenSslVault::decrypt(const domain::models::VaultData& data
         return {};
 
     std::vector<uint8_t> plaintext(data.ciphertext.size());
+    KeyCleanser plaintext_cleanser{plaintext}; // zera o buffer em qualquer saída
     int out_len = 0;
     if (EVP_DecryptUpdate(ctx.get(), plaintext.data(), &out_len, data.ciphertext.data(), static_cast<int>(data.ciphertext.size())) != 1)
         return {};
 
     std::vector<uint8_t> tag_local(data.tag.begin(), data.tag.end());
-    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, GCM_TAG_SIZE, tag_local.data()) != 1)
+    if (EVP_CIPHER_CTX_ctrl(ctx.get(), EVP_CTRL_GCM_SET_TAG, static_cast<int>(GCM_TAG_SIZE), tag_local.data()) != 1)
         return {};
 
     int final_len = 0;
     int ret = EVP_DecryptFinal_ex(ctx.get(), plaintext.data() + out_len, &final_len);
 
-    if (ret > 0) {
-        plaintext.resize(out_len + final_len);
-        return plaintext;
-    } else {
-        return {};
+    if (ret <= 0) {
+        return {}; // tag inválida: plaintext parcial é descartado e zerado pelo cleanser
     }
+    // Copia antes do cleanser zerar o buffer de trabalho.
+    return {plaintext.begin(), plaintext.begin() + out_len + final_len};
 }
 
 } // namespace my_comp::infrastructure::security

@@ -219,6 +219,9 @@ set(UNIT_TEST_SOURCES
     tests/unit/sysfs_gpu_provider_test.cpp
     tests/unit/audio_fuzz_test.cpp
     tests/unit/journal_load_test.cpp
+    tests/unit/installer_adapter_test.cpp
+    tests/unit/qprocess_shell_executor_test.cpp
+    tests/unit/shell_timeout_usage_test.cpp
     
 
 
