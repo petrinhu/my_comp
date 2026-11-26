@@ -87,6 +87,7 @@ void ServiceViewModel::refresh() {
     });
 }
 
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters): privado e chamado só pelos Q_INVOKABLE de ação, que repassam (name, scope) na mesma ordem em que o QML os envia.
 void ServiceViewModel::run_action(Action action, const QString& name, const QString& scope) {
     setBusy(true);
     const QPointer<ServiceViewModel> self(this);
