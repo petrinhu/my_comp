@@ -178,7 +178,7 @@ enable_testing()
 
 # Unit Tests Target
 set(UNIT_TEST_SOURCES
-    tests/unit/placeholder_test.cpp
+    tests/unit/test_main.cpp
     tests/unit/process_sorting_test.cpp
     tests/unit/dnf_update_provider_test.cpp
     tests/unit/flatpak_update_provider_test.cpp
@@ -189,14 +189,11 @@ set(UNIT_TEST_SOURCES
     tests/unit/user_metadata_provider_test.cpp
     tests/unit/diagnostic_viewmodel_test.cpp
     tests/unit/linux_cpu_provider_test.cpp
-    tests/unit/linux_system_info_provider_test.cpp
     tests/unit/linux_storage_provider_test.cpp
     tests/unit/linux_network_provider_test.cpp
     tests/unit/linux_power_provider_test.cpp
-    tests/unit/linux_hardware_provider_test.cpp
     tests/unit/linux_process_provider_test.cpp
     tests/unit/systemd_service_provider_test.cpp
-    tests/unit/linux_dev_stack_provider_test.cpp
     tests/unit/cpu_viewmodel_test.cpp
     tests/unit/openssl_vault_test.cpp
     tests/unit/exporters_test.cpp
@@ -279,13 +276,16 @@ set(UNIT_TEST_SOURCES
 
 add_executable(unit_tests ${UNIT_TEST_SOURCES})
 target_include_directories(unit_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/vram)
-target_link_libraries(unit_tests PRIVATE my_comp_core GTest::gtest_main GTest::gmock Qt6::Test)
+target_link_libraries(unit_tests PRIVATE my_comp_core GTest::gtest GTest::gmock Qt6::Test)
 add_test(NAME unit_tests COMMAND unit_tests)
 set_tests_properties(unit_tests PROPERTIES TIMEOUT 120)
 
 # Acceptance Tests Target
 set(ACCEPTANCE_TEST_SOURCES
-    tests/acceptance/placeholder_acceptance.cpp
+    tests/acceptance/test_main.cpp
+    tests/acceptance/linux_system_info_provider_real_system_test.cpp
+    tests/acceptance/linux_dev_stack_provider_real_system_test.cpp
+    tests/acceptance/linux_hardware_provider_real_system_test.cpp
     tests/acceptance/update_manager_test.cpp
     tests/acceptance/journal_acceptance_test.cpp
     tests/acceptance/journal_hardware_test.cpp
@@ -308,7 +308,7 @@ set(ACCEPTANCE_TEST_SOURCES
 )
 
 add_executable(acceptance_tests ${ACCEPTANCE_TEST_SOURCES})
-target_link_libraries(acceptance_tests PRIVATE my_comp_core GTest::gtest_main GTest::gmock Qt6::Test)
+target_link_libraries(acceptance_tests PRIVATE my_comp_core GTest::gtest GTest::gmock Qt6::Test)
 add_test(NAME acceptance_tests COMMAND acceptance_tests)
 set_tests_properties(acceptance_tests PROPERTIES TIMEOUT 180)
 
