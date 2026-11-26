@@ -9,7 +9,7 @@
 #include <QJsonValue>
 #include <QString>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 namespace {
 
@@ -17,25 +17,25 @@ QString homePath() {
     return QDir::homePath();
 }
 
-QString construirCaminhoAbsoluto(const QString& sufixo_local_state) {
+QString construir_caminho_absoluto(const QString& sufixo_local_state) {
     return QStringLiteral("%1/%2").arg(homePath(), sufixo_local_state);
 }
 
 }
 
 LocalizadorBrowserChromium::LocalizadorBrowserChromium(
-    std::shared_ptr<domain::ILeitorArquivoConfig> leitor)
+    std::shared_ptr<domain::vram::ILeitorArquivoConfig> leitor)
     : m_leitor{std::move(leitor)} {}
 
-QVector<domain::OrigemConfig>
-LocalizadorBrowserChromium::localizar(const domain::Processo& processo) const {
-    const auto& tabela = tabelaPathsBrowserChromium();
+QVector<domain::vram::OrigemConfig>
+LocalizadorBrowserChromium::localizar(const domain::vram::Processo& processo) const {
+    const auto& tabela = tabela_paths_browser_chromium();
     auto it = tabela.constFind(processo.nome().valor());
     if (it == tabela.constEnd()) {
         return {};
     }
 
-    const QString caminho = construirCaminhoAbsoluto(it.value());
+    const QString caminho = construir_caminho_absoluto(it.value());
     auto conteudo_opt = m_leitor->ler(caminho);
     if (!conteudo_opt.has_value()) {
         return {};
@@ -66,8 +66,8 @@ LocalizadorBrowserChromium::localizar(const domain::Processo& processo) const {
         ? QStringLiteral("true (default)")
         : QStringLiteral("true");
 
-    domain::OrigemConfig o{
-        .categoria = domain::CategoriaOrigem::BrowserChromium,
+    domain::vram::OrigemConfig o{
+        .categoria = domain::vram::CategoriaOrigem::BrowserChromium,
         .tipo = QStringLiteral("browser-flag"),
         .caminho = caminho,
         .chave = QStringLiteral("hardware_acceleration_mode.enabled"),
@@ -78,7 +78,7 @@ LocalizadorBrowserChromium::localizar(const domain::Processo& processo) const {
             "Como alternativa, abra `chrome://settings/system` (ou equivalente) e desligue "
             "'Use hardware acceleration when available'. Reinicie o navegador.")
             .arg(caminho),
-        .confianca = domain::Confianca::Alta,
+        .confianca = domain::vram::Confianca::Alta,
         .requer_reinicio_app = true,
         .aplicavel_automatico = false,
     };

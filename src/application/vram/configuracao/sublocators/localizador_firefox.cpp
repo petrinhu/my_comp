@@ -8,11 +8,11 @@
 
 #include <optional>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 namespace {
 
-bool nomeEhFirefox(const QString& nome) {
+bool nome_eh_firefox(const QString& nome) {
     static const QStringList aliases = {
         QStringLiteral("firefox"),
         QStringLiteral("firefox-esr"),
@@ -22,7 +22,7 @@ bool nomeEhFirefox(const QString& nome) {
     return aliases.contains(nome);
 }
 
-std::optional<QString> profileDefaultDeIni(const QByteArray& ini) {
+std::optional<QString> profile_default_de_ini(const QByteArray& ini) {
     QString secao_atual;
     QHash<QString, QHash<QString, QString>> tudo;
     const auto linhas = QString::fromUtf8(ini).split(QLatin1Char('\n'));
@@ -55,7 +55,7 @@ std::optional<QString> profileDefaultDeIni(const QByteArray& ini) {
     return std::nullopt;
 }
 
-std::optional<QString> lerUserPref(const QByteArray& conteudo, const QString& chave) {
+std::optional<QString> ler_user_pref(const QByteArray& conteudo, const QString& chave) {
     static const QString tpl = QStringLiteral(R"(user_pref\s*\(\s*"%1"\s*,\s*([^)]+?)\s*\)\s*;)");
     QRegularExpression re{tpl.arg(QRegularExpression::escape(chave))};
     auto match = re.match(QString::fromUtf8(conteudo));
@@ -71,7 +71,7 @@ struct Chave {
     QString descricao_humana;
 };
 
-const QVector<Chave>& chavesFirefox() {
+const QVector<Chave>& chaves_firefox() {
     static const QVector<Chave> v = {
         {QStringLiteral("layers.acceleration.disabled"), QStringLiteral("true"),
          QStringLiteral("desabilita aceleração de camadas (forço CPU compositing)")},
@@ -85,12 +85,12 @@ const QVector<Chave>& chavesFirefox() {
 
 }
 
-LocalizadorFirefox::LocalizadorFirefox(std::shared_ptr<domain::ILeitorArquivoConfig> leitor)
+LocalizadorFirefox::LocalizadorFirefox(std::shared_ptr<domain::vram::ILeitorArquivoConfig> leitor)
     : m_leitor{std::move(leitor)} {}
 
-QVector<domain::OrigemConfig>
-LocalizadorFirefox::localizar(const domain::Processo& processo) const {
-    if (!nomeEhFirefox(processo.nome().valor())) {
+QVector<domain::vram::OrigemConfig>
+LocalizadorFirefox::localizar(const domain::vram::Processo& processo) const {
+    if (!nome_eh_firefox(processo.nome().valor())) {
         return {};
     }
 
@@ -100,7 +100,7 @@ LocalizadorFirefox::localizar(const domain::Processo& processo) const {
     if (!ini_opt.has_value()) {
         return {};
     }
-    auto profile_opt = profileDefaultDeIni(*ini_opt);
+    auto profile_opt = profile_default_de_ini(*ini_opt);
     if (!profile_opt.has_value()) {
         return {};
     }
@@ -115,10 +115,10 @@ LocalizadorFirefox::localizar(const domain::Processo& processo) const {
     const QByteArray user_conteudo  = user_opt.value_or(QByteArray{});
     const QByteArray prefs_conteudo = prefs_opt.value_or(QByteArray{});
 
-    QVector<domain::OrigemConfig> origens;
-    for (const auto& chave : chavesFirefox()) {
-        auto valor_user  = lerUserPref(user_conteudo, chave.nome);
-        auto valor_prefs = lerUserPref(prefs_conteudo, chave.nome);
+    QVector<domain::vram::OrigemConfig> origens;
+    for (const auto& chave : chaves_firefox()) {
+        auto valor_user  = ler_user_pref(user_conteudo, chave.nome);
+        auto valor_prefs = ler_user_pref(prefs_conteudo, chave.nome);
         std::optional<QString> valor_lido = valor_user.has_value() ? valor_user : valor_prefs;
 
         if (valor_lido.has_value() && *valor_lido == chave.valor_sugerido) {
@@ -131,8 +131,8 @@ LocalizadorFirefox::localizar(const domain::Processo& processo) const {
 
         const QString caminho_principal = user_opt.has_value() ? user_js : prefs_js;
 
-        domain::OrigemConfig o{
-            .categoria = domain::CategoriaOrigem::Firefox,
+        domain::vram::OrigemConfig o{
+            .categoria = domain::vram::CategoriaOrigem::Firefox,
             .tipo = QStringLiteral("browser-flag"),
             .caminho = caminho_principal,
             .chave = chave.nome,
@@ -142,7 +142,7 @@ LocalizadorFirefox::localizar(const domain::Processo& processo) const {
                 "Em `about:config` (ou edite `%1`), ajuste `%2` para `%3` (%4). "
                 "Reinicie o Firefox.")
                 .arg(caminho_principal, chave.nome, chave.valor_sugerido, chave.descricao_humana),
-            .confianca = domain::Confianca::Alta,
+            .confianca = domain::vram::Confianca::Alta,
             .requer_reinicio_app = true,
             .aplicavel_automatico = false,
         };

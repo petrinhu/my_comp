@@ -3,7 +3,7 @@
 #include "domain/vram/classificacao/resultado_classificacao.h"
 #include "domain/vram/entidades/processo.h"
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 class IClassificadorProcessos {
 public:

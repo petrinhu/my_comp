@@ -5,7 +5,7 @@
 
 #include <optional>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 class ILeitorDesktopExec {
 public:
@@ -17,7 +17,7 @@ public:
     virtual ~ILeitorDesktopExec() = default;
 
     [[nodiscard]] virtual std::optional<EntradaDesktopExec>
-        entradaDe(const Processo& processo) const = 0;
+        entrada_de(const Processo& processo) const = 0;
 };
 
 }

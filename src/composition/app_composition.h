@@ -25,7 +25,7 @@ struct AppViewModels {
     UpdatesViewModels updates;
     std::unique_ptr<presentation::viewmodels::AudioViewModel> audio;
     std::unique_ptr<presentation::viewmodels::ExportViewModel> exporter;
-    std::unique_ptr<vramopt::presentation::viewmodels::VramAuditViewModel> vram_audit;
+    std::unique_ptr<my_comp::presentation::viewmodels::VramAuditViewModel> vram_audit;
     std::unique_ptr<presentation::viewmodels::UrlHelper> url_helper;
 };
 

@@ -1,15 +1,15 @@
 #include "application/vram/configuracao/sublocators/lista_wrappers_desktop.h"
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
-const QHash<QString, domain::Confianca>& listaWrappersDesktop() {
-    static const QHash<QString, domain::Confianca> tabela = {
-        {QStringLiteral("prime-run"),   domain::Confianca::Alta},
-        {QStringLiteral("optirun"),     domain::Confianca::Alta},
-        {QStringLiteral("primusrun"),   domain::Confianca::Alta},
-        {QStringLiteral("nvidia-run"),  domain::Confianca::Alta},
-        {QStringLiteral("vk_pro"),      domain::Confianca::Alta},
-        {QStringLiteral("gamemoderun"), domain::Confianca::Media},
+const QHash<QString, domain::vram::Confianca>& lista_wrappers_desktop() {
+    static const QHash<QString, domain::vram::Confianca> tabela = {
+        {QStringLiteral("prime-run"),   domain::vram::Confianca::Alta},
+        {QStringLiteral("optirun"),     domain::vram::Confianca::Alta},
+        {QStringLiteral("primusrun"),   domain::vram::Confianca::Alta},
+        {QStringLiteral("nvidia-run"),  domain::vram::Confianca::Alta},
+        {QStringLiteral("vk_pro"),      domain::vram::Confianca::Alta},
+        {QStringLiteral("gamemoderun"), domain::vram::Confianca::Media},
     };
     return tabela;
 }

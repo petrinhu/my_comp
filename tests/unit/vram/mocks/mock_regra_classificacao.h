@@ -4,12 +4,12 @@
 
 #include <gmock/gmock.h>
 
-namespace vramopt::tests {
+namespace my_comp::tests::vram {
 
-class MockRegraClassificacao : public vramopt::domain::IRegraClassificacao {
+class MockRegraClassificacao : public my_comp::domain::vram::IRegraClassificacao {
 public:
-    MOCK_METHOD(std::optional<vramopt::domain::ResultadoClassificacao>, avaliar,
-                (const vramopt::domain::Processo&), (const, override));
+    MOCK_METHOD(std::optional<my_comp::domain::vram::ResultadoClassificacao>, avaliar,
+                (const my_comp::domain::vram::Processo&), (const, override));
 };
 
 }

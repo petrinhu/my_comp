@@ -4,12 +4,12 @@
 
 #include <gmock/gmock.h>
 
-namespace vramopt::tests {
+namespace my_comp::tests::vram {
 
-class MockLeitorMapsProcesso : public vramopt::domain::ILeitorMapsProcesso {
+class MockLeitorMapsProcesso : public my_comp::domain::vram::ILeitorMapsProcesso {
 public:
-    MOCK_METHOD(QStringList, bibliotecasMapeadas,
-                (const vramopt::domain::PID&), (const, override));
+    MOCK_METHOD(QStringList, bibliotecas_mapeadas,
+                (const my_comp::domain::vram::PID&), (const, override));
 };
 
 }

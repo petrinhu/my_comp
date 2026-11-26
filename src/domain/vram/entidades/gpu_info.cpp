@@ -1,6 +1,6 @@
 #include "domain/vram/entidades/gpu_info.h"
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 GpuInfo::GpuInfo(int id, Fabricante fab, QString modelo, BytesDeMemoria vram_total)
     : m_id{id},

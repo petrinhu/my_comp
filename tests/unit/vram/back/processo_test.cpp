@@ -6,23 +6,23 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
 
 namespace {
 
-Processo construirProcessoFirefox() {
+Processo construir_processo_firefox() {
     return Processo{
         PID{1234},
         NomeProcesso{QStringLiteral("firefox")},
-        BytesDeMemoria::deMegabytes(350),
+        BytesDeMemoria::de_megabytes(350),
         /*gpu_id=*/0,
         {
-            ChaveProcesso::deBinario(QStringLiteral("firefox")),
-            ChaveProcesso::deWmClass(QStringLiteral("firefox")),
+            ChaveProcesso::de_binario(QStringLiteral("firefox")),
+            ChaveProcesso::de_wm_class(QStringLiteral("firefox")),
         }
     };
 }
@@ -30,11 +30,11 @@ Processo construirProcessoFirefox() {
 }
 
 TEST(ProcessoTest, ExpoeAtributosDeConstrucao) {
-    auto p = construirProcessoFirefox();
+    auto p = construir_processo_firefox();
     EXPECT_EQ(p.pid().valor(), 1234);
     EXPECT_EQ(p.nome().valor(), QStringLiteral("firefox"));
-    EXPECT_EQ(p.vramConsumida(), BytesDeMemoria::deMegabytes(350));
-    EXPECT_EQ(p.gpuId(), 0);
+    EXPECT_EQ(p.vram_consumida(), BytesDeMemoria::de_megabytes(350));
+    EXPECT_EQ(p.gpu_id(), 0);
     EXPECT_EQ(p.chaves().size(), 2U);
 }
 

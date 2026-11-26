@@ -11,27 +11,27 @@
 using ::testing::_;
 using ::testing::Return;
 
-using vramopt::application::LocalizadorEnvVar;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::CategoriaOrigem;
-using vramopt::domain::Confianca;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::tests::MockLeitorEnviron;
+using my_comp::application::vram::LocalizadorEnvVar;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::CategoriaOrigem;
+using my_comp::domain::vram::Confianca;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::tests::vram::MockLeitorEnviron;
 
 namespace {
 
 Processo proc() {
     return Processo{PID{1234}, NomeProcesso{QStringLiteral("x")},
-                    BytesDeMemoria::deMegabytes(100), 0, {}};
+                    BytesDeMemoria::de_megabytes(100), 0, {}};
 }
 
 }
 
 TEST(LocalizadorEnvVarTest, AbstemQuandoEnvironVazio) {
     auto leitor = std::make_shared<MockLeitorEnviron>();
-    EXPECT_CALL(*leitor, environDe(_))
+    EXPECT_CALL(*leitor, environ_de(_))
         .WillOnce(Return((QHash<QString, QString>{})));
     LocalizadorEnvVar loc{leitor};
     EXPECT_TRUE(loc.localizar(proc()).isEmpty());
@@ -43,7 +43,7 @@ TEST(LocalizadorEnvVarTest, AbstemQuandoNenhumaEnvRelevante) {
         {QStringLiteral("HOME"), QStringLiteral("/home/u")},
         {QStringLiteral("PATH"), QStringLiteral("/usr/bin")},
     };
-    EXPECT_CALL(*leitor, environDe(_)).WillOnce(Return(env));
+    EXPECT_CALL(*leitor, environ_de(_)).WillOnce(Return(env));
     LocalizadorEnvVar loc{leitor};
     EXPECT_TRUE(loc.localizar(proc()).isEmpty());
 }
@@ -53,7 +53,7 @@ TEST(LocalizadorEnvVarTest, EmiteOrigemQuandoNvPrimeOffloadAtivo) {
     QHash<QString, QString> env{
         {QStringLiteral("__NV_PRIME_RENDER_OFFLOAD"), QStringLiteral("1")},
     };
-    EXPECT_CALL(*leitor, environDe(_)).WillOnce(Return(env));
+    EXPECT_CALL(*leitor, environ_de(_)).WillOnce(Return(env));
     LocalizadorEnvVar loc{leitor};
     auto origens = loc.localizar(proc());
     ASSERT_EQ(origens.size(), 1);
@@ -72,7 +72,7 @@ TEST(LocalizadorEnvVarTest, NaoEmiteQuandoValorEhFalso) {
         {QStringLiteral("__NV_PRIME_RENDER_OFFLOAD"), QStringLiteral("0")},
         {QStringLiteral("DRI_PRIME"), QStringLiteral("0")},
     };
-    EXPECT_CALL(*leitor, environDe(_)).WillOnce(Return(env));
+    EXPECT_CALL(*leitor, environ_de(_)).WillOnce(Return(env));
     LocalizadorEnvVar loc{leitor};
     EXPECT_TRUE(loc.localizar(proc()).isEmpty());
 }
@@ -84,7 +84,7 @@ TEST(LocalizadorEnvVarTest, EmiteUmaPorEnvVarAtiva) {
         {QStringLiteral("__VK_LAYER_NV_optimus"), QStringLiteral("NVIDIA_only")},
         {QStringLiteral("DRI_PRIME"), QStringLiteral("1")},
     };
-    EXPECT_CALL(*leitor, environDe(_)).WillOnce(Return(env));
+    EXPECT_CALL(*leitor, environ_de(_)).WillOnce(Return(env));
     LocalizadorEnvVar loc{leitor};
     auto origens = loc.localizar(proc());
     EXPECT_EQ(origens.size(), 3);

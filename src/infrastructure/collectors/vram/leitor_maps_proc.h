@@ -4,14 +4,14 @@
 
 #include <QString>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 // Lê /proc/<pid>/maps e devolve os caminhos únicos de bibliotecas compartilhadas (.so).
-class LeitorMapsProc final : public domain::ILeitorMapsProcesso {
+class LeitorMapsProc final : public domain::vram::ILeitorMapsProcesso {
 public:
     explicit LeitorMapsProc(QString proc_root = QStringLiteral("/proc"));
 
-    [[nodiscard]] QStringList bibliotecasMapeadas(const domain::PID& pid) const override;
+    [[nodiscard]] QStringList bibliotecas_mapeadas(const domain::vram::PID& pid) const override;
 
 private:
     QString m_proc_root;

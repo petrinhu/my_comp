@@ -1,0 +1,111 @@
+{
+  "versao": 1,
+  "entradas": [
+    {
+      "id": "firefox",
+      "binarios": ["firefox", "firefox-bin", "firefox-esr"],
+      "wm_class": ["firefox", "firefox-esr"],
+      "desktop_id": ["firefox.desktop", "org.mozilla.firefox.desktop", "firefox-esr.desktop"],
+      "veredito": "CandidatoObvioCpu",
+      "justificativa": "Navegador: a GPU só acelera composição e vídeo; desligar a aceleração de hardware libera VRAM sem perda funcional."
+    },
+    {
+      "id": "chromium",
+      "binarios": ["chromium", "chromium-browse", "chromium-freeworld"],
+      "wm_class": ["chromium", "chromium-browser"],
+      "desktop_id": ["chromium.desktop", "chromium-browser.desktop", "org.chromium.Chromium.desktop"],
+      "veredito": "CandidatoObvioCpu",
+      "justificativa": "Navegador Chromium: aceleração de hardware é opcional (chrome://settings/system)."
+    },
+    {
+      "id": "google-chrome",
+      "binarios": ["chrome"],
+      "wm_class": ["google-chrome"],
+      "desktop_id": ["google-chrome.desktop", "com.google.Chrome.desktop"],
+      "veredito": "CandidatoObvioCpu",
+      "justificativa": "Navegador Chrome: aceleração de hardware é opcional (chrome://settings/system)."
+    },
+    {
+      "id": "brave",
+      "binarios": ["brave"],
+      "wm_class": ["brave-browser"],
+      "desktop_id": ["brave-browser.desktop", "com.brave.Browser.desktop"],
+      "veredito": "CandidatoObvioCpu",
+      "justificativa": "Navegador baseado em Chromium: aceleração de hardware é opcional."
+    },
+    {
+      "id": "microsoft-edge",
+      "binarios": ["msedge"],
+      "wm_class": ["microsoft-edge"],
+      "desktop_id": ["microsoft-edge.desktop", "com.microsoft.Edge.desktop"],
+      "veredito": "CandidatoObvioCpu",
+      "justificativa": "Navegador baseado em Chromium: aceleração de hardware é opcional."
+    },
+    {
+      "id": "kwin",
+      "binarios": ["kwin_wayland", "kwin_x11"],
+      "veredito": "PrecisaGpu",
+      "justificativa": "Compositor do KDE Plasma: desenha a sessão inteira; tirar a GPU dele degrada ou derruba o desktop."
+    },
+    {
+      "id": "gnome-shell",
+      "binarios": ["gnome-shell"],
+      "veredito": "PrecisaGpu",
+      "justificativa": "Compositor e shell do GNOME (mutter): desenha a sessão inteira."
+    },
+    {
+      "id": "xwayland",
+      "binarios": ["Xwayland"],
+      "veredito": "PrecisaGpu",
+      "justificativa": "Servidor X dentro da sessão Wayland: aceleração (glamor) dos apps X11."
+    },
+    {
+      "id": "xorg",
+      "binarios": ["Xorg"],
+      "veredito": "PrecisaGpu",
+      "justificativa": "Servidor de exibição X11: dono da saída de vídeo."
+    },
+    {
+      "id": "compositores-wlroots",
+      "binarios": ["sway", "Hyprland", "gamescope"],
+      "veredito": "PrecisaGpu",
+      "justificativa": "Compositor Wayland: desenha a sessão (ou o jogo, no gamescope)."
+    },
+    {
+      "id": "plasmashell",
+      "binarios": ["plasmashell"],
+      "wm_class": ["plasmashell"],
+      "desktop_id": ["org.kde.plasmashell.desktop"],
+      "veredito": "PrecisaGpu",
+      "justificativa": "Shell do Plasma (painéis, papel de parede) em Qt Quick: parte do desktop, não é app para migrar."
+    },
+    {
+      "id": "ollama",
+      "binarios": ["ollama"],
+      "veredito": "PrecisaGpu",
+      "justificativa": "Servidor de LLM local: a VRAM guarda os pesos do modelo; na CPU a inferência fica ordens de grandeza mais lenta."
+    },
+    {
+      "id": "llama-cpp",
+      "binarios": ["llama-server", "llama-cli"],
+      "veredito": "PrecisaGpu",
+      "justificativa": "Inferência de LLM (llama.cpp): a VRAM guarda os pesos/camadas descarregadas na GPU."
+    },
+    {
+      "id": "blender",
+      "binarios": ["blender"],
+      "wm_class": ["blender"],
+      "desktop_id": ["blender.desktop", "org.blender.Blender.desktop"],
+      "veredito": "PrecisaGpu",
+      "justificativa": "Modelagem e renderização 3D: viewport e Cycles/EEVEE dependem da GPU."
+    },
+    {
+      "id": "obs-studio",
+      "binarios": ["obs"],
+      "wm_class": ["obs"],
+      "desktop_id": ["com.obsproject.Studio.desktop"],
+      "veredito": "PrecisaGpu",
+      "justificativa": "Captura e streaming: composição de cenas e codificação de vídeo usam a GPU."
+    }
+  ]
+}

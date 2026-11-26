@@ -25,31 +25,31 @@
 using ::testing::_;
 using ::testing::Return;
 
-using vramopt::application::ServicoAuditarVramAtual;
-using vramopt::application::ServicoClassificarProcesso;
-using vramopt::application::ServicoLocalizarConfig;
-using vramopt::application::ServicoSugerirAcao;
-using vramopt::application::TipoSugestao;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::Categoria;
-using vramopt::domain::CategoriaOrigem;
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::Confianca;
-using vramopt::domain::Fabricante;
-using vramopt::domain::GpuInfo;
-using vramopt::domain::Justificativa;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::OrigemConfig;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::domain::ResultadoClassificacao;
-using vramopt::tests::MockClassificadorProcessos;
-using vramopt::tests::MockConfigLocator;
-using vramopt::tests::MockGpuBackend;
+using my_comp::application::vram::ServicoAuditarVramAtual;
+using my_comp::application::vram::ServicoClassificarProcesso;
+using my_comp::application::vram::ServicoLocalizarConfig;
+using my_comp::application::vram::ServicoSugerirAcao;
+using my_comp::application::vram::TipoSugestao;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::CategoriaOrigem;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::Confianca;
+using my_comp::domain::vram::Fabricante;
+using my_comp::domain::vram::GpuInfo;
+using my_comp::domain::vram::Justificativa;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::OrigemConfig;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::domain::vram::ResultadoClassificacao;
+using my_comp::tests::vram::MockClassificadorProcessos;
+using my_comp::tests::vram::MockConfigLocator;
+using my_comp::tests::vram::MockGpuBackend;
 
 namespace {
 
-ResultadoClassificacao classificacaoCpu() {
+ResultadoClassificacao classificacao_cpu() {
     return ResultadoClassificacao{
         .categoria = Categoria::CandidatoObvioCpu,
         .justificativa = Justificativa{
@@ -59,7 +59,7 @@ ResultadoClassificacao classificacaoCpu() {
     };
 }
 
-ResultadoClassificacao classificacaoGpu() {
+ResultadoClassificacao classificacao_gpu() {
     return ResultadoClassificacao{
         .categoria = Categoria::PrecisaGpu,
         .justificativa = Justificativa{
@@ -69,7 +69,7 @@ ResultadoClassificacao classificacaoGpu() {
     };
 }
 
-OrigemConfig origemFalsa() {
+OrigemConfig origem_falsa() {
     return OrigemConfig{
         .categoria = CategoriaOrigem::BrowserChromium,
         .tipo = QStringLiteral("browser-flag"),
@@ -92,32 +92,32 @@ TEST(ServicoAuditarVramAtualTest, AgrupaProcessosPorGpuEEnriqueceComTodosOsServi
     auto locator = std::make_shared<MockConfigLocator>();
 
     GpuInfo gpu0{0, Fabricante::Nvidia, QStringLiteral("RTX 4070"),
-                 BytesDeMemoria::deMegabytes(12288)};
+                 BytesDeMemoria::de_megabytes(12288)};
     GpuInfo gpu1{1, Fabricante::Intel, QStringLiteral("Iris Xe"),
-                 BytesDeMemoria::deMegabytes(2048)};
+                 BytesDeMemoria::de_megabytes(2048)};
 
     Processo chrome{PID{1001},
                     NomeProcesso{QStringLiteral("chrome")},
-                    BytesDeMemoria::deMegabytes(450), 0,
-                    {ChaveProcesso::deBinario(QStringLiteral("chrome"))}};
+                    BytesDeMemoria::de_megabytes(450), 0,
+                    {ChaveProcesso::de_binario(QStringLiteral("chrome"))}};
     Processo blender{PID{2002},
                      NomeProcesso{QStringLiteral("blender")},
-                     BytesDeMemoria::deMegabytes(3072), 1,
-                     {ChaveProcesso::deBinario(QStringLiteral("blender"))}};
+                     BytesDeMemoria::de_megabytes(3072), 1,
+                     {ChaveProcesso::de_binario(QStringLiteral("blender"))}};
 
-    EXPECT_CALL(*backend, enumerarGpus())
+    EXPECT_CALL(*backend, enumerar_gpus())
         .WillOnce(Return(std::vector<GpuInfo>{gpu0, gpu1}));
-    EXPECT_CALL(*backend, enumerarProcessosVram(0))
+    EXPECT_CALL(*backend, enumerar_processos_vram(0))
         .WillOnce(Return(std::vector<Processo>{chrome}));
-    EXPECT_CALL(*backend, enumerarProcessosVram(1))
+    EXPECT_CALL(*backend, enumerar_processos_vram(1))
         .WillOnce(Return(std::vector<Processo>{blender}));
 
     EXPECT_CALL(*classificador, classificar(_))
-        .WillOnce(Return(classificacaoCpu()))
-        .WillOnce(Return(classificacaoGpu()));
+        .WillOnce(Return(classificacao_cpu()))
+        .WillOnce(Return(classificacao_gpu()));
 
     EXPECT_CALL(*locator, localizar(_))
-        .WillOnce(Return(QVector<OrigemConfig>{origemFalsa()}))
+        .WillOnce(Return(QVector<OrigemConfig>{origem_falsa()}))
         .WillOnce(Return(QVector<OrigemConfig>{}));
 
     auto svc_class = std::make_shared<ServicoClassificarProcesso>(classificador);
@@ -154,8 +154,8 @@ TEST(ServicoAuditarVramAtualTest, RelatorioVazioQuandoNaoHaGpus) {
     auto classificador = std::make_shared<MockClassificadorProcessos>();
     auto locator = std::make_shared<MockConfigLocator>();
 
-    EXPECT_CALL(*backend, enumerarGpus()).WillOnce(Return(std::vector<GpuInfo>{}));
-    EXPECT_CALL(*backend, enumerarProcessosVram(_)).Times(0);
+    EXPECT_CALL(*backend, enumerar_gpus()).WillOnce(Return(std::vector<GpuInfo>{}));
+    EXPECT_CALL(*backend, enumerar_processos_vram(_)).Times(0);
     EXPECT_CALL(*classificador, classificar(_)).Times(0);
     EXPECT_CALL(*locator, localizar(_)).Times(0);
 
@@ -175,10 +175,10 @@ TEST(ServicoAuditarVramAtualTest, GpuSemProcessosFicaComItensVazios) {
     auto locator = std::make_shared<MockConfigLocator>();
 
     GpuInfo gpu{0, Fabricante::Amd, QStringLiteral("RX 7900"),
-                BytesDeMemoria::deMegabytes(20480)};
+                BytesDeMemoria::de_megabytes(20480)};
 
-    EXPECT_CALL(*backend, enumerarGpus()).WillOnce(Return(std::vector<GpuInfo>{gpu}));
-    EXPECT_CALL(*backend, enumerarProcessosVram(0))
+    EXPECT_CALL(*backend, enumerar_gpus()).WillOnce(Return(std::vector<GpuInfo>{gpu}));
+    EXPECT_CALL(*backend, enumerar_processos_vram(0))
         .WillOnce(Return(std::vector<Processo>{}));
     EXPECT_CALL(*classificador, classificar(_)).Times(0);
     EXPECT_CALL(*locator, localizar(_)).Times(0);

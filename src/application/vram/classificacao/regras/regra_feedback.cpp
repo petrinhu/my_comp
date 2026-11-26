@@ -2,19 +2,19 @@
 
 #include <QString>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
-RegraFeedback::RegraFeedback(std::shared_ptr<domain::IRepositorioFeedback> repo)
+RegraFeedback::RegraFeedback(std::shared_ptr<domain::vram::IRepositorioFeedback> repo)
     : m_repo{std::move(repo)} {}
 
-std::optional<domain::ResultadoClassificacao>
-RegraFeedback::avaliar(const domain::Processo& processo) const {
+std::optional<domain::vram::ResultadoClassificacao>
+RegraFeedback::avaliar(const domain::vram::Processo& processo) const {
     for (const auto& chave : processo.chaves()) {
         auto feedback = m_repo->buscar(chave);
         if (feedback.has_value()) {
-            return domain::ResultadoClassificacao{
+            return domain::vram::ResultadoClassificacao{
                 .categoria = feedback->veredito,
-                .justificativa = domain::Justificativa{
+                .justificativa = domain::vram::Justificativa{
                     .regra = QStringLiteral("feedback"),
                     .detalhe = QStringLiteral("id=%1, motivo=%2")
                         .arg(feedback->id)

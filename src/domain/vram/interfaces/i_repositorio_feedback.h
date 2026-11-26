@@ -8,7 +8,7 @@
 
 #include <optional>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 class IRepositorioFeedback {
 public:
@@ -23,10 +23,10 @@ public:
         buscar(const ChaveProcesso& chave) const = 0;
 
     virtual void inserir(const EntradaFeedback& entrada) = 0;
-    virtual void atualizarVistoEm(int id, QDateTime quando) = 0;
+    virtual void atualizar_visto_em(int id, QDateTime quando) = 0;
     virtual void remover(int id) = 0;
 
-    [[nodiscard]] virtual QVector<EntradaFeedback> listarTodos() const = 0;
+    [[nodiscard]] virtual QVector<EntradaFeedback> listar_todos() const = 0;
 };
 
 }

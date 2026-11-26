@@ -3,8 +3,8 @@
 #include <QHash>
 #include <QString>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
-[[nodiscard]] const QHash<QString, QString>& tabelaPathsBrowserChromium();
+[[nodiscard]] const QHash<QString, QString>& tabela_paths_browser_chromium();
 
 }

@@ -4,14 +4,14 @@
 
 #include <QStringList>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
-class LeitorDesktopExecXdg final : public domain::ILeitorDesktopExec {
+class LeitorDesktopExecXdg final : public domain::vram::ILeitorDesktopExec {
 public:
     explicit LeitorDesktopExecXdg(QStringList xdg_dirs = {});
 
-    [[nodiscard]] std::optional<domain::EntradaDesktopExec>
-        entradaDe(const domain::Processo& processo) const override;
+    [[nodiscard]] std::optional<domain::vram::EntradaDesktopExec>
+        entrada_de(const domain::vram::Processo& processo) const override;
 
 private:
     QStringList m_xdg_dirs;

@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::domain::Justificativa;
+using my_comp::domain::vram::Justificativa;
 
 TEST(JustificativaTest, ConstroiComRegraEDetalhe) {
     Justificativa j{QStringLiteral("catalogo"), QStringLiteral("casou wmClass=firefox")};

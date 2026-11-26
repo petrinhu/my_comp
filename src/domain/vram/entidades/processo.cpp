@@ -1,6 +1,6 @@
 #include "domain/vram/entidades/processo.h"
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 Processo::Processo(PID pid,
                    NomeProcesso nome,

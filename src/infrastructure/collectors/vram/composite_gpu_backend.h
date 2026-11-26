@@ -6,16 +6,16 @@
 #include <memory>
 #include <vector>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
-class CompositeGpuBackend final : public domain::IGpuBackend {
+class CompositeGpuBackend final : public domain::vram::IGpuBackend {
 public:
-    explicit CompositeGpuBackend(std::vector<std::shared_ptr<domain::IGpuBackend>> backends);
+    explicit CompositeGpuBackend(std::vector<std::shared_ptr<domain::vram::IGpuBackend>> backends);
 
-    [[nodiscard]] std::vector<domain::GpuInfo> enumerarGpus() const override;
+    [[nodiscard]] std::vector<domain::vram::GpuInfo> enumerar_gpus() const override;
 
-    [[nodiscard]] std::vector<domain::Processo>
-        enumerarProcessosVram(int gpu_id) const override;
+    [[nodiscard]] std::vector<domain::vram::Processo>
+        enumerar_processos_vram(int gpu_id) const override;
 
 private:
     struct EntradaGpu {
@@ -23,11 +23,11 @@ private:
         int         id_interno;
     };
 
-    std::vector<std::shared_ptr<domain::IGpuBackend>> m_backends;
+    std::vector<std::shared_ptr<domain::vram::IGpuBackend>> m_backends;
     mutable std::vector<EntradaGpu> m_mapa_ids;
     mutable bool m_mapa_pronto{false};
 
-    void garantirMapa() const;
+    void garantir_mapa() const;
 };
 
 }

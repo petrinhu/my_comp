@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 enum class Categoria : std::uint8_t {
     CandidatoObvioCpu,

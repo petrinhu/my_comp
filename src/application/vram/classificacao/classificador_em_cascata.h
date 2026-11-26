@@ -6,17 +6,17 @@
 #include <memory>
 #include <vector>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
-class ClassificadorEmCascata final : public domain::IClassificadorProcessos {
+class ClassificadorEmCascata final : public domain::vram::IClassificadorProcessos {
 public:
-    explicit ClassificadorEmCascata(std::vector<std::shared_ptr<domain::IRegraClassificacao>> regras);
+    explicit ClassificadorEmCascata(std::vector<std::shared_ptr<domain::vram::IRegraClassificacao>> regras);
 
-    [[nodiscard]] domain::ResultadoClassificacao
-        classificar(const domain::Processo& processo) const override;
+    [[nodiscard]] domain::vram::ResultadoClassificacao
+        classificar(const domain::vram::Processo& processo) const override;
 
 private:
-    std::vector<std::shared_ptr<domain::IRegraClassificacao>> m_regras;
+    std::vector<std::shared_ptr<domain::vram::IRegraClassificacao>> m_regras;
 };
 
 }

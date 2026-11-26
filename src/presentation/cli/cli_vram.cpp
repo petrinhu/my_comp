@@ -9,30 +9,30 @@
 #include <utility>
 #include <vector>
 
-namespace vramopt::presentation::cli {
+namespace my_comp::presentation::cli {
 
 namespace {
 
-QString fabricanteString(domain::Fabricante f) {
+QString fabricante_string(domain::vram::Fabricante f) {
     switch (f) {
-        case domain::Fabricante::Nvidia:       return QStringLiteral("Nvidia");
-        case domain::Fabricante::Intel:        return QStringLiteral("Intel");
-        case domain::Fabricante::Amd:          return QStringLiteral("AMD");
-        case domain::Fabricante::Desconhecido: return QStringLiteral("?");
+        case domain::vram::Fabricante::Nvidia:       return QStringLiteral("Nvidia");
+        case domain::vram::Fabricante::Intel:        return QStringLiteral("Intel");
+        case domain::vram::Fabricante::Amd:          return QStringLiteral("AMD");
+        case domain::vram::Fabricante::Desconhecido: return QStringLiteral("?");
     }
     return QStringLiteral("?");
 }
 
-QString categoriaString(domain::Categoria c) {
+QString categoria_string(domain::vram::Categoria c) {
     switch (c) {
-        case domain::Categoria::CandidatoObvioCpu: return QStringLiteral("cpu");
-        case domain::Categoria::Indeterminado:     return QStringLiteral("indeterminado");
-        case domain::Categoria::PrecisaGpu:        return QStringLiteral("gpu");
+        case domain::vram::Categoria::CandidatoObvioCpu: return QStringLiteral("cpu");
+        case domain::vram::Categoria::Indeterminado:     return QStringLiteral("indeterminado");
+        case domain::vram::Categoria::PrecisaGpu:        return QStringLiteral("gpu");
     }
     return QStringLiteral("?");
 }
 
-QJsonObject origemToJson(const domain::OrigemConfig& o) {
+QJsonObject origem_to_json(const domain::vram::OrigemConfig& o) {
     QJsonObject j;
     j[QStringLiteral("tipo")] = o.tipo;
     j[QStringLiteral("caminho")] = o.caminho;
@@ -43,16 +43,16 @@ QJsonObject origemToJson(const domain::OrigemConfig& o) {
     return j;
 }
 
-QString formatarJson(const application::RelatorioAuditoriaVram& rel,
+QString formatar_json(const application::vram::RelatorioAuditoriaVram& rel,
                      const OpcoesCliVram& opts) {
     QJsonArray gpus;
     for (const auto& grupo : rel.grupos) {
         QJsonObject g;
         g[QStringLiteral("gpu_id")] = grupo.gpu.id();
-        g[QStringLiteral("fabricante")] = fabricanteString(grupo.gpu.fabricante());
+        g[QStringLiteral("fabricante")] = fabricante_string(grupo.gpu.fabricante());
         g[QStringLiteral("modelo")] = grupo.gpu.modelo();
         g[QStringLiteral("vram_total_bytes")] =
-            static_cast<qint64>(grupo.gpu.vramTotal().valor());
+            static_cast<qint64>(grupo.gpu.vram_total().valor());
 
         QJsonArray itens;
         for (const auto& item : grupo.itens) {
@@ -60,15 +60,15 @@ QString formatarJson(const application::RelatorioAuditoriaVram& rel,
             it[QStringLiteral("pid")] = item.processo.pid().valor();
             it[QStringLiteral("nome")] = item.processo.nome().valor();
             it[QStringLiteral("vram_bytes")] =
-                static_cast<qint64>(item.processo.vramConsumida().valor());
+                static_cast<qint64>(item.processo.vram_consumida().valor());
             it[QStringLiteral("categoria")] =
-                categoriaString(item.classificacao.categoria);
+                categoria_string(item.classificacao.categoria);
             it[QStringLiteral("regra")] = item.classificacao.justificativa.regra;
 
             if (opts.include_config_origins && !item.origens_config.isEmpty()) {
                 QJsonArray origens;
                 for (const auto& o : item.origens_config) {
-                    origens.append(origemToJson(o));
+                    origens.append(origem_to_json(o));
                 }
                 it[QStringLiteral("origens_config")] = origens;
             }
@@ -82,7 +82,7 @@ QString formatarJson(const application::RelatorioAuditoriaVram& rel,
     return QString::fromUtf8(QJsonDocument{root}.toJson(QJsonDocument::Indented));
 }
 
-QString formatarTabular(const application::RelatorioAuditoriaVram& rel,
+QString formatar_tabular(const application::vram::RelatorioAuditoriaVram& rel,
                         const OpcoesCliVram& opts) {
     QString out;
     if (rel.grupos.empty()) {
@@ -92,9 +92,9 @@ QString formatarTabular(const application::RelatorioAuditoriaVram& rel,
     for (const auto& grupo : rel.grupos) {
         out += QStringLiteral("\n=== GPU %1: %2 (%3) — VRAM total: ")
                    .arg(grupo.gpu.id())
-                   .arg(fabricanteString(grupo.gpu.fabricante()),
+                   .arg(fabricante_string(grupo.gpu.fabricante()),
                         grupo.gpu.modelo());
-        const auto vram_total_mb = grupo.gpu.vramTotal().valor() / (1024ULL * 1024ULL);
+        const auto vram_total_mb = grupo.gpu.vram_total().valor() / (1024ULL * 1024ULL);
         if (vram_total_mb > 0) {
             out += QStringLiteral("%1 MiB ===\n").arg(vram_total_mb);
         } else {
@@ -110,12 +110,12 @@ QString formatarTabular(const application::RelatorioAuditoriaVram& rel,
                    .arg(QStringLiteral("VRAM (MiB)"), -12)
                    .arg(QStringLiteral("CATEGORIA"));
         for (const auto& item : grupo.itens) {
-            const auto vram_mb = item.processo.vramConsumida().valor() / (1024ULL * 1024ULL);
+            const auto vram_mb = item.processo.vram_consumida().valor() / (1024ULL * 1024ULL);
             out += QStringLiteral("  %1  %2  %3  %4\n")
                        .arg(item.processo.pid().valor(), -7)
                        .arg(item.processo.nome().valor(), -24)
                        .arg(vram_mb, -12)
-                       .arg(categoriaString(item.classificacao.categoria));
+                       .arg(categoria_string(item.classificacao.categoria));
             if (opts.include_config_origins) {
                 for (const auto& o : item.origens_config) {
                     out += QStringLiteral("      ↳ [%1] %2 = %3 → sugerido: %4\n")
@@ -129,7 +129,7 @@ QString formatarTabular(const application::RelatorioAuditoriaVram& rel,
 
 }
 
-OpcoesCliVram parsearOpcoes(const QStringList& args) {
+OpcoesCliVram parsear_opcoes(const QStringList& args) {
     OpcoesCliVram opts;
     for (const auto& a : args) {
         if (a == QStringLiteral("--json")) {
@@ -145,22 +145,22 @@ OpcoesCliVram parsearOpcoes(const QStringList& args) {
     return opts;
 }
 
-QString formatarRelatorio(const application::RelatorioAuditoriaVram& rel,
+QString formatar_relatorio(const application::vram::RelatorioAuditoriaVram& rel,
                           const OpcoesCliVram& opts) {
-    return opts.json ? formatarJson(rel, opts) : formatarTabular(rel, opts);
+    return opts.json ? formatar_json(rel, opts) : formatar_tabular(rel, opts);
 }
 
-int executarComServico(
-    const std::shared_ptr<application::ServicoAuditarVramAtual>& servico,
+int executar_com_servico(
+    const std::shared_ptr<application::vram::ServicoAuditarVramAtual>& servico,
     const QStringList& args,
     QTextStream& out) {
     if (!servico) {
         out << "Erro: serviço de auditoria nulo.\n";
         return 2;
     }
-    const auto opts = parsearOpcoes(args);
+    const auto opts = parsear_opcoes(args);
     const auto relatorio = servico->executar();
-    out << formatarRelatorio(relatorio, opts);
+    out << formatar_relatorio(relatorio, opts);
     if (!opts.json) {
         out << "\n";
     }

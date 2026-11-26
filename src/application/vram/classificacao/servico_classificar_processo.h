@@ -6,17 +6,17 @@
 
 #include <memory>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 class ServicoClassificarProcesso {
 public:
-    explicit ServicoClassificarProcesso(std::shared_ptr<domain::IClassificadorProcessos> classificador);
+    explicit ServicoClassificarProcesso(std::shared_ptr<domain::vram::IClassificadorProcessos> classificador);
 
-    [[nodiscard]] domain::ResultadoClassificacao
-        executar(const domain::Processo& processo) const;
+    [[nodiscard]] domain::vram::ResultadoClassificacao
+        executar(const domain::vram::Processo& processo) const;
 
 private:
-    std::shared_ptr<domain::IClassificadorProcessos> m_classificador;
+    std::shared_ptr<domain::vram::IClassificadorProcessos> m_classificador;
 };
 
 }

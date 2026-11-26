@@ -6,13 +6,13 @@
 
 #include <vector>
 
-namespace vramopt::tests {
+namespace my_comp::tests::vram {
 
-class MockGpuBackend : public vramopt::domain::IGpuBackend {
+class MockGpuBackend : public my_comp::domain::vram::IGpuBackend {
 public:
-    MOCK_METHOD(std::vector<vramopt::domain::GpuInfo>, enumerarGpus,
+    MOCK_METHOD(std::vector<my_comp::domain::vram::GpuInfo>, enumerar_gpus,
                 (), (const, override));
-    MOCK_METHOD(std::vector<vramopt::domain::Processo>, enumerarProcessosVram,
+    MOCK_METHOD(std::vector<my_comp::domain::vram::Processo>, enumerar_processos_vram,
                 (int), (const, override));
 };
 

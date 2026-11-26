@@ -14,11 +14,11 @@
 #include <memory>
 #include <vector>
 
-using vramopt::domain::Fabricante;
-using vramopt::infrastructure::INvmlAdapter;
-using vramopt::infrastructure::NvmlDeviceInfo;
-using vramopt::infrastructure::NvmlGpuBackend;
-using vramopt::infrastructure::NvmlProcessoInfo;
+using my_comp::domain::vram::Fabricante;
+using my_comp::infrastructure::vram::INvmlAdapter;
+using my_comp::infrastructure::vram::NvmlDeviceInfo;
+using my_comp::infrastructure::vram::NvmlGpuBackend;
+using my_comp::infrastructure::vram::NvmlProcessoInfo;
 
 namespace {
 
@@ -29,25 +29,25 @@ public:
     std::vector<std::vector<NvmlProcessoInfo>>           procs_por_idx;
     std::vector<std::vector<NvmlProcessoInfo>>           graphics_por_idx;
 
-    [[nodiscard]] bool isAvailable() const override { return disponivel; }
-    [[nodiscard]] std::uint32_t deviceCount() override {
+    [[nodiscard]] bool is_available() const override { return disponivel; }
+    [[nodiscard]] std::uint32_t device_count() override {
         return static_cast<std::uint32_t>(devices.size());
     }
-    [[nodiscard]] std::optional<NvmlDeviceInfo> deviceInfo(std::uint32_t idx) override {
+    [[nodiscard]] std::optional<NvmlDeviceInfo> device_info(std::uint32_t idx) override {
         if (idx >= devices.size()) {
             return std::nullopt;
         }
         return devices[idx];
     }
     [[nodiscard]] std::vector<NvmlProcessoInfo>
-        processosCompute(std::uint32_t idx) override {
+        processos_compute(std::uint32_t idx) override {
         if (idx >= procs_por_idx.size()) {
             return {};
         }
         return procs_por_idx[idx];
     }
     [[nodiscard]] std::vector<NvmlProcessoInfo>
-        processosGraphics(std::uint32_t idx) override {
+        processos_graphics(std::uint32_t idx) override {
         if (idx >= graphics_por_idx.size()) {
             return {};
         }
@@ -55,7 +55,7 @@ public:
     }
 };
 
-void escreverComm(const QString& proc_root, std::uint32_t pid, const QString& comm) {
+void escrever_comm(const QString& proc_root, std::uint32_t pid, const QString& comm) {
     const QString dir = QStringLiteral("%1/%2").arg(proc_root).arg(pid);
     QDir{}.mkpath(dir);
     QFile f{dir + QStringLiteral("/comm")};
@@ -70,8 +70,8 @@ TEST(NvmlGpuBackendTest, AdapterIndisponivelDevolveListasVazias) {
     adapter->disponivel = false;
 
     NvmlGpuBackend backend{adapter};
-    EXPECT_TRUE(backend.enumerarGpus().empty());
-    EXPECT_TRUE(backend.enumerarProcessosVram(0).empty());
+    EXPECT_TRUE(backend.enumerar_gpus().empty());
+    EXPECT_TRUE(backend.enumerar_processos_vram(0).empty());
 }
 
 TEST(NvmlGpuBackendTest, EnumeraGpusComNomeEvram) {
@@ -84,12 +84,12 @@ TEST(NvmlGpuBackendTest, EnumeraGpusComNomeEvram) {
     };
 
     NvmlGpuBackend backend{adapter};
-    const auto gpus = backend.enumerarGpus();
+    const auto gpus = backend.enumerar_gpus();
     ASSERT_EQ(gpus.size(), 2U);
     EXPECT_EQ(gpus[0].id(), 0);
     EXPECT_EQ(gpus[0].fabricante(), Fabricante::Nvidia);
     EXPECT_EQ(gpus[0].modelo(), QStringLiteral("NVIDIA RTX 4070"));
-    EXPECT_EQ(gpus[0].vramTotal().valor(), 12ULL * 1024 * 1024 * 1024);
+    EXPECT_EQ(gpus[0].vram_total().valor(), 12ULL * 1024 * 1024 * 1024);
     EXPECT_EQ(gpus[1].id(), 1);
 }
 
@@ -98,8 +98,8 @@ TEST(NvmlGpuBackendTest, MapeiaProcessosUsandoCommDoProcRoot) {
     ASSERT_TRUE(tmp.isValid());
     const QString proc = tmp.path() + QStringLiteral("/proc");
     QDir{}.mkpath(proc);
-    escreverComm(proc, 1234, QStringLiteral("blender"));
-    escreverComm(proc, 5678, QStringLiteral("ollama"));
+    escrever_comm(proc, 1234, QStringLiteral("blender"));
+    escrever_comm(proc, 5678, QStringLiteral("ollama"));
 
     auto adapter = std::make_shared<FakeNvmlAdapter>();
     adapter->devices = {
@@ -114,12 +114,12 @@ TEST(NvmlGpuBackendTest, MapeiaProcessosUsandoCommDoProcRoot) {
     };
 
     NvmlGpuBackend backend{adapter, proc};
-    const auto procs = backend.enumerarProcessosVram(0);
+    const auto procs = backend.enumerar_processos_vram(0);
     ASSERT_EQ(procs.size(), 2U);
     EXPECT_EQ(procs[0].pid().valor(), 1234);
     EXPECT_EQ(procs[0].nome().valor(), QStringLiteral("blender"));
-    EXPECT_EQ(procs[0].vramConsumida().valor(), 256ULL * 1024 * 1024);
-    EXPECT_EQ(procs[0].gpuId(), 0);
+    EXPECT_EQ(procs[0].vram_consumida().valor(), 256ULL * 1024 * 1024);
+    EXPECT_EQ(procs[0].gpu_id(), 0);
     ASSERT_EQ(procs[0].chaves().size(), 1U);
     EXPECT_EQ(procs[0].chaves().front().valor(), QStringLiteral("blender"));
 
@@ -143,7 +143,7 @@ TEST(NvmlGpuBackendTest, FallbackParaInterrogacaoQuandoCommAusente) {
     };
 
     NvmlGpuBackend backend{adapter, proc};
-    const auto procs = backend.enumerarProcessosVram(0);
+    const auto procs = backend.enumerar_processos_vram(0);
     ASSERT_EQ(procs.size(), 1U);
     EXPECT_EQ(procs[0].nome().valor(), QStringLiteral("?"));
 }
@@ -155,7 +155,7 @@ TEST(NvmlGpuBackendTest, GpuIdNegativoRetornaVazio) {
                        .vram_total_bytes = 0},
     };
     NvmlGpuBackend backend{adapter};
-    EXPECT_TRUE(backend.enumerarProcessosVram(-1).empty());
+    EXPECT_TRUE(backend.enumerar_processos_vram(-1).empty());
 }
 
 // Browsers, compositores e jogos usam contexto gráfico, não compute: sem a lista graphics
@@ -163,8 +163,8 @@ TEST(NvmlGpuBackendTest, GpuIdNegativoRetornaVazio) {
 TEST(NvmlGpuBackendTest, IncluiProcessosGraphicsAlemDosCompute) {
     QTemporaryDir tmp;
     ASSERT_TRUE(tmp.isValid());
-    escreverComm(tmp.path(), 100, QStringLiteral("python"));
-    escreverComm(tmp.path(), 200, QStringLiteral("firefox"));
+    escrever_comm(tmp.path(), 100, QStringLiteral("python"));
+    escrever_comm(tmp.path(), 200, QStringLiteral("firefox"));
 
     auto adapter = std::make_shared<FakeNvmlAdapter>();
     adapter->devices = {NvmlDeviceInfo{.nome = QStringLiteral("RTX"), .vram_total_bytes = 1ULL << 33}};
@@ -172,14 +172,14 @@ TEST(NvmlGpuBackendTest, IncluiProcessosGraphicsAlemDosCompute) {
     adapter->graphics_por_idx = {{NvmlProcessoInfo{.pid = 200, .bytes = 300ULL << 20}}};
 
     NvmlGpuBackend backend{adapter, tmp.path()};
-    const auto procs = backend.enumerarProcessosVram(0);
+    const auto procs = backend.enumerar_processos_vram(0);
     ASSERT_EQ(procs.size(), 2U);
     bool viu_firefox = false;
     for (const auto& p : procs) {
         if (p.pid().valor() == 200) {
             viu_firefox = true;
             EXPECT_EQ(p.nome().valor(), QStringLiteral("firefox"));
-            EXPECT_EQ(p.vramConsumida().valor(), 300ULL << 20);
+            EXPECT_EQ(p.vram_consumida().valor(), 300ULL << 20);
         }
     }
     EXPECT_TRUE(viu_firefox);
@@ -189,7 +189,7 @@ TEST(NvmlGpuBackendTest, IncluiProcessosGraphicsAlemDosCompute) {
 TEST(NvmlGpuBackendTest, DeduplicaPidPresenteNasDuasListas) {
     QTemporaryDir tmp;
     ASSERT_TRUE(tmp.isValid());
-    escreverComm(tmp.path(), 300, QStringLiteral("blender"));
+    escrever_comm(tmp.path(), 300, QStringLiteral("blender"));
 
     auto adapter = std::make_shared<FakeNvmlAdapter>();
     adapter->devices = {NvmlDeviceInfo{.nome = QStringLiteral("RTX"), .vram_total_bytes = 1ULL << 33}};
@@ -197,9 +197,9 @@ TEST(NvmlGpuBackendTest, DeduplicaPidPresenteNasDuasListas) {
     adapter->graphics_por_idx = {{NvmlProcessoInfo{.pid = 300, .bytes = 800ULL << 20}}};
 
     NvmlGpuBackend backend{adapter, tmp.path()};
-    const auto procs = backend.enumerarProcessosVram(0);
+    const auto procs = backend.enumerar_processos_vram(0);
     ASSERT_EQ(procs.size(), 1U);
-    EXPECT_EQ(procs[0].vramConsumida().valor(), 800ULL << 20); // maior dos dois relatos
+    EXPECT_EQ(procs[0].vram_consumida().valor(), 800ULL << 20); // maior dos dois relatos
 }
 
 // NVML devolve NVML_VALUE_NOT_AVAILABLE (~0ULL) quando não consegue medir (ex.: sem
@@ -207,14 +207,14 @@ TEST(NvmlGpuBackendTest, DeduplicaPidPresenteNasDuasListas) {
 TEST(NvmlGpuBackendTest, ValorNaoDisponivelViraZero) {
     QTemporaryDir tmp;
     ASSERT_TRUE(tmp.isValid());
-    escreverComm(tmp.path(), 400, QStringLiteral("Xwayland"));
+    escrever_comm(tmp.path(), 400, QStringLiteral("Xwayland"));
 
     auto adapter = std::make_shared<FakeNvmlAdapter>();
     adapter->devices = {NvmlDeviceInfo{.nome = QStringLiteral("RTX"), .vram_total_bytes = 1ULL << 33}};
     adapter->graphics_por_idx = {{NvmlProcessoInfo{.pid = 400, .bytes = ~0ULL}}};
 
     NvmlGpuBackend backend{adapter, tmp.path()};
-    const auto procs = backend.enumerarProcessosVram(0);
+    const auto procs = backend.enumerar_processos_vram(0);
     ASSERT_EQ(procs.size(), 1U);
-    EXPECT_EQ(procs[0].vramConsumida().valor(), 0U);
+    EXPECT_EQ(procs[0].vram_consumida().valor(), 0U);
 }

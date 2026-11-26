@@ -5,7 +5,7 @@
 #include <QHash>
 #include <QString>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 class ILeitorEnviron {
 public:
@@ -17,7 +17,7 @@ public:
     virtual ~ILeitorEnviron() = default;
 
     [[nodiscard]] virtual QHash<QString, QString>
-        environDe(const PID& pid) const = 0;
+        environ_de(const PID& pid) const = 0;
 };
 
 }

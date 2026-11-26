@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 NomeProcesso::NomeProcesso(QString valor) : m_valor{valor.trimmed()} {
     if (m_valor.isEmpty()) {

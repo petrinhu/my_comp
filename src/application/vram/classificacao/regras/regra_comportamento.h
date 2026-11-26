@@ -7,20 +7,20 @@
 #include <chrono>
 #include <memory>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
-class RegraComportamento final : public domain::IRegraClassificacao {
+class RegraComportamento final : public domain::vram::IRegraClassificacao {
 public:
-    RegraComportamento(std::shared_ptr<domain::IAmostradorComportamento> amostrador,
-                       domain::LimiaresComportamento                     limiares,
+    RegraComportamento(std::shared_ptr<domain::vram::IAmostradorComportamento> amostrador,
+                       domain::vram::LimiaresComportamento                     limiares,
                        std::chrono::seconds                              janela);
 
-    [[nodiscard]] std::optional<domain::ResultadoClassificacao>
-        avaliar(const domain::Processo& processo) const override;
+    [[nodiscard]] std::optional<domain::vram::ResultadoClassificacao>
+        avaliar(const domain::vram::Processo& processo) const override;
 
 private:
-    std::shared_ptr<domain::IAmostradorComportamento> m_amostrador;
-    domain::LimiaresComportamento                     m_limiares;
+    std::shared_ptr<domain::vram::IAmostradorComportamento> m_amostrador;
+    domain::vram::LimiaresComportamento                     m_limiares;
     std::chrono::seconds                              m_janela;
 };
 

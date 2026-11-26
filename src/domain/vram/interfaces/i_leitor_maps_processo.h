@@ -4,7 +4,7 @@
 
 #include <QStringList>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 class ILeitorMapsProcesso {
 public:
@@ -16,7 +16,7 @@ public:
     virtual ~ILeitorMapsProcesso() = default;
 
     [[nodiscard]] virtual QStringList
-        bibliotecasMapeadas(const PID& pid) const = 0;
+        bibliotecas_mapeadas(const PID& pid) const = 0;
 };
 
 }

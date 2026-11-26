@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-using vramopt::domain::PID;
+using my_comp::domain::vram::PID;
 
 TEST(PIDTest, ConstroiComValorPositivo) {
     PID pid{1234};

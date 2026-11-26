@@ -8,7 +8,7 @@
 
 #include <optional>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 struct EntradaFeedback {
     int                       id{0};

@@ -4,15 +4,15 @@
 
 #include <utility>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 LeitorDesktopExecXdg::LeitorDesktopExecXdg(QStringList xdg_dirs)
-    : m_xdg_dirs{xdg_dirs.isEmpty() ? desktop_xdg::xdgDirsDoSistema()
+    : m_xdg_dirs{xdg_dirs.isEmpty() ? desktop_xdg::xdg_dirs_do_sistema()
                                     : std::move(xdg_dirs)} {}
 
-std::optional<vramopt::domain::EntradaDesktopExec>
-LeitorDesktopExecXdg::entradaDe(const domain::Processo& processo) const {
-    const auto found = desktop_xdg::encontrarPorProcesso(m_xdg_dirs, processo);
+std::optional<my_comp::domain::vram::EntradaDesktopExec>
+LeitorDesktopExecXdg::entrada_de(const domain::vram::Processo& processo) const {
+    const auto found = desktop_xdg::encontrar_por_processo(m_xdg_dirs, processo);
     if (!found.has_value()) {
         return std::nullopt;
     }
@@ -20,7 +20,7 @@ LeitorDesktopExecXdg::entradaDe(const domain::Processo& processo) const {
     if (exec.isEmpty()) {
         return std::nullopt;
     }
-    return domain::EntradaDesktopExec{
+    return domain::vram::EntradaDesktopExec{
         .exec = exec,
         .caminho_arquivo = found->caminho,
     };

@@ -8,17 +8,17 @@
 
 #include <optional>
 
-namespace vramopt::infrastructure::desktop_xdg {
+namespace my_comp::infrastructure::vram::desktop_xdg {
 
 struct ArquivoDesktopParseado {
     QString                 caminho;
     QHash<QString, QString> entrada_desktop;
 };
 
-[[nodiscard]] QStringList xdgDirsDoSistema();
+[[nodiscard]] QStringList xdg_dirs_do_sistema();
 
 [[nodiscard]] std::optional<ArquivoDesktopParseado>
-    encontrarPorProcesso(const QStringList& xdg_dirs,
-                         const domain::Processo& processo);
+    encontrar_por_processo(const QStringList& xdg_dirs,
+                         const domain::vram::Processo& processo);
 
 }
