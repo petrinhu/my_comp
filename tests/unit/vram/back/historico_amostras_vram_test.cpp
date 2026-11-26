@@ -68,6 +68,7 @@ TEST(HistoricoAmostrasVramTest, AgregaMediaDaVramNaJanela) {
     EXPECT_EQ(a.janela, 30s);
     // Nenhum backend expõe utilização por processo ainda: fica 0 (documentado).
     EXPECT_DOUBLE_EQ(a.compute_utilizacao_media, 0.0);
+    EXPECT_FALSE(a.compute_medido); // sem fonte por processo: a regra se abstém
 }
 
 TEST(HistoricoAmostrasVramTest, AmostrasForaDaJanelaNaoEntram) {

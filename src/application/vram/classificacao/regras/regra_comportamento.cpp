@@ -29,6 +29,11 @@ RegraComportamento::avaliar(const domain::vram::Processo& processo) const {
     if (a.amostras <= 0) {
         return std::nullopt; // sem dados não há veredito; zeros pareceriam "trivial + ocioso"
     }
+    if (!a.compute_medido) {
+        // Só VRAM conhecida: compute 0.0 é ausência de medida, não ociosidade. Todas as
+        // linhas abaixo dependem do compute, então decidir aqui seria inventar veredito.
+        return std::nullopt;
+    }
 
     const bool compute_sustentado = a.compute_utilizacao_media >= m_limiares.compute_sustentado;
     const auto vram_alta_efet     = m_limiares.vram_alta_efetivo(a.vram_total_gpu);

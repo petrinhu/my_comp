@@ -36,6 +36,7 @@ AmostraJanela amostra(BytesDeMemoria vram_media,
         .vram_media = vram_media,
         .vram_total_gpu = vram_total,
         .compute_utilizacao_media = compute,
+        .compute_medido = true,
         .amostras = 30,
         .janela = std::chrono::seconds{30},
     };
@@ -134,6 +135,17 @@ TEST(RegraComportamentoTest, JustificativaCitaMetricas) {
 TEST(RegraComportamentoTest, SemAmostrasSeAbstem) {
     auto amostrador = std::make_shared<MockAmostradorComportamento>();
     EXPECT_CALL(*amostrador, amostra_janela(_, _)).WillOnce(Return(AmostraJanela{}));
+    RegraComportamento regra{amostrador, LimiaresComportamento::padrao(), std::chrono::seconds{30}};
+    EXPECT_FALSE(regra.avaliar(proc()).has_value());
+}
+
+// Sem fonte de utilização por processo (NVML/i915 hoje), compute 0.0 não significa "ocioso":
+// com só a VRAM conhecida, "VRAM trivial" viraria CandidatoObvioCpu inventado. Abster.
+TEST(RegraComportamentoTest, ComputeNaoMedidoSeAbstem) {
+    auto amostrador = std::make_shared<MockAmostradorComportamento>();
+    AmostraJanela a = amostra(BytesDeMemoria::de_megabytes(10), BytesDeMemoria::de_megabytes(8192), 0.0);
+    a.compute_medido = false;
+    EXPECT_CALL(*amostrador, amostra_janela(_, _)).WillOnce(Return(a));
     RegraComportamento regra{amostrador, LimiaresComportamento::padrao(), std::chrono::seconds{30}};
     EXPECT_FALSE(regra.avaliar(proc()).has_value());
 }

@@ -137,6 +137,7 @@ TEST(IntegracaoCascataTest, AppDesconhecidoLeveCaiEmComportamento) {
             .vram_media = BytesDeMemoria::de_megabytes(50),
             .vram_total_gpu = BytesDeMemoria::de_megabytes(8192),
             .compute_utilizacao_media = 0.01,
+            .compute_medido = true,
             .amostras = 30,
             .janela = std::chrono::seconds{30},
         }));

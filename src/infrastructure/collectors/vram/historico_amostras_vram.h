@@ -7,10 +7,10 @@
 // devolve amostras = 0 e a RegraComportamento se abstém.
 //
 // Limitação: nenhum backend (NVML/i915) expõe hoje utilização de compute por processo,
-// então compute_utilizacao_media sai 0.0 e só a VRAM média é real. Como a regra lê
-// compute < limiar como ocioso, um processo com VRAM trivial vira CandidatoObvioCpu
-// pela VRAM. Fonte futura: nvmlDeviceGetProcessUtilization e os contadores
-// drm-engine-* do fdinfo (i915/xe/amdgpu), diferenciados entre duas amostras.
+// então a amostra sai com compute_medido = false e só a VRAM média é real; a
+// RegraComportamento se abstém nesse caso (não lê 0.0 como "ocioso"). Fonte futura:
+// nvmlDeviceGetProcessUtilization e os contadores drm-engine-* do fdinfo
+// (i915/xe/amdgpu), diferenciados entre duas amostras; ver AUDIT-31.
 //
 // Thread-safe: a auditoria roda em QtConcurrent e pode coincidir com outra leitura.
 
