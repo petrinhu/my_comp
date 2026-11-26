@@ -25,8 +25,17 @@ cd "$(git rev-parse --show-toplevel)"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 echo -e "${GREEN}[deploy] 1/4 — build${NC}"
-if ! cmake --build build -j"$(nproc)" >/dev/null 2>&1; then
-    echo -e "${RED}[deploy] Falha no build. Rode 'cmake --build build' para ver os erros.${NC}"
+# Clone novo ou build/ de outro checkout: configura antes de compilar.
+if [ ! -f build/CMakeCache.txt ]; then
+    if ! cmake -S . -B build -G Ninja >/tmp/my_comp-deploy-configure.log 2>&1; then
+        echo -e "${RED}[deploy] Falha ao configurar o CMake:${NC}"
+        tail -n 30 /tmp/my_comp-deploy-configure.log
+        exit 1
+    fi
+fi
+if ! cmake --build build -j"$(nproc)" >/tmp/my_comp-deploy-build.log 2>&1; then
+    echo -e "${RED}[deploy] Falha no build (log completo: /tmp/my_comp-deploy-build.log):${NC}"
+    grep -E 'error|Error' /tmp/my_comp-deploy-build.log | head -n 20 || tail -n 30 /tmp/my_comp-deploy-build.log
     exit 1
 fi
 
