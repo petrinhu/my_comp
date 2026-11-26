@@ -84,6 +84,7 @@ void ProcessViewModel::rebuildProcessedListLocked() {
         map["mem"] = p.memPercent;
         map["time"] = p.timeStr;
         map["command"] = p.command;
+        map["startTime"] = static_cast<double>(p.start_time);
         newList.append(map);
     }
     m_processedList = std::move(newList);
@@ -128,9 +129,10 @@ void ProcessViewModel::refresh() {
     });
 }
 
-void ProcessViewModel::killProcess(int pid, int signal) {
-    if (!m_provider) return;
-    if (m_provider->kill_process(pid, signal)) {
+void ProcessViewModel::killProcess(int pid, double startTime, int signal) {
+    if (!m_provider || startTime < 0) return;
+    // Ticks desde o boot cabem com folga nos 53 bits exatos de um number do QML.
+    if (m_provider->kill_process(pid, static_cast<std::uint64_t>(startTime), signal)) {
         refresh();
     }
 }

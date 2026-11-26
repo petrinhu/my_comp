@@ -12,7 +12,7 @@ using ::testing::Return;
 class MockProcessProvider : public IProcessProvider {
 public:
     MOCK_METHOD(std::vector<ProcessInfo>, collect_processes, (), (override));
-    MOCK_METHOD(bool, kill_process, (int, int), (override));
+    MOCK_METHOD(bool, kill_process, (int, std::uint64_t, int), (override));
     MOCK_METHOD(bool, set_priority, (int, int), (override));
 };
 

@@ -126,7 +126,7 @@ Window {
                 windowWidth: root.width
                 onNavigateRequested: (index) => root.currentView = index
                 onCpuDetailsRequested: cpuDetailDialog.open()
-                onKillProcessRequested: (pid, name) => killConfirmDialog.openWith(pid, name)
+                onKillProcessRequested: (pid, name, startTime) => killConfirmDialog.openWith(pid, name, startTime)
             }
             // ABA 1 - Updates
             UpdatesView { onNavigateRequested: (index) => root.currentView = index }

@@ -17,9 +17,9 @@ TEST(ProcessMonitorAcceptance, UserFindsOwnProcessByFilter) {
     ASSERT_TRUE(changed.wait(5000));
     ASSERT_FALSE(vm.processes().isEmpty());
 
-    // A coluna mostra o comm do /proc/<pid>/stat, que o kernel corta em 15 caracteres
-    // (TASK_COMM_LEN): "acceptance_tests" aparece como "acceptance_test".
-    const QString comm = QStringLiteral("acceptance_tests").left(15);
+    // A coluna mostra o cmdline completo (AUDIT-30), não o comm de 15 caracteres
+    // (TASK_COMM_LEN) que cortaria "acceptance_tests" em "acceptance_test".
+    const QString comm = QStringLiteral("acceptance_tests");
     vm.setFilter(comm);
     bool found_self = false;
     for (const auto& p : vm.processes()) {
@@ -35,8 +35,8 @@ TEST(ProcessMonitorAcceptance, UserFindsOwnProcessByFilter) {
 TEST(ProcessMonitorAcceptance, KillingTheAppItselfIsRefused) {
     ProcessViewModel vm(std::make_shared<LinuxProcessProvider>());
     QSignalSpy changed(&vm, &ProcessViewModel::processesChanged);
-    vm.killProcess(static_cast<int>(::getpid()), 0);
-    vm.killProcess(0, 0);
-    vm.killProcess(-1, 0);
+    vm.killProcess(static_cast<int>(::getpid()), 0, 0);
+    vm.killProcess(0, 0, 0);
+    vm.killProcess(-1, 0, 0);
     EXPECT_FALSE(changed.wait(800));
 }

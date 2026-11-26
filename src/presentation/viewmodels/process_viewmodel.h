@@ -33,7 +33,8 @@ public:
     void setSortAscending(bool asc);
 
     Q_INVOKABLE void refresh();
-    Q_INVOKABLE void killProcess(int pid, int signal = 9);
+    // startTime vem do mapa do processo ("startTime"): sem ele o provedor recusa o sinal.
+    Q_INVOKABLE void killProcess(int pid, double startTime, int signal = 9);
     Q_INVOKABLE void setPriority(int pid, int nice);
 
 signals:

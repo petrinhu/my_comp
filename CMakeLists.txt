@@ -65,6 +65,7 @@ set(CORE_SOURCES
     src/infrastructure/collectors/systemd_service_provider.cpp
     src/infrastructure/collectors/linux_process_provider.cpp
     src/infrastructure/collectors/proc_cmdline.cpp
+    src/infrastructure/collectors/proc_stat.cpp
     src/infrastructure/collectors/linux_dev_stack_provider.cpp
     src/infrastructure/collectors/toolchain_catalog.cpp
     src/infrastructure/collectors/apt_update_provider.cpp
@@ -208,6 +209,7 @@ set(UNIT_TEST_SOURCES
     tests/unit/memory_provider_test.cpp
     tests/unit/numeric_parse_test.cpp
     tests/unit/proc_cmdline_test.cpp
+    tests/unit/proc_stat_test.cpp
     tests/unit/user_metadata_provider_test.cpp
     tests/unit/diagnostic_viewmodel_test.cpp
     tests/unit/linux_cpu_provider_test.cpp

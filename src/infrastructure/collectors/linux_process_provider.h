@@ -19,7 +19,7 @@ public:
     LinuxProcessProvider();
     
     std::vector<domain::models::ProcessInfo> collect_processes() override;
-    bool kill_process(int pid, int signal = 15) override;
+    bool kill_process(int pid, std::uint64_t expected_start_time, int signal = 15) override;
     bool set_priority(int pid, int nice) override;
 
 private:
