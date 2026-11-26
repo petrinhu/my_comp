@@ -1,4 +1,5 @@
 #include "diagnostic_viewmodel.h"
+#include <QDebug>
 #include <QPointer>
 #include <QtConcurrent>
 #include <algorithm>
@@ -73,15 +74,9 @@ void DiagnosticViewModel::performSearch() {
 void DiagnosticViewModel::searchOnline(const QString& message) {
     if (message.isEmpty()) return;
 
-    // Template deve conter %1 como placeholder do termo de busca.
-    // Fallback seguro: se não houver %1 e a URL for válida, apenda como query.
+    // setSearchEngineUrl() garante http(s) com o placeholder %1.
     const QString encoded = QUrl::toPercentEncoding(message);
-    QString final_url;
-    if (m_search_engine_url.contains("%1")) {
-        final_url = QString(m_search_engine_url).replace("%1", encoded);
-    } else {
-        final_url = m_search_engine_url + encoded;
-    }
+    const QString final_url = QString(m_search_engine_url).replace(QStringLiteral("%1"), encoded);
 
     qDebug() << "[DiagnosticVM] Opening search for:" << message << "via" << final_url;
     QDesktopServices::openUrl(QUrl(final_url));
@@ -110,7 +105,25 @@ void DiagnosticViewModel::setLogLimit(int n) {
     }
 }
 
+namespace {
+// MC-10: o template vai para QDesktopServices::openUrl. Só http(s) com o
+// placeholder %1 é aceito; file://, javascript: e afins abririam outro app.
+bool is_safe_search_template(const QString& url) {
+    if (!url.contains(QStringLiteral("%1"))) {
+        return false;
+    }
+    const QUrl parsed{QString(url).replace(QStringLiteral("%1"), QStringLiteral("x"))};
+    const QString scheme = parsed.scheme().toLower();
+    return parsed.isValid() && !parsed.host().isEmpty()
+        && (scheme == QStringLiteral("https") || scheme == QStringLiteral("http"));
+}
+} // namespace
+
 void DiagnosticViewModel::setSearchEngineUrl(const QString& url) {
+    if (!is_safe_search_template(url)) {
+        qWarning() << "[DiagnosticVM] Template de busca rejeitado (precisa ser http(s) com %1)";
+        return;
+    }
     if (m_search_engine_url != url) {
         m_search_engine_url = url;
         emit searchEngineUrlChanged();
