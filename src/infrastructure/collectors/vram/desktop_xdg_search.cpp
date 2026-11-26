@@ -9,11 +9,11 @@
 #include <QRegularExpression>
 #include <QStringList>
 
-namespace vramopt::infrastructure::desktop_xdg {
+namespace my_comp::infrastructure::vram::desktop_xdg {
 
 namespace {
 
-QHash<QString, QString> parseSecaoDesktopEntry(const QString& path) {
+QHash<QString, QString> parse_secao_desktop_entry(const QString& path) {
     QHash<QString, QString> kv;
     QFile f{path};
     if (!f.open(QIODevice::ReadOnly)) {
@@ -43,7 +43,7 @@ QHash<QString, QString> parseSecaoDesktopEntry(const QString& path) {
     return kv;
 }
 
-QString primeiroToken(const QString& exec) {
+QString primeiro_token(const QString& exec) {
     const auto trimmed = exec.trimmed();
     if (trimmed.isEmpty()) {
         return {};
@@ -56,7 +56,7 @@ QString primeiroToken(const QString& exec) {
     return QFileInfo{tokens.first()}.fileName();
 }
 
-QStringList listarDesktopFiles(const QStringList& xdg_dirs) {
+QStringList listar_desktop_files(const QStringList& xdg_dirs) {
     QStringList paths;
     for (const auto& d : xdg_dirs) {
         const QString applications = d + QStringLiteral("/applications");
@@ -73,7 +73,7 @@ QStringList listarDesktopFiles(const QStringList& xdg_dirs) {
 }
 
 std::optional<ArquivoDesktopParseado>
-buscarPorDesktopId(const QStringList& xdg_dirs, const QString& desktop_id) {
+buscar_por_desktop_id(const QStringList& xdg_dirs, const QString& desktop_id) {
     if (desktop_id.isEmpty()) {
         return std::nullopt;
     }
@@ -86,7 +86,7 @@ buscarPorDesktopId(const QStringList& xdg_dirs, const QString& desktop_id) {
         if (QFile::exists(candidato)) {
             ArquivoDesktopParseado out;
             out.caminho = candidato;
-            out.entrada_desktop = parseSecaoDesktopEntry(candidato);
+            out.entrada_desktop = parse_secao_desktop_entry(candidato);
             return out;
         }
     }
@@ -95,7 +95,7 @@ buscarPorDesktopId(const QStringList& xdg_dirs, const QString& desktop_id) {
 
 }
 
-QStringList xdgDirsDoSistema() {
+QStringList xdg_dirs_do_sistema() {
     QStringList dirs;
     const QString user_data = qgetenv("XDG_DATA_HOME").isEmpty()
         ? QDir::homePath() + QStringLiteral("/.local/share")
@@ -117,10 +117,10 @@ QStringList xdgDirsDoSistema() {
 }
 
 std::optional<ArquivoDesktopParseado>
-encontrarPorProcesso(const QStringList& xdg_dirs, const domain::Processo& processo) {
+encontrar_por_processo(const QStringList& xdg_dirs, const domain::vram::Processo& processo) {
     for (const auto& chave : processo.chaves()) {
-        if (chave.tipo() == domain::TipoChave::DesktopId) {
-            auto found = buscarPorDesktopId(xdg_dirs, chave.valor());
+        if (chave.tipo() == domain::vram::TipoChave::DesktopId) {
+            auto found = buscar_por_desktop_id(xdg_dirs, chave.valor());
             if (found.has_value()) {
                 return found;
             }
@@ -131,11 +131,11 @@ encontrarPorProcesso(const QStringList& xdg_dirs, const domain::Processo& proces
     if (nome_proc.isEmpty()) {
         return std::nullopt;
     }
-    const auto paths = listarDesktopFiles(xdg_dirs);
+    const auto paths = listar_desktop_files(xdg_dirs);
     for (const auto& path : paths) {
-        const auto kv = parseSecaoDesktopEntry(path);
+        const auto kv = parse_secao_desktop_entry(path);
         const auto exec = kv.value(QStringLiteral("Exec"));
-        if (primeiroToken(exec).compare(nome_proc, Qt::CaseInsensitive) == 0) {
+        if (primeiro_token(exec).compare(nome_proc, Qt::CaseInsensitive) == 0) {
             return ArquivoDesktopParseado{.caminho = path, .entrada_desktop = kv};
         }
     }

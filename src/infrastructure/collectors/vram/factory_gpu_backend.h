@@ -8,7 +8,7 @@
 #include <functional>
 #include <memory>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 struct DepsFactoryGpuBackend {
     std::function<std::shared_ptr<INvmlAdapter>()> criar_adapter_nvml;
@@ -17,10 +17,10 @@ struct DepsFactoryGpuBackend {
     QString                                         proc_root = QStringLiteral("/proc");
 };
 
-[[nodiscard]] std::shared_ptr<domain::IGpuBackend>
-    criarBackendCompositoCom(const DepsFactoryGpuBackend& deps);
+[[nodiscard]] std::shared_ptr<domain::vram::IGpuBackend>
+    criar_backend_composito_com(const DepsFactoryGpuBackend& deps);
 
-[[nodiscard]] std::shared_ptr<domain::IGpuBackend>
-    criarBackendCompositoDoSistema();
+[[nodiscard]] std::shared_ptr<domain::vram::IGpuBackend>
+    criar_backend_composito_do_sistema();
 
 }

@@ -2,7 +2,7 @@
 
 #include <QFile>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 std::optional<QByteArray>
 LeitorArquivoConfigFs::ler(const QString& path) const {

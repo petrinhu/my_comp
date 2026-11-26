@@ -12,21 +12,21 @@
 using ::testing::_;
 using ::testing::Return;
 
-using vramopt::application::RegraComportamento;
-using vramopt::domain::AmostraJanela;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::Categoria;
-using vramopt::domain::LimiaresComportamento;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::tests::MockAmostradorComportamento;
+using my_comp::application::vram::RegraComportamento;
+using my_comp::domain::vram::AmostraJanela;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::LimiaresComportamento;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::tests::vram::MockAmostradorComportamento;
 
 namespace {
 
 Processo proc() {
     return Processo{PID{1234}, NomeProcesso{QStringLiteral("x")},
-                    BytesDeMemoria::deMegabytes(350), 0, {}};
+                    BytesDeMemoria::de_megabytes(350), 0, {}};
 }
 
 AmostraJanela amostra(BytesDeMemoria vram_media,
@@ -45,9 +45,9 @@ AmostraJanela amostra(BytesDeMemoria vram_media,
 
 TEST(RegraComportamentoTest, ComputeAltoMesmoComVramTrivialClassificaGpu) {
     auto amos = std::make_shared<MockAmostradorComportamento>();
-    EXPECT_CALL(*amos, amostraJanela(_, _))
-        .WillOnce(Return(amostra(BytesDeMemoria::deMegabytes(50),
-                                 BytesDeMemoria::deMegabytes(24576),
+    EXPECT_CALL(*amos, amostra_janela(_, _))
+        .WillOnce(Return(amostra(BytesDeMemoria::de_megabytes(50),
+                                 BytesDeMemoria::de_megabytes(24576),
                                  0.45)));
     RegraComportamento regra{amos, LimiaresComportamento::padrao(), std::chrono::seconds{30}};
     auto r = regra.avaliar(proc());
@@ -57,9 +57,9 @@ TEST(RegraComportamentoTest, ComputeAltoMesmoComVramTrivialClassificaGpu) {
 
 TEST(RegraComportamentoTest, VramAltaMaisAtividadeMinimaClassificaGpu) {
     auto amos = std::make_shared<MockAmostradorComportamento>();
-    EXPECT_CALL(*amos, amostraJanela(_, _))
-        .WillOnce(Return(amostra(BytesDeMemoria::deMegabytes(800),
-                                 BytesDeMemoria::deMegabytes(8000),
+    EXPECT_CALL(*amos, amostra_janela(_, _))
+        .WillOnce(Return(amostra(BytesDeMemoria::de_megabytes(800),
+                                 BytesDeMemoria::de_megabytes(8000),
                                  0.10)));
     RegraComportamento regra{amos, LimiaresComportamento::padrao(), std::chrono::seconds{30}};
     auto r = regra.avaliar(proc());
@@ -69,9 +69,9 @@ TEST(RegraComportamentoTest, VramAltaMaisAtividadeMinimaClassificaGpu) {
 
 TEST(RegraComportamentoTest, VramEComputeBaixosClassificaCpu) {
     auto amos = std::make_shared<MockAmostradorComportamento>();
-    EXPECT_CALL(*amos, amostraJanela(_, _))
-        .WillOnce(Return(amostra(BytesDeMemoria::deMegabytes(250),
-                                 BytesDeMemoria::deMegabytes(24576),
+    EXPECT_CALL(*amos, amostra_janela(_, _))
+        .WillOnce(Return(amostra(BytesDeMemoria::de_megabytes(250),
+                                 BytesDeMemoria::de_megabytes(24576),
                                  0.01)));
     RegraComportamento regra{amos, LimiaresComportamento::padrao(), std::chrono::seconds{30}};
     auto r = regra.avaliar(proc());
@@ -81,9 +81,9 @@ TEST(RegraComportamentoTest, VramEComputeBaixosClassificaCpu) {
 
 TEST(RegraComportamentoTest, VramAltaMasOciosoClassificaIndeterminado) {
     auto amos = std::make_shared<MockAmostradorComportamento>();
-    EXPECT_CALL(*amos, amostraJanela(_, _))
-        .WillOnce(Return(amostra(BytesDeMemoria::deMegabytes(2000),
-                                 BytesDeMemoria::deMegabytes(8000),
+    EXPECT_CALL(*amos, amostra_janela(_, _))
+        .WillOnce(Return(amostra(BytesDeMemoria::de_megabytes(2000),
+                                 BytesDeMemoria::de_megabytes(8000),
                                  0.0)));
     RegraComportamento regra{amos, LimiaresComportamento::padrao(), std::chrono::seconds{30}};
     auto r = regra.avaliar(proc());
@@ -93,9 +93,9 @@ TEST(RegraComportamentoTest, VramAltaMasOciosoClassificaIndeterminado) {
 
 TEST(RegraComportamentoTest, VramMediaEComputeMedioClassificaIndeterminado) {
     auto amos = std::make_shared<MockAmostradorComportamento>();
-    EXPECT_CALL(*amos, amostraJanela(_, _))
-        .WillOnce(Return(amostra(BytesDeMemoria::deMegabytes(180),
-                                 BytesDeMemoria::deMegabytes(24576),
+    EXPECT_CALL(*amos, amostra_janela(_, _))
+        .WillOnce(Return(amostra(BytesDeMemoria::de_megabytes(180),
+                                 BytesDeMemoria::de_megabytes(24576),
                                  0.12)));
     RegraComportamento regra{amos, LimiaresComportamento::padrao(), std::chrono::seconds{30}};
     auto r = regra.avaliar(proc());
@@ -105,9 +105,9 @@ TEST(RegraComportamentoTest, VramMediaEComputeMedioClassificaIndeterminado) {
 
 TEST(RegraComportamentoTest, ClampPisoTrivialAtivoEmGpuPequena) {
     auto amos = std::make_shared<MockAmostradorComportamento>();
-    EXPECT_CALL(*amos, amostraJanela(_, _))
-        .WillOnce(Return(amostra(BytesDeMemoria::deMegabytes(50),
-                                 BytesDeMemoria::deMegabytes(1024),
+    EXPECT_CALL(*amos, amostra_janela(_, _))
+        .WillOnce(Return(amostra(BytesDeMemoria::de_megabytes(50),
+                                 BytesDeMemoria::de_megabytes(1024),
                                  0.01)));
     RegraComportamento regra{amos, LimiaresComportamento::padrao(), std::chrono::seconds{30}};
     auto r = regra.avaliar(proc());
@@ -117,9 +117,9 @@ TEST(RegraComportamentoTest, ClampPisoTrivialAtivoEmGpuPequena) {
 
 TEST(RegraComportamentoTest, JustificativaCitaMetricas) {
     auto amos = std::make_shared<MockAmostradorComportamento>();
-    EXPECT_CALL(*amos, amostraJanela(_, _))
-        .WillOnce(Return(amostra(BytesDeMemoria::deMegabytes(50),
-                                 BytesDeMemoria::deMegabytes(24576),
+    EXPECT_CALL(*amos, amostra_janela(_, _))
+        .WillOnce(Return(amostra(BytesDeMemoria::de_megabytes(50),
+                                 BytesDeMemoria::de_megabytes(24576),
                                  0.45)));
     RegraComportamento regra{amos, LimiaresComportamento::padrao(), std::chrono::seconds{30}};
     auto r = regra.avaliar(proc());
@@ -133,7 +133,7 @@ TEST(RegraComportamentoTest, JustificativaCitaMetricas) {
 // ocioso" e marcaria tudo como CandidatoObvioCpu. Deve se abster e deixar a cascata seguir.
 TEST(RegraComportamentoTest, SemAmostrasSeAbstem) {
     auto amostrador = std::make_shared<MockAmostradorComportamento>();
-    EXPECT_CALL(*amostrador, amostraJanela(_, _)).WillOnce(Return(AmostraJanela{}));
+    EXPECT_CALL(*amostrador, amostra_janela(_, _)).WillOnce(Return(AmostraJanela{}));
     RegraComportamento regra{amostrador, LimiaresComportamento::padrao(), std::chrono::seconds{30}};
     EXPECT_FALSE(regra.avaliar(proc()).has_value());
 }

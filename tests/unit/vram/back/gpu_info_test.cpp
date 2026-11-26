@@ -3,19 +3,19 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::Fabricante;
-using vramopt::domain::GpuInfo;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::Fabricante;
+using my_comp::domain::vram::GpuInfo;
 
 TEST(GpuInfoTest, AgregaCampos) {
     GpuInfo gpu{
         /*id=*/0,
         Fabricante::Nvidia,
         QStringLiteral("RTX 4090"),
-        BytesDeMemoria::deMegabytes(24576),
+        BytesDeMemoria::de_megabytes(24576),
     };
     EXPECT_EQ(gpu.id(), 0);
     EXPECT_EQ(gpu.fabricante(), Fabricante::Nvidia);
     EXPECT_EQ(gpu.modelo(), QStringLiteral("RTX 4090"));
-    EXPECT_EQ(gpu.vramTotal(), BytesDeMemoria::deMegabytes(24576));
+    EXPECT_EQ(gpu.vram_total(), BytesDeMemoria::de_megabytes(24576));
 }

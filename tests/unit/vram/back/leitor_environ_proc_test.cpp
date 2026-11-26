@@ -8,12 +8,12 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::domain::PID;
-using vramopt::infrastructure::LeitorEnvironProc;
+using my_comp::domain::vram::PID;
+using my_comp::infrastructure::vram::LeitorEnvironProc;
 
 namespace {
 
-void escreverEnviron(const QString& proc_root, int pid,
+void escrever_environ(const QString& proc_root, int pid,
                      const QList<QPair<QString, QString>>& kvs) {
     const QString dir = QStringLiteral("%1/%2").arg(proc_root).arg(pid);
     QDir{}.mkpath(dir);
@@ -33,14 +33,14 @@ TEST(LeitorEnvironProcTest, ParseiaEntradasSeparadasPorNul) {
     QTemporaryDir tmp;
     ASSERT_TRUE(tmp.isValid());
     const QString proc = tmp.path() + QStringLiteral("/proc");
-    escreverEnviron(proc, 1234, {
+    escrever_environ(proc, 1234, {
         {QStringLiteral("DRI_PRIME"), QStringLiteral("1")},
         {QStringLiteral("__NV_PRIME_RENDER_OFFLOAD"), QStringLiteral("1")},
         {QStringLiteral("HOME"), QStringLiteral("/home/user")},
     });
 
     LeitorEnvironProc leitor{proc};
-    auto env = leitor.environDe(PID{1234});
+    auto env = leitor.environ_de(PID{1234});
 
     EXPECT_EQ(env.value(QStringLiteral("DRI_PRIME")), QStringLiteral("1"));
     EXPECT_EQ(env.value(QStringLiteral("__NV_PRIME_RENDER_OFFLOAD")),
@@ -50,7 +50,7 @@ TEST(LeitorEnvironProcTest, ParseiaEntradasSeparadasPorNul) {
 
 TEST(LeitorEnvironProcTest, ProcInexistenteRetornaVazio) {
     LeitorEnvironProc leitor{QStringLiteral("/tmp/nao_ha_proc_aqui_xyz")};
-    EXPECT_TRUE(leitor.environDe(PID{1}).isEmpty());
+    EXPECT_TRUE(leitor.environ_de(PID{1}).isEmpty());
 }
 
 TEST(LeitorEnvironProcTest, IgnoraEntradasSemSinalDeIgualdade) {
@@ -67,7 +67,7 @@ TEST(LeitorEnvironProcTest, IgnoraEntradasSemSinalDeIgualdade) {
     f.close();
 
     LeitorEnvironProc leitor{proc};
-    auto env = leitor.environDe(PID{77});
+    auto env = leitor.environ_de(PID{77});
     EXPECT_FALSE(env.contains(QStringLiteral("ABC")));
     EXPECT_EQ(env.value(QStringLiteral("KEY")), QStringLiteral("value"));
 }

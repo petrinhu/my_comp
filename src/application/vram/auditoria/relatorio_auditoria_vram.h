@@ -10,17 +10,17 @@
 
 #include <vector>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 struct ItemAuditoriaVram {
-    domain::Processo               processo;
-    domain::ResultadoClassificacao classificacao{};
+    domain::vram::Processo               processo;
+    domain::vram::ResultadoClassificacao classificacao{};
     SugestaoAcao                   sugestao{};
-    QVector<domain::OrigemConfig>  origens_config;
+    QVector<domain::vram::OrigemConfig>  origens_config;
 };
 
 struct GrupoAuditoriaGpu {
-    domain::GpuInfo                gpu;
+    domain::vram::GpuInfo                gpu;
     std::vector<ItemAuditoriaVram> itens;
 };
 

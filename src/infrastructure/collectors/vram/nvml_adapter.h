@@ -6,7 +6,7 @@
 #include <optional>
 #include <vector>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 struct NvmlProcessoInfo {
     std::uint32_t pid;
@@ -27,14 +27,14 @@ public:
     INvmlAdapter& operator=(INvmlAdapter&&) = delete;
     virtual ~INvmlAdapter() = default;
 
-    [[nodiscard]] virtual bool isAvailable() const = 0;
-    [[nodiscard]] virtual std::uint32_t deviceCount() = 0;
-    [[nodiscard]] virtual std::optional<NvmlDeviceInfo> deviceInfo(std::uint32_t idx) = 0;
+    [[nodiscard]] virtual bool is_available() const = 0;
+    [[nodiscard]] virtual std::uint32_t device_count() = 0;
+    [[nodiscard]] virtual std::optional<NvmlDeviceInfo> device_info(std::uint32_t idx) = 0;
     [[nodiscard]] virtual std::vector<NvmlProcessoInfo>
-        processosCompute(std::uint32_t idx) = 0;
+        processos_compute(std::uint32_t idx) = 0;
     // Contextos gráficos (browsers, compositores, jogos). Default vazio p/ dublês antigos.
     [[nodiscard]] virtual std::vector<NvmlProcessoInfo>
-        processosGraphics(std::uint32_t idx) { (void)idx; return {}; }
+        processos_graphics(std::uint32_t idx) { (void)idx; return {}; }
 };
 
 // NVML_VALUE_NOT_AVAILABLE: usedGpuMemory sem medição (sem permissão, MIG, WDDM).

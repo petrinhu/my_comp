@@ -5,7 +5,7 @@
 
 #include <stdexcept>
 
-using vramopt::domain::NomeProcesso;
+using my_comp::domain::vram::NomeProcesso;
 
 TEST(NomeProcessoTest, ConstroiComStringNaoVazia) {
     NomeProcesso n{QStringLiteral("firefox")};

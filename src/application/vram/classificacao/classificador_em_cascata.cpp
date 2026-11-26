@@ -2,23 +2,23 @@
 
 #include <QString>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 ClassificadorEmCascata::ClassificadorEmCascata(
-    std::vector<std::shared_ptr<domain::IRegraClassificacao>> regras)
+    std::vector<std::shared_ptr<domain::vram::IRegraClassificacao>> regras)
     : m_regras{std::move(regras)} {}
 
-domain::ResultadoClassificacao
-ClassificadorEmCascata::classificar(const domain::Processo& processo) const {
+domain::vram::ResultadoClassificacao
+ClassificadorEmCascata::classificar(const domain::vram::Processo& processo) const {
     for (const auto& regra : m_regras) {
         auto r = regra->avaliar(processo);
         if (r.has_value()) {
             return *r;
         }
     }
-    return domain::ResultadoClassificacao{
-        .categoria = domain::Categoria::Indeterminado,
-        .justificativa = domain::Justificativa{
+    return domain::vram::ResultadoClassificacao{
+        .categoria = domain::vram::Categoria::Indeterminado,
+        .justificativa = domain::vram::Justificativa{
             .regra = QStringLiteral("nenhuma_regra_decidiu"),
             .detalhe = QStringLiteral("todas as regras da cascata abstiveram-se"),
         },

@@ -6,7 +6,7 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::infrastructure::LeitorArquivoConfigFs;
+using my_comp::infrastructure::vram::LeitorArquivoConfigFs;
 
 TEST(LeitorArquivoConfigFsTest, RetornaConteudoQuandoExiste) {
     QTemporaryDir tmp;

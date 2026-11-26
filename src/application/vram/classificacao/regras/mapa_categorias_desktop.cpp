@@ -1,6 +1,6 @@
 #include "application/vram/classificacao/regras/mapa_categorias_desktop.h"
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 MapaCategoriasDesktop::MapaCategoriasDesktop(QSet<QString> candidato_cpu, QSet<QString> precisa_gpu)
     : m_candidato_cpu{std::move(candidato_cpu)},
@@ -35,8 +35,8 @@ MapaCategoriasDesktop MapaCategoriasDesktop::padrao() {
     return MapaCategoriasDesktop{std::move(candidato), std::move(gpu)};
 }
 
-std::optional<domain::Categoria>
-MapaCategoriasDesktop::classificarPor(const QStringList& categorias) const {
+std::optional<domain::vram::Categoria>
+MapaCategoriasDesktop::classificar_por(const QStringList& categorias) const {
     bool tem_cpu = false;
     bool tem_gpu = false;
     for (const auto& c : categorias) {
@@ -51,10 +51,10 @@ MapaCategoriasDesktop::classificarPor(const QStringList& categorias) const {
         return std::nullopt;
     }
     if (tem_cpu) {
-        return domain::Categoria::CandidatoObvioCpu;
+        return domain::vram::Categoria::CandidatoObvioCpu;
     }
     if (tem_gpu) {
-        return domain::Categoria::PrecisaGpu;
+        return domain::vram::Categoria::PrecisaGpu;
     }
     return std::nullopt;
 }

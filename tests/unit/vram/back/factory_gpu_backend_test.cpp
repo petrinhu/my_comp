@@ -13,11 +13,11 @@
 #include <memory>
 #include <vector>
 
-using vramopt::infrastructure::criarBackendCompositoCom;
-using vramopt::infrastructure::DepsFactoryGpuBackend;
-using vramopt::infrastructure::INvmlAdapter;
-using vramopt::infrastructure::NvmlDeviceInfo;
-using vramopt::infrastructure::NvmlProcessoInfo;
+using my_comp::infrastructure::vram::criar_backend_composito_com;
+using my_comp::infrastructure::vram::DepsFactoryGpuBackend;
+using my_comp::infrastructure::vram::INvmlAdapter;
+using my_comp::infrastructure::vram::NvmlDeviceInfo;
+using my_comp::infrastructure::vram::NvmlProcessoInfo;
 
 namespace {
 
@@ -25,18 +25,18 @@ class StubNvmlAdapter : public INvmlAdapter {
 public:
     bool                        avail = true;
     std::vector<NvmlDeviceInfo> devices;
-    [[nodiscard]] bool isAvailable() const override { return avail; }
-    [[nodiscard]] std::uint32_t deviceCount() override {
+    [[nodiscard]] bool is_available() const override { return avail; }
+    [[nodiscard]] std::uint32_t device_count() override {
         return static_cast<std::uint32_t>(devices.size());
     }
-    [[nodiscard]] std::optional<NvmlDeviceInfo> deviceInfo(std::uint32_t idx) override {
+    [[nodiscard]] std::optional<NvmlDeviceInfo> device_info(std::uint32_t idx) override {
         if (idx >= devices.size()) {
             return std::nullopt;
         }
         return devices[idx];
     }
     [[nodiscard]] std::vector<NvmlProcessoInfo>
-        processosCompute(std::uint32_t /*idx*/) override { return {}; }
+        processos_compute(std::uint32_t /*idx*/) override { return {}; }
 };
 
 }
@@ -50,9 +50,9 @@ TEST(FactoryGpuBackendTest, RetornaNullBackendQuandoNvmlIndisponivelESemIntel) {
     };
     deps.sistema_tem_intel = [](const QString&) { return false; };
 
-    auto backend = criarBackendCompositoCom(deps);
+    auto backend = criar_backend_composito_com(deps);
     ASSERT_NE(backend, nullptr);
-    EXPECT_TRUE(backend->enumerarGpus().empty());
+    EXPECT_TRUE(backend->enumerar_gpus().empty());
 }
 
 TEST(FactoryGpuBackendTest, AgregaApenasNvmlQuandoIntelAusente) {
@@ -68,10 +68,10 @@ TEST(FactoryGpuBackendTest, AgregaApenasNvmlQuandoIntelAusente) {
     };
     deps.sistema_tem_intel = [](const QString&) { return false; };
 
-    auto backend = criarBackendCompositoCom(deps);
-    const auto gpus = backend->enumerarGpus();
+    auto backend = criar_backend_composito_com(deps);
+    const auto gpus = backend->enumerar_gpus();
     ASSERT_EQ(gpus.size(), 1U);
-    EXPECT_EQ(gpus[0].fabricante(), vramopt::domain::Fabricante::Nvidia);
+    EXPECT_EQ(gpus[0].fabricante(), my_comp::domain::vram::Fabricante::Nvidia);
 }
 
 TEST(FactoryGpuBackendTest, AgregaApenasIntelQuandoNvmlIndisponivel) {
@@ -95,13 +95,13 @@ TEST(FactoryGpuBackendTest, AgregaApenasIntelQuandoNvmlIndisponivel) {
         return a;
     };
     deps.sistema_tem_intel = [](const QString& d) {
-        return vramopt::infrastructure::IntelI915GpuBackend::sistemaTemGpuIntel(d);
+        return my_comp::infrastructure::vram::IntelI915GpuBackend::sistema_tem_gpu_intel(d);
     };
     deps.drm_root  = drm;
     deps.proc_root = tmp.path() + QStringLiteral("/proc");
 
-    auto backend = criarBackendCompositoCom(deps);
-    const auto gpus = backend->enumerarGpus();
+    auto backend = criar_backend_composito_com(deps);
+    const auto gpus = backend->enumerar_gpus();
     ASSERT_EQ(gpus.size(), 1U);
-    EXPECT_EQ(gpus[0].fabricante(), vramopt::domain::Fabricante::Intel);
+    EXPECT_EQ(gpus[0].fabricante(), my_comp::domain::vram::Fabricante::Intel);
 }

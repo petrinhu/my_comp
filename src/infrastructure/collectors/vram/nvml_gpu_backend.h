@@ -7,17 +7,17 @@
 
 #include <memory>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
-class NvmlGpuBackend final : public domain::IGpuBackend {
+class NvmlGpuBackend final : public domain::vram::IGpuBackend {
 public:
     explicit NvmlGpuBackend(std::shared_ptr<INvmlAdapter> adapter,
                             QString proc_root = QStringLiteral("/proc"));
 
-    [[nodiscard]] std::vector<domain::GpuInfo> enumerarGpus() const override;
+    [[nodiscard]] std::vector<domain::vram::GpuInfo> enumerar_gpus() const override;
 
-    [[nodiscard]] std::vector<domain::Processo>
-        enumerarProcessosVram(int gpu_id) const override;
+    [[nodiscard]] std::vector<domain::vram::Processo>
+        enumerar_processos_vram(int gpu_id) const override;
 
 private:
     std::shared_ptr<INvmlAdapter> m_adapter;

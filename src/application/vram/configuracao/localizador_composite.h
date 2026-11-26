@@ -5,17 +5,17 @@
 #include <memory>
 #include <vector>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
-class LocalizadorComposite final : public domain::IConfigLocator {
+class LocalizadorComposite final : public domain::vram::IConfigLocator {
 public:
-    explicit LocalizadorComposite(std::vector<std::shared_ptr<domain::IConfigLocator>> sublocators);
+    explicit LocalizadorComposite(std::vector<std::shared_ptr<domain::vram::IConfigLocator>> sublocators);
 
-    [[nodiscard]] QVector<domain::OrigemConfig>
-        localizar(const domain::Processo& processo) const override;
+    [[nodiscard]] QVector<domain::vram::OrigemConfig>
+        localizar(const domain::vram::Processo& processo) const override;
 
 private:
-    std::vector<std::shared_ptr<domain::IConfigLocator>> m_sublocators;
+    std::vector<std::shared_ptr<domain::vram::IConfigLocator>> m_sublocators;
 };
 
 }

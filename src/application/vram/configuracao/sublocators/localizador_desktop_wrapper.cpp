@@ -5,15 +5,15 @@
 #include <QRegularExpression>
 #include <QStringList>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 namespace {
 
-QStringList tokenizarSimples(const QString& exec) {
+QStringList tokenizar_simples(const QString& exec) {
     return exec.trimmed().split(QRegularExpression{QStringLiteral("\\s+")}, Qt::SkipEmptyParts);
 }
 
-QString reconstruirSemPrimeiroToken(const QStringList& tokens) {
+QString reconstruir_sem_primeiro_token(const QStringList& tokens) {
     if (tokens.size() <= 1) {
         return QString{};
     }
@@ -23,31 +23,31 @@ QString reconstruirSemPrimeiroToken(const QStringList& tokens) {
 }
 
 LocalizadorDesktopWrapper::LocalizadorDesktopWrapper(
-    std::shared_ptr<domain::ILeitorDesktopExec> leitor)
+    std::shared_ptr<domain::vram::ILeitorDesktopExec> leitor)
     : m_leitor{std::move(leitor)} {}
 
-QVector<domain::OrigemConfig>
-LocalizadorDesktopWrapper::localizar(const domain::Processo& processo) const {
-    auto entrada_opt = m_leitor->entradaDe(processo);
+QVector<domain::vram::OrigemConfig>
+LocalizadorDesktopWrapper::localizar(const domain::vram::Processo& processo) const {
+    auto entrada_opt = m_leitor->entrada_de(processo);
     if (!entrada_opt.has_value()) {
         return {};
     }
 
-    const auto tokens = tokenizarSimples(entrada_opt->exec);
+    const auto tokens = tokenizar_simples(entrada_opt->exec);
     if (tokens.isEmpty()) {
         return {};
     }
 
-    const auto& tabela = listaWrappersDesktop();
+    const auto& tabela = lista_wrappers_desktop();
     auto it = tabela.constFind(tokens.first());
     if (it == tabela.constEnd()) {
         return {};
     }
 
-    const QString sem_wrapper = reconstruirSemPrimeiroToken(tokens);
+    const QString sem_wrapper = reconstruir_sem_primeiro_token(tokens);
 
-    domain::OrigemConfig o{
-        .categoria = domain::CategoriaOrigem::DesktopWrapper,
+    domain::vram::OrigemConfig o{
+        .categoria = domain::vram::CategoriaOrigem::DesktopWrapper,
         .tipo = QStringLiteral("desktop-exec"),
         .caminho = entrada_opt->caminho_arquivo,
         .chave = QStringLiteral("Exec"),

@@ -2,7 +2,7 @@
 
 #include <QString>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 class NomeProcesso {
 public:

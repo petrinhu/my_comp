@@ -1,10 +1,10 @@
 #include "application/vram/classificacao/servico_sugerir_acao.h"
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 SugestaoAcao
-ServicoSugerirAcao::sugerirPara(const domain::ResultadoClassificacao& resultado) const {
-    if (resultado.categoria == domain::Categoria::PrecisaGpu) {
+ServicoSugerirAcao::sugerir_para(const domain::vram::ResultadoClassificacao& resultado) const {
+    if (resultado.categoria == domain::vram::Categoria::PrecisaGpu) {
         return SugestaoAcao{.tipo = TipoSugestao::Nenhuma, .descricao = QString{}};
     }
 
@@ -12,7 +12,7 @@ ServicoSugerirAcao::sugerirPara(const domain::ResultadoClassificacao& resultado)
         return SugestaoAcao{.tipo = TipoSugestao::Nenhuma, .descricao = QString{}};
     }
 
-    if (resultado.categoria == domain::Categoria::CandidatoObvioCpu) {
+    if (resultado.categoria == domain::vram::Categoria::CandidatoObvioCpu) {
         if (resultado.justificativa.regra == QStringLiteral("catalogo") ||
             resultado.justificativa.regra == QStringLiteral("categoria_desktop") ||
             resultado.justificativa.regra == QStringLiteral("comportamento")) {
@@ -25,7 +25,7 @@ ServicoSugerirAcao::sugerirPara(const domain::ResultadoClassificacao& resultado)
         }
     }
 
-    if (resultado.categoria == domain::Categoria::Indeterminado) {
+    if (resultado.categoria == domain::vram::Categoria::Indeterminado) {
         return SugestaoAcao{
             .tipo = TipoSugestao::AvaliacaoManualNecessaria,
             .descricao = QStringLiteral(

@@ -4,12 +4,12 @@
 
 #include <gmock/gmock.h>
 
-namespace vramopt::tests {
+namespace my_comp::tests::vram {
 
-class MockAmostradorComportamento : public vramopt::domain::IAmostradorComportamento {
+class MockAmostradorComportamento : public my_comp::domain::vram::IAmostradorComportamento {
 public:
-    MOCK_METHOD(vramopt::domain::AmostraJanela, amostraJanela,
-                (const vramopt::domain::PID&, std::chrono::seconds), (const, override));
+    MOCK_METHOD(my_comp::domain::vram::AmostraJanela, amostra_janela,
+                (const my_comp::domain::vram::PID&, std::chrono::seconds), (const, override));
 };
 
 }

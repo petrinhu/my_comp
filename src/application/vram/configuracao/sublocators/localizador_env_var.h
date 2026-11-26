@@ -5,17 +5,17 @@
 
 #include <memory>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
-class LocalizadorEnvVar final : public domain::IConfigLocator {
+class LocalizadorEnvVar final : public domain::vram::IConfigLocator {
 public:
-    explicit LocalizadorEnvVar(std::shared_ptr<domain::ILeitorEnviron> leitor);
+    explicit LocalizadorEnvVar(std::shared_ptr<domain::vram::ILeitorEnviron> leitor);
 
-    [[nodiscard]] QVector<domain::OrigemConfig>
-        localizar(const domain::Processo& processo) const override;
+    [[nodiscard]] QVector<domain::vram::OrigemConfig>
+        localizar(const domain::vram::Processo& processo) const override;
 
 private:
-    std::shared_ptr<domain::ILeitorEnviron> m_leitor;
+    std::shared_ptr<domain::vram::ILeitorEnviron> m_leitor;
 };
 
 }

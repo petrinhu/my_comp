@@ -5,17 +5,17 @@
 
 #include <memory>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
-class RegraCatalogo final : public domain::IRegraClassificacao {
+class RegraCatalogo final : public domain::vram::IRegraClassificacao {
 public:
-    explicit RegraCatalogo(std::shared_ptr<domain::ICatalogoClassificacao> cat);
+    explicit RegraCatalogo(std::shared_ptr<domain::vram::ICatalogoClassificacao> cat);
 
-    [[nodiscard]] std::optional<domain::ResultadoClassificacao>
-        avaliar(const domain::Processo& processo) const override;
+    [[nodiscard]] std::optional<domain::vram::ResultadoClassificacao>
+        avaliar(const domain::vram::Processo& processo) const override;
 
 private:
-    std::shared_ptr<domain::ICatalogoClassificacao> m_catalogo;
+    std::shared_ptr<domain::vram::ICatalogoClassificacao> m_catalogo;
 };
 
 }

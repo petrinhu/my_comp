@@ -6,18 +6,18 @@
 
 #include <memory>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
-class RegraCategoriaDesktop final : public domain::IRegraClassificacao {
+class RegraCategoriaDesktop final : public domain::vram::IRegraClassificacao {
 public:
-    RegraCategoriaDesktop(std::shared_ptr<domain::ILeitorDesktopFile> leitor,
+    RegraCategoriaDesktop(std::shared_ptr<domain::vram::ILeitorDesktopFile> leitor,
                           MapaCategoriasDesktop mapa);
 
-    [[nodiscard]] std::optional<domain::ResultadoClassificacao>
-        avaliar(const domain::Processo& processo) const override;
+    [[nodiscard]] std::optional<domain::vram::ResultadoClassificacao>
+        avaliar(const domain::vram::Processo& processo) const override;
 
 private:
-    std::shared_ptr<domain::ILeitorDesktopFile> m_leitor;
+    std::shared_ptr<domain::vram::ILeitorDesktopFile> m_leitor;
     MapaCategoriasDesktop                       m_mapa;
 };
 

@@ -2,35 +2,35 @@
 
 #include <QString>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 namespace {
 
-QString tipoChaveAsString(domain::TipoChave t) {
+QString tipo_chave_as_string(domain::vram::TipoChave t) {
     switch (t) {
-        case domain::TipoChave::Binario:    return QStringLiteral("binario");
-        case domain::TipoChave::WmClass:    return QStringLiteral("wmClass");
-        case domain::TipoChave::DesktopId:  return QStringLiteral("desktopId");
+        case domain::vram::TipoChave::Binario:    return QStringLiteral("binario");
+        case domain::vram::TipoChave::WmClass:    return QStringLiteral("wmClass");
+        case domain::vram::TipoChave::DesktopId:  return QStringLiteral("desktopId");
     }
     return QStringLiteral("?");
 }
 
 }
 
-RegraCatalogo::RegraCatalogo(std::shared_ptr<domain::ICatalogoClassificacao> cat)
+RegraCatalogo::RegraCatalogo(std::shared_ptr<domain::vram::ICatalogoClassificacao> cat)
     : m_catalogo{std::move(cat)} {}
 
-std::optional<domain::ResultadoClassificacao>
-RegraCatalogo::avaliar(const domain::Processo& processo) const {
+std::optional<domain::vram::ResultadoClassificacao>
+RegraCatalogo::avaliar(const domain::vram::Processo& processo) const {
     for (const auto& chave : processo.chaves()) {
         auto entrada = m_catalogo->buscar(chave);
         if (entrada.has_value()) {
-            return domain::ResultadoClassificacao{
+            return domain::vram::ResultadoClassificacao{
                 .categoria = entrada->veredito,
-                .justificativa = domain::Justificativa{
+                .justificativa = domain::vram::Justificativa{
                     .regra = QStringLiteral("catalogo"),
                     .detalhe = QStringLiteral("casou %1=%2 (id=%3)")
-                        .arg(tipoChaveAsString(chave.tipo()))
+                        .arg(tipo_chave_as_string(chave.tipo()))
                         .arg(chave.valor())
                         .arg(entrada->id),
                 },

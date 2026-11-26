@@ -10,32 +10,32 @@
 using ::testing::_;
 using ::testing::Return;
 
-using vramopt::application::RegraCatalogo;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::Categoria;
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::EntradaCatalogo;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::tests::MockCatalogoClassificacao;
+using my_comp::application::vram::RegraCatalogo;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::EntradaCatalogo;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::tests::vram::MockCatalogoClassificacao;
 
 namespace {
 
-Processo processoFirefoxComDuasChaves() {
+Processo processo_firefox_com_duas_chaves() {
     return Processo{
         PID{1234},
         NomeProcesso{QStringLiteral("firefox")},
-        BytesDeMemoria::deMegabytes(350),
+        BytesDeMemoria::de_megabytes(350),
         0,
         {
-            ChaveProcesso::deBinario(QStringLiteral("firefox")),
-            ChaveProcesso::deWmClass(QStringLiteral("firefox")),
+            ChaveProcesso::de_binario(QStringLiteral("firefox")),
+            ChaveProcesso::de_wm_class(QStringLiteral("firefox")),
         }
     };
 }
 
-EntradaCatalogo entradaFirefox() {
+EntradaCatalogo entrada_firefox() {
     return EntradaCatalogo{
         .id = QStringLiteral("firefox"),
         .binarios = {QStringLiteral("firefox")},
@@ -60,14 +60,14 @@ TEST(RegraCatalogoTest, AbstemSeNenhumaChaveCasa) {
     auto cat = std::make_shared<MockCatalogoClassificacao>();
     EXPECT_CALL(*cat, buscar(_)).WillRepeatedly(Return(std::nullopt));
     RegraCatalogo regra{cat};
-    EXPECT_FALSE(regra.avaliar(processoFirefoxComDuasChaves()).has_value());
+    EXPECT_FALSE(regra.avaliar(processo_firefox_com_duas_chaves()).has_value());
 }
 
 TEST(RegraCatalogoTest, ClassificaQuandoCatalogoCasa) {
     auto cat = std::make_shared<MockCatalogoClassificacao>();
-    EXPECT_CALL(*cat, buscar(_)).WillOnce(Return(entradaFirefox()));
+    EXPECT_CALL(*cat, buscar(_)).WillOnce(Return(entrada_firefox()));
     RegraCatalogo regra{cat};
-    auto r = regra.avaliar(processoFirefoxComDuasChaves());
+    auto r = regra.avaliar(processo_firefox_com_duas_chaves());
     ASSERT_TRUE(r.has_value());
     EXPECT_EQ(r->categoria, Categoria::CandidatoObvioCpu);
     EXPECT_EQ(r->justificativa.regra, QStringLiteral("catalogo"));
@@ -75,9 +75,9 @@ TEST(RegraCatalogoTest, ClassificaQuandoCatalogoCasa) {
 
 TEST(RegraCatalogoTest, JustificativaCitaIdDaEntradaECasamento) {
     auto cat = std::make_shared<MockCatalogoClassificacao>();
-    EXPECT_CALL(*cat, buscar(_)).WillOnce(Return(entradaFirefox()));
+    EXPECT_CALL(*cat, buscar(_)).WillOnce(Return(entrada_firefox()));
     RegraCatalogo regra{cat};
-    auto r = regra.avaliar(processoFirefoxComDuasChaves());
+    auto r = regra.avaliar(processo_firefox_com_duas_chaves());
     ASSERT_TRUE(r.has_value());
     EXPECT_TRUE(r->justificativa.detalhe.contains(QStringLiteral("firefox")));
 }

@@ -76,6 +76,7 @@ set(CORE_SOURCES
     src/infrastructure/exporters/html_export_provider.cpp
     src/infrastructure/security/openssl_vault.cpp
     src/infrastructure/persistence/qsettings_preferences_store.cpp
+    src/infrastructure/security/arquivo_chave_local.cpp
     src/presentation/viewmodels/update_viewmodel.cpp
     src/presentation/viewmodels/update_package_model.cpp
     src/presentation/viewmodels/diagnostic_viewmodel.cpp
@@ -135,6 +136,7 @@ set(CORE_SOURCES
     src/application/vram/configuracao/localizador_composite.cpp
     src/application/vram/configuracao/servico_localizar_config.cpp
     src/application/vram/auditoria/servico_auditar_vram_atual.cpp
+    src/application/vram/feedback/servico_registrar_feedback.cpp
     # Foundation/VRAM
     src/infrastructure/collectors/vram/composite_gpu_backend.cpp
     src/infrastructure/collectors/vram/intel_i915_gpu_backend.cpp
@@ -148,6 +150,14 @@ set(CORE_SOURCES
     src/infrastructure/collectors/vram/leitor_desktop_exec_xdg.cpp
     src/infrastructure/collectors/vram/leitor_desktop_file_xdg.cpp
     src/infrastructure/collectors/vram/leitor_maps_proc.cpp
+    # Catálogo de classificação empacotado (VRAM-06)
+    src/infrastructure/collectors/vram/catalogo_classificacao_json.cpp
+    src/resources/vram/catalogo_vram.qrc
+    # Feedback do usuário persistido via ISecurityVault (VRAM-07)
+    src/infrastructure/collectors/vram/repositorio_feedback_cifrado.cpp
+    # Amostrador de comportamento alimentado pelas auditorias (VRAM-08)
+    src/infrastructure/collectors/vram/historico_amostras_vram.cpp
+    src/infrastructure/collectors/vram/gpu_backend_com_historico.cpp
     # Composition root (extensão do main.cpp)
     src/composition/vram_composition.cpp
     src/composition/shared_infrastructure.cpp
@@ -205,6 +215,7 @@ set(UNIT_TEST_SOURCES
     tests/unit/systemd_service_provider_test.cpp
     tests/unit/cpu_viewmodel_test.cpp
     tests/unit/openssl_vault_test.cpp
+    tests/unit/arquivo_chave_local_test.cpp
     tests/unit/exporters_test.cpp
     tests/unit/memory_viewmodel_test.cpp
     tests/unit/gpu_viewmodel_test.cpp
@@ -287,6 +298,10 @@ set(UNIT_TEST_SOURCES
     tests/unit/vram/mid/cli_vram_test.cpp
     tests/unit/vram/mid/composicao_vram_test.cpp
     tests/unit/vram/back/leitor_maps_proc_test.cpp
+    tests/unit/vram/back/catalogo_classificacao_json_test.cpp
+    tests/unit/vram/back/repositorio_feedback_cifrado_test.cpp
+    tests/unit/vram/mid/servico_registrar_feedback_test.cpp
+    tests/unit/vram/back/historico_amostras_vram_test.cpp
 )
 
 add_executable(unit_tests ${UNIT_TEST_SOURCES})

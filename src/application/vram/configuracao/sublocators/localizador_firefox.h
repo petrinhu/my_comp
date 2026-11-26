@@ -5,17 +5,17 @@
 
 #include <memory>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
-class LocalizadorFirefox final : public domain::IConfigLocator {
+class LocalizadorFirefox final : public domain::vram::IConfigLocator {
 public:
-    explicit LocalizadorFirefox(std::shared_ptr<domain::ILeitorArquivoConfig> leitor);
+    explicit LocalizadorFirefox(std::shared_ptr<domain::vram::ILeitorArquivoConfig> leitor);
 
-    [[nodiscard]] QVector<domain::OrigemConfig>
-        localizar(const domain::Processo& processo) const override;
+    [[nodiscard]] QVector<domain::vram::OrigemConfig>
+        localizar(const domain::vram::Processo& processo) const override;
 
 private:
-    std::shared_ptr<domain::ILeitorArquivoConfig> m_leitor;
+    std::shared_ptr<domain::vram::ILeitorArquivoConfig> m_leitor;
 };
 
 }

@@ -1,9 +1,9 @@
 #include "application/vram/auditoria/servico_auditar_vram_atual.h"
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 ServicoAuditarVramAtual::ServicoAuditarVramAtual(
-    std::shared_ptr<domain::IGpuBackend> backend,
+    std::shared_ptr<domain::vram::IGpuBackend> backend,
     std::shared_ptr<ServicoClassificarProcesso> classificador,
     std::shared_ptr<ServicoSugerirAcao> sugeridor,
     std::shared_ptr<ServicoLocalizarConfig> localizador)
@@ -15,12 +15,12 @@ ServicoAuditarVramAtual::ServicoAuditarVramAtual(
 RelatorioAuditoriaVram ServicoAuditarVramAtual::executar() const {
     RelatorioAuditoriaVram relatorio;
 
-    const auto gpus = m_backend->enumerarGpus();
+    const auto gpus = m_backend->enumerar_gpus();
     relatorio.grupos.reserve(gpus.size());
 
     for (const auto& gpu : gpus) {
         GrupoAuditoriaGpu grupo{.gpu = gpu, .itens = {}};
-        const auto processos = m_backend->enumerarProcessosVram(gpu.id());
+        const auto processos = m_backend->enumerar_processos_vram(gpu.id());
         grupo.itens.reserve(processos.size());
 
         for (const auto& processo : processos) {
@@ -30,7 +30,7 @@ RelatorioAuditoriaVram ServicoAuditarVramAtual::executar() const {
                 .sugestao      = {},
                 .origens_config = m_localizador->executar(processo),
             };
-            item.sugestao = m_sugeridor->sugerirPara(item.classificacao);
+            item.sugestao = m_sugeridor->sugerir_para(item.classificacao);
             grupo.itens.push_back(std::move(item));
         }
 

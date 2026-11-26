@@ -4,9 +4,9 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::domain::Categoria;
-using vramopt::domain::Justificativa;
-using vramopt::domain::ResultadoClassificacao;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::Justificativa;
+using my_comp::domain::vram::ResultadoClassificacao;
 
 TEST(ResultadoClassificacaoTest, AgregaCategoriaEJustificativa) {
     ResultadoClassificacao r{

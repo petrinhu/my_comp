@@ -4,13 +4,13 @@
 
 #include <utility>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 LeitorEnvironProc::LeitorEnvironProc(QString proc_root)
     : m_proc_root{std::move(proc_root)} {}
 
 QHash<QString, QString>
-LeitorEnvironProc::environDe(const domain::PID& pid) const {
+LeitorEnvironProc::environ_de(const domain::vram::PID& pid) const {
     QHash<QString, QString> resultado;
     const QString path = QStringLiteral("%1/%2/environ").arg(m_proc_root).arg(pid.valor());
     QFile f{path};

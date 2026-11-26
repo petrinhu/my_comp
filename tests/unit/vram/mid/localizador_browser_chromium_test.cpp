@@ -11,31 +11,31 @@
 using ::testing::_;
 using ::testing::Return;
 
-using vramopt::application::LocalizadorBrowserChromium;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::CategoriaOrigem;
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::Confianca;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::tests::MockLeitorArquivoConfig;
+using my_comp::application::vram::LocalizadorBrowserChromium;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::CategoriaOrigem;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::Confianca;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::tests::vram::MockLeitorArquivoConfig;
 
 namespace {
 
-Processo procBrave() {
+Processo proc_brave() {
     return Processo{
         PID{1234}, NomeProcesso{QStringLiteral("brave-browser")},
-        BytesDeMemoria::deMegabytes(350), 0,
-        {ChaveProcesso::deBinario(QStringLiteral("brave-browser"))}
+        BytesDeMemoria::de_megabytes(350), 0,
+        {ChaveProcesso::de_binario(QStringLiteral("brave-browser"))}
     };
 }
 
-Processo procFirefox() {
+Processo proc_firefox() {
     return Processo{
         PID{4321}, NomeProcesso{QStringLiteral("firefox")},
-        BytesDeMemoria::deMegabytes(250), 0,
-        {ChaveProcesso::deBinario(QStringLiteral("firefox"))}
+        BytesDeMemoria::de_megabytes(250), 0,
+        {ChaveProcesso::de_binario(QStringLiteral("firefox"))}
     };
 }
 
@@ -44,21 +44,21 @@ Processo procFirefox() {
 TEST(LocalizadorBrowserChromiumTest, AbstemQuandoNomeNaoCasaTabela) {
     auto leitor = std::make_shared<MockLeitorArquivoConfig>();
     LocalizadorBrowserChromium loc{leitor};
-    EXPECT_TRUE(loc.localizar(procFirefox()).isEmpty());
+    EXPECT_TRUE(loc.localizar(proc_firefox()).isEmpty());
 }
 
 TEST(LocalizadorBrowserChromiumTest, AbstemQuandoLocalStateAusente) {
     auto leitor = std::make_shared<MockLeitorArquivoConfig>();
     EXPECT_CALL(*leitor, ler(_)).WillOnce(Return(std::nullopt));
     LocalizadorBrowserChromium loc{leitor};
-    EXPECT_TRUE(loc.localizar(procBrave()).isEmpty());
+    EXPECT_TRUE(loc.localizar(proc_brave()).isEmpty());
 }
 
 TEST(LocalizadorBrowserChromiumTest, AbstemQuandoJsonInvalido) {
     auto leitor = std::make_shared<MockLeitorArquivoConfig>();
     EXPECT_CALL(*leitor, ler(_)).WillOnce(Return(QByteArray{"{not valid json"}));
     LocalizadorBrowserChromium loc{leitor};
-    EXPECT_TRUE(loc.localizar(procBrave()).isEmpty());
+    EXPECT_TRUE(loc.localizar(proc_brave()).isEmpty());
 }
 
 TEST(LocalizadorBrowserChromiumTest, AbstemQuandoAceleracaoJaDesligada) {
@@ -66,7 +66,7 @@ TEST(LocalizadorBrowserChromiumTest, AbstemQuandoAceleracaoJaDesligada) {
     QByteArray json = R"({"hardware_acceleration_mode": {"enabled": false}})";
     EXPECT_CALL(*leitor, ler(_)).WillOnce(Return(json));
     LocalizadorBrowserChromium loc{leitor};
-    EXPECT_TRUE(loc.localizar(procBrave()).isEmpty());
+    EXPECT_TRUE(loc.localizar(proc_brave()).isEmpty());
 }
 
 TEST(LocalizadorBrowserChromiumTest, EmiteOrigemQuandoAceleracaoLigada) {
@@ -74,7 +74,7 @@ TEST(LocalizadorBrowserChromiumTest, EmiteOrigemQuandoAceleracaoLigada) {
     QByteArray json = R"({"hardware_acceleration_mode": {"enabled": true}})";
     EXPECT_CALL(*leitor, ler(_)).WillOnce(Return(json));
     LocalizadorBrowserChromium loc{leitor};
-    auto origens = loc.localizar(procBrave());
+    auto origens = loc.localizar(proc_brave());
     ASSERT_EQ(origens.size(), 1);
     const auto& o = origens.first();
     EXPECT_EQ(o.categoria, CategoriaOrigem::BrowserChromium);
@@ -94,7 +94,7 @@ TEST(LocalizadorBrowserChromiumTest, EmiteOrigemQuandoChaveAusente) {
     QByteArray json = R"({"other_key": 42})";
     EXPECT_CALL(*leitor, ler(_)).WillOnce(Return(json));
     LocalizadorBrowserChromium loc{leitor};
-    auto origens = loc.localizar(procBrave());
+    auto origens = loc.localizar(proc_brave());
     ASSERT_EQ(origens.size(), 1);
     EXPECT_TRUE(origens.first().valor_atual.contains(QStringLiteral("default")));
 }

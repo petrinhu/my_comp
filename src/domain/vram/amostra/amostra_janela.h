@@ -4,7 +4,7 @@
 
 #include <chrono>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 struct AmostraJanela {
     BytesDeMemoria          vram_media{0};
@@ -13,7 +13,7 @@ struct AmostraJanela {
     int                     amostras{0};
     std::chrono::seconds    janela{0};
 
-    [[nodiscard]] double razaoVramSobreTotal() const noexcept;
+    [[nodiscard]] double razao_vram_sobre_total() const noexcept;
 };
 
 }

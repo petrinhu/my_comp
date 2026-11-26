@@ -9,11 +9,11 @@
 
 #include <unistd.h>
 
-using vramopt::domain::PID;
-using vramopt::infrastructure::LeitorMapsProc;
+using my_comp::domain::vram::PID;
+using my_comp::infrastructure::vram::LeitorMapsProc;
 
 namespace {
-void escreverMaps(const QString& root, int pid, const QByteArray& conteudo) {
+void escrever_maps(const QString& root, int pid, const QByteArray& conteudo) {
     const QString dir = QStringLiteral("%1/%2").arg(root).arg(pid);
     QDir{}.mkpath(dir);
     QFile f{dir + QStringLiteral("/maps")};
@@ -27,7 +27,7 @@ void escreverMaps(const QString& root, int pid, const QByteArray& conteudo) {
 TEST(LeitorMapsProcTest, ExtraiBibliotecasUnicasDoMaps) {
     QTemporaryDir tmp;
     ASSERT_TRUE(tmp.isValid());
-    escreverMaps(tmp.path(), 42,
+    escrever_maps(tmp.path(), 42,
         "55d0c0a00000-55d0c0a21000 r--p 00000000 103:02 1234   /usr/bin/python3.12\n"
         "7f1a2b000000-7f1a2b100000 r-xp 00000000 103:02 5678   /usr/lib64/libcudart.so.12.4.127\n"
         "7f1a2b100000-7f1a2b200000 r--p 00100000 103:02 5678   /usr/lib64/libcudart.so.12.4.127\n"
@@ -37,7 +37,7 @@ TEST(LeitorMapsProcTest, ExtraiBibliotecasUnicasDoMaps) {
         "7f1a2e000000-7f1a2e001000 r-xp 00000000 103:02 777    /opt/app/lib com espaço.so\n");
 
     LeitorMapsProc leitor{tmp.path()};
-    const auto libs = leitor.bibliotecasMapeadas(PID{42});
+    const auto libs = leitor.bibliotecas_mapeadas(PID{42});
     EXPECT_EQ(libs.count(QStringLiteral("/usr/lib64/libcudart.so.12.4.127")), 1);
     EXPECT_TRUE(libs.contains(QStringLiteral("/usr/lib64/libc.so.6")));
     EXPECT_TRUE(libs.contains(QStringLiteral("/opt/app/lib com espaço.so")));
@@ -49,13 +49,13 @@ TEST(LeitorMapsProcTest, PidInexistenteDevolveVazio) {
     QTemporaryDir tmp;
     ASSERT_TRUE(tmp.isValid());
     LeitorMapsProc leitor{tmp.path()};
-    EXPECT_TRUE(leitor.bibliotecasMapeadas(PID{999}).isEmpty());
+    EXPECT_TRUE(leitor.bibliotecas_mapeadas(PID{999}).isEmpty());
 }
 
 // Processo real: o próprio teste mapeia libc/libstdc++.
 TEST(LeitorMapsProcTest, LeProcessoAtualEmProc) {
     LeitorMapsProc leitor;
-    const auto libs = leitor.bibliotecasMapeadas(PID{static_cast<std::int32_t>(::getpid())});
+    const auto libs = leitor.bibliotecas_mapeadas(PID{static_cast<std::int32_t>(::getpid())});
     bool tem_so = false;
     for (const auto& l : libs) tem_so = tem_so || l.contains(QStringLiteral(".so"));
     EXPECT_TRUE(tem_so);

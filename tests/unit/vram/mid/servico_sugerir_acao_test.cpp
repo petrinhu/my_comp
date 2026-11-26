@@ -4,16 +4,16 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::application::ServicoSugerirAcao;
-using vramopt::application::SugestaoAcao;
-using vramopt::application::TipoSugestao;
-using vramopt::domain::Categoria;
-using vramopt::domain::Justificativa;
-using vramopt::domain::ResultadoClassificacao;
+using my_comp::application::vram::ServicoSugerirAcao;
+using my_comp::application::vram::SugestaoAcao;
+using my_comp::application::vram::TipoSugestao;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::Justificativa;
+using my_comp::domain::vram::ResultadoClassificacao;
 
 TEST(ServicoSugerirAcaoTest, RegraFeedbackDevolveTipoSugestaoNenhuma) {
     ServicoSugerirAcao s;
-    SugestaoAcao sg = s.sugerirPara(ResultadoClassificacao{
+    SugestaoAcao sg = s.sugerir_para(ResultadoClassificacao{
         .categoria = Categoria::CandidatoObvioCpu,
         .justificativa = Justificativa{.regra = QStringLiteral("feedback"), .detalhe = QStringLiteral("id=1")},
     });
@@ -22,7 +22,7 @@ TEST(ServicoSugerirAcaoTest, RegraFeedbackDevolveTipoSugestaoNenhuma) {
 
 TEST(ServicoSugerirAcaoTest, CatalogoCpuDevolveSugestaoConfigBrowser) {
     ServicoSugerirAcao s;
-    SugestaoAcao sg = s.sugerirPara(ResultadoClassificacao{
+    SugestaoAcao sg = s.sugerir_para(ResultadoClassificacao{
         .categoria = Categoria::CandidatoObvioCpu,
         .justificativa = Justificativa{.regra = QStringLiteral("catalogo"), .detalhe = QStringLiteral("casou binario=firefox")},
     });
@@ -32,7 +32,7 @@ TEST(ServicoSugerirAcaoTest, CatalogoCpuDevolveSugestaoConfigBrowser) {
 
 TEST(ServicoSugerirAcaoTest, CategoriaDesktopCpuDevolveSugestaoGenerica) {
     ServicoSugerirAcao s;
-    SugestaoAcao sg = s.sugerirPara(ResultadoClassificacao{
+    SugestaoAcao sg = s.sugerir_para(ResultadoClassificacao{
         .categoria = Categoria::CandidatoObvioCpu,
         .justificativa = Justificativa{.regra = QStringLiteral("categoria_desktop"), .detalhe = QStringLiteral("WebBrowser")},
     });
@@ -41,7 +41,7 @@ TEST(ServicoSugerirAcaoTest, CategoriaDesktopCpuDevolveSugestaoGenerica) {
 
 TEST(ServicoSugerirAcaoTest, ComportamentoIndeterminadoDevolveAvaliacaoManual) {
     ServicoSugerirAcao s;
-    SugestaoAcao sg = s.sugerirPara(ResultadoClassificacao{
+    SugestaoAcao sg = s.sugerir_para(ResultadoClassificacao{
         .categoria = Categoria::Indeterminado,
         .justificativa = Justificativa{.regra = QStringLiteral("comportamento"), .detalhe = QStringLiteral("VRAM 5%")},
     });
@@ -50,7 +50,7 @@ TEST(ServicoSugerirAcaoTest, ComportamentoIndeterminadoDevolveAvaliacaoManual) {
 
 TEST(ServicoSugerirAcaoTest, PrecisaGpuDevolveNenhuma) {
     ServicoSugerirAcao s;
-    SugestaoAcao sg = s.sugerirPara(ResultadoClassificacao{
+    SugestaoAcao sg = s.sugerir_para(ResultadoClassificacao{
         .categoria = Categoria::PrecisaGpu,
         .justificativa = Justificativa{.regra = QStringLiteral("biblioteca_compute"), .detalhe = QStringLiteral("libcuda")},
     });

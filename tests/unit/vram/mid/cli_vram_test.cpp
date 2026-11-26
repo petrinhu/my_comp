@@ -30,51 +30,51 @@
 
 using ::testing::Return;
 
-using vramopt::application::GrupoAuditoriaGpu;
-using vramopt::application::ItemAuditoriaVram;
-using vramopt::application::RelatorioAuditoriaVram;
-using vramopt::application::ServicoAuditarVramAtual;
-using vramopt::application::ServicoClassificarProcesso;
-using vramopt::application::ServicoLocalizarConfig;
-using vramopt::application::ServicoSugerirAcao;
-using vramopt::application::SugestaoAcao;
-using vramopt::application::TipoSugestao;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::Categoria;
-using vramopt::domain::CategoriaOrigem;
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::Confianca;
-using vramopt::domain::Fabricante;
-using vramopt::domain::GpuInfo;
-using vramopt::domain::Justificativa;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::OrigemConfig;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::domain::ResultadoClassificacao;
-using vramopt::presentation::cli::executarComServico;
-using vramopt::presentation::cli::formatarRelatorio;
-using vramopt::presentation::cli::OpcoesCliVram;
-using vramopt::presentation::cli::parsearOpcoes;
-using vramopt::tests::MockClassificadorProcessos;
-using vramopt::tests::MockConfigLocator;
-using vramopt::tests::MockGpuBackend;
+using my_comp::application::vram::GrupoAuditoriaGpu;
+using my_comp::application::vram::ItemAuditoriaVram;
+using my_comp::application::vram::RelatorioAuditoriaVram;
+using my_comp::application::vram::ServicoAuditarVramAtual;
+using my_comp::application::vram::ServicoClassificarProcesso;
+using my_comp::application::vram::ServicoLocalizarConfig;
+using my_comp::application::vram::ServicoSugerirAcao;
+using my_comp::application::vram::SugestaoAcao;
+using my_comp::application::vram::TipoSugestao;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::CategoriaOrigem;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::Confianca;
+using my_comp::domain::vram::Fabricante;
+using my_comp::domain::vram::GpuInfo;
+using my_comp::domain::vram::Justificativa;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::OrigemConfig;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::domain::vram::ResultadoClassificacao;
+using my_comp::presentation::cli::executar_com_servico;
+using my_comp::presentation::cli::formatar_relatorio;
+using my_comp::presentation::cli::OpcoesCliVram;
+using my_comp::presentation::cli::parsear_opcoes;
+using my_comp::tests::vram::MockClassificadorProcessos;
+using my_comp::tests::vram::MockConfigLocator;
+using my_comp::tests::vram::MockGpuBackend;
 
 namespace {
 
-RelatorioAuditoriaVram fazerRelatorio() {
+RelatorioAuditoriaVram fazer_relatorio() {
     RelatorioAuditoriaVram r;
     GrupoAuditoriaGpu grupo{
         .gpu = GpuInfo{0, Fabricante::Nvidia, QStringLiteral("RTX 4070"),
-                       BytesDeMemoria::deMegabytes(12288)},
+                       BytesDeMemoria::de_megabytes(12288)},
         .itens = {},
     };
     grupo.itens.push_back(ItemAuditoriaVram{
         .processo = Processo{PID{1234},
                              NomeProcesso{QStringLiteral("blender")},
-                             BytesDeMemoria::deMegabytes(2048),
+                             BytesDeMemoria::de_megabytes(2048),
                              0,
-                             {ChaveProcesso::deBinario(QStringLiteral("blender"))}},
+                             {ChaveProcesso::de_binario(QStringLiteral("blender"))}},
         .classificacao = ResultadoClassificacao{
             .categoria = Categoria::PrecisaGpu,
             .justificativa = Justificativa{.regra = QStringLiteral("comportamento"), .detalhe = {}},
@@ -89,25 +89,25 @@ RelatorioAuditoriaVram fazerRelatorio() {
 }
 
 TEST(CliVramOpcoesTest, JsonAtivaModoJson) {
-    auto opts = parsearOpcoes({QStringLiteral("--json")});
+    auto opts = parsear_opcoes({QStringLiteral("--json")});
     EXPECT_TRUE(opts.json);
     EXPECT_TRUE(opts.include_config_origins);
 }
 
 TEST(CliVramOpcoesTest, AllProcessesAtivaFlagCorrespondente) {
-    auto opts = parsearOpcoes({QStringLiteral("--all-processes")});
+    auto opts = parsear_opcoes({QStringLiteral("--all-processes")});
     EXPECT_TRUE(opts.all_processes);
     EXPECT_FALSE(opts.json);
 }
 
 TEST(CliVramOpcoesTest, NoConfigOriginsDesligaInclude) {
-    auto opts = parsearOpcoes({QStringLiteral("--no-config-origins")});
+    auto opts = parsear_opcoes({QStringLiteral("--no-config-origins")});
     EXPECT_FALSE(opts.include_config_origins);
 }
 
 TEST(CliVramFormatTest, ModoJsonProduzEstruturaValida) {
     OpcoesCliVram opts; opts.json = true;
-    const auto saida = formatarRelatorio(fazerRelatorio(), opts);
+    const auto saida = formatar_relatorio(fazer_relatorio(), opts);
 
     QJsonParseError err{};
     auto doc = QJsonDocument::fromJson(saida.toUtf8(), &err);
@@ -130,7 +130,7 @@ TEST(CliVramFormatTest, ModoJsonProduzEstruturaValida) {
 
 TEST(CliVramFormatTest, ModoTabularContemNomeECategoria) {
     OpcoesCliVram opts;
-    const auto saida = formatarRelatorio(fazerRelatorio(), opts);
+    const auto saida = formatar_relatorio(fazer_relatorio(), opts);
     EXPECT_TRUE(saida.contains(QStringLiteral("blender")));
     EXPECT_TRUE(saida.contains(QStringLiteral("gpu")));
     EXPECT_TRUE(saida.contains(QStringLiteral("RTX 4070")));
@@ -138,7 +138,7 @@ TEST(CliVramFormatTest, ModoTabularContemNomeECategoria) {
 
 TEST(CliVramFormatTest, RelatorioVazioImprimeMensagemAmigavel) {
     OpcoesCliVram opts;
-    const auto saida = formatarRelatorio(RelatorioAuditoriaVram{}, opts);
+    const auto saida = formatar_relatorio(RelatorioAuditoriaVram{}, opts);
     EXPECT_TRUE(saida.contains(QStringLiteral("Nenhuma GPU")));
 }
 
@@ -148,13 +148,13 @@ TEST(CliVramExecutarTest, ExecutarComServicoUsaMockEretornaZero) {
     auto locator = std::make_shared<MockConfigLocator>();
 
     GpuInfo gpu{0, Fabricante::Nvidia, QStringLiteral("Stub"),
-                BytesDeMemoria::deMegabytes(8192)};
+                BytesDeMemoria::de_megabytes(8192)};
     Processo proc{PID{42}, NomeProcesso{QStringLiteral("dummy")},
-                  BytesDeMemoria::deMegabytes(128), 0,
-                  {ChaveProcesso::deBinario(QStringLiteral("dummy"))}};
+                  BytesDeMemoria::de_megabytes(128), 0,
+                  {ChaveProcesso::de_binario(QStringLiteral("dummy"))}};
 
-    EXPECT_CALL(*backend, enumerarGpus()).WillOnce(Return(std::vector<GpuInfo>{gpu}));
-    EXPECT_CALL(*backend, enumerarProcessosVram(0))
+    EXPECT_CALL(*backend, enumerar_gpus()).WillOnce(Return(std::vector<GpuInfo>{gpu}));
+    EXPECT_CALL(*backend, enumerar_processos_vram(0))
         .WillOnce(Return(std::vector<Processo>{proc}));
     EXPECT_CALL(*classificador, classificar(::testing::_))
         .WillOnce(Return(ResultadoClassificacao{
@@ -171,7 +171,7 @@ TEST(CliVramExecutarTest, ExecutarComServicoUsaMockEretornaZero) {
 
     QString buf;
     QTextStream out{&buf};
-    const int rc = executarComServico(svc, {QStringLiteral("--json")}, out);
+    const int rc = executar_com_servico(svc, {QStringLiteral("--json")}, out);
     EXPECT_EQ(rc, 0);
     EXPECT_TRUE(buf.contains(QStringLiteral("dummy")));
 }

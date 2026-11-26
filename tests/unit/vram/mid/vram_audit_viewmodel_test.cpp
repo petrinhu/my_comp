@@ -10,6 +10,8 @@
 #include "domain/vram/valueobjects/chave_processo.h"
 #include "domain/vram/valueobjects/nome_processo.h"
 #include "domain/vram/valueobjects/pid.h"
+#include "application/vram/feedback/servico_registrar_feedback.h"
+#include "mocks/mock_repositorio_feedback.h"
 #include "presentation/viewmodels/vram_audit_viewmodel.h"
 
 #include <QSignalSpy>
@@ -17,44 +19,54 @@
 #include <QVariantList>
 #include <QVariantMap>
 
+#include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-using vramopt::application::GrupoAuditoriaGpu;
-using vramopt::application::ItemAuditoriaVram;
-using vramopt::application::RelatorioAuditoriaVram;
-using vramopt::application::SugestaoAcao;
-using vramopt::application::TipoSugestao;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::Categoria;
-using vramopt::domain::CategoriaOrigem;
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::Confianca;
-using vramopt::domain::Fabricante;
-using vramopt::domain::GpuInfo;
-using vramopt::domain::Justificativa;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::OrigemConfig;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::domain::ResultadoClassificacao;
-using vramopt::presentation::viewmodels::VramAuditViewModel;
+#include <memory>
+
+using my_comp::application::vram::GrupoAuditoriaGpu;
+using my_comp::application::vram::ItemAuditoriaVram;
+using my_comp::application::vram::RelatorioAuditoriaVram;
+using my_comp::application::vram::SugestaoAcao;
+using my_comp::application::vram::TipoSugestao;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::CategoriaOrigem;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::Confianca;
+using my_comp::domain::vram::Fabricante;
+using my_comp::domain::vram::GpuInfo;
+using my_comp::domain::vram::Justificativa;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::OrigemConfig;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::domain::vram::ResultadoClassificacao;
+using my_comp::presentation::viewmodels::VramAuditViewModel;
+using my_comp::application::vram::ServicoRegistrarFeedback;
+using my_comp::domain::vram::EntradaFeedback;
+using my_comp::tests::vram::MockRepositorioFeedback;
+using ::testing::_;
+using ::testing::AllOf;
+using ::testing::Field;
+using ::testing::Return;
 
 namespace {
 
-RelatorioAuditoriaVram fazerRelatorioExemplo() {
+RelatorioAuditoriaVram fazer_relatorio_exemplo() {
     RelatorioAuditoriaVram r;
     GrupoAuditoriaGpu grupo{
         .gpu = GpuInfo{0, Fabricante::Nvidia, QStringLiteral("RTX 4070"),
-                       BytesDeMemoria::deMegabytes(12288)},
+                       BytesDeMemoria::de_megabytes(12288)},
         .itens = {},
     };
     ItemAuditoriaVram item{
         .processo = Processo{
             PID{1234},
             NomeProcesso{QStringLiteral("chrome")},
-            BytesDeMemoria::deMegabytes(450),
+            BytesDeMemoria::de_megabytes(450),
             0,
-            {ChaveProcesso::deBinario(QStringLiteral("chrome"))}
+            {ChaveProcesso::de_binario(QStringLiteral("chrome"))}
         },
         .classificacao = ResultadoClassificacao{
             .categoria = Categoria::CandidatoObvioCpu,
@@ -93,7 +105,7 @@ TEST(VramAuditViewModelTest, AplicarRelatorioConverteEmissaoQVariant) {
     VramAuditViewModel vm{nullptr};
     QSignalSpy spy{&vm, &VramAuditViewModel::gruposChanged};
 
-    vm.aplicarRelatorio(fazerRelatorioExemplo());
+    vm.aplicar_relatorio(fazer_relatorio_exemplo());
 
     ASSERT_EQ(spy.count(), 1);
     const auto grupos = vm.grupos();
@@ -132,6 +144,53 @@ TEST(VramAuditViewModelTest, AplicarRelatorioConverteEmissaoQVariant) {
 
 TEST(VramAuditViewModelTest, RelatorioVazioGeraGruposVazios) {
     VramAuditViewModel vm{nullptr};
-    vm.aplicarRelatorio(RelatorioAuditoriaVram{});
+    vm.aplicar_relatorio(RelatorioAuditoriaVram{});
     EXPECT_TRUE(vm.grupos().isEmpty());
+}
+
+TEST(VramAuditViewModelTest, ItemExpoeChaveBinarioParaFeedback) {
+    VramAuditViewModel vm{nullptr};
+    vm.aplicar_relatorio(fazer_relatorio_exemplo());
+    const auto item = vm.grupos().first().toMap()
+        .value(QStringLiteral("itens")).toList().first().toMap();
+    EXPECT_EQ(item.value(QStringLiteral("chaveBinario")).toString(), QStringLiteral("chrome"));
+}
+
+TEST(VramAuditViewModelTest, RegistrarFeedbackGravaPelaChaveBinarioEAvisa) {
+    auto repo = std::make_shared<MockRepositorioFeedback>();
+    const auto chave = ChaveProcesso::de_binario(QStringLiteral("firefox"));
+    EXPECT_CALL(*repo, buscar(chave)).WillOnce(Return(std::nullopt));
+    EXPECT_CALL(*repo, inserir(AllOf(Field(&EntradaFeedback::chave, chave),
+                                     Field(&EntradaFeedback::veredito, Categoria::PrecisaGpu))));
+    VramAuditViewModel vm{nullptr, std::make_shared<ServicoRegistrarFeedback>(repo)};
+    QSignalSpy spy{&vm, &VramAuditViewModel::feedbackRegistrado};
+
+    EXPECT_TRUE(vm.feedbackDisponivel());
+    vm.registrarFeedback(QStringLiteral("firefox"), QStringLiteral("PrecisaGpu"), QStringLiteral("WebGL"));
+    ASSERT_TRUE(spy.wait(2000));
+    EXPECT_TRUE(spy.first().at(0).toBool());
+}
+
+TEST(VramAuditViewModelTest, RegistrarFeedbackRecusaEntradaInvalidaDoQml) {
+    auto repo = std::make_shared<MockRepositorioFeedback>();
+    EXPECT_CALL(*repo, inserir(_)).Times(0);
+    VramAuditViewModel vm{nullptr, std::make_shared<ServicoRegistrarFeedback>(repo)};
+    QSignalSpy spy{&vm, &VramAuditViewModel::feedbackRegistrado};
+
+    vm.registrarFeedback(QStringLiteral("firefox"), QStringLiteral("Talvez"), QString{});
+    vm.registrarFeedback(QString{}, QStringLiteral("PrecisaGpu"), QString{});
+    vm.registrarFeedback(QString(300, QLatin1Char('x')), QStringLiteral("PrecisaGpu"), QString{});
+    ASSERT_EQ(spy.count(), 3);
+    for (const auto& args : spy) {
+        EXPECT_FALSE(args.at(0).toBool());
+    }
+}
+
+TEST(VramAuditViewModelTest, SemServicoDeFeedbackAcaoFicaIndisponivel) {
+    VramAuditViewModel vm{nullptr};
+    QSignalSpy spy{&vm, &VramAuditViewModel::feedbackRegistrado};
+    EXPECT_FALSE(vm.feedbackDisponivel());
+    vm.registrarFeedback(QStringLiteral("firefox"), QStringLiteral("PrecisaGpu"), QString{});
+    ASSERT_EQ(spy.count(), 1);
+    EXPECT_FALSE(spy.first().at(0).toBool());
 }
