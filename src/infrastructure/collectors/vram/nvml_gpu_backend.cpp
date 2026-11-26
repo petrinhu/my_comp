@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QString>
 
+#include <limits>
 #include <map>
 #include <utility>
 
@@ -79,6 +80,11 @@ NvmlGpuBackend::enumerar_processos_vram(int gpu_id) const {
 
     processos.reserve(por_pid.size());
     for (const auto& [pid, bytes] : por_pid) {
+        // PID 0 (contexto sem processo visível, ex.: container sem o namespace de PID do
+        // host) ou fora de int32 não identificam processo: PID{} lançaria (QA-13).
+        if (pid == 0 || pid > static_cast<std::uint32_t>(std::numeric_limits<std::int32_t>::max())) {
+            continue;
+        }
         const NvmlProcessoInfo r{.pid = pid, .bytes = bytes};
         const auto nome = ler_comm(m_proc_root, r.pid);
         std::vector<domain::vram::ChaveProcesso> chaves;

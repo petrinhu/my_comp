@@ -218,3 +218,25 @@ TEST(NvmlGpuBackendTest, ValorNaoDisponivelViraZero) {
     ASSERT_EQ(procs.size(), 1U);
     EXPECT_EQ(procs[0].vram_consumida().valor(), 0U);
 }
+
+// QA-13: o NVML pode reportar PID 0 (contexto sem processo visível, ex.: container sem o
+// namespace de PID do host) ou um valor que não cabe em int32. PID{} lança para não
+// positivos; dentro da auditoria (QtConcurrent) a exceção sumiria e a aba ficaria presa
+// em "ocupado". Esses registros são descartados.
+TEST(NvmlGpuBackendTest, DescartaPidZeroOuForaDeInt32SemLancar) {
+    QTemporaryDir tmp;
+    ASSERT_TRUE(tmp.isValid());
+    escrever_comm(tmp.path(), 500, QStringLiteral("blender"));
+
+    auto adapter = std::make_shared<FakeNvmlAdapter>();
+    adapter->devices = {NvmlDeviceInfo{.nome = QStringLiteral("RTX"), .vram_total_bytes = 1ULL << 33}};
+    adapter->procs_por_idx = {{NvmlProcessoInfo{.pid = 0, .bytes = 100ULL << 20},
+                               NvmlProcessoInfo{.pid = 0xFFFFFFF0U, .bytes = 1ULL << 20},
+                               NvmlProcessoInfo{.pid = 500, .bytes = 200ULL << 20}}};
+
+    NvmlGpuBackend backend{adapter, tmp.path()};
+    std::vector<my_comp::domain::vram::Processo> procs;
+    ASSERT_NO_THROW(procs = backend.enumerar_processos_vram(0));
+    ASSERT_EQ(procs.size(), 1U);
+    EXPECT_EQ(procs[0].pid().valor(), 500);
+}

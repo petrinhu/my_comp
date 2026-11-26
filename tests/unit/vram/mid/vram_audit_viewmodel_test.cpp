@@ -1,4 +1,11 @@
 #include "application/vram/auditoria/relatorio_auditoria_vram.h"
+#include "application/vram/auditoria/servico_auditar_vram_atual.h"
+#include "application/vram/classificacao/servico_classificar_processo.h"
+#include "application/vram/classificacao/servico_sugerir_acao.h"
+#include "application/vram/configuracao/servico_localizar_config.h"
+#include "mocks/mock_classificador_processos.h"
+#include "mocks/mock_config_locator.h"
+#include "mocks/mock_gpu_backend.h"
 #include "application/vram/classificacao/sugestao_acao.h"
 #include "domain/vram/classificacao/categoria.h"
 #include "domain/vram/classificacao/justificativa.h"
@@ -193,4 +200,28 @@ TEST(VramAuditViewModelTest, SemServicoDeFeedbackAcaoFicaIndisponivel) {
     vm.registrarFeedback(QStringLiteral("firefox"), QStringLiteral("PrecisaGpu"), QString{});
     ASSERT_EQ(spy.count(), 1);
     EXPECT_FALSE(spy.first().at(0).toBool());
+}
+
+// QA-13: exceção dentro da auditoria (roda em QtConcurrent) sumia no future descartado e
+// deixava a aba presa em "ocupado". O VM precisa voltar a ficar disponível.
+TEST(VramAuditViewModelTest, FalhaInesperadaNaAuditoriaNaoPrendeOBusy) {
+    auto backend = std::make_shared<::testing::NiceMock<my_comp::tests::vram::MockGpuBackend>>();
+    ON_CALL(*backend, enumerar_gpus()).WillByDefault([]() -> std::vector<GpuInfo> {
+        throw std::runtime_error("driver respondeu lixo");
+    });
+    auto servico = std::make_shared<my_comp::application::vram::ServicoAuditarVramAtual>(
+        backend,
+        std::make_shared<my_comp::application::vram::ServicoClassificarProcesso>(
+            std::make_shared<::testing::NiceMock<my_comp::tests::vram::MockClassificadorProcessos>>()),
+        std::make_shared<my_comp::application::vram::ServicoSugerirAcao>(),
+        std::make_shared<my_comp::application::vram::ServicoLocalizarConfig>(
+            std::make_shared<::testing::NiceMock<my_comp::tests::vram::MockConfigLocator>>()));
+
+    VramAuditViewModel vm{servico};
+    QSignalSpy busy(&vm, &VramAuditViewModel::isBusyChanged);
+    vm.refresh();
+    ASSERT_TRUE(vm.isBusy());
+    ASSERT_TRUE(busy.wait(3000));
+    EXPECT_FALSE(vm.isBusy());
+    EXPECT_TRUE(vm.grupos().isEmpty());
 }

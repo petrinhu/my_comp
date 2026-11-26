@@ -1,5 +1,7 @@
 #include "presentation/viewmodels/vram_audit_viewmodel.h"
 
+#include <QDebug>
+
 #include <QMetaObject>
 #include <QString>
 #include <QVariantMap>
@@ -175,7 +177,16 @@ void VramAuditViewModel::refresh() {
 
     auto servico = m_servico;
     auto _future = QtConcurrent::run([this, servico]() {
-        const auto relatorio = servico->executar();
+        // QA-13: exceção aqui sumiria no future descartado e deixaria m_busy = true para
+        // sempre. Falha vira relatório vazio + aviso no log; a aba volta a responder.
+        application::vram::RelatorioAuditoriaVram relatorio;
+        try {
+            relatorio = servico->executar();
+        } catch (const std::exception& e) {
+            qWarning() << "[VRAM] auditoria falhou:" << e.what();
+        } catch (...) {
+            qWarning() << "[VRAM] auditoria falhou com exceção desconhecida";
+        }
         QMetaObject::invokeMethod(this, [this, relatorio]() {
             m_grupos = relatorio_to_variant(relatorio);
             emit gruposChanged();
