@@ -19,7 +19,16 @@ DRY_RUN=0
 cd "$(git rev-parse --show-toplevel)"
 
 if ! command -v git-cliff >/dev/null 2>&1; then
-    echo -e "${RED}[release] git-cliff não instalado. Instale com 'cargo install git-cliff' ou 'dnf install git-cliff'.${NC}"
+    echo -e "${RED}[release] git-cliff não instalado. Instale com 'cargo install git-cliff' ou 'pip install --user git-cliff'.${NC}"
+    exit 1
+fi
+
+# git-cliff < 2.14 responde "nothing to bump" neste histórico (merge commits + tags
+# legadas v0.3.x) mesmo com commits releasáveis: a release seria pulada em silêncio.
+GIT_CLIFF_MIN="2.14.0"
+GIT_CLIFF_VER="$(git-cliff --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)"
+if [ "$(printf '%s\n%s\n' "$GIT_CLIFF_MIN" "${GIT_CLIFF_VER:-0.0.0}" | sort -V | head -1)" != "$GIT_CLIFF_MIN" ]; then
+    echo -e "${RED}[release] git-cliff ${GIT_CLIFF_VER:-?} é antigo (mínimo ${GIT_CLIFF_MIN}). Atualize com 'cargo install git-cliff --force' ou 'pip install --user -U git-cliff'.${NC}"
     exit 1
 fi
 

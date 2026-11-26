@@ -25,7 +25,7 @@ fluxo pós-feature na [MC-08](../../GODS_LAWS.md#mc-08).
 | `v1.0.0` | `feat:` | `v1.1.0` |
 | `v1.1.0` | `fix:` | `v1.1.1` |
 
-`chore(release)` é ignorado pelo parser. Sair do pré-release (ex.: o marco
+O commit de bump `chore(release): vX.Y.Z` gerado pelo `release.sh` é ignorado pelo parser; outros `chore(release)` entram como Manutenção. Requer git-cliff ≥ 2.14: o 2.13 responde "nothing to bump" neste histórico (merge commits + tags legadas `v0.3.x`), e o `release.sh` aborta com versão antiga. Sair do pré-release (ex.: o marco
 `BT-04` cortar `v1.0.0-beta.0`) é decisão consciente: tag manual, não bump automático.
 
 ## Fluxo prático
