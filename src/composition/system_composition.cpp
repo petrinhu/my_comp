@@ -38,7 +38,7 @@ SystemViewModels compor_sistema(const SharedInfrastructure& infra) {
     vms.firmware = std::make_unique<vm::FirmwareViewModel>(std::make_shared<col::DBusFirmwareProvider>());
     vms.gpu = std::make_unique<vm::GpuViewModel>(compor_gpu_providers(infra));
     vms.power = std::make_unique<vm::PowerViewModel>(std::make_shared<col::LinuxPowerProvider>());
-    vms.network = std::make_unique<vm::NetworkViewModel>(std::make_shared<col::LinuxNetworkProvider>(infra.shell));
+    vms.network = std::make_unique<vm::NetworkViewModel>(std::make_shared<col::LinuxNetworkProvider>(infra.shell), infra.preferences);
     vms.system_info = std::make_unique<vm::SystemInfoViewModel>(std::make_shared<col::LinuxSystemInfoProvider>(infra.shell));
     vms.user_metadata = std::make_unique<vm::UserMetadataViewModel>(std::make_shared<col::LinuxUserMetadataProvider>(infra.shell));
     vms.hardware = std::make_unique<vm::HardwareViewModel>(std::make_shared<col::LinuxHardwareProvider>(infra.shell));

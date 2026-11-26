@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "../unit/fakes/in_memory_preferences_store.h"
 #include <gmock/gmock.h>
 #include <memory>
 #include <QSignalSpy>
@@ -22,7 +23,8 @@ TEST(ExportSystemAcceptance, ShouldConsolidateAndExportData) {
     char* argv[] = {arg0};
     QCoreApplication app(argc, argv);
 
-    ExportViewModel vm;
+    // Histórico em memória: o teste não toca no QSettings do usuário.
+    ExportViewModel vm(std::make_shared<my_comp::application::ExportHistory>(std::make_shared<my_comp::tests::InMemoryPreferencesStore>()));
     auto mock = std::make_unique<MockExportProvider>();
     
     EXPECT_CALL(*mock, export_report(_, _)).WillOnce(Return(true));

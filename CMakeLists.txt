@@ -75,6 +75,7 @@ set(CORE_SOURCES
     src/infrastructure/exporters/markdown_export_provider.cpp
     src/infrastructure/exporters/html_export_provider.cpp
     src/infrastructure/security/openssl_vault.cpp
+    src/infrastructure/persistence/qsettings_preferences_store.cpp
     src/presentation/viewmodels/update_viewmodel.cpp
     src/presentation/viewmodels/update_package_model.cpp
     src/presentation/viewmodels/diagnostic_viewmodel.cpp
@@ -235,6 +236,7 @@ set(UNIT_TEST_SOURCES
     tests/unit/toolchain_catalog_test.cpp
     tests/unit/linux_hardware_usb_test.cpp
     tests/unit/linux_hardware_smbios_test.cpp
+    tests/unit/qsettings_preferences_store_test.cpp
     
 
 

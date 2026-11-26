@@ -3,6 +3,7 @@
 #include <QTimer>
 #include <memory>
 #include "../../domain/interfaces/i_network_provider.h"
+#include "../../domain/interfaces/i_preferences_store.h"
 
 namespace my_comp::presentation::viewmodels {
 
@@ -13,11 +14,13 @@ class NetworkViewModel : public QObject {
     Q_PROPERTY(double latency READ latency NOTIFY statsChanged)
     Q_PROPERTY(QString activeInterface READ activeInterface NOTIFY statsChanged)
     Q_PROPERTY(QString status READ status NOTIFY statsChanged)
-    // MC-10: ping a host externo só com opt-in explícito; persistido em QSettings.
+    // MC-10: ping a host externo só com opt-in explícito; persistido no IPreferencesStore.
     Q_PROPERTY(bool externalProbeEnabled READ externalProbeEnabled WRITE setExternalProbeEnabled NOTIFY externalProbeEnabledChanged)
 
 public:
-    explicit NetworkViewModel(std::shared_ptr<domain::interfaces::INetworkProvider> provider, QObject *parent = nullptr);
+    explicit NetworkViewModel(std::shared_ptr<domain::interfaces::INetworkProvider> provider,
+                              std::shared_ptr<domain::interfaces::IPreferencesStore> preferences,
+                              QObject *parent = nullptr);
 
     double totalRx() const { return m_stats.total_rx_mbps; }
     double totalTx() const { return m_stats.total_tx_mbps; }
@@ -40,6 +43,7 @@ signals:
 
 private:
     std::shared_ptr<domain::interfaces::INetworkProvider> m_provider;
+    std::shared_ptr<domain::interfaces::IPreferencesStore> m_preferences;
     domain::models::NetworkStats m_stats;
     QTimer* m_timer = nullptr;
     bool m_busy = false;

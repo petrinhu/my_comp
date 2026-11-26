@@ -1,13 +1,15 @@
 #include "composition/shared_infrastructure.h"
 
 #include "infrastructure/collectors/qprocess_shell_executor.h"
+#include "infrastructure/persistence/qsettings_preferences_store.h"
 
 #include <QStandardPaths>
 
 namespace my_comp::composition {
 
 SharedInfrastructure compor_infra_compartilhada() {
-    return {.shell = std::make_shared<infrastructure::collectors::QProcessShellExecutor>()};
+    return {.shell = std::make_shared<infrastructure::collectors::QProcessShellExecutor>(),
+            .preferences = std::make_shared<infrastructure::persistence::QSettingsPreferencesStore>()};
 }
 
 bool ferramenta_disponivel(const QString& nome) {
