@@ -36,7 +36,7 @@ std::optional<QString> profileDefaultDeIni(const QByteArray& ini) {
             secao_atual = trimmed.mid(1, trimmed.size() - 2);
             continue;
         }
-        const int eq = trimmed.indexOf(QLatin1Char('='));
+        const qsizetype eq = trimmed.indexOf(QLatin1Char('='));
         if (eq <= 0) {
             continue;
         }

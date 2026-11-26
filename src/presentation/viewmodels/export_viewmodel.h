@@ -58,7 +58,12 @@ private:
     QPointer<DevStackViewModel> m_devVM;
 
     domain::models::ReportData collect_all_data();
-    void append_to_history(const QString& format_name, const QString& filePath);
+    // Struct em vez de dois QString adjacentes: impossível trocar formato e caminho (bugprone-easily-swappable-parameters).
+    struct HistoryEntry {
+        QString format_name;
+        QString file_path;
+    };
+    void append_to_history(const HistoryEntry& item);
 };
 
 }
