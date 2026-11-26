@@ -41,7 +41,7 @@ signals:
 private:
     std::shared_ptr<domain::interfaces::INetworkProvider> m_provider;
     domain::models::NetworkStats m_stats;
-    QTimer *m_timer;
+    QTimer* m_timer = nullptr;
     bool m_busy = false;
     bool m_external_probe_enabled = false;
     bool m_preferences_loaded = false;

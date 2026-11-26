@@ -23,7 +23,7 @@ private:
     std::shared_ptr<domain::interfaces::IPowerProvider> m_provider;
     double m_power = 0.0;
     double m_percent = 0.0;
-    QTimer* m_timer;
+    QTimer* m_timer = nullptr;
     bool m_initialized = false;
 };
 }

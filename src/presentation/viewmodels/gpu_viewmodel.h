@@ -33,7 +33,7 @@ private:
     // shared_ptr: o worker mantém os providers vivos mesmo se o VM morrer durante a coleta.
     std::vector<std::shared_ptr<domain::interfaces::IGpuProvider>> m_providers;
     QVariantList m_gpus;
-    QTimer* m_timer;
+    QTimer* m_timer = nullptr;
     bool m_initialized = false;
     bool m_busy = false;
     bool m_has_emitted = false;

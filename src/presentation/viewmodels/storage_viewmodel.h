@@ -53,7 +53,7 @@ private:
     domain::models::StorageStats m_stats;
     QVariantList m_drives;
     QVariantMap m_last_benchmark;
-    QTimer *m_timer;
+    QTimer* m_timer = nullptr;
     bool m_busy = false;
     bool m_inventory_busy = false;
     bool m_benchmarking = false;
