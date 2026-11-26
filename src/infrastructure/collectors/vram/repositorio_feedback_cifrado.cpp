@@ -52,6 +52,7 @@ QString texto_do_tipo(domain::vram::TipoChave t) {
     return QStringLiteral("?");
 }
 
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters): tipo é um de três literais validados; trocar com valor falha na validação.
 std::optional<domain::vram::ChaveProcesso> chave_de(const QString& tipo, const QString& valor) {
     if (valor.isEmpty() || valor.size() > TAMANHO_MAXIMO_VALOR) {
         return std::nullopt;

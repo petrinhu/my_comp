@@ -50,9 +50,9 @@ public:
 
 private:
     struct Amostra {
-        std::chrono::steady_clock::time_point quando;
-        domain::vram::BytesDeMemoria                vram;
-        domain::vram::BytesDeMemoria                vram_total_gpu;
+        std::chrono::steady_clock::time_point quando{};
+        domain::vram::BytesDeMemoria          vram{0};
+        domain::vram::BytesDeMemoria          vram_total_gpu{0};
     };
     struct HistoricoDoPid {
         QString             nome;      // PID reaproveitado por outro binário zera o histórico

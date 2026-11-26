@@ -24,7 +24,7 @@ namespace my_comp::infrastructure::vram {
 namespace {
 
 constexpr int VERSAO_SUPORTADA = 1;
-constexpr qsizetype TAMANHO_MAXIMO_JSON = 1024 * 1024;  // o catálogo real tem poucos KiB
+constexpr qsizetype TAMANHO_MAXIMO_JSON = qsizetype{1024} * 1024;  // o catálogo real tem poucos KiB
 constexpr qsizetype TAMANHO_MAXIMO_CAMPO = 512;
 constexpr qsizetype MAXIMO_CHAVES_POR_LISTA = 64;
 constexpr QLatin1String CAMINHO_RECURSO{":/vram/catalogo.json"};
@@ -44,7 +44,7 @@ std::optional<QString> texto_obrigatorio(const QJsonObject& obj, const QString& 
     if (!v.isString()) {
         return std::nullopt;
     }
-    const auto s = v.toString().trimmed();
+    auto s = v.toString().trimmed();
     if (s.isEmpty() || s.size() > TAMANHO_MAXIMO_CAMPO) {
         return std::nullopt;
     }

@@ -185,6 +185,7 @@ void VramAuditViewModel::refresh() {
     });
 }
 
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters): API Q_INVOKABLE recebe strings do QML; categoria é validada contra dois literais.
 void VramAuditViewModel::registrarFeedback(const QString& chave_binario,
                                            const QString& categoria,
                                            const QString& motivo) {
