@@ -108,6 +108,8 @@ Esta seção é preenchida pela Fase 2. Cada entrada registra o comando usado, o
 
 - **HW-01b (2026-11-26)**: SMBIOS sem o fallback "Unknown": campo ausente ou placeholder de firmware ("To Be Filled By O.E.M.", "Default string", "Not Specified"...) fica vazio (UI mostra "—"); campo que existe mas exige root (serial 0400) entra em `SmbiosInfo::restrictedFields` e a UI mostra "🔒 requer root". Diretório DMI injetável; teste de permissão validado rodando como `nobody` (o container é root).
 
+- **QA-05 (2026-11-26, parcial: contraste)**: auditoria da paleta achou 88 pares texto/fundo abaixo de 4,5:1 (no tema claro, `success` tinha 1,84:1, `warning` 1,92:1; texto branco sobre os toasts 2,1:1). Cores semânticas ganharam variante por tema (mesma matiz, luminosidade ajustada), toasts têm fundos próprios e o destaque da navegação usa `Theme.navActiveOpacity` (0,12). Novo gate `scripts/check_contrast.py` (estágio `wcag` do `ci.sh`) lê o `Theme.qml` e reprova qualquer par < 4,5:1 nos dois temas: 0 falhas. **Falta**: navegação por teclado (Tab/Enter; ações de serviço só por duplo-clique), `Accessible.name` em botões só com emoji, e texto com `opacity` < 1 em `VramProcessItem`/`VramConfigOrigin` (aguarda o merge da VRAM).
+
 ## TABELA UNIFICADA
 
 | ID | Onda | Grupo | Descrição Técnica | Prioridade | Pré-requisito | Dificuldade | Status | Estado Auditado |
@@ -278,7 +280,7 @@ Esta seção é preenchida pela Fase 2. Cada entrada registra o comando usado, o
 | QA-02 | — | 🔎 AU | T2 — Clang-Tidy + CppCheck sem `bugprone-*`/`security-*`/`cert-*` | Alta | — | Baixa | ✅ Concluído | ✓ |
 | QA-03 | — | 🧪 TES | T3 — Suite ATDD (19 arquivos) | Alta | QA-01 | Alta | ⏳ Pendente | — |
 | QA-04 | — | 🔎 AU | T4 — Valgrind/ASan zero *definitely lost* e zero ERROR SUMMARY. **Zero vazamentos no nosso código**; suppressions em `valgrind.supp` para Intel VA-API (libmfx), libcuda, libavutil, libdrm, NVIDIA, Qt DBus metaobject cache, libdbus. 2 erros residuais são bugs de `posix_memalign(0)` em libnvidia-glcore | Alta | QA-01 | Alta | ✅ Concluído | ✓ |
-| QA-05 | — | 🔎 AU | A3 — WCAG AA (contraste ≥4,5:1, Tab/Enter, tooltips) | Média | DB-06, UX-01 | Média | ⏳ Pendente | — |
+| QA-05 | — | 🔎 AU | A3 — WCAG AA (contraste ≥4,5:1, Tab/Enter, tooltips) | Média | DB-06, UX-01 | Média | 🟡 Parcial | ⚠ |
 | QA-06 | — | 🧪 TES | A6 — Cobertura LCOV medida em `src/domain/` e serviços (sem meta numérica, MC-07) | Média | QA-01, QA-03 | Alta | ⏳ Pendente | — |
 | QA-07 | — | 🔎 AU | A9 — Análise SOLID/SRP (classes >300 linhas, ciclos de include) | Alta | AR-01, AR-02 | Alta | ⏳ Pendente | — |
 | QA-08 | — | 🔎 AU | A10 — Relatório final de auditoria consolidado | Alta | QA-01, QA-02, QA-03, QA-04, QA-05, QA-06, QA-07 | Baixa | ⏳ Pendente | — |

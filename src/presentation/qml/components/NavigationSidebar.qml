@@ -59,7 +59,7 @@ Rectangle {
                 ToolTip.text: modelData.name
                 background: Rectangle {
                     color: navDelegate.highlighted ? Theme.highlightColor : (navDelegate.hovered ? Theme.hoverColor : "transparent")
-                    opacity: navDelegate.highlighted ? 0.2 : 1.0
+                    opacity: navDelegate.highlighted ? Theme.navActiveOpacity : 1.0
                     radius: 6
                 }
                 contentItem: RowLayout {

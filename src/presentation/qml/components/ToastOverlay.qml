@@ -12,9 +12,9 @@ Item {
     z: 1000
 
     // Cores da paleta central (Theme); podem ser sobrescritas por quem instancia.
-    property color successColor: Theme.successColor
-    property color errorColor: Theme.errorColor
-    property color infoColor: Theme.infoColor
+    property color successColor: Theme.toastSuccessBg
+    property color errorColor: Theme.toastErrorBg
+    property color infoColor: Theme.toastInfoBg
     property color contrastTextColor: Theme.contrastTextColor
     readonly property int autoDismissMs: 4000
 

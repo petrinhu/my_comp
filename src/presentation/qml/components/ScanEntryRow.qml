@@ -36,7 +36,7 @@ RowLayout {
     }
     Text {
         text: qsTr("%1 arq · %2 dir").arg(scanEntryRow.entry.fileCount).arg(scanEntryRow.entry.dirCount)
-        color: Theme.textColor; opacity: 0.6; font.pixelSize: 10
+        color: Theme.mutedTextColor; font.pixelSize: 10 // sem opacity: texto translúcido perde contraste (WCAG)
         Layout.preferredWidth: 120
     }
 }
