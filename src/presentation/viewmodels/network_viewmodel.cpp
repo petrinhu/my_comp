@@ -42,7 +42,7 @@ void NetworkViewModel::refresh() {
     if (m_busy) return;
     m_busy = true;
 
-    QPointer<NetworkViewModel> self(this);
+    const QPointer<NetworkViewModel> self(this);
     auto provider = m_provider;
     (void)QtConcurrent::run([self, provider]() {
         auto stats = provider->collect_stats();

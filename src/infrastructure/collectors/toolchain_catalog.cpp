@@ -14,7 +14,7 @@ namespace {
 constexpr qint64 MAX_CATALOG_BYTES = 256 * 1024;
 
 bool has_control_char(const QString& s) {
-    for (QChar c : s) {
+    for (const QChar c : s) {
         if (c.category() == QChar::Other_Control) return true;
     }
     return false;

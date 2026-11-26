@@ -18,19 +18,19 @@ domain::models::PowerStats LinuxPowerProvider::collect_stats() {
         stats.status = read_sysfs(bat_path + "status").trimmed();
         stats.cycle_count = read_sysfs(bat_path + "cycle_count").toInt();
         
-        double voltage = read_sysfs(bat_path + "voltage_now").toDouble() / 1000000.0; // uV to V
-        double current = read_sysfs(bat_path + "current_now").toDouble() / 1000000.0; // uA to A
+        const double voltage = read_sysfs(bat_path + "voltage_now").toDouble() / 1000000.0; // uV to V
+        const double current = read_sysfs(bat_path + "current_now").toDouble() / 1000000.0; // uA to A
         stats.consumption_watts = std::abs(voltage * current);
         
-        double full = read_sysfs(bat_path + "charge_full").toDouble();
-        double design = read_sysfs(bat_path + "charge_full_design").toDouble();
+        const double full = read_sysfs(bat_path + "charge_full").toDouble();
+        const double design = read_sysfs(bat_path + "charge_full_design").toDouble();
         if (design > 0) {
             stats.health_percent = (full / design) * 100.0;
         }
     }
     
     // AC status
-    QString ac_path = "/sys/class/power_supply/ACAD/online";
+    const QString ac_path = "/sys/class/power_supply/ACAD/online";
     if (QFile::exists(ac_path)) {
         stats.is_ac_connected = (read_sysfs(ac_path).trimmed() == "1");
     }

@@ -169,7 +169,7 @@ QString choose_unit_name(const QFileInfo& exe) {
 
 domain::models::OperationResult SystemdServiceProvider::create_daemon(const QString& exe_path, const QString& params) {
     auto has_control_char = [](const QString& s) {
-        for (QChar c : s) {
+        for (const QChar c : s) {
             if (c == QChar('\n') || c == QChar('\r') || c == QChar('\0')) return true;
         }
         return false;

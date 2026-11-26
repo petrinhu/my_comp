@@ -62,10 +62,10 @@ QString LinuxProcessProvider::get_user_from_uid(unsigned int uid) {
 }
 
 std::vector<domain::models::ProcessInfo> LinuxProcessProvider::collect_processes() {
-    std::lock_guard<std::mutex> lock(m_mutex);
+    const std::lock_guard<std::mutex> lock(m_mutex);
     std::vector<domain::models::ProcessInfo> processes;
-    double current_uptime = get_system_uptime();
-    double delta_uptime = current_uptime - m_last_uptime;
+    const double current_uptime = get_system_uptime();
+    const double delta_uptime = current_uptime - m_last_uptime;
     
     // Conjunto de PIDs ativos nesta rodada para limpeza do cache
     std::vector<int> active_pids;
@@ -77,10 +77,10 @@ std::vector<domain::models::ProcessInfo> LinuxProcessProvider::collect_processes
             std::string filename = entry.path().filename().string();
             if (!std::all_of(filename.begin(), filename.end(), ::isdigit)) continue;
             
-            int pid = std::stoi(filename);
+            const int pid = std::stoi(filename);
             active_pids.push_back(pid);
 
-            std::string stat_path = entry.path().string() + "/stat";
+            const std::string stat_path = entry.path().string() + "/stat";
             std::ifstream stat_file(stat_path);
             if (!stat_file.is_open()) continue;
             
@@ -88,15 +88,15 @@ std::vector<domain::models::ProcessInfo> LinuxProcessProvider::collect_processes
             if (!std::getline(stat_file, line) || line.empty()) continue;
             
             // Parsing Robusto: (pid) (comm) state ppid ...
-            size_t open_paren = line.find('(');
-            size_t close_paren = line.find_last_of(')');
+            const size_t open_paren = line.find('(');
+            const size_t close_paren = line.find_last_of(')');
             if (open_paren == std::string::npos || close_paren == std::string::npos || close_paren <= open_paren) continue;
             
             domain::models::ProcessInfo p;
             p.pid = pid;
             p.command = QString::fromStdString(line.substr(open_paren + 1, close_paren - open_paren - 1));
             
-            std::string rest = line.substr(close_paren + 2);
+            const std::string rest = line.substr(close_paren + 2);
             std::stringstream ss(rest);
             
             char state_char;
@@ -123,10 +123,10 @@ std::vector<domain::models::ProcessInfo> LinuxProcessProvider::collect_processes
             }
 
             // CPU%
-            unsigned long long current_total_time = utime + stime;
+            const unsigned long long current_total_time = utime + stime;
             double cpu_usage = 0.0;
             if (m_last_samples.count(pid) && delta_uptime > 0) {
-                unsigned long long delta_time = current_total_time - m_last_samples[pid].total_time;
+                const unsigned long long delta_time = current_total_time - m_last_samples[pid].total_time;
                 cpu_usage = 100.0 * (static_cast<double>(delta_time) / static_cast<double>(m_hertz)) / delta_uptime;
             }
             m_last_samples[pid] = {utime, stime, current_total_time, current_uptime};
@@ -141,7 +141,7 @@ std::vector<domain::models::ProcessInfo> LinuxProcessProvider::collect_processes
                 p.memPercent = m_total_ram > 0 ? (100.0 * static_cast<double>(p.res) * 1024.0 / static_cast<double>(m_total_ram)) : 0.0;
 
                 // Tempo
-                long long seconds = static_cast<long long>(current_uptime) - static_cast<long long>(starttime / m_hertz);
+                const long long seconds = static_cast<long long>(current_uptime) - static_cast<long long>(starttime / m_hertz);
                 p.timeStr = QString("%1:%2:%3")
                     .arg(seconds / 3600, 2, 10, QChar('0'))
                     .arg((seconds % 3600) / 60, 2, 10, QChar('0'))
@@ -149,7 +149,7 @@ std::vector<domain::models::ProcessInfo> LinuxProcessProvider::collect_processes
             }
 
             // Usuario (Opcional, se falhar mantem nulo/vazio)
-            std::string status_path = entry.path().string() + "/status";
+            const std::string status_path = entry.path().string() + "/status";
             std::ifstream status_file(status_path);
             std::string s_line;
             while (std::getline(status_file, s_line)) {

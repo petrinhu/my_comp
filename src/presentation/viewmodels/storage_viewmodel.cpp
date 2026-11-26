@@ -31,7 +31,7 @@ void StorageViewModel::refresh() {
     if (m_busy) return;
     m_busy = true;
 
-    QPointer<StorageViewModel> self(this);
+    const QPointer<StorageViewModel> self(this);
     auto provider = m_provider;
     (void)QtConcurrent::run([self, provider]() {
         auto stats = provider->collect_stats();
@@ -49,7 +49,7 @@ void StorageViewModel::refreshInventory() {
     if (!m_inventory_provider || m_inventory_busy) return;
     m_inventory_busy = true;
 
-    QPointer<StorageViewModel> self(this);
+    const QPointer<StorageViewModel> self(this);
     auto provider = m_inventory_provider;
     auto smart = m_smart_provider;
     (void)QtConcurrent::run([self, provider, smart]() {
@@ -123,7 +123,7 @@ void StorageViewModel::runBenchmark(const QString& deviceName) {
     m_last_benchmark["running"] = true;
     emit benchmarkChanged();
 
-    QPointer<StorageViewModel> self(this);
+    const QPointer<StorageViewModel> self(this);
     auto provider = m_benchmark_provider;
     (void)QtConcurrent::run([self, provider, deviceName]() {
         auto result = provider->run(deviceName);
@@ -146,7 +146,7 @@ void StorageViewModel::runBenchmark(const QString& deviceName) {
 }
 
 QString StorageViewModel::totalThroughput() const {
-    double total = m_stats.total_read_mb_s + m_stats.total_write_mb_s;
+    const double total = m_stats.total_read_mb_s + m_stats.total_write_mb_s;
     if (total < 0.1) return "0 MB/s";
     return QString("%1 MB/s").arg(QLocale().toString(total, 'f', 1));
 }

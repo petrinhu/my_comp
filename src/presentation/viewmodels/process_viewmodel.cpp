@@ -13,7 +13,7 @@ ProcessViewModel::ProcessViewModel(std::shared_ptr<domain::interfaces::IProcessP
 }
 
 QVariantList ProcessViewModel::processes() const {
-    std::lock_guard<std::mutex> lock(m_dataMutex);
+    const std::lock_guard<std::mutex> lock(m_dataMutex);
     return m_processedList;
 }
 
@@ -21,7 +21,7 @@ void ProcessViewModel::setFilter(const QString& f) {
     if (m_filter != f) {
         m_filter = f;
         {
-            std::lock_guard<std::mutex> lock(m_dataMutex);
+            const std::lock_guard<std::mutex> lock(m_dataMutex);
             rebuildProcessedListLocked();
         }
         emit filterChanged();
@@ -33,7 +33,7 @@ void ProcessViewModel::setSortField(const QString& field) {
     if (m_sortField != field) {
         m_sortField = field;
         {
-            std::lock_guard<std::mutex> lock(m_dataMutex);
+            const std::lock_guard<std::mutex> lock(m_dataMutex);
             std::stable_sort(m_data.begin(), m_data.end(), [this](const auto& a, const auto& b) {
                 if (m_sortField == "cpu")  return m_sortAscending ? (a.cpuPercent < b.cpuPercent) : (a.cpuPercent > b.cpuPercent);
                 if (m_sortField == "mem")  return m_sortAscending ? (a.memPercent < b.memPercent) : (a.memPercent > b.memPercent);
@@ -52,7 +52,7 @@ void ProcessViewModel::setSortAscending(bool asc) {
     if (m_sortAscending != asc) {
         m_sortAscending = asc;
         {
-            std::lock_guard<std::mutex> lock(m_dataMutex);
+            const std::lock_guard<std::mutex> lock(m_dataMutex);
             std::stable_sort(m_data.begin(), m_data.end(), [this](const auto& a, const auto& b) {
                 if (m_sortField == "cpu")  return m_sortAscending ? (a.cpuPercent < b.cpuPercent) : (a.cpuPercent > b.cpuPercent);
                 if (m_sortField == "mem")  return m_sortAscending ? (a.memPercent < b.memPercent) : (a.memPercent > b.memPercent);
@@ -96,11 +96,11 @@ void ProcessViewModel::refresh() {
         m_refreshTimer->start(2000);
     }
 
-    QString sortField = m_sortField;
-    bool sortAscending = m_sortAscending;
-    QString filter = m_filter;
+    const QString sortField = m_sortField;
+    const bool sortAscending = m_sortAscending;
+    const QString filter = m_filter;
 
-    QPointer<ProcessViewModel> self(this);
+    const QPointer<ProcessViewModel> self(this);
     auto provider = m_provider;
     (void)QtConcurrent::run([self, provider, sortField, sortAscending]() {
         auto raw_data = provider->collect_processes();
@@ -118,7 +118,7 @@ void ProcessViewModel::refresh() {
             auto* vm = self.data();
             if (!vm) return;
             {
-                std::lock_guard<std::mutex> lock(vm->m_dataMutex);
+                const std::lock_guard<std::mutex> lock(vm->m_dataMutex);
                 vm->m_data = std::move(raw_data);
                 vm->rebuildProcessedListLocked();
             }
@@ -143,7 +143,7 @@ void ProcessViewModel::setPriority(int pid, int nice) {
 }
 
 void ProcessViewModel::sortData() {
-    std::lock_guard<std::mutex> lock(m_dataMutex);
+    const std::lock_guard<std::mutex> lock(m_dataMutex);
     std::stable_sort(m_data.begin(), m_data.end(), [this](const auto& a, const auto& b) {
         if (m_sortField == "cpu") {
             return m_sortAscending ? (a.cpuPercent < b.cpuPercent) : (a.cpuPercent > b.cpuPercent);

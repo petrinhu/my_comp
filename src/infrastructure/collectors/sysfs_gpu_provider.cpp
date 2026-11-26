@@ -22,13 +22,13 @@ QString vendor_name(const QString& vendor_id) {
 }
 
 double read_hwmon_temp(const QString& device_path) {
-    QDir hwmon_dir(device_path + "/hwmon");
+    const QDir hwmon_dir(device_path + "/hwmon");
     if (!hwmon_dir.exists()) return 0.0;
     const auto hwmons = hwmon_dir.entryList({"hwmon*"}, QDir::Dirs);
     for (const auto& h : hwmons) {
-        QString raw = read_first_line(device_path + "/hwmon/" + h + "/temp1_input");
+        const QString raw = read_first_line(device_path + "/hwmon/" + h + "/temp1_input");
         bool ok = false;
-        long long millideg = raw.toLongLong(&ok);
+        const long long millideg = raw.toLongLong(&ok);
         if (ok && millideg > 0) return static_cast<double>(millideg) / 1000.0;
     }
     return 0.0;
@@ -39,17 +39,17 @@ double read_hwmon_temp(const QString& device_path) {
 std::vector<domain::models::GpuStats> SysfsGpuProvider::collect_stats() {
     std::vector<domain::models::GpuStats> gpus;
 
-    QDir drm_dir(m_drm_root);
+    const QDir drm_dir(m_drm_root);
     if (!drm_dir.exists()) return gpus;
 
-    QRegularExpression card_re("^card\\d+$");
+    const QRegularExpression card_re("^card\\d+$");
     const QStringList entries = drm_dir.entryList({"card*"}, QDir::Dirs);
 
     for (const QString& card : entries) {
         if (!card_re.match(card).hasMatch()) continue;
 
-        QString device_path = m_drm_root + "/" + card + "/device";
-        QString vendor_id = read_first_line(device_path + "/vendor");
+        const QString device_path = m_drm_root + "/" + card + "/device";
+        const QString vendor_id = read_first_line(device_path + "/vendor");
         if (vendor_id.isEmpty()) continue;
 
         // NVIDIA é coberto pelo NvidiaGpuProvider via nvidia-smi
@@ -61,14 +61,14 @@ std::vector<domain::models::GpuStats> SysfsGpuProvider::collect_stats() {
         stats.model_name = card;
 
         bool ok = false;
-        double busy = read_first_line(device_path + "/gpu_busy_percent").toDouble(&ok);
+        const double busy = read_first_line(device_path + "/gpu_busy_percent").toDouble(&ok);
         if (ok) stats.load_percent = busy;
 
         constexpr uint64_t kMiB = 1024ULL * 1024ULL;
-        uint64_t vram_total_bytes = read_first_line(device_path + "/mem_info_vram_total").toULongLong(&ok);
+        const uint64_t vram_total_bytes = read_first_line(device_path + "/mem_info_vram_total").toULongLong(&ok);
         if (ok) stats.vram_total_mb = vram_total_bytes / kMiB;
 
-        uint64_t vram_used_bytes = read_first_line(device_path + "/mem_info_vram_used").toULongLong(&ok);
+        const uint64_t vram_used_bytes = read_first_line(device_path + "/mem_info_vram_used").toULongLong(&ok);
         if (ok) stats.vram_used_mb = vram_used_bytes / kMiB;
 
         if (stats.vram_total_mb > 0) {

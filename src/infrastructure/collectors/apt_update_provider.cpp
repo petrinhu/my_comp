@@ -14,13 +14,13 @@ std::vector<domain::models::UpdatePackage> AptUpdateProvider::check_updates() {
     // apt list --upgradable output:
     // package/distro version architecture [upgradable from: old_version]
     if (m_executor->execute("apt", {"list", "--upgradable"}, output) == 0) {
-        QStringList lines = output.split('\n', Qt::SkipEmptyParts);
+        const QStringList lines = output.split('\n', Qt::SkipEmptyParts);
         for (const QString& line : lines) {
             if (line.contains("Listing...")) continue;
             
             // Regex para capturar nome e versão
             // Ex: "bash/focal-updates 5.0-6ubuntu1.2 amd64 [upgradable from: 5.0-6ubuntu1.1]"
-            QRegularExpression re("^([^/]+)/\\S+\\s+(\\S+)\\s+\\S+\\s+\\[upgradable from:\\s+(\\S+)\\]");
+            const QRegularExpression re("^([^/]+)/\\S+\\s+(\\S+)\\s+\\S+\\s+\\[upgradable from:\\s+(\\S+)\\]");
             auto match = re.match(line.trimmed());
             if (match.hasMatch()) {
                 domain::models::UpdatePackage pkg;

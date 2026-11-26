@@ -13,11 +13,11 @@ void DiagnosticViewModel::refresh() {
     m_is_busy = true;
     emit isBusyChanged();
 
-    int filter = m_current_filter;
-    QString query = m_search_query;
-    int limit = m_log_limit;
+    const int filter = m_current_filter;
+    const QString query = m_search_query;
+    const int limit = m_log_limit;
 
-    QPointer<DiagnosticViewModel> self(this);
+    const QPointer<DiagnosticViewModel> self(this);
     auto manager = m_manager;
     (void)QtConcurrent::run([self, manager, filter, query, limit]() {
         auto logs = manager->fetch_all_logs(

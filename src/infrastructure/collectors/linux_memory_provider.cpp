@@ -37,7 +37,7 @@ domain::models::MemoryStats LinuxMemoryProvider::collect_stats() {
 }
 
 uint64_t LinuxMemoryProvider::parse_kb(const std::string& line) {
-    std::regex regex("(\\d+)");
+    const std::regex regex("(\\d+)");
     std::smatch match;
     if (std::regex_search(line, match, regex)) {
         return std::stoull(match[1]);

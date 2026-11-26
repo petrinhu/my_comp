@@ -31,7 +31,7 @@ void CpuViewModel::refresh() {
     if (!m_provider) return;
     m_busy = true;
 
-    QPointer<CpuViewModel> self(this);
+    const QPointer<CpuViewModel> self(this);
     auto provider = m_provider;
     (void)QtConcurrent::run([self, provider]() {
         auto stats = provider->collect_stats();

@@ -63,7 +63,7 @@ void HardwareViewModel::refresh() {
     if (m_busy) return;
     m_busy = true;
 
-    QPointer<HardwareViewModel> self(this);
+    const QPointer<HardwareViewModel> self(this);
     auto provider = m_provider;
     (void)QtConcurrent::run([self, provider]() {
         auto data = provider->collect_topology();

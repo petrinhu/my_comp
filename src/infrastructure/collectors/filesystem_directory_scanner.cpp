@@ -47,7 +47,7 @@ DirNode scan_recursive(const QString& path,
     if (cancel_token && cancel_token->load()) return node;
     if (skip_roots().contains(path)) { node.error = true; return node; }
 
-    QDir dir(path);
+    const QDir dir(path);
     if (!dir.exists()) { node.error = true; return node; }
 
     // Não seguir symlinks (QDir::NoSymLinks) para evitar ciclos e evasão fora do root.

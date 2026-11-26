@@ -14,7 +14,7 @@ namespace {
 QString md_escape(const QString& raw) {
     QString out;
     out.reserve(raw.size());
-    for (QChar c : raw) {
+    for (const QChar c : raw) {
         if (c == QLatin1Char('\n') || c == QLatin1Char('\r')) {
             out += QLatin1Char(' ');
         } else if (c == QLatin1Char('\\') || c == QLatin1Char('`') ||
@@ -62,7 +62,7 @@ bool MarkdownExportProvider::export_report(const domain::models::ReportData& dat
 
 QString MarkdownExportProvider::format_variant(const QVariant& v, int level) {
     QString result;
-    QString indent = QString(static_cast<qsizetype>(level) * 2, QLatin1Char(' '));
+    const QString indent = QString(static_cast<qsizetype>(level) * 2, QLatin1Char(' '));
 
     if (v.typeId() == QMetaType::QVariantList) {
         auto list = v.toList();

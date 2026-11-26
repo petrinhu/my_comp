@@ -210,7 +210,7 @@ void RepositorioFeedbackCifrado::carregar() const {
         return;
     }
     const QByteArrayView resto = QByteArrayView{bruto}.sliced(cab.size());
-    my_comp::domain::models::VaultData dados{
+    const my_comp::domain::models::VaultData dados{
         .ciphertext = vetor_de(resto.sliced(TAMANHO_IV + TAMANHO_TAG)),
         .iv         = vetor_de(resto.first(TAMANHO_IV)),
         .tag        = vetor_de(resto.sliced(TAMANHO_IV, TAMANHO_TAG)),

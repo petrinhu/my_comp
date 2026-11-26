@@ -15,7 +15,7 @@ bool JsonExportProvider::export_report(const domain::models::ReportData& data, c
     root["user"] = data.user;
     root["data"] = QJsonObject::fromVariantMap(data.sections);
 
-    QJsonDocument doc(root);
+    const QJsonDocument doc(root);
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly)) {
         qWarning() << "[JSONExporter] Failed to open file for writing:" << path;

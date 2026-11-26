@@ -32,7 +32,7 @@ void FirmwareViewModel::refresh() {
     emit isBusyChanged();
 
     // Executar em thread separada para não travar a UI (especialmente DBus pode demorar)
-    QPointer<FirmwareViewModel> self(this);
+    const QPointer<FirmwareViewModel> self(this);
     auto provider = m_provider;
     (void)QtConcurrent::run([self, provider]() {
         auto result = provider->get_devices();

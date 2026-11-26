@@ -18,7 +18,7 @@ domain::models::CpuStats LinuxCpuProvider::collect_stats() {
     
     double total_freq = 0;
     for (int i = 0; i < static_cast<int>(stats.cores.size()); ++i) {
-        double freq = read_freq_khz(i) / 1000.0;
+        const double freq = read_freq_khz(i) / 1000.0;
         stats.cores[i].frequency_mhz = freq;
         total_freq += freq;
     }
@@ -36,10 +36,10 @@ domain::models::CpuArchitecture LinuxCpuProvider::collect_architecture() {
     // 1. Ler /proc/cpuinfo
     std::ifstream cpuinfo("/proc/cpuinfo");
     std::string line;
-    std::regex model_regex("^model name\\s+:\\s+(.*)$");
-    std::regex vendor_regex("^vendor_id\\s+:\\s+(.*)$");
-    std::regex cores_regex("^cpu cores\\s+:\\s+(.*)$");
-    std::regex threads_regex("^siblings\\s+:\\s+(.*)$");
+    const std::regex model_regex("^model name\\s+:\\s+(.*)$");
+    const std::regex vendor_regex("^vendor_id\\s+:\\s+(.*)$");
+    const std::regex cores_regex("^cpu cores\\s+:\\s+(.*)$");
+    const std::regex threads_regex("^siblings\\s+:\\s+(.*)$");
     
     while (std::getline(cpuinfo, line)) {
         std::smatch match;
@@ -51,7 +51,7 @@ domain::models::CpuArchitecture LinuxCpuProvider::collect_architecture() {
     
     // 2. Ler Caches via /sys
     for (int i = 0; i < 4; ++i) {
-        std::string cache_path = "/sys/devices/system/cpu/cpu0/cache/index" + std::to_string(i);
+        const std::string cache_path = "/sys/devices/system/cpu/cpu0/cache/index" + std::to_string(i);
         if (fs::exists(cache_path)) {
             domain::models::CacheInfo ci;
             std::ifstream level_file(cache_path + "/level");
@@ -93,7 +93,7 @@ std::vector<CpuTime> LinuxCpuProvider::read_proc_stat() {
 double LinuxCpuProvider::read_temperature() {
     // Tenta encontrar uma zona térmica relevante
     for (int i = 0; i < 10; ++i) {
-        std::string path = "/sys/class/thermal/thermal_zone" + std::to_string(i) + "/temp";
+        const std::string path = "/sys/class/thermal/thermal_zone" + std::to_string(i) + "/temp";
         if (fs::exists(path)) {
             std::ifstream temp_file(path);
             long long temp_raw;
@@ -104,7 +104,7 @@ double LinuxCpuProvider::read_temperature() {
 }
 
 double LinuxCpuProvider::read_freq_khz(int cpu_id) {
-    std::string path = "/sys/devices/system/cpu/cpu" + std::to_string(cpu_id) + "/cpufreq/scaling_cur_freq";
+    const std::string path = "/sys/devices/system/cpu/cpu" + std::to_string(cpu_id) + "/cpufreq/scaling_cur_freq";
     if (fs::exists(path)) {
         std::ifstream freq_file(path);
         double freq;
@@ -121,10 +121,10 @@ void LinuxCpuProvider::update_load(domain::models::CpuStats& stats) {
     }
     
     for (size_t i = 0; i < current.size(); ++i) {
-        long long total_diff = current[i].total() - m_last_samples[i].total();
-        long long active_diff = current[i].active() - m_last_samples[i].active();
+        const long long total_diff = current[i].total() - m_last_samples[i].total();
+        const long long active_diff = current[i].active() - m_last_samples[i].active();
         
-        double load = (total_diff > 0) ? (100.0 * static_cast<double>(active_diff) / static_cast<double>(total_diff)) : 0.0;
+        const double load = (total_diff > 0) ? (100.0 * static_cast<double>(active_diff) / static_cast<double>(total_diff)) : 0.0;
         
         if (i == 0) {
             stats.total_load = load;

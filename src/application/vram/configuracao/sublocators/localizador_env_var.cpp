@@ -45,7 +45,7 @@ LocalizadorEnvVar::localizar(const domain::vram::Processo& processo) const {
         if (valor.isEmpty() || !alvo.valores_ativos.contains(valor)) {
             continue;
         }
-        domain::vram::OrigemConfig o{
+        const domain::vram::OrigemConfig o{
             .categoria = domain::vram::CategoriaOrigem::PrimeEnv,
             .tipo = QStringLiteral("env-var"),
             .caminho = QStringLiteral("/proc/%1/environ").arg(processo.pid().valor()),

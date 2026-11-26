@@ -46,7 +46,7 @@ LocalizadorDesktopWrapper::localizar(const domain::vram::Processo& processo) con
 
     const QString sem_wrapper = reconstruir_sem_primeiro_token(tokens);
 
-    domain::vram::OrigemConfig o{
+    const domain::vram::OrigemConfig o{
         .categoria = domain::vram::CategoriaOrigem::DesktopWrapper,
         .tipo = QStringLiteral("desktop-exec"),
         .caminho = entrada_opt->caminho_arquivo,
