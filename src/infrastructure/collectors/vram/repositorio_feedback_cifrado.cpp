@@ -17,6 +17,7 @@
 #include <openssl/crypto.h>
 
 #include <algorithm>
+#include <limits>
 #include <exception>
 #include <utility>
 #include <vector>
@@ -33,6 +34,8 @@ constexpr qsizetype TAMANHO_TAG             = 16;
 constexpr qint64    TAMANHO_MAXIMO_ARQUIVO  = 4LL * 1024 * 1024;
 constexpr qsizetype TAMANHO_MAXIMO_VALOR    = 512;
 constexpr qsizetype TAMANHO_MAXIMO_MOTIVO   = 2048;
+// Maior id aceito: "id + 1" (próximo id livre) precisa caber em int (AUDIT-33).
+constexpr int       ID_MAXIMO               = std::numeric_limits<int>::max() - 1;
 constexpr auto      PERMISSOES_SO_DONO      = QFileDevice::ReadOwner | QFileDevice::WriteOwner;
 constexpr auto      PERMISSOES_DIR_SO_DONO  =
     QFileDevice::ReadOwner | QFileDevice::WriteOwner | QFileDevice::ExeOwner;
@@ -118,7 +121,7 @@ std::optional<domain::vram::EntradaFeedback> de_json(const QJsonValue& v) {
     const auto valor = o.value(QStringLiteral("valor_chave"));
     const auto veredito = o.value(QStringLiteral("veredito"));
     const auto motivo = o.value(QStringLiteral("motivo"));
-    if (id <= 0 || !tipo.isString() || !valor.isString() || !veredito.isString()
+    if (id <= 0 || id > ID_MAXIMO || !tipo.isString() || !valor.isString() || !veredito.isString()
         || (!motivo.isUndefined() && !motivo.isString())) {
         return std::nullopt;
     }
@@ -247,7 +250,12 @@ void RepositorioFeedbackCifrado::carregar() const {
         maior_id = std::max(maior_id, e->id);
         m_entradas.push_back(std::move(*e));
     }
-    m_proximo_id = std::max(maior_id + 1, raiz.value(QStringLiteral("proximo_id")).toInt(1));
+    int proximo_lido = raiz.value(QStringLiteral("proximo_id")).toInt(1);
+    if (proximo_lido < 1 || proximo_lido > ID_MAXIMO) {
+        qWarning("feedback VRAM: proximo_id fora do intervalo ignorado");
+        proximo_lido = 1;
+    }
+    m_proximo_id = std::max(maior_id + 1, proximo_lido);
     m_somente_memoria = false;
 }
 
@@ -325,6 +333,10 @@ void RepositorioFeedbackCifrado::inserir(const domain::vram::EntradaFeedback& en
     domain::vram::EntradaFeedback nova = entrada;
     if (nova.id <= 0) {
         nova.id = m_proximo_id;
+    }
+    if (nova.id > ID_MAXIMO) {
+        qWarning("feedback VRAM: id %d fora do intervalo; entrada recusada", nova.id);
+        return;
     }
     m_proximo_id = std::max(m_proximo_id, nova.id + 1);
     m_entradas.removeIf([&nova](const domain::vram::EntradaFeedback& e) {

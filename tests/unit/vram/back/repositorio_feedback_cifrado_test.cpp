@@ -245,3 +245,43 @@ TEST(RepositorioFeedbackCifradoTest, EntradasDecifradasInvalidasSaoIgnoradas) {
     repo->inserir(feedback(QStringLiteral("novo"), Categoria::PrecisaGpu, QString{}));
     EXPECT_EQ(repo->buscar(ChaveProcesso::de_binario(QStringLiteral("novo")))->id, 10);
 }
+
+// AUDIT-33: achado do fuzzer (UBSan). id = INT_MAX no arquivo fazia "maior_id + 1"
+// estourar; o próximo id atribuído colidia com a entrada carregada e a apagava.
+TEST(RepositorioFeedbackCifradoTest, IdNoLimiteDoIntEhIgnoradoSemEstourar) {
+    QTemporaryDir tmp;
+    ASSERT_TRUE(tmp.isValid());
+    gravar_plaintext_cifrado(tmp.path(), R"({"versao": 1, "proximo_id": 3, "entradas": [
+        {"id": 2147483647, "tipo_chave": "binario", "valor_chave": "limite", "veredito": "PrecisaGpu",
+         "criado_em": "2023-11-14T22:13:20Z", "visto_em": "2023-11-14T22:13:20Z"},
+        {"id": 2, "tipo_chave": "binario", "valor_chave": "firefox", "veredito": "PrecisaGpu",
+         "criado_em": "2023-11-14T22:13:20Z", "visto_em": "2023-11-14T22:13:20Z"}
+    ]})");
+    auto repo = repo_em(tmp.path());
+    ASSERT_EQ(repo->listar_todos().size(), 1);
+    repo->inserir(feedback(QStringLiteral("novo"), Categoria::PrecisaGpu, QString{}));
+    EXPECT_EQ(repo->buscar(ChaveProcesso::de_binario(QStringLiteral("novo")))->id, 3);
+    EXPECT_EQ(repo->listar_todos().size(), 2);
+}
+
+TEST(RepositorioFeedbackCifradoTest, ProximoIdNoLimiteDoIntEhDescartado) {
+    QTemporaryDir tmp;
+    ASSERT_TRUE(tmp.isValid());
+    gravar_plaintext_cifrado(tmp.path(), R"({"versao": 1, "proximo_id": 2147483647, "entradas": [
+        {"id": 2, "tipo_chave": "binario", "valor_chave": "firefox", "veredito": "PrecisaGpu",
+         "criado_em": "2023-11-14T22:13:20Z", "visto_em": "2023-11-14T22:13:20Z"}
+    ]})");
+    auto repo = repo_em(tmp.path());
+    repo->inserir(feedback(QStringLiteral("novo"), Categoria::PrecisaGpu, QString{}));
+    EXPECT_EQ(repo->buscar(ChaveProcesso::de_binario(QStringLiteral("novo")))->id, 3);
+}
+
+TEST(RepositorioFeedbackCifradoTest, InserirComIdNoLimiteDoIntEhRecusado) {
+    QTemporaryDir tmp;
+    ASSERT_TRUE(tmp.isValid());
+    auto repo = repo_em(tmp.path());
+    auto e = feedback(QStringLiteral("limite"), Categoria::PrecisaGpu, QString{});
+    e.id = 2147483647;
+    repo->inserir(e);
+    EXPECT_TRUE(repo->listar_todos().isEmpty());
+}
