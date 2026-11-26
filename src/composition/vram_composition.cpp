@@ -21,6 +21,8 @@
 #include "infrastructure/collectors/vram/adaptadores_nulos.h"
 #include "infrastructure/collectors/vram/catalogo_classificacao_json.h"
 #include "infrastructure/collectors/vram/factory_gpu_backend.h"
+#include "infrastructure/collectors/vram/gpu_backend_com_historico.h"
+#include "infrastructure/collectors/vram/historico_amostras_vram.h"
 #include "infrastructure/collectors/vram/leitor_arquivo_config_fs.h"
 #include "infrastructure/collectors/vram/leitor_desktop_exec_xdg.h"
 #include "infrastructure/collectors/vram/leitor_desktop_file_xdg.h"
@@ -89,6 +91,15 @@ std::shared_ptr<domain::IRepositorioFeedback> compor_repositorio_feedback() {
         std::make_shared<my_comp::infrastructure::security::OpenSslVault>(), diretorio);
 }
 
+BackendComAmostrador compor_backend_com_amostrador(std::shared_ptr<domain::IGpuBackend> backend_real) {
+    auto historico = std::make_shared<infrastructure::HistoricoAmostrasVram>();
+    return BackendComAmostrador{
+        .backend    = std::make_shared<infrastructure::GpuBackendComHistorico>(
+            std::move(backend_real), historico),
+        .amostrador = historico,
+    };
+}
+
 std::vector<QString> nomes_das_regras_da_cascata() {
     std::vector<QString> nomes;
     const FontesDaCascata nulas{
@@ -118,10 +129,12 @@ ServicosVram compor_servicos_vram() {
 
     // Mesma instância do repositório na regra (leitura) e no caso de uso (gravação).
     const auto repositorio_feedback = compor_repositorio_feedback();
+    // O amostrador da regra é alimentado pelo próprio backend que a auditoria consulta.
+    auto montado = compor_backend_com_amostrador(infrastructure::criarBackendCompositoDoSistema());
     const FontesDaCascata fontes{
         .repositorio_feedback = repositorio_feedback,
         .catalogo             = compor_catalogo_classificacao(),
-        .amostrador           = std::make_shared<infrastructure::AmostradorComportamentoNulo>(),
+        .amostrador           = montado.amostrador,
     };
 
     std::vector<std::shared_ptr<domain::IRegraClassificacao>> regras;
@@ -132,10 +145,9 @@ ServicosVram compor_servicos_vram() {
     auto svc_classif = std::make_shared<application::ServicoClassificarProcesso>(classif);
     auto svc_sugerir = std::make_shared<application::ServicoSugerirAcao>();
 
-    auto backend = infrastructure::criarBackendCompositoDoSistema();
     return ServicosVram{
         .auditar = std::make_shared<application::ServicoAuditarVramAtual>(
-            backend, svc_classif, svc_sugerir, svc_localizar),
+            std::move(montado.backend), svc_classif, svc_sugerir, svc_localizar),
         .registrar_feedback =
             std::make_shared<application::ServicoRegistrarFeedback>(repositorio_feedback),
     };

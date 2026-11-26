@@ -5,7 +5,9 @@
 
 #include "application/vram/auditoria/servico_auditar_vram_atual.h"
 #include "application/vram/feedback/servico_registrar_feedback.h"
+#include "domain/vram/interfaces/i_amostrador_comportamento.h"
 #include "domain/vram/interfaces/i_catalogo_classificacao.h"
+#include "domain/vram/interfaces/i_gpu_backend.h"
 #include "domain/vram/interfaces/i_repositorio_feedback.h"
 
 #include <QString>
@@ -33,6 +35,16 @@ struct ServicosVram {
 // Feedback do usuário cifrado via ISecurityVault em AppDataLocation/vram (VRAM-07).
 // Construir não toca o disco: a carga é preguiçosa, no primeiro acesso.
 [[nodiscard]] std::shared_ptr<domain::IRepositorioFeedback> compor_repositorio_feedback();
+
+// Backend da auditoria + amostrador da RegraComportamento (VRAM-08): cada enumeração de
+// processos feita pela auditoria vira uma amostra; a regra agrega a janela sem esperar.
+struct BackendComAmostrador {
+    std::shared_ptr<domain::IGpuBackend>              backend;
+    std::shared_ptr<domain::IAmostradorComportamento> amostrador;
+};
+
+[[nodiscard]] BackendComAmostrador compor_backend_com_amostrador(
+    std::shared_ptr<domain::IGpuBackend> backend_real);
 
 // Ordem efetiva da cascata de classificação (primeira regra que opina vence).
 [[nodiscard]] std::vector<QString> nomes_das_regras_da_cascata();

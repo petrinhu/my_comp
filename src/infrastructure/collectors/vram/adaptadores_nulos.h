@@ -2,9 +2,9 @@
 
 // Null objects para as regras da cascata cujas fontes de dados ainda não existem.
 // Cada um faz a regra correspondente se abster (std::nullopt), sem inventar veredito.
-// Catálogo (catalogo_classificacao_json.h) e feedback (repositorio_feedback_cifrado.h)
-// já têm implementação real; os vazios ficam para testes e montagens sem fonte.
-// Pendência: amostragem temporal por processo (VRAM-08).
+// Catálogo (catalogo_classificacao_json.h), feedback (repositorio_feedback_cifrado.h) e
+// amostrador (historico_amostras_vram.h) já têm implementação real; os null objects
+// ficam para testes e para montar a cascata só para listar a ordem das regras.
 
 #include "domain/vram/amostra/amostra_janela.h"
 #include "domain/vram/interfaces/i_amostrador_comportamento.h"

@@ -3,6 +3,11 @@
 #include "domain/vram/classificacao/categoria.h"
 #include "domain/vram/valueobjects/chave_processo.h"
 #include "infrastructure/collectors/vram/repositorio_feedback_cifrado.h"
+#include "mocks/mock_gpu_backend.h"
+
+#include <gmock/gmock.h>
+
+#include <chrono>
 
 #include <gtest/gtest.h>
 
@@ -45,4 +50,33 @@ TEST(ComposicaoVramTest, ServicosVramIncluemRegistroDeFeedback) {
     const auto servicos = vramopt::composition::compor_servicos_vram();
     EXPECT_NE(servicos.auditar, nullptr);
     EXPECT_NE(servicos.registrar_feedback, nullptr);
+}
+
+// VRAM-08: o backend usado pela auditoria alimenta o amostrador da RegraComportamento.
+TEST(ComposicaoVramTest, BackendDaAuditoriaAlimentaOAmostrador) {
+    using vramopt::domain::BytesDeMemoria;
+    using vramopt::domain::ChaveProcesso;
+    using vramopt::domain::Fabricante;
+    using vramopt::domain::GpuInfo;
+    using vramopt::domain::NomeProcesso;
+    using vramopt::domain::PID;
+    using vramopt::domain::Processo;
+    using ::testing::Return;
+
+    auto real = std::make_shared<vramopt::tests::MockGpuBackend>();
+    EXPECT_CALL(*real, enumerarGpus()).WillOnce(Return(std::vector<GpuInfo>{
+        GpuInfo{0, Fabricante::Intel, QStringLiteral("Arc"), BytesDeMemoria::deMegabytes(4096)}}));
+    EXPECT_CALL(*real, enumerarProcessosVram(0)).WillOnce(Return(std::vector<Processo>{
+        Processo{PID{77}, NomeProcesso{QStringLiteral("foo")}, BytesDeMemoria::deMegabytes(40), 0,
+                 {ChaveProcesso::deBinario(QStringLiteral("foo"))}}}));
+
+    const auto montado = vramopt::composition::compor_backend_com_amostrador(real);
+    ASSERT_NE(montado.backend, nullptr);
+    ASSERT_NE(montado.amostrador, nullptr);
+    (void)montado.backend->enumerarGpus();
+    (void)montado.backend->enumerarProcessosVram(0);
+
+    const auto a = montado.amostrador->amostraJanela(PID{77}, std::chrono::seconds{30});
+    EXPECT_EQ(a.amostras, 1);
+    EXPECT_EQ(a.vram_media, BytesDeMemoria::deMegabytes(40));
 }

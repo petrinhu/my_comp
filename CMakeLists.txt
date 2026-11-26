@@ -152,6 +152,9 @@ set(CORE_SOURCES
     src/resources/vram/catalogo_vram.qrc
     # Feedback do usuário persistido via ISecurityVault (VRAM-07)
     src/infrastructure/collectors/vram/repositorio_feedback_cifrado.cpp
+    # Amostrador de comportamento alimentado pelas auditorias (VRAM-08)
+    src/infrastructure/collectors/vram/historico_amostras_vram.cpp
+    src/infrastructure/collectors/vram/gpu_backend_com_historico.cpp
     # Composition root (extensão do main.cpp)
     src/composition/vram_composition.cpp
     src/composition/shared_infrastructure.cpp
@@ -289,6 +292,7 @@ set(UNIT_TEST_SOURCES
     tests/unit/vram/back/catalogo_classificacao_json_test.cpp
     tests/unit/vram/back/repositorio_feedback_cifrado_test.cpp
     tests/unit/vram/mid/servico_registrar_feedback_test.cpp
+    tests/unit/vram/back/historico_amostras_vram_test.cpp
 )
 
 add_executable(unit_tests ${UNIT_TEST_SOURCES})
