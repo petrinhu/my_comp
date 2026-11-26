@@ -10,8 +10,9 @@
 
 namespace my_comp::infrastructure::collectors {
 
-LinuxDevStackProvider::LinuxDevStackProvider(std::shared_ptr<IShellExecutor> executor)
-    : m_executor(std::move(executor)) {}
+LinuxDevStackProvider::LinuxDevStackProvider(std::shared_ptr<IShellExecutor> executor,
+                                             std::vector<ToolchainSpec> catalog)
+    : m_executor(std::move(executor)), m_catalog(std::move(catalog)) {}
 
 domain::models::DevStackInfo LinuxDevStackProvider::collect_dev_stacks() {
     domain::models::DevStackInfo info;
@@ -21,8 +22,10 @@ domain::models::DevStackInfo LinuxDevStackProvider::collect_dev_stacks() {
 }
 
 QString LinuxDevStackProvider::get_version(const QString& cmd, const QStringList& args) {
-    QString output;
-    if (m_executor->execute(cmd, args, output) != 0) return {};
+    const auto r = m_executor->run_capturing(cmd, args);
+    if (r.exit_code != 0) return {};
+    // Algumas ferramentas (Java) imprimem a versão só no stderr.
+    const QString output = r.out.trimmed().isEmpty() ? r.err : r.out;
 
     const QString firstLine = output.split('\n', Qt::SkipEmptyParts).value(0).trimmed();
     // Extrai "X.Y" ou "X.Y.Z" de strings tipo "gcc (GCC) 14.0.1" / "go version go1.22.1 linux/amd64".
@@ -32,36 +35,21 @@ QString LinuxDevStackProvider::get_version(const QString& cmd, const QStringList
 }
 
 void LinuxDevStackProvider::collect_toolchains(domain::models::DevStackInfo& info) {
-    struct Tool { QString name; QString cmd; QStringList args; };
-    const Tool tools[] = {
-        {"GCC",     "gcc",     {"--version"}},
-        {"G++",     "g++",     {"--version"}},
-        {"Clang",   "clang",   {"--version"}},
-        {"Python",  "python3", {"--version"}},
-        {"Go",      "go",      {"version"}},
-        {"Rust",    "rustc",   {"--version"}},
-        {"Node.js", "node",    {"--version"}},
-        // Java escreve em stderr; usamos sh -c "... 2>&1" para redirecionar sem alterar IShellExecutor.
-        {"Java",    "sh",      {"-c", "java -version 2>&1"}}
-    };
-
-    // Paralelizado: cada toolchain executa em uma thread do pool. Ordem final preservada
-    // pela iteração sequencial sobre o array (i) após o wait-all.
-    constexpr std::size_t kCount = sizeof(tools) / sizeof(tools[0]);
-    QFuture<QString> futures[kCount];
+    // Paralelizado: cada ferramenta executa em uma thread do pool; a ordem do catálogo é
+    // preservada porque os resultados são lidos por índice depois do wait-all.
+    std::vector<QFuture<QString>> futures;
+    futures.reserve(m_catalog.size());
     QFutureSynchronizer<QString> sync;
-    for (std::size_t i = 0; i < kCount; ++i) {
-        futures[i] = QtConcurrent::run([this, t = tools[i]]() {
-            return get_version(t.cmd, t.args);
-        });
-        sync.addFuture(futures[i]);
+    for (const auto& tool : m_catalog) {
+        futures.push_back(QtConcurrent::run([this, tool]() { return get_version(tool.command, tool.args); }));
+        sync.addFuture(futures.back());
     }
     sync.waitForFinished();
 
-    for (std::size_t i = 0; i < kCount; ++i) {
+    for (std::size_t i = 0; i < m_catalog.size(); ++i) {
         const QString ver = futures[i].result();
         if (!ver.isEmpty()) {
-            info.toolchains.push_back({tools[i].name, ver});
+            info.toolchains.push_back({m_catalog[i].name, ver});
         }
     }
 }
