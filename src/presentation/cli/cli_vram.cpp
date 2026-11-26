@@ -6,7 +6,6 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include <utility>
 #include <vector>
 
 namespace my_comp::presentation::cli {
