@@ -709,6 +709,10 @@ grep -c "warning:" reports/clang_tidy_full.txt || echo "0"
 
 **Objetivo:** medir qual percentual do código é exercitado pelos testes.
 
+> **No my_comp:** rode `scripts/coverage.sh` (ou `scripts/coverage.sh --html`). Ele monta o build
+> instrumentado em `build_cov/`, roda a suíte inteira e imprime a cobertura de linhas por camada.
+> Os passos abaixo são a versão genérica com `lcov`.
+
 ```bash
 # Build com instrumentação de cobertura
 cmake -B build_cov \
