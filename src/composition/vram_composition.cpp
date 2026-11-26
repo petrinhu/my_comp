@@ -31,6 +31,7 @@
 #include "infrastructure/collectors/vram/repositorio_feedback_cifrado.h"
 #include "infrastructure/security/openssl_vault.h"
 
+#include <QDir>
 #include <QStandardPaths>
 
 #include <chrono>
@@ -117,10 +118,11 @@ ServicosVram compor_servicos_vram() {
     auto leitor_arq     = std::make_shared<infrastructure::vram::LeitorArquivoConfigFs>();
     auto leitor_environ = std::make_shared<infrastructure::vram::LeitorEnvironProc>();
     auto leitor_dexec   = std::make_shared<infrastructure::vram::LeitorDesktopExecXdg>();
+    const QString home  = QDir::homePath();
 
     std::vector<std::shared_ptr<domain::vram::IConfigLocator>> sublocs = {
-        std::make_shared<application::vram::LocalizadorBrowserChromium>(leitor_arq),
-        std::make_shared<application::vram::LocalizadorFirefox>(leitor_arq),
+        std::make_shared<application::vram::LocalizadorBrowserChromium>(leitor_arq, home),
+        std::make_shared<application::vram::LocalizadorFirefox>(leitor_arq, home),
         std::make_shared<application::vram::LocalizadorEnvVar>(leitor_environ),
         std::make_shared<application::vram::LocalizadorDesktopWrapper>(leitor_dexec),
     };

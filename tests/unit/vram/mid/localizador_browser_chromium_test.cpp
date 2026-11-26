@@ -43,21 +43,21 @@ Processo proc_firefox() {
 
 TEST(LocalizadorBrowserChromiumTest, AbstemQuandoNomeNaoCasaTabela) {
     auto leitor = std::make_shared<MockLeitorArquivoConfig>();
-    LocalizadorBrowserChromium loc{leitor};
+    LocalizadorBrowserChromium loc{leitor, QStringLiteral("/home/teste")};
     EXPECT_TRUE(loc.localizar(proc_firefox()).isEmpty());
 }
 
 TEST(LocalizadorBrowserChromiumTest, AbstemQuandoLocalStateAusente) {
     auto leitor = std::make_shared<MockLeitorArquivoConfig>();
     EXPECT_CALL(*leitor, ler(_)).WillOnce(Return(std::nullopt));
-    LocalizadorBrowserChromium loc{leitor};
+    LocalizadorBrowserChromium loc{leitor, QStringLiteral("/home/teste")};
     EXPECT_TRUE(loc.localizar(proc_brave()).isEmpty());
 }
 
 TEST(LocalizadorBrowserChromiumTest, AbstemQuandoJsonInvalido) {
     auto leitor = std::make_shared<MockLeitorArquivoConfig>();
     EXPECT_CALL(*leitor, ler(_)).WillOnce(Return(QByteArray{"{not valid json"}));
-    LocalizadorBrowserChromium loc{leitor};
+    LocalizadorBrowserChromium loc{leitor, QStringLiteral("/home/teste")};
     EXPECT_TRUE(loc.localizar(proc_brave()).isEmpty());
 }
 
@@ -65,7 +65,7 @@ TEST(LocalizadorBrowserChromiumTest, AbstemQuandoAceleracaoJaDesligada) {
     auto leitor = std::make_shared<MockLeitorArquivoConfig>();
     QByteArray json = R"({"hardware_acceleration_mode": {"enabled": false}})";
     EXPECT_CALL(*leitor, ler(_)).WillOnce(Return(json));
-    LocalizadorBrowserChromium loc{leitor};
+    LocalizadorBrowserChromium loc{leitor, QStringLiteral("/home/teste")};
     EXPECT_TRUE(loc.localizar(proc_brave()).isEmpty());
 }
 
@@ -73,7 +73,7 @@ TEST(LocalizadorBrowserChromiumTest, EmiteOrigemQuandoAceleracaoLigada) {
     auto leitor = std::make_shared<MockLeitorArquivoConfig>();
     QByteArray json = R"({"hardware_acceleration_mode": {"enabled": true}})";
     EXPECT_CALL(*leitor, ler(_)).WillOnce(Return(json));
-    LocalizadorBrowserChromium loc{leitor};
+    LocalizadorBrowserChromium loc{leitor, QStringLiteral("/home/teste")};
     auto origens = loc.localizar(proc_brave());
     ASSERT_EQ(origens.size(), 1);
     const auto& o = origens.first();
@@ -93,8 +93,19 @@ TEST(LocalizadorBrowserChromiumTest, EmiteOrigemQuandoChaveAusente) {
     auto leitor = std::make_shared<MockLeitorArquivoConfig>();
     QByteArray json = R"({"other_key": 42})";
     EXPECT_CALL(*leitor, ler(_)).WillOnce(Return(json));
-    LocalizadorBrowserChromium loc{leitor};
+    LocalizadorBrowserChromium loc{leitor, QStringLiteral("/home/teste")};
     auto origens = loc.localizar(proc_brave());
     ASSERT_EQ(origens.size(), 1);
     EXPECT_TRUE(origens.first().valor_atual.contains(QStringLiteral("default")));
+}
+
+// AUDIT-34 (MC-02): o home vem da composição; a camada de aplicação não consulta QDir.
+TEST(LocalizadorBrowserChromiumTest, UsaOHomeInjetado) {
+    auto leitor = std::make_shared<MockLeitorArquivoConfig>();
+    EXPECT_CALL(*leitor, ler(::testing::Truly([](const QString& path) {
+        return path.startsWith(QStringLiteral("/home/teste/"));
+    })))
+        .WillOnce(Return(std::nullopt));
+    const LocalizadorBrowserChromium loc{leitor, QStringLiteral("/home/teste")};
+    EXPECT_TRUE(loc.localizar(proc_brave()).isEmpty());
 }

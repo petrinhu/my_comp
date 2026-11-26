@@ -1,6 +1,5 @@
 #include "application/vram/configuracao/sublocators/localizador_firefox.h"
 
-#include <QDir>
 #include <QHash>
 #include <QRegularExpression>
 #include <QString>
@@ -85,8 +84,9 @@ const QVector<Chave>& chaves_firefox() {
 
 }
 
-LocalizadorFirefox::LocalizadorFirefox(std::shared_ptr<domain::vram::ILeitorArquivoConfig> leitor)
-    : m_leitor{std::move(leitor)} {}
+LocalizadorFirefox::LocalizadorFirefox(std::shared_ptr<domain::vram::ILeitorArquivoConfig> leitor,
+                                       QString home_dir)
+    : m_leitor{std::move(leitor)}, m_home_dir{std::move(home_dir)} {}
 
 QVector<domain::vram::OrigemConfig>
 LocalizadorFirefox::localizar(const domain::vram::Processo& processo) const {
@@ -94,7 +94,7 @@ LocalizadorFirefox::localizar(const domain::vram::Processo& processo) const {
         return {};
     }
 
-    const QString home = QDir::homePath();
+    const QString& home = m_home_dir;
     const QString profiles_ini = QStringLiteral("%1/.mozilla/firefox/profiles.ini").arg(home);
     auto ini_opt = m_leitor->ler(profiles_ini);
     if (!ini_opt.has_value()) {
