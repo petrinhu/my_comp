@@ -77,3 +77,18 @@ TEST(LinuxProcessProviderTest, SetPriorityRejectsSelfInitAndOutOfRangeNice) {
     EXPECT_FALSE(provider.set_priority(static_cast<int>(::getpid()), 20));
     EXPECT_FALSE(provider.set_priority(static_cast<int>(::getpid()), -21));
 }
+
+// AUDIT-30: o nome do próprio executável ("unit_tests") vem completo, com o caminho do cmdline.
+TEST(LinuxProcessProviderTest, ComandoDoProprioProcessoVemDoCmdline) {
+    LinuxProcessProvider provider;
+    const auto processes = provider.collect_processes();
+    const int my_pid = getpid();
+    for (const auto& p : processes) {
+        if (p.pid == my_pid) {
+            EXPECT_TRUE(p.command.contains(QStringLiteral("unit_tests"))) << p.command.toStdString();
+            EXPECT_GT(p.command.size(), 15);
+            return;
+        }
+    }
+    GTEST_SKIP() << "PID próprio não apareceu em /proc";
+}
