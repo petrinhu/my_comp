@@ -12,7 +12,15 @@ Rectangle {
 
     Layout.fillWidth: true; Layout.preferredHeight: 100; radius: 10
     color: ma.pressed ? Theme.hoverColor : Theme.cardColor
-    border.color: Theme.borderColor
+    // QA-05: focável por Tab, Enter/Espaço abrem o detalhe; borda destaca o foco.
+    activeFocusOnTab: true
+    border.color: activeFocus ? Theme.highlightColor : Theme.borderColor
+    border.width: activeFocus ? 2 : 1
+    Accessible.role: Accessible.Button
+    Accessible.name: qsTr("%1: %2").arg(card.title).arg(card.value)
+    Keys.onReturnPressed: card.clicked()
+    Keys.onEnterPressed: card.clicked()
+    Keys.onSpacePressed: card.clicked()
     scale: ma.pressed ? 0.98 : 1.0
     Behavior on scale { NumberAnimation { duration: 50 } }
     Behavior on color { ColorAnimation { duration: 150 } }

@@ -13,7 +13,7 @@ ScrollPage {
     RowLayout {
         PageTitle { text: qsTr("Rede") }
         Item { Layout.fillWidth: true }
-        Button { text: "🔄"; onClicked: networkViewModel.refresh() }
+        IconButton { text: "🔄"; label: qsTr("Atualizar rede"); onClicked: networkViewModel.refresh() }
     }
 
     GridLayout {

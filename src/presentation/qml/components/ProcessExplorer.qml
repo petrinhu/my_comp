@@ -40,10 +40,15 @@ ColumnLayout {
 
                 ListView {
                     id: processList
+                    // QA-05: Tab foca a lista, setas navegam, Delete pede para encerrar.
+                    activeFocusOnTab: true; keyNavigationEnabled: true
                     model: processViewModel.processes
                     delegate: ItemDelegate {
                         width: processList.width; height: 30
                         padding: 0
+                        focus: ListView.isCurrentItem
+                        highlighted: ListView.isCurrentItem && ListView.view.activeFocus
+                        Keys.onDeletePressed: processExplorer.killRequested(modelData.pid, modelData.command)
                         contentItem: RowLayout {
                             anchors.fill: parent; anchors.leftMargin: 10; anchors.rightMargin: 10
                             Text { text: modelData.pid; Layout.preferredWidth: 60; color: Theme.highlightColor; font.family: "Monospace" }

@@ -39,9 +39,10 @@ Dialog {
             
             Item { Layout.fillWidth: true }
             
-            Button { 
+            IconButton {
                 id: closeBtn
                 text: "✖"
+                label: qsTr("Fechar detalhes da CPU")
                 flat: true
                 onClicked: cpuDetailRoot.close()
                 Layout.alignment: Qt.AlignVCenter

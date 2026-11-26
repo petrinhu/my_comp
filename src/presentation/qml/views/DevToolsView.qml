@@ -13,7 +13,7 @@ ScrollPage {
         PageTitle { text: qsTr("Desenvolvimento & Containers") }
         Item { Layout.fillWidth: true }
         BusyIndicator { running: devStackViewModel.isBusy; implicitWidth: 24; implicitHeight: 24; visible: running }
-        Button { text: "🔄"; onClicked: devStackViewModel.refresh(); enabled: !devStackViewModel.isBusy }
+        IconButton { text: "🔄"; label: qsTr("Atualizar ferramentas"); onClicked: devStackViewModel.refresh(); enabled: !devStackViewModel.isBusy }
     }
 
     SectionTitle { text: qsTr("🛠️ COMPILADORES & RUNTIMES") }

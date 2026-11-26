@@ -11,6 +11,7 @@
     <file alias="components/CpuDetailDialog.qml">presentation/qml/components/CpuDetailDialog.qml</file>
     <file alias="components/DaemonDialog.qml">presentation/qml/components/DaemonDialog.qml</file>
     <file alias="components/DashboardCard.qml">presentation/qml/components/DashboardCard.qml</file>
+        <file alias="components/IconButton.qml">presentation/qml/components/IconButton.qml</file>
     <file alias="components/DirectoryScannerCard.qml">presentation/qml/components/DirectoryScannerCard.qml</file>
     <file alias="components/DriveCard.qml">presentation/qml/components/DriveCard.qml</file>
     <file alias="components/GpuRow.qml">presentation/qml/components/GpuRow.qml</file>

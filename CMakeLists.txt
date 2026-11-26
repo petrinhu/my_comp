@@ -327,6 +327,19 @@ target_link_libraries(acceptance_tests PRIVATE my_comp_core GTest::gtest GTest::
 add_test(NAME acceptance_tests COMMAND acceptance_tests)
 set_tests_properties(acceptance_tests PROPERTIES TIMEOUT 180)
 
+# Testes de componentes QML (QA-05: IconButton acessível por teclado). Opcional: só se o
+# qmltestrunner estiver instalado (Fedora: qt6-qtdeclarative-devel).
+get_target_property(_qmake_location Qt6::qmake IMPORTED_LOCATION)
+get_filename_component(_qt_bin_dir "${_qmake_location}" DIRECTORY)
+find_program(QMLTESTRUNNER NAMES qmltestrunner qmltestrunner-qt6
+             HINTS "${_qt_bin_dir}" /usr/lib/qt6/bin /usr/lib64/qt6/bin)
+if(QMLTESTRUNNER)
+    add_test(NAME qml_tests COMMAND ${QMLTESTRUNNER} -input ${CMAKE_CURRENT_SOURCE_DIR}/tests/qml)
+    set_tests_properties(qml_tests PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen" TIMEOUT 60)
+else()
+    message(STATUS "qmltestrunner não encontrado: testes QML (tests/qml) não serão registrados.")
+endif()
+
 # ----------------------------------------------------------------------------
 # BT-02 — libFuzzer harnesses (opt-in). Requer clang.
 #   Configure: cmake -B build-fuzz -G Ninja -DMY_COMP_BUILD_FUZZERS=ON \
