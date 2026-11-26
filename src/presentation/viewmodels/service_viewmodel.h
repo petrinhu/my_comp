@@ -26,9 +26,10 @@ public:
     void setSortAscending(bool asc);
 
     Q_INVOKABLE void refresh();
-    Q_INVOKABLE void startService(const QString& name);
-    Q_INVOKABLE void pauseService(const QString& name);
-    Q_INVOKABLE void stopService(const QString& name);
+    // scope: "system" ou "user" (campo `scope` de cada item de `services`).
+    Q_INVOKABLE void startService(const QString& name, const QString& scope);
+    Q_INVOKABLE void pauseService(const QString& name, const QString& scope);
+    Q_INVOKABLE void stopService(const QString& name, const QString& scope);
     Q_INVOKABLE void createDaemon(const QString& exe_path, const QString& params);
 
 signals:

@@ -7,6 +7,7 @@
 #include "../../src/infrastructure/collectors/i_shell_executor.h"
 
 using namespace my_comp::infrastructure::collectors;
+using my_comp::domain::models::ServiceScope;
 
 namespace {
 
@@ -40,31 +41,46 @@ protected:
 
 } // namespace
 
-TEST_F(SystemdServiceProviderTest, ShouldParseListUnitsOutput) {
+// SV-01c: --output=json preserva descrições com espaços múltiplos e não quebra se o
+// layout de colunas mudar. SV-01b: escopo vira campo, não sufixo no nome.
+TEST_F(SystemdServiceProviderTest, ShouldParseListUnitsJson) {
     auto shell = std::make_shared<MockShellExecutor>();
-    shell->canned_output =
-        "dbus.service loaded active running D-Bus System Message Bus\n"
-        "sshd.service loaded active running OpenSSH server daemon\n";
+    shell->canned_output = R"([
+        {"unit":"dbus.service","load":"loaded","active":"active","sub":"running","description":"D-Bus System Message Bus"},
+        {"unit":"sshd.service","load":"loaded","active":"inactive","sub":"dead","description":"OpenSSH   server  daemon"}
+    ])";
 
     SystemdServiceProvider provider(shell);
     auto services = provider.get_services();
 
-    // Provider chama list-units 2x (system + user); mock devolve o mesmo output.
-    ASSERT_EQ(shell->calls.size(), 2u);
+    ASSERT_GE(shell->calls.size(), 2u);
     EXPECT_EQ(shell->calls[0].command, "systemctl");
     EXPECT_TRUE(shell->calls[0].args.contains("list-units"));
+    EXPECT_TRUE(shell->calls[0].args.contains("--output=json"));
 
-    EXPECT_EQ(services.size(), 4u); // 2 system + 2 user
+    ASSERT_EQ(services.size(), 4u); // 2 system + 2 user (mock devolve o mesmo JSON)
     EXPECT_EQ(services[0].name, "dbus.service");
     EXPECT_EQ(services[0].activeState, "active");
+    EXPECT_EQ(services[0].scope, ServiceScope::System);
+    EXPECT_EQ(services[1].description, "OpenSSH   server  daemon");
+    EXPECT_EQ(services[2].name, "dbus.service"); // sem " (User)" no nome
+    EXPECT_EQ(services[2].scope, ServiceScope::User);
+}
+
+// Saída não-JSON (systemd < 246 ou erro) não pode derrubar nem gerar lixo.
+TEST_F(SystemdServiceProviderTest, IgnoresMalformedJson) {
+    auto shell = std::make_shared<MockShellExecutor>();
+    shell->canned_output = "dbus.service loaded active running D-Bus\n";
+    SystemdServiceProvider provider(shell);
+    EXPECT_TRUE(provider.get_services().empty());
 }
 
 TEST_F(SystemdServiceProviderTest, ShouldIssueStartAndStopViaSystemctl) {
     auto shell = std::make_shared<MockShellExecutor>();
     SystemdServiceProvider provider(shell);
 
-    provider.start_service("foo.service");
-    provider.stop_service("bar.service (User)");
+    provider.start_service("foo.service", ServiceScope::System);
+    provider.stop_service("bar.service", ServiceScope::User);
 
     ASSERT_EQ(shell->calls.size(), 2u);
     EXPECT_EQ(shell->calls[0].args, (QStringList{"enable", "--now", "foo.service"}));

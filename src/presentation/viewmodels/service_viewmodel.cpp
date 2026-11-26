@@ -5,6 +5,13 @@
 
 namespace my_comp::presentation::viewmodels {
 
+namespace {
+domain::models::ServiceScope parse_scope(const QString& scope) {
+    return scope == QLatin1String("user") ? domain::models::ServiceScope::User
+                                          : domain::models::ServiceScope::System;
+}
+} // namespace
+
 ServiceViewModel::ServiceViewModel(std::shared_ptr<domain::interfaces::IServiceProvider> provider, QObject* parent)
     : QObject(parent), m_provider(std::move(provider)) {
 }
@@ -54,6 +61,7 @@ void ServiceViewModel::rebuildProcessedList() {
         map["activeState"] = info.activeState;
         map["subState"] = info.subState;
         map["isEnabled"] = info.isEnabled;
+        map["scope"] = (info.scope == domain::models::ServiceScope::User) ? QStringLiteral("user") : QStringLiteral("system");
         newList.append(map);
     }
     m_processedList = newList;
@@ -79,12 +87,13 @@ void ServiceViewModel::refresh() {
     });
 }
 
-void ServiceViewModel::startService(const QString& name) {
+void ServiceViewModel::startService(const QString& name, const QString& scope) {
+    const auto service_scope = parse_scope(scope);
     setBusy(true);
     QPointer<ServiceViewModel> self(this);
     auto provider = m_provider;
-    (void)QtConcurrent::run([self, provider, name]() {
-        bool ok = provider->start_service(name);
+    (void)QtConcurrent::run([self, provider, name, service_scope]() {
+        bool ok = provider->start_service(name, service_scope);
         QMetaObject::invokeMethod(self.data(), [self, ok, name]() {
             auto* vm = self.data();
             if (!vm) return;
@@ -95,12 +104,13 @@ void ServiceViewModel::startService(const QString& name) {
     });
 }
 
-void ServiceViewModel::pauseService(const QString& name) {
+void ServiceViewModel::pauseService(const QString& name, const QString& scope) {
+    const auto service_scope = parse_scope(scope);
     setBusy(true);
     QPointer<ServiceViewModel> self(this);
     auto provider = m_provider;
-    (void)QtConcurrent::run([self, provider, name]() {
-        bool ok = provider->pause_service(name);
+    (void)QtConcurrent::run([self, provider, name, service_scope]() {
+        bool ok = provider->pause_service(name, service_scope);
         QMetaObject::invokeMethod(self.data(), [self, ok, name]() {
             auto* vm = self.data();
             if (!vm) return;
@@ -111,12 +121,13 @@ void ServiceViewModel::pauseService(const QString& name) {
     });
 }
 
-void ServiceViewModel::stopService(const QString& name) {
+void ServiceViewModel::stopService(const QString& name, const QString& scope) {
+    const auto service_scope = parse_scope(scope);
     setBusy(true);
     QPointer<ServiceViewModel> self(this);
     auto provider = m_provider;
-    (void)QtConcurrent::run([self, provider, name]() {
-        bool ok = provider->stop_service(name);
+    (void)QtConcurrent::run([self, provider, name, service_scope]() {
+        bool ok = provider->stop_service(name, service_scope);
         QMetaObject::invokeMethod(self.data(), [self, ok, name]() {
             auto* vm = self.data();
             if (!vm) return;

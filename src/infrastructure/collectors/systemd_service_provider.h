@@ -10,15 +10,15 @@ public:
     explicit SystemdServiceProvider(std::shared_ptr<IShellExecutor> executor);
     
     std::vector<domain::models::ServiceInfo> get_services() override;
-    bool start_service(const QString& name) override;
-    bool pause_service(const QString& name) override;
-    bool stop_service(const QString& name) override;
+    bool start_service(const QString& name, domain::models::ServiceScope scope) override;
+    bool pause_service(const QString& name, domain::models::ServiceScope scope) override;
+    bool stop_service(const QString& name, domain::models::ServiceScope scope) override;
     domain::models::OperationResult create_daemon(const QString& exe_path, const QString& params) override;
 
 private:
     std::shared_ptr<IShellExecutor> m_executor;
     
-    std::vector<domain::models::ServiceInfo> collect_units(bool user_mode);
+    std::vector<domain::models::ServiceInfo> collect_units(domain::models::ServiceScope scope);
     bool run_systemctl(const QStringList& args, bool user_mode = false);
 };
 

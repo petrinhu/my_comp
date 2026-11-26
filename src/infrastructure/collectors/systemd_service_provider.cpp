@@ -6,7 +6,10 @@
 #include <QTextStream>
 #include <QStandardPaths>
 #include <QStringList>
-#include <QRegularExpression>
+#include <QDebug>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 namespace my_comp::infrastructure::collectors {
 
@@ -14,9 +17,9 @@ SystemdServiceProvider::SystemdServiceProvider(std::shared_ptr<IShellExecutor> e
     : m_executor(std::move(executor)) {}
 
 std::vector<domain::models::ServiceInfo> SystemdServiceProvider::get_services() {
-    auto system_units = collect_units(false);
-    auto user_units = collect_units(true);
-    
+    auto system_units = collect_units(domain::models::ServiceScope::System);
+    auto user_units = collect_units(domain::models::ServiceScope::User);
+
     std::vector<domain::models::ServiceInfo> all;
     all.reserve(system_units.size() + user_units.size());
     all.insert(all.end(), system_units.begin(), system_units.end());
@@ -24,34 +27,37 @@ std::vector<domain::models::ServiceInfo> SystemdServiceProvider::get_services() 
     return all;
 }
 
-std::vector<domain::models::ServiceInfo> SystemdServiceProvider::collect_units(bool user_mode) {
+std::vector<domain::models::ServiceInfo> SystemdServiceProvider::collect_units(domain::models::ServiceScope scope) {
     std::vector<domain::models::ServiceInfo> units;
+    const bool user_mode = (scope == domain::models::ServiceScope::User);
     QString output;
-    // O comando list-units mostra o estado ativo
-    QStringList args = {"list-units", "--type=service", "--all", "--no-legend", "--no-pager"};
+    // SV-01c: JSON (systemd >= 246) em vez de colunas separadas por espaço, que
+    // truncavam descrições e quebravam com mudança de layout.
+    QStringList args = {"list-units", "--type=service", "--all", "--no-pager", "--output=json"};
     if (user_mode) args.prepend("--user");
-    
-    if (m_executor->execute("systemctl", args, output) == 0) {
-        QStringList lines = output.split('\n', Qt::SkipEmptyParts);
-        for (const QString& line : lines) {
-            QStringList parts = line.trimmed().split(QRegularExpression("\\s+"));
-            if (parts.size() >= 5) {
-                domain::models::ServiceInfo info;
-                info.name = parts[0];
-                if (user_mode) info.name += " (User)";
-                info.loadState = parts[1];
-                info.activeState = parts[2];
-                info.subState = parts[3];
-                info.description = parts.mid(4).join(' ');
-                
-                // Otimização: Não chamar is-enabled para cada unit no loop inicial.
-                // Considerar 'enabled' se activeState for active por enquanto, 
-                // ou marcar como pendente para auditoria futura se necessário.
-                info.isEnabled = (info.loadState == "loaded"); 
-                
-                units.push_back(info);
-            }
-        }
+
+    if (m_executor->execute("systemctl", args, output) != 0) return units;
+
+    QJsonParseError err{};
+    const QJsonDocument doc = QJsonDocument::fromJson(output.toUtf8(), &err);
+    if (err.error != QJsonParseError::NoError || !doc.isArray()) {
+        qWarning() << "[Systemd] list-units não devolveu JSON válido:" << err.errorString();
+        return units;
+    }
+    for (const QJsonValue& v : doc.array()) {
+        const QJsonObject o = v.toObject();
+        const QString unit = o.value("unit").toString();
+        if (unit.isEmpty()) continue;
+        domain::models::ServiceInfo info;
+        info.name = unit;
+        info.loadState = o.value("load").toString();
+        info.activeState = o.value("active").toString();
+        info.subState = o.value("sub").toString();
+        info.description = o.value("description").toString();
+        info.scope = scope;
+        // Placeholder até SV-01a (list-unit-files): "loaded" não significa "enabled".
+        info.isEnabled = (info.loadState == "loaded");
+        units.push_back(info);
     }
     return units;
 }
@@ -63,25 +69,16 @@ bool SystemdServiceProvider::run_systemctl(const QStringList& args, bool user_mo
     return m_executor->execute("systemctl", finalArgs, output) == 0;
 }
 
-bool SystemdServiceProvider::start_service(const QString& name) {
-    bool is_user = name.endsWith(" (User)");
-    QString clean_name = name;
-    if (is_user) clean_name.remove(" (User)");
-    return run_systemctl({"enable", "--now", clean_name}, is_user);
+bool SystemdServiceProvider::start_service(const QString& name, domain::models::ServiceScope scope) {
+    return run_systemctl({"enable", "--now", name}, scope == domain::models::ServiceScope::User);
 }
 
-bool SystemdServiceProvider::pause_service(const QString& name) {
-    bool is_user = name.endsWith(" (User)");
-    QString clean_name = name;
-    if (is_user) clean_name.remove(" (User)");
-    return run_systemctl({"stop", clean_name}, is_user);
+bool SystemdServiceProvider::pause_service(const QString& name, domain::models::ServiceScope scope) {
+    return run_systemctl({"stop", name}, scope == domain::models::ServiceScope::User);
 }
 
-bool SystemdServiceProvider::stop_service(const QString& name) {
-    bool is_user = name.endsWith(" (User)");
-    QString clean_name = name;
-    if (is_user) clean_name.remove(" (User)");
-    return run_systemctl({"disable", "--now", clean_name}, is_user);
+bool SystemdServiceProvider::stop_service(const QString& name, domain::models::ServiceScope scope) {
+    return run_systemctl({"disable", "--now", name}, scope == domain::models::ServiceScope::User);
 }
 
 namespace {
