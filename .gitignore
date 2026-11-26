@@ -7,3 +7,4 @@ compile_commands.json
 *.swp
 *.user
 legacy/
+.claude/worktrees/
