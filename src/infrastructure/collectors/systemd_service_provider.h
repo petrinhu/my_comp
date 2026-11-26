@@ -1,6 +1,7 @@
 #pragma once
 #include "../../domain/interfaces/i_service_provider.h"
 #include "i_shell_executor.h"
+#include <QHash>
 #include <memory>
 
 namespace my_comp::infrastructure::collectors {
@@ -19,6 +20,8 @@ private:
     std::shared_ptr<IShellExecutor> m_executor;
     
     std::vector<domain::models::ServiceInfo> collect_units(domain::models::ServiceScope scope);
+    // unit_file → state ("enabled", "disabled", "static"...) de `list-unit-files`.
+    QHash<QString, QString> collect_unit_file_states(domain::models::ServiceScope scope);
     bool run_systemctl(const QStringList& args, bool user_mode = false);
 };
 
