@@ -71,7 +71,7 @@ Nomeie assim:
 | Membro privado | `m_` + snake_case | `m_cache` |
 | Override virtual | `override` obrigatório | — |
 
-**Exceção — API exposta ao QML:** `Q_INVOKABLE`, getters/setters de `Q_PROPERTY` e signals usam camelCase (`startInstallation`, `isBusyChanged`), porque é a convenção do lado QML. A exceção vale só para essa superfície; o resto do C++ segue a tabela. O `.clang-tidy` não distingue o que é exposto ao QML, então o uso fora dela se fiscaliza em revisão. O código VRAM em camelCase pt-br (`criarBackendCompositoDoSistema`) é dívida a renomear em ondas (ver `TODO.md`).
+**Exceção — API exposta ao QML:** `Q_INVOKABLE`, getters/setters de `Q_PROPERTY` e signals usam camelCase (`startInstallation`, `isBusyChanged`), porque é a convenção do lado QML. A exceção vale só para essa superfície; o resto do C++ segue a tabela. O `.clang-tidy` não distingue o que é exposto ao QML, então o uso fora dela se fiscaliza em revisão. O código VRAM, que usava camelCase pt-br, foi renomeado para snake_case e o namespace unificado em `my_comp::` (AUDIT-25).
 
 Refatore toda classe com mais de uma responsabilidade (SRP). Trate as 300 linhas por arquivo como orientação, que pede exame e não obriga a dividir (L-34).
 
