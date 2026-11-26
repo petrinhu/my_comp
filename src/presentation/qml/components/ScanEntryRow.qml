@@ -10,6 +10,7 @@ RowLayout {
     property var entry: ({})
     Layout.fillWidth: true
     Text {
+        textFormat: Text.PlainText
         text: scanEntryRow.entry.error ? "⚠ " + scanEntryRow.entry.name : scanEntryRow.entry.name
         color: scanEntryRow.entry.error ? Theme.criticalColor : Theme.textColor
         font.pixelSize: 11; font.bold: !scanEntryRow.entry.error
@@ -30,11 +31,13 @@ RowLayout {
         }
     }
     Text {
+        textFormat: Text.PlainText
         text: Format.formatBytes(scanEntryRow.entry.sizeBytes)
         color: Theme.textColor; font.pixelSize: 10
         Layout.preferredWidth: 90; horizontalAlignment: Text.AlignRight
     }
     Text {
+        textFormat: Text.PlainText
         text: qsTr("%1 arq · %2 dir").arg(scanEntryRow.entry.fileCount).arg(scanEntryRow.entry.dirCount)
         color: Theme.mutedTextColor; font.pixelSize: 10 // sem opacity: texto translúcido perde contraste (WCAG)
         Layout.preferredWidth: 120

@@ -31,6 +31,7 @@ ColumnLayout {
                 Layout.fillWidth: true
             }
             Text {
+                textFormat: Text.PlainText
                 text: gpuGroup.grupo.gpuVramTotalMb > 0
                       ? qsTr("VRAM total: %1 MiB").arg(gpuGroup.grupo.gpuVramTotalMb.toFixed(0))
                       : qsTr("VRAM total: —")

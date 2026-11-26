@@ -21,7 +21,7 @@ Rectangle {
                     Rectangle { anchors.bottom: parent.bottom; width: 6; height: parent.height * Math.min(1.0, audioViewModel.peak); color: Theme.criticalColor; radius: 2 }
                 }
             }
-            Text { text: (audioViewModel.rms * 100).toFixed(0) + "%"; color: Theme.textColor; font.pixelSize: 9; Layout.alignment: Qt.AlignHCenter }
+            Text { textFormat: Text.PlainText; text: (audioViewModel.rms * 100).toFixed(0) + "%"; color: Theme.textColor; font.pixelSize: 9; Layout.alignment: Qt.AlignHCenter }
         }
 
         // Forma de onda

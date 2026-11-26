@@ -39,9 +39,9 @@ ScrollPage {
                 ScrollBar.vertical: ScrollBar {}
                 delegate: RowLayout {
                     width: usbList.width; height: 28; spacing: 12
-                    Text { text: (modelData.vendorId || "") + ":" + (modelData.productId || ""); color: Theme.mutedTextColor; font.family: "Monospace"; font.pixelSize: 11; Layout.preferredWidth: 110 }
-                    Text { text: modelData.name || qsTr("(sem nome)"); color: Theme.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
-                    Text { text: qsTr("bus %1").arg(modelData.bus || "—"); color: Theme.mutedTextColor; font.pixelSize: 11 }
+                    Text { textFormat: Text.PlainText; text: (modelData.vendorId || "") + ":" + (modelData.productId || ""); color: Theme.mutedTextColor; font.family: "Monospace"; font.pixelSize: 11; Layout.preferredWidth: 110 }
+                    Text { textFormat: Text.PlainText; text: modelData.name || qsTr("(sem nome)"); color: Theme.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
+                    Text { textFormat: Text.PlainText; text: qsTr("bus %1").arg(modelData.bus || "—"); color: Theme.mutedTextColor; font.pixelSize: 11 }
                 }
             }
         }
@@ -57,12 +57,13 @@ ScrollPage {
                 delegate: RowLayout {
                     width: btList.width; height: 28; spacing: 12
                     StatusDot { size: 8; active: modelData.connected }
-                    Text { text: modelData.name || qsTr("(sem nome)"); color: Theme.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
+                    Text { textFormat: Text.PlainText; text: modelData.name || qsTr("(sem nome)"); color: Theme.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
                     Text {
+                        textFormat: Text.PlainText
                         text: modelData.connected ? qsTr("conectado") : (modelData.paired ? qsTr("pareado") : qsTr("não pareado"))
                         color: Theme.mutedTextColor; font.pixelSize: 11
                     }
-                    Text { text: modelData.address || ""; color: Theme.mutedTextColor; font.family: "Monospace"; font.pixelSize: 11 }
+                    Text { textFormat: Text.PlainText; text: modelData.address || ""; color: Theme.mutedTextColor; font.family: "Monospace"; font.pixelSize: 11 }
                 }
             }
         }
@@ -88,6 +89,7 @@ ScrollPage {
                 model: firmwareViewModel.devices
                 ScrollBar.vertical: ScrollBar {}
                 delegate: Text {
+                    textFormat: Text.PlainText
                     width: fwList.width; height: 28
                     text: modelData.name; color: Theme.textColor
                     verticalAlignment: Text.AlignVCenter; elide: Text.ElideRight

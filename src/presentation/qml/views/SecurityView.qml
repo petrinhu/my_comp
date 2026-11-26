@@ -17,7 +17,7 @@ ScrollPage {
             anchors.fill: parent; anchors.margins: 10; clip: true
             interactive: false
             model: userMetadataViewModel.loginHistory
-            delegate: Text { text: modelData; color: Theme.textColor; font.family: "Monospace"; font.pixelSize: 10 }
+            delegate: Text { textFormat: Text.PlainText; text: modelData; color: Theme.textColor; font.family: "Monospace"; font.pixelSize: 10 }
         }
     }
 }

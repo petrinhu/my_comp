@@ -72,6 +72,7 @@ Item {
                     spacing: 10
 
                     Text {
+                        textFormat: Text.PlainText
                         text: {
                             if (model.kind === "success") return "✓"
                             if (model.kind === "error") return "✕"
@@ -84,6 +85,7 @@ Item {
                     }
 
                     Text {
+                        textFormat: Text.PlainText
                         text: model.message
                         color: toastRoot.contrastTextColor
                         font.pixelSize: 13
@@ -99,6 +101,7 @@ Item {
                         implicitHeight: 28
                         onClicked: toastRoot.dismiss(index)
                         contentItem: Text {
+                            textFormat: Text.PlainText
                             text: parent.text
                             color: toastRoot.contrastTextColor
                             font.pixelSize: 14

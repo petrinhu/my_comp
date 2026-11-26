@@ -28,6 +28,7 @@ ScrollPage {
     }
 
     Text {
+        textFormat: Text.PlainText
         text: vramAuditViewModel.grupos.length === 0
               ? qsTr("Nenhuma GPU detectada ou auditoria ainda não executada. Clique em \"Atualizar\".")
               : qsTr("Cada processo é classificado pela cascata: seu veredito → catálogo → categoria do .desktop → bibliotecas de compute carregadas → comportamento. Verde = candidato a desligar GPU; Amarelo = inconclusivo; Vermelho = precisa GPU.")

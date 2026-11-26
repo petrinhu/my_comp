@@ -31,6 +31,7 @@ Rectangle {
             Layout.fillWidth: true
         }
         Text {
+            textFormat: Text.PlainText
             text: configOrigin.origem.instrucao
             color: Theme.mutedTextColor
             font.pixelSize: 11

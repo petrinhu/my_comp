@@ -18,15 +18,15 @@ ColumnLayout {
             anchors.fill: parent; anchors.margins: 15
             Column { 
                 Text { text: qsTr("Sistema"); color: Theme.consoleMutedTextColor; font.pixelSize: 12 }
-                Text { text: systemInfoViewModel.distro; color: Theme.contrastTextColor; font.bold: true }
+                Text { textFormat: Text.PlainText; text: systemInfoViewModel.distro; color: Theme.contrastTextColor; font.bold: true }
             }
             Column { 
                 Text { text: qsTr("Kernel"); color: Theme.consoleMutedTextColor; font.pixelSize: 12 }
-                Text { text: systemInfoViewModel.kernel; color: Theme.contrastTextColor; font.bold: true }
+                Text { textFormat: Text.PlainText; text: systemInfoViewModel.kernel; color: Theme.contrastTextColor; font.bold: true }
             }
             Column { 
                 Text { text: qsTr("Driver GPU"); color: Theme.consoleMutedTextColor; font.pixelSize: 12 }
-                Text { text: systemInfoViewModel.driver; color: Theme.contrastTextColor; font.bold: true }
+                Text { textFormat: Text.PlainText; text: systemInfoViewModel.driver; color: Theme.contrastTextColor; font.bold: true }
             }
         }
     }
@@ -65,7 +65,7 @@ ColumnLayout {
         ColumnLayout {
             spacing: 10
             Text { text: qsTr("Confirmação necessária:"); color: Theme.contrastTextColor; font.bold: true }
-            Text { text: installationViewModel.question; color: Theme.consoleMutedTextColor; wrapMode: Text.WordWrap; width: 300 }
+            Text { textFormat: Text.PlainText; text: installationViewModel.question; color: Theme.consoleMutedTextColor; wrapMode: Text.WordWrap; width: 300 }
             Row {
                 spacing: 10
                 Button { text: qsTr("Sim (y)"); onClicked: installationViewModel.respond(true) }

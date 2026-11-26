@@ -33,7 +33,7 @@ Rectangle {
     }
     ColumnLayout {
         anchors.centerIn: parent
-        Text { text: card.title; color: Theme.textColor; font.pixelSize: 12; Layout.alignment: Qt.AlignHCenter }
-        Text { text: card.value; color: Theme.highlightColor; font.pixelSize: 24; font.bold: true; Layout.alignment: Qt.AlignHCenter }
+        Text { textFormat: Text.PlainText; text: card.title; color: Theme.textColor; font.pixelSize: 12; Layout.alignment: Qt.AlignHCenter }
+        Text { textFormat: Text.PlainText; text: card.value; color: Theme.highlightColor; font.pixelSize: 24; font.bold: true; Layout.alignment: Qt.AlignHCenter }
     }
 }

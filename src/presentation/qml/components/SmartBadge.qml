@@ -36,6 +36,7 @@ Rectangle {
     border.color: fg
     border.width: 1
     Text {
+        textFormat: Text.PlainText
         id: badgeText
         anchors.centerIn: parent
         text: smartBadge.label

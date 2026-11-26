@@ -17,7 +17,7 @@ Button {
     }
     contentItem: RowLayout {
         spacing: 10
-        Text { text: Theme.themeMode === 0 ? "☀️" : Theme.themeMode === 1 ? "🌙" : "🌓"; color: Theme.textColor }
-        Text { text: Theme.themeMode === 0 ? qsTr("Light") : Theme.themeMode === 1 ? qsTr("Dark") : qsTr("Auto"); color: Theme.textColor; font.bold: true }
+        Text { textFormat: Text.PlainText; text: Theme.themeMode === 0 ? "☀️" : Theme.themeMode === 1 ? "🌙" : "🌓"; color: Theme.textColor }
+        Text { textFormat: Text.PlainText; text: Theme.themeMode === 0 ? qsTr("Light") : Theme.themeMode === 1 ? qsTr("Dark") : qsTr("Auto"); color: Theme.textColor; font.bold: true }
     }
 }

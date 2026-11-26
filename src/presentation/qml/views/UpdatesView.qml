@@ -19,6 +19,7 @@ ScrollPage {
             radius: 11
             color: Theme.highlightColor
             Text {
+                textFormat: Text.PlainText
                 id: countText
                 anchors.centerIn: parent
                 text: updateViewModel.totalUpdates
@@ -68,15 +69,17 @@ ScrollPage {
                 }
                 contentItem: RowLayout {
                     Text {
+                        textFormat: Text.PlainText
                         text: isCritical ? "⚠" : ""
                         color: Theme.criticalColor
                         font.pixelSize: 16
                         Layout.preferredWidth: 20
                         visible: isCritical
                     }
-                    Text { text: name; color: Theme.textColor; font.bold: true; Layout.fillWidth: true }
-                    Text { text: source; color: Theme.mutedTextColor; font.pixelSize: 10; Layout.preferredWidth: 60 }
+                    Text { textFormat: Text.PlainText; text: name; color: Theme.textColor; font.bold: true; Layout.fillWidth: true }
+                    Text { textFormat: Text.PlainText; text: source; color: Theme.mutedTextColor; font.pixelSize: 10; Layout.preferredWidth: 60 }
                     Text {
+                        textFormat: Text.PlainText
                         text: (currentVersion && currentVersion.length > 0)
                               ? (currentVersion + " → " + newVersion)
                               : ("→ " + newVersion)
