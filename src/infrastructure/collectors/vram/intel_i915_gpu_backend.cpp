@@ -20,7 +20,7 @@ namespace vramopt::infrastructure {
 
 namespace {
 
-QString lerArquivoTrim(const QString& path) {
+QString ler_arquivo_trim(const QString& path) {
     QFile f{path};
     if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
         return {};
@@ -28,7 +28,7 @@ QString lerArquivoTrim(const QString& path) {
     return QString::fromUtf8(f.readAll()).trimmed();
 }
 
-QHash<QString, QString> parseUevent(const QString& path) {
+QHash<QString, QString> parse_uevent(const QString& path) {
     QHash<QString, QString> resultado;
     QFile f{path};
     if (!f.open(QIODevice::ReadOnly)) {
@@ -46,12 +46,12 @@ QHash<QString, QString> parseUevent(const QString& path) {
     return resultado;
 }
 
-bool isCardDir(const QString& nome) {
+bool is_card_dir(const QString& nome) {
     static const QRegularExpression re{QStringLiteral("^card\\d+$")};
     return re.match(nome).hasMatch();
 }
 
-QString modeloDoPciId(const QString& pci_id) {
+QString modelo_do_pci_id(const QString& pci_id) {
     if (pci_id.isEmpty()) {
         return QStringLiteral("Intel GPU");
     }
@@ -62,8 +62,8 @@ QString modeloDoPciId(const QString& pci_id) {
     return QStringLiteral("Intel GPU %1").arg(partes.at(1));
 }
 
-domain::BytesDeMemoria lerVramTotal(const QString& device_dir) {
-    const QString lmem = lerArquivoTrim(device_dir + QStringLiteral("/mem_info_lmem_total"));
+domain::BytesDeMemoria ler_vram_total(const QString& device_dir) {
+    const QString lmem = ler_arquivo_trim(device_dir + QStringLiteral("/mem_info_lmem_total"));
     if (lmem.isEmpty()) {
         return domain::BytesDeMemoria{0};
     }
@@ -75,7 +75,7 @@ domain::BytesDeMemoria lerVramTotal(const QString& device_dir) {
     return domain::BytesDeMemoria{valor};
 }
 
-QHash<QString, QString> parseFdinfo(const QString& path) {
+QHash<QString, QString> parse_fdinfo(const QString& path) {
     QHash<QString, QString> kv;
     QFile f{path};
     if (!f.open(QIODevice::ReadOnly)) {
@@ -96,7 +96,7 @@ QHash<QString, QString> parseFdinfo(const QString& path) {
     return kv;
 }
 
-std::uint64_t parseBytesField(const QString& value) {
+std::uint64_t parse_bytes_field(const QString& value) {
     if (value.isEmpty()) {
         return 0;
     }
@@ -125,8 +125,8 @@ std::uint64_t parseBytesField(const QString& value) {
     return numero;
 }
 
-QString lerNomeProcesso(const QString& proc_pid_dir) {
-    QString comm = lerArquivoTrim(proc_pid_dir + QStringLiteral("/comm"));
+QString ler_nome_processo(const QString& proc_pid_dir) {
+    QString comm = ler_arquivo_trim(proc_pid_dir + QStringLiteral("/comm"));
     if (!comm.isEmpty()) {
         return comm;
     }
@@ -139,17 +139,17 @@ IntelI915GpuBackend::IntelI915GpuBackend(QString drm_root, QString proc_root)
     : m_drm_root{std::move(drm_root)},
       m_proc_root{std::move(proc_root)} {}
 
-bool IntelI915GpuBackend::sistemaTemGpuIntel(const QString& drm_root) {
+bool IntelI915GpuBackend::sistema_tem_gpu_intel(const QString& drm_root) {
     QDir dir{drm_root};
     if (!dir.exists()) {
         return false;
     }
     const auto entries = dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     for (const auto& nome : entries) {
-        if (!isCardDir(nome)) {
+        if (!is_card_dir(nome)) {
             continue;
         }
-        const QString vendor = lerArquivoTrim(
+        const QString vendor = ler_arquivo_trim(
             dir.absoluteFilePath(nome) + QStringLiteral("/device/vendor"));
         if (vendor.compare(QStringLiteral("0x8086"), Qt::CaseInsensitive) == 0) {
             return true;
@@ -159,7 +159,7 @@ bool IntelI915GpuBackend::sistemaTemGpuIntel(const QString& drm_root) {
 }
 
 std::vector<IntelI915GpuBackend::CardIntel>
-IntelI915GpuBackend::descobrirCards() const {
+IntelI915GpuBackend::descobrir_cards() const {
     std::vector<CardIntel> cards;
     QDir dir{m_drm_root};
     if (!dir.exists()) {
@@ -170,22 +170,22 @@ IntelI915GpuBackend::descobrirCards() const {
 
     int proximo_id = 0;
     for (const auto& nome : entries) {
-        if (!isCardDir(nome)) {
+        if (!is_card_dir(nome)) {
             continue;
         }
         const QString card_dir = dir.absoluteFilePath(nome);
         const QString device_dir = card_dir + QStringLiteral("/device");
-        const QString vendor = lerArquivoTrim(device_dir + QStringLiteral("/vendor"));
+        const QString vendor = ler_arquivo_trim(device_dir + QStringLiteral("/vendor"));
         if (vendor.compare(QStringLiteral("0x8086"), Qt::CaseInsensitive) != 0) {
             continue;
         }
-        const auto uevent = parseUevent(device_dir + QStringLiteral("/uevent"));
+        const auto uevent = parse_uevent(device_dir + QStringLiteral("/uevent"));
         cards.push_back(CardIntel{
             .id_local   = proximo_id++,
             .card_dir   = card_dir,
             .pci_slot   = uevent.value(QStringLiteral("PCI_SLOT_NAME")),
-            .modelo     = modeloDoPciId(uevent.value(QStringLiteral("PCI_ID"))),
-            .vram_total = lerVramTotal(device_dir),
+            .modelo     = modelo_do_pci_id(uevent.value(QStringLiteral("PCI_ID"))),
+            .vram_total = ler_vram_total(device_dir),
         });
     }
     return cards;
@@ -194,7 +194,7 @@ IntelI915GpuBackend::descobrirCards() const {
 std::vector<vramopt::domain::GpuInfo>
 IntelI915GpuBackend::enumerar_gpus() const {
     std::vector<domain::GpuInfo> gpus;
-    const auto cards = descobrirCards();
+    const auto cards = descobrir_cards();
     gpus.reserve(cards.size());
     for (const auto& c : cards) {
         gpus.emplace_back(c.id_local, domain::Fabricante::Intel, c.modelo, c.vram_total);
@@ -204,7 +204,7 @@ IntelI915GpuBackend::enumerar_gpus() const {
 
 std::vector<vramopt::domain::Processo>
 IntelI915GpuBackend::enumerar_processos_vram(int gpu_id) const {
-    const auto cards = descobrirCards();
+    const auto cards = descobrir_cards();
     auto it = std::find_if(cards.begin(), cards.end(),
                            [gpu_id](const CardIntel& c) { return c.id_local == gpu_id; });
     if (it == cards.end() || it->pci_slot.isEmpty()) {
@@ -234,18 +234,18 @@ IntelI915GpuBackend::enumerar_processos_vram(int gpu_id) const {
         }
         const auto fds = fd.entryList(QDir::Files);
         for (const auto& fd_nome : fds) {
-            const auto kv = parseFdinfo(fd.absoluteFilePath(fd_nome));
+            const auto kv = parse_fdinfo(fd.absoluteFilePath(fd_nome));
             if (kv.value(QStringLiteral("drm-pdev")) != pdev) {
                 continue;
             }
             const std::uint64_t vram =
-                parseBytesField(kv.value(QStringLiteral("drm-total-vram")));
+                parse_bytes_field(kv.value(QStringLiteral("drm-total-vram")));
             const std::uint64_t systmem =
-                parseBytesField(kv.value(QStringLiteral("drm-total-system")));
+                parse_bytes_field(kv.value(QStringLiteral("drm-total-system")));
             bytes_por_pid[pid_n] += (vram > 0 ? vram : systmem);
             if (!nome_por_pid.contains(pid_n)) {
                 nome_por_pid.insert(pid_n,
-                    lerNomeProcesso(proc.absoluteFilePath(nome)));
+                    ler_nome_processo(proc.absoluteFilePath(nome)));
             }
         }
     }

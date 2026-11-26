@@ -18,9 +18,9 @@ struct DepsFactoryGpuBackend {
 };
 
 [[nodiscard]] std::shared_ptr<domain::IGpuBackend>
-    criarBackendCompositoCom(const DepsFactoryGpuBackend& deps);
+    criar_backend_composito_com(const DepsFactoryGpuBackend& deps);
 
 [[nodiscard]] std::shared_ptr<domain::IGpuBackend>
-    criarBackendCompositoDoSistema();
+    criar_backend_composito_do_sistema();
 
 }

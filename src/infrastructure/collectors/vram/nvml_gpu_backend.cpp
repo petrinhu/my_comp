@@ -15,7 +15,7 @@ namespace vramopt::infrastructure {
 
 namespace {
 
-QString lerComm(const QString& proc_root, std::uint32_t pid) {
+QString ler_comm(const QString& proc_root, std::uint32_t pid) {
     QFile f{QStringLiteral("%1/%2/comm").arg(proc_root).arg(pid)};
     if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
         return QStringLiteral("?");
@@ -37,13 +37,13 @@ NvmlGpuBackend::NvmlGpuBackend(std::shared_ptr<INvmlAdapter> adapter,
 std::vector<vramopt::domain::GpuInfo>
 NvmlGpuBackend::enumerar_gpus() const {
     std::vector<domain::GpuInfo> gpus;
-    if (!m_adapter || !m_adapter->isAvailable()) {
+    if (!m_adapter || !m_adapter->is_available()) {
         return gpus;
     }
-    const auto count = m_adapter->deviceCount();
+    const auto count = m_adapter->device_count();
     gpus.reserve(count);
     for (std::uint32_t i = 0; i < count; ++i) {
-        const auto info = m_adapter->deviceInfo(i);
+        const auto info = m_adapter->device_info(i);
         if (!info.has_value()) {
             continue;
         }
@@ -58,7 +58,7 @@ NvmlGpuBackend::enumerar_gpus() const {
 std::vector<vramopt::domain::Processo>
 NvmlGpuBackend::enumerar_processos_vram(int gpu_id) const {
     std::vector<domain::Processo> processos;
-    if (!m_adapter || !m_adapter->isAvailable() || gpu_id < 0) {
+    if (!m_adapter || !m_adapter->is_available() || gpu_id < 0) {
         return processos;
     }
     const auto idx = static_cast<std::uint32_t>(gpu_id);
@@ -74,13 +74,13 @@ NvmlGpuBackend::enumerar_processos_vram(int gpu_id) const {
             }
         }
     };
-    acumular(m_adapter->processosCompute(idx));
-    acumular(m_adapter->processosGraphics(idx));
+    acumular(m_adapter->processos_compute(idx));
+    acumular(m_adapter->processos_graphics(idx));
 
     processos.reserve(por_pid.size());
     for (const auto& [pid, bytes] : por_pid) {
         const NvmlProcessoInfo r{.pid = pid, .bytes = bytes};
-        const auto nome = lerComm(m_proc_root, r.pid);
+        const auto nome = ler_comm(m_proc_root, r.pid);
         std::vector<domain::ChaveProcesso> chaves;
         chaves.push_back(domain::ChaveProcesso::de_binario(nome));
         processos.emplace_back(domain::PID{static_cast<std::int32_t>(r.pid)},

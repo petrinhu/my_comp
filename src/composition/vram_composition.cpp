@@ -130,7 +130,7 @@ ServicosVram compor_servicos_vram() {
     // Mesma instância do repositório na regra (leitura) e no caso de uso (gravação).
     const auto repositorio_feedback = compor_repositorio_feedback();
     // O amostrador da regra é alimentado pelo próprio backend que a auditoria consulta.
-    auto montado = compor_backend_com_amostrador(infrastructure::criarBackendCompositoDoSistema());
+    auto montado = compor_backend_com_amostrador(infrastructure::criar_backend_composito_do_sistema());
     const FontesDaCascata fontes{
         .repositorio_feedback = repositorio_feedback,
         .catalogo             = compor_catalogo_classificacao(),

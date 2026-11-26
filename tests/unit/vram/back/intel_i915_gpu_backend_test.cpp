@@ -146,11 +146,11 @@ TEST(IntelI915GpuBackendTest, SistemaTemGpuIntelDetectaCorretamente) {
     QDir{}.mkpath(drm_amd);
     montarCardSysfs(drm_amd, 0, QStringLiteral("0x1002"), QStringLiteral("1002:73DF"),
                     QStringLiteral("0000:03:00.0"), 0);
-    EXPECT_FALSE(IntelI915GpuBackend::sistemaTemGpuIntel(drm_amd));
+    EXPECT_FALSE(IntelI915GpuBackend::sistema_tem_gpu_intel(drm_amd));
 
     const QString drm_intel = tmp.path() + QStringLiteral("/drm_intel");
     QDir{}.mkpath(drm_intel);
     montarCardSysfs(drm_intel, 0, QStringLiteral("0x8086"), QStringLiteral("8086:9A49"),
                     QStringLiteral("0000:00:02.0"), 0);
-    EXPECT_TRUE(IntelI915GpuBackend::sistemaTemGpuIntel(drm_intel));
+    EXPECT_TRUE(IntelI915GpuBackend::sistema_tem_gpu_intel(drm_intel));
 }

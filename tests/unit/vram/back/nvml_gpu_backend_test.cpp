@@ -29,25 +29,25 @@ public:
     std::vector<std::vector<NvmlProcessoInfo>>           procs_por_idx;
     std::vector<std::vector<NvmlProcessoInfo>>           graphics_por_idx;
 
-    [[nodiscard]] bool isAvailable() const override { return disponivel; }
-    [[nodiscard]] std::uint32_t deviceCount() override {
+    [[nodiscard]] bool is_available() const override { return disponivel; }
+    [[nodiscard]] std::uint32_t device_count() override {
         return static_cast<std::uint32_t>(devices.size());
     }
-    [[nodiscard]] std::optional<NvmlDeviceInfo> deviceInfo(std::uint32_t idx) override {
+    [[nodiscard]] std::optional<NvmlDeviceInfo> device_info(std::uint32_t idx) override {
         if (idx >= devices.size()) {
             return std::nullopt;
         }
         return devices[idx];
     }
     [[nodiscard]] std::vector<NvmlProcessoInfo>
-        processosCompute(std::uint32_t idx) override {
+        processos_compute(std::uint32_t idx) override {
         if (idx >= procs_por_idx.size()) {
             return {};
         }
         return procs_por_idx[idx];
     }
     [[nodiscard]] std::vector<NvmlProcessoInfo>
-        processosGraphics(std::uint32_t idx) override {
+        processos_graphics(std::uint32_t idx) override {
         if (idx >= graphics_por_idx.size()) {
             return {};
         }

@@ -7,12 +7,12 @@
 namespace vramopt::infrastructure {
 
 LeitorDesktopFileXdg::LeitorDesktopFileXdg(QStringList xdg_dirs)
-    : m_xdg_dirs{xdg_dirs.isEmpty() ? desktop_xdg::xdgDirsDoSistema()
+    : m_xdg_dirs{xdg_dirs.isEmpty() ? desktop_xdg::xdg_dirs_do_sistema()
                                     : std::move(xdg_dirs)} {}
 
 QStringList
 LeitorDesktopFileXdg::categorias_de(const domain::Processo& processo) const {
-    const auto found = desktop_xdg::encontrarPorProcesso(m_xdg_dirs, processo);
+    const auto found = desktop_xdg::encontrar_por_processo(m_xdg_dirs, processo);
     if (!found.has_value()) {
         return {};
     }

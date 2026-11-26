@@ -6,7 +6,7 @@ CompositeGpuBackend::CompositeGpuBackend(
     std::vector<std::shared_ptr<domain::IGpuBackend>> backends)
     : m_backends{std::move(backends)} {}
 
-void CompositeGpuBackend::garantirMapa() const {
+void CompositeGpuBackend::garantir_mapa() const {
     if (m_mapa_pronto) {
         return;
     }

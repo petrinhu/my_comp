@@ -16,7 +16,7 @@ public:
     [[nodiscard]] std::vector<domain::Processo>
         enumerar_processos_vram(int gpu_id) const override;
 
-    [[nodiscard]] static bool sistemaTemGpuIntel(const QString& drm_root);
+    [[nodiscard]] static bool sistema_tem_gpu_intel(const QString& drm_root);
 
 private:
     struct CardIntel {
@@ -27,7 +27,7 @@ private:
         domain::BytesDeMemoria   vram_total;
     };
 
-    [[nodiscard]] std::vector<CardIntel> descobrirCards() const;
+    [[nodiscard]] std::vector<CardIntel> descobrir_cards() const;
 
     QString m_drm_root;
     QString m_proc_root;

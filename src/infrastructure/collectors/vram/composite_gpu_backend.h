@@ -27,7 +27,7 @@ private:
     mutable std::vector<EntradaGpu> m_mapa_ids;
     mutable bool m_mapa_pronto{false};
 
-    void garantirMapa() const;
+    void garantir_mapa() const;
 };
 
 }

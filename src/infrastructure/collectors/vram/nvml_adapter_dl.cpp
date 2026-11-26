@@ -51,14 +51,14 @@ struct NvmlAdapterDl::Impl {
     void* handle{nullptr};
     bool  inited{false};
 
-    FnInit                  fnInit{nullptr};
-    FnShutdown              fnShutdown{nullptr};
-    FnDeviceGetCount        fnGetCount{nullptr};
-    FnDeviceGetHandleByIdx  fnGetHandle{nullptr};
-    FnDeviceGetName         fnGetName{nullptr};
-    FnDeviceGetMemoryInfo   fnGetMem{nullptr};
-    FnDeviceGetCompProcs    fnGetCompProcs{nullptr};
-    FnDeviceGetCompProcs    fnGetGraphicsProcs{nullptr}; // mesma assinatura da variante compute
+    FnInit                  fn_init{nullptr};
+    FnShutdown              fn_shutdown{nullptr};
+    FnDeviceGetCount        fn_get_count{nullptr};
+    FnDeviceGetHandleByIdx  fn_get_handle{nullptr};
+    FnDeviceGetName         fn_get_name{nullptr};
+    FnDeviceGetMemoryInfo   fn_get_mem{nullptr};
+    FnDeviceGetCompProcs    fn_get_comp_procs{nullptr};
+    FnDeviceGetCompProcs    fn_get_graphics_procs{nullptr}; // mesma assinatura da variante compute
 
     template <typename T>
     static T resolve(void* h, const char* nome_v2_pref, const char* nome_legacy) {
@@ -69,11 +69,11 @@ struct NvmlAdapterDl::Impl {
         return reinterpret_cast<T>(p);
     }
 
-    [[nodiscard]] bool simbolosOk() const {
-        return fnInit != nullptr && fnShutdown != nullptr
-               && fnGetCount != nullptr && fnGetHandle != nullptr
-               && fnGetName != nullptr && fnGetMem != nullptr
-               && fnGetCompProcs != nullptr;
+    [[nodiscard]] bool simbolos_ok() const {
+        return fn_init != nullptr && fn_shutdown != nullptr
+               && fn_get_count != nullptr && fn_get_handle != nullptr
+               && fn_get_name != nullptr && fn_get_mem != nullptr
+               && fn_get_comp_procs != nullptr;
     }
 };
 
@@ -83,75 +83,75 @@ NvmlAdapterDl::NvmlAdapterDl()
     if (m_impl->handle == nullptr) {
         return;
     }
-    m_impl->fnInit       = Impl::resolve<FnInit>(m_impl->handle,
+    m_impl->fn_init       = Impl::resolve<FnInit>(m_impl->handle,
                                                  "nvmlInit_v2", "nvmlInit");
-    m_impl->fnShutdown   = Impl::resolve<FnShutdown>(m_impl->handle,
+    m_impl->fn_shutdown   = Impl::resolve<FnShutdown>(m_impl->handle,
                                                      "nvmlShutdown", nullptr);
-    m_impl->fnGetCount   = Impl::resolve<FnDeviceGetCount>(m_impl->handle,
+    m_impl->fn_get_count   = Impl::resolve<FnDeviceGetCount>(m_impl->handle,
                                                            "nvmlDeviceGetCount_v2",
                                                            "nvmlDeviceGetCount");
-    m_impl->fnGetHandle  = Impl::resolve<FnDeviceGetHandleByIdx>(m_impl->handle,
+    m_impl->fn_get_handle  = Impl::resolve<FnDeviceGetHandleByIdx>(m_impl->handle,
                                                                  "nvmlDeviceGetHandleByIndex_v2",
                                                                  "nvmlDeviceGetHandleByIndex");
-    m_impl->fnGetName    = Impl::resolve<FnDeviceGetName>(m_impl->handle,
+    m_impl->fn_get_name    = Impl::resolve<FnDeviceGetName>(m_impl->handle,
                                                           "nvmlDeviceGetName", nullptr);
-    m_impl->fnGetMem     = Impl::resolve<FnDeviceGetMemoryInfo>(m_impl->handle,
+    m_impl->fn_get_mem     = Impl::resolve<FnDeviceGetMemoryInfo>(m_impl->handle,
                                                                 "nvmlDeviceGetMemoryInfo", nullptr);
-    m_impl->fnGetCompProcs = Impl::resolve<FnDeviceGetCompProcs>(m_impl->handle,
+    m_impl->fn_get_comp_procs = Impl::resolve<FnDeviceGetCompProcs>(m_impl->handle,
                                                                  "nvmlDeviceGetComputeRunningProcesses_v3",
                                                                  "nvmlDeviceGetComputeRunningProcesses_v2");
 
     // Opcional: drivers antigos podem não exportar; a lista graphics fica vazia.
-    m_impl->fnGetGraphicsProcs = Impl::resolve<FnDeviceGetCompProcs>(m_impl->handle,
+    m_impl->fn_get_graphics_procs = Impl::resolve<FnDeviceGetCompProcs>(m_impl->handle,
                                                                      "nvmlDeviceGetGraphicsRunningProcesses_v3",
                                                                      "nvmlDeviceGetGraphicsRunningProcesses_v2");
 
-    if (!m_impl->simbolosOk()) {
+    if (!m_impl->simbolos_ok()) {
         return;
     }
-    if (m_impl->fnInit() == NVML_SUCCESS) {
+    if (m_impl->fn_init() == NVML_SUCCESS) {
         m_impl->inited = true;
     }
 }
 
 NvmlAdapterDl::~NvmlAdapterDl() {
-    if (m_impl && m_impl->inited && m_impl->fnShutdown != nullptr) {
-        (void)m_impl->fnShutdown();
+    if (m_impl && m_impl->inited && m_impl->fn_shutdown != nullptr) {
+        (void)m_impl->fn_shutdown();
     }
     if (m_impl && m_impl->handle != nullptr) {
         (void)dlclose(m_impl->handle);
     }
 }
 
-bool NvmlAdapterDl::isAvailable() const {
+bool NvmlAdapterDl::is_available() const {
     return m_impl && m_impl->inited;
 }
 
-std::uint32_t NvmlAdapterDl::deviceCount() {
-    if (!isAvailable()) {
+std::uint32_t NvmlAdapterDl::device_count() {
+    if (!is_available()) {
         return 0;
     }
     unsigned int count = 0;
-    if (m_impl->fnGetCount(&count) != NVML_SUCCESS) {
+    if (m_impl->fn_get_count(&count) != NVML_SUCCESS) {
         return 0;
     }
     return count;
 }
 
-std::optional<NvmlDeviceInfo> NvmlAdapterDl::deviceInfo(std::uint32_t idx) {
-    if (!isAvailable()) {
+std::optional<NvmlDeviceInfo> NvmlAdapterDl::device_info(std::uint32_t idx) {
+    if (!is_available()) {
         return std::nullopt;
     }
     NvmlDevice_t dev = nullptr;
-    if (m_impl->fnGetHandle(idx, &dev) != NVML_SUCCESS || dev == nullptr) {
+    if (m_impl->fn_get_handle(idx, &dev) != NVML_SUCCESS || dev == nullptr) {
         return std::nullopt;
     }
     char nome[NVML_DEVICE_NAME_BUFFER_SIZE]{};
-    if (m_impl->fnGetName(dev, nome, NVML_DEVICE_NAME_BUFFER_SIZE) != NVML_SUCCESS) {
+    if (m_impl->fn_get_name(dev, nome, NVML_DEVICE_NAME_BUFFER_SIZE) != NVML_SUCCESS) {
         return std::nullopt;
     }
     NvmlMemory mem{};
-    if (m_impl->fnGetMem(dev, &mem) != NVML_SUCCESS) {
+    if (m_impl->fn_get_mem(dev, &mem) != NVML_SUCCESS) {
         return std::nullopt;
     }
     NvmlDeviceInfo out;
@@ -165,7 +165,7 @@ namespace {
 // Protocolo de duas chamadas do NVML: 1ª com buffer nulo devolve o tamanho
 // (INSUFFICIENT_SIZE); 2ª preenche. Se a lista crescer entre as duas, desiste do ciclo.
 template <typename Fn>
-std::vector<NvmlProcessoInfo> listarProcessos(Fn fn, NvmlDevice_t dev) {
+std::vector<NvmlProcessoInfo> listar_processos(Fn fn, NvmlDevice_t dev) {
     std::vector<NvmlProcessoInfo> resultado;
     if (fn == nullptr) {
         return resultado;
@@ -195,29 +195,29 @@ std::vector<NvmlProcessoInfo> listarProcessos(Fn fn, NvmlDevice_t dev) {
 
 }
 
-std::vector<NvmlProcessoInfo> NvmlAdapterDl::processosCompute(std::uint32_t idx) {
-    if (!isAvailable()) {
+std::vector<NvmlProcessoInfo> NvmlAdapterDl::processos_compute(std::uint32_t idx) {
+    if (!is_available()) {
         return {};
     }
     NvmlDevice_t dev = nullptr;
-    if (m_impl->fnGetHandle(idx, &dev) != NVML_SUCCESS || dev == nullptr) {
+    if (m_impl->fn_get_handle(idx, &dev) != NVML_SUCCESS || dev == nullptr) {
         return {};
     }
-    return listarProcessos(m_impl->fnGetCompProcs, dev);
+    return listar_processos(m_impl->fn_get_comp_procs, dev);
 }
 
-std::vector<NvmlProcessoInfo> NvmlAdapterDl::processosGraphics(std::uint32_t idx) {
-    if (!isAvailable()) {
+std::vector<NvmlProcessoInfo> NvmlAdapterDl::processos_graphics(std::uint32_t idx) {
+    if (!is_available()) {
         return {};
     }
     NvmlDevice_t dev = nullptr;
-    if (m_impl->fnGetHandle(idx, &dev) != NVML_SUCCESS || dev == nullptr) {
+    if (m_impl->fn_get_handle(idx, &dev) != NVML_SUCCESS || dev == nullptr) {
         return {};
     }
-    return listarProcessos(m_impl->fnGetGraphicsProcs, dev);
+    return listar_processos(m_impl->fn_get_graphics_procs, dev);
 }
 
-std::shared_ptr<INvmlAdapter> criarAdapterNvmlReal() {
+std::shared_ptr<INvmlAdapter> criar_adapter_nvml_real() {
     return std::make_shared<NvmlAdapterDl>();
 }
 
