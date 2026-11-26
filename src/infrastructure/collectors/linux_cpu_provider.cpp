@@ -1,6 +1,5 @@
 #include "linux_cpu_provider.h"
 #include <filesystem>
-#include <algorithm>
 #include <regex>
 #include <iostream>
 

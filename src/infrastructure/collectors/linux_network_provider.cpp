@@ -1,6 +1,5 @@
 #include "linux_network_provider.h"
 #include <sstream>
-#include <regex>
 #include <iostream>
 #include <QRegularExpression>
 

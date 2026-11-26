@@ -1,6 +1,5 @@
 #include "linux_storage_provider.h"
 #include <sstream>
-#include <algorithm>
 
 namespace my_comp::infrastructure::collectors {
 
