@@ -44,8 +44,9 @@ bool sistema_em_tema_escuro(const QGuiApplication& app) {
 }
 
 int executar_gui(int argc, char* argv[]) {
-    // Wayland por padrão, sem sobrescrever escolha explícita do usuário (ex.: QT_QPA_PLATFORM=xcb).
-    if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM")) {
+    // Wayland quando há sessão Wayland; em X11 o Qt escolhe xcb sozinho. Nunca sobrescreve
+    // escolha explícita do usuário (ex.: QT_QPA_PLATFORM=xcb). AUDIT-04.
+    if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM") && !qEnvironmentVariableIsEmpty("WAYLAND_DISPLAY")) {
         qputenv("QT_QPA_PLATFORM", "wayland");
     }
 
