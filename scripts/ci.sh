@@ -110,10 +110,13 @@ stage_clang_tidy() {
     files=$(find "${ROOT_DIR}/src" -name '*.cpp' -not -path '*/build/*' -type f)
     local failed=0
     for f in $files; do
+        # Só as famílias do gate T2 (MC-07) reprovam; performance/cppcoreguidelines são
+        # reportadas como aviso (o .clang-tidy tem WarningsAsErrors '*' para uso no editor).
         if ! clang-tidy -p "${BUILD_DIR}" \
             --quiet \
             --header-filter='src/.*' \
-            --checks='-*,bugprone-*,cert-*,security-*,cppcoreguidelines-*,performance-*,-cppcoreguidelines-avoid-magic-numbers,-cppcoreguidelines-pro-bounds-*,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-non-private-member-variables-in-classes,-cppcoreguidelines-avoid-non-const-global-variables,-cppcoreguidelines-owning-memory,-cppcoreguidelines-special-member-functions,-cppcoreguidelines-init-variables' \
+            --warnings-as-errors='bugprone-*,cert-*,security-*,clang-analyzer-security*' \
+            --checks='-*,bugprone-*,cert-*,security-*,clang-analyzer-security*,cppcoreguidelines-*,performance-*,-cppcoreguidelines-avoid-magic-numbers,-cppcoreguidelines-pro-bounds-*,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-non-private-member-variables-in-classes,-cppcoreguidelines-avoid-non-const-global-variables,-cppcoreguidelines-owning-memory,-cppcoreguidelines-special-member-functions,-cppcoreguidelines-init-variables' \
             "$f" 2>&1
         then
             failed=1
