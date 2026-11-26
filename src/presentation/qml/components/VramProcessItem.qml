@@ -46,8 +46,7 @@ Rectangle {
         Text {
             text: qsTr("Categoria: %1  ·  Regra: %2").arg(processItem.item.categoria).arg(processItem.item.regra)
                   + (processItem.item.detalhe.length > 0 ? "  ·  " + processItem.item.detalhe : "")
-            color: Theme.textColor
-            opacity: 0.75
+            color: Theme.mutedTextColor
             font.pixelSize: 11
             wrapMode: Text.WordWrap
             Layout.fillWidth: true
@@ -57,7 +56,6 @@ Rectangle {
             visible: processItem.item.sugestaoDescricao && processItem.item.sugestaoDescricao.length > 0
             text: "💡 " + processItem.item.sugestaoDescricao
             color: Theme.highlightColor
-            opacity: 0.9
             font.pixelSize: 11
             wrapMode: Text.WordWrap
             Layout.fillWidth: true
@@ -78,8 +76,7 @@ Rectangle {
             spacing: 6
             Text {
                 text: qsTr("Seu veredito:")
-                color: Theme.textColor
-                opacity: 0.75
+                color: Theme.mutedTextColor
                 font.pixelSize: 11
             }
             Button {

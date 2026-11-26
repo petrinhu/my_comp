@@ -16,7 +16,7 @@ Rectangle {
         Text { text: qsTr("🔎 Scanner de Diretório"); color: Theme.highlightColor; font.pixelSize: 15; font.bold: true }
         Text {
             text: qsTr("Varre recursivamente uma pasta e lista os 20 subdiretórios mais pesados. Pseudo-filesystems (/proc, /sys, /run, /dev) e symlinks são ignorados.")
-            color: Theme.textColor; opacity: 0.7; font.pixelSize: 10; wrapMode: Text.WordWrap
+            color: Theme.mutedTextColor; font.pixelSize: 10; wrapMode: Text.WordWrap
             Layout.fillWidth: true
         }
         RowLayout {
@@ -50,7 +50,7 @@ Rectangle {
             }
             Text {
                 text: "▸ " + directoryScannerViewModel.currentPath
-                color: Theme.textColor; opacity: 0.6; font.pixelSize: 10
+                color: Theme.mutedTextColor; font.pixelSize: 10
                 elide: Text.ElideLeft; Layout.fillWidth: true
             }
         }

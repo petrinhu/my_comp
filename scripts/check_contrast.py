@@ -73,6 +73,28 @@ FIXED_PAIRS = [  # (texto, fundo) que não dependem do tema
 ]
 
 
+def translucent_texts(qml_dir):
+    """Elementos Text com opacity < 1: o contraste efetivo cai abaixo do medido na paleta."""
+    found = []
+    for qml in sorted(Path(qml_dir).rglob("*.qml")):
+        src = qml.read_text(encoding="utf-8")
+        for m in re.finditer(r"\bText\s*\{", src):
+            depth, i = 0, m.end() - 1
+            while i < len(src):
+                depth += {"{": 1, "}": -1}.get(src[i], 0)
+                if depth == 0:
+                    break
+                i += 1
+            body = src[m.end():i]
+            # só o nível do próprio Text (ignora filhos aninhados)
+            own = re.sub(r"\{[^{}]*\}", "", body)
+            op = re.search(r"\bopacity:\s*([0-9.]+)", own)
+            if op and float(op.group(1)) < 1.0:
+                line = src.count("\n", 0, m.start()) + 1
+                found.append(f"{qml}:{line}: Text com opacity {op.group(1)} (use mutedTextColor)")
+    return found
+
+
 def main():
     path = sys.argv[1] if len(sys.argv) > 1 else "src/presentation/qml/Theme.qml"
     pal = load_palette(path)
@@ -99,6 +121,7 @@ def main():
             r = ratio(pal[fg][idx], pal[bg][idx])
             if r < AA_TEXT:
                 failures.append(f"[{theme}] {fg} sobre {bg}: {r:.2f}:1")
+    failures.extend(translucent_texts(Path(path).parent))
     failures = sorted(set(failures))
     for f in failures:
         print("FALHA", f)
