@@ -209,3 +209,12 @@
    obj:*
    obj:*
 }
+{
+   qt-forkfd-waitid-null-infop
+   # QProcess (forkfd do Qt) chama waitid(..., infop=NULL, WNOWAIT|WEXITED): válido no Linux,
+   # mas o memcheck acusa "points to unaddressable byte(s)". Falso positivo conhecido.
+   Memcheck:Param
+   waitid(infop)
+   fun:syscall
+   obj:*libQt6Core.so*
+}
