@@ -132,13 +132,14 @@ void ServiceViewModel::createDaemon(const QString& exe_path, const QString& para
     QPointer<ServiceViewModel> self(this);
     auto provider = m_provider;
     (void)QtConcurrent::run([self, provider, exe_path, params]() {
-        bool ok = provider->create_daemon(exe_path, params);
-        QMetaObject::invokeMethod(self.data(), [self, ok]() {
+        const auto result = provider->create_daemon(exe_path, params);
+        QMetaObject::invokeMethod(self.data(), [self, result]() {
             auto* vm = self.data();
             if (!vm) return;
             vm->setBusy(false);
-            if (ok) vm->refresh();
-            emit vm->operationFinished(ok, ok ? "Daemon criado e iniciado com sucesso." : "Falha ao criar daemon.");
+            if (result.ok) vm->refresh();
+            // Mensagem concreta do provider (SV-03c): diz ao usuário o que corrigir.
+            emit vm->operationFinished(result.ok, result.message);
         }, Qt::QueuedConnection);
     });
 }

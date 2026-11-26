@@ -1,6 +1,8 @@
 #include "systemd_service_provider.h"
+#include <QCryptographicHash>
 #include <QDir>
 #include <QFile>
+#include <QFileInfo>
 #include <QTextStream>
 #include <QStandardPaths>
 #include <QStringList>
@@ -82,39 +84,95 @@ bool SystemdServiceProvider::stop_service(const QString& name) {
     return run_systemctl({"disable", "--now", clean_name}, is_user);
 }
 
-bool SystemdServiceProvider::create_daemon(const QString& exe_path, const QString& params) {
+namespace {
+
+QString unit_dir_path() {
+    return QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/systemd/user";
+}
+
+// Linha ExecStart de um unit já gravado (vazia se o arquivo não existe/não tem).
+QString exec_start_of(const QString& unit_path) {
+    QFile f(unit_path);
+    if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) return {};
+    const QString prefix = QStringLiteral("ExecStart=");
+    while (!f.atEnd()) {
+        const QString line = QString::fromUtf8(f.readLine()).trimmed();
+        if (line.startsWith(prefix)) return line.mid(prefix.size());
+    }
+    return {};
+}
+
+bool unit_belongs_to(const QString& unit_path, const QString& exe_path) {
+    const QString exec = exec_start_of(unit_path);
+    return exec == exe_path || exec.startsWith(exe_path + QLatin1Char(' '));
+}
+
+// SV-03f: <base>-daemon.service; se já existe um unit desse nome para OUTRO executável,
+// acrescenta um hash curto do caminho para não sobrescrevê-lo.
+QString choose_unit_name(const QFileInfo& exe) {
+    const QString base = exe.baseName().toLower();
+    const QString simple = base + "-daemon.service";
+    const QString simple_path = unit_dir_path() + "/" + simple;
+    if (!QFile::exists(simple_path) || unit_belongs_to(simple_path, exe.absoluteFilePath())) {
+        return simple;
+    }
+    const QString hash = QString::fromLatin1(
+        QCryptographicHash::hash(exe.absoluteFilePath().toUtf8(), QCryptographicHash::Sha256).toHex().left(8));
+    return base + "-" + hash + "-daemon.service";
+}
+
+} // namespace
+
+domain::models::OperationResult SystemdServiceProvider::create_daemon(const QString& exe_path, const QString& params) {
     auto has_control_char = [](const QString& s) {
         for (QChar c : s) {
             if (c == QChar('\n') || c == QChar('\r') || c == QChar('\0')) return true;
         }
         return false;
     };
-    if (has_control_char(exe_path) || has_control_char(params)) return false;
+    if (has_control_char(exe_path) || has_control_char(params)) {
+        return {.ok = false, .message = QStringLiteral("Caminho ou parâmetros contêm quebra de linha: recusado.")};
+    }
 
-    QFileInfo exeInfo(exe_path);
-    QString serviceName = exeInfo.baseName().toLower() + "-daemon.service";
+    // SV-03c: unit que aponta para algo que não roda nasce quebrado; recusar antes de gravar.
+    const QFileInfo exeInfo(exe_path);
+    if (exeInfo.isRelative()) {
+        return {.ok = false, .message = QStringLiteral("Informe o caminho absoluto do executável (ex.: /usr/bin/%1).").arg(exe_path)};
+    }
+    if (!exeInfo.exists()) {
+        return {.ok = false, .message = QStringLiteral("O arquivo %1 não existe.").arg(exe_path)};
+    }
+    if (!exeInfo.isFile() || !exeInfo.isExecutable()) {
+        return {.ok = false, .message = QStringLiteral("%1 não é um arquivo executável (falta permissão de execução?).").arg(exe_path)};
+    }
 
-    QString configDir = QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/systemd/user";
+    const QString serviceName = choose_unit_name(exeInfo);
+    const QString configDir = unit_dir_path();
     QDir().mkpath(configDir);
-    
+
     QFile file(configDir + "/" + serviceName);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) return false;
-    
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        return {.ok = false, .message = QStringLiteral("Sem permissão para gravar %1.").arg(file.fileName())};
+    }
+
     QTextStream out(&file);
     out << "[Unit]\n";
     out << "Description=Daemon for " << exeInfo.fileName() << " (created by my_comp)\n";
     out << "After=network.target\n\n";
     out << "[Service]\n";
-    out << "ExecStart=" << exe_path << " " << params << "\n";
+    out << "ExecStart=" << exeInfo.absoluteFilePath() << (params.isEmpty() ? QString() : " " + params) << "\n";
     out << "Restart=always\n";
     out << "Type=simple\n\n";
     out << "[Install]\n";
     out << "WantedBy=default.target\n";
     file.close();
-    
+
     // Reload e Iniciar
     run_systemctl({"daemon-reload"}, true);
-    return run_systemctl({"enable", "--now", serviceName}, true);
+    if (!run_systemctl({"enable", "--now", serviceName}, true)) {
+        return {.ok = false, .message = QStringLiteral("Unit %1 gravado, mas o systemctl não conseguiu iniciá-lo.").arg(serviceName)};
+    }
+    return {.ok = true, .message = QStringLiteral("Daemon %1 criado e iniciado.").arg(serviceName)};
 }
 
 } // namespace my_comp::infrastructure::collectors

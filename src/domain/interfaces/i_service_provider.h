@@ -1,4 +1,5 @@
 #pragma once
+#include "../models/operation_result.h"
 #include "../models/service_info.h"
 #include <vector>
 
@@ -11,7 +12,8 @@ public:
     virtual bool start_service(const QString& name) = 0;   // enable --now
     virtual bool pause_service(const QString& name) = 0;   // stop
     virtual bool stop_service(const QString& name) = 0;    // disable --now
-    virtual bool create_daemon(const QString& exe_path, const QString& params) = 0;
+    // Cria e liga um unit systemd --user para exe_path; message explica a falha ou nomeia o unit.
+    virtual models::OperationResult create_daemon(const QString& exe_path, const QString& params) = 0;
 };
 
 } // namespace my_comp::domain::interfaces
