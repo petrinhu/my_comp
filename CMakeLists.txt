@@ -74,6 +74,7 @@ set(CORE_SOURCES
     src/infrastructure/exporters/markdown_export_provider.cpp
     src/infrastructure/exporters/html_export_provider.cpp
     src/infrastructure/security/openssl_vault.cpp
+    src/infrastructure/security/arquivo_chave_local.cpp
     src/presentation/viewmodels/update_viewmodel.cpp
     src/presentation/viewmodels/update_package_model.cpp
     src/presentation/viewmodels/diagnostic_viewmodel.cpp
@@ -148,6 +149,8 @@ set(CORE_SOURCES
     # Catálogo de classificação empacotado (VRAM-06)
     src/infrastructure/collectors/vram/catalogo_classificacao_json.cpp
     src/resources/vram/catalogo_vram.qrc
+    # Feedback do usuário persistido via ISecurityVault (VRAM-07)
+    src/infrastructure/collectors/vram/repositorio_feedback_cifrado.cpp
     # Composition root (extensão do main.cpp)
     src/composition/vram_composition.cpp
     src/composition/shared_infrastructure.cpp
@@ -205,6 +208,7 @@ set(UNIT_TEST_SOURCES
     tests/unit/systemd_service_provider_test.cpp
     tests/unit/cpu_viewmodel_test.cpp
     tests/unit/openssl_vault_test.cpp
+    tests/unit/arquivo_chave_local_test.cpp
     tests/unit/exporters_test.cpp
     tests/unit/memory_viewmodel_test.cpp
     tests/unit/gpu_viewmodel_test.cpp
@@ -282,6 +286,7 @@ set(UNIT_TEST_SOURCES
     tests/unit/vram/mid/composicao_vram_test.cpp
     tests/unit/vram/back/leitor_maps_proc_test.cpp
     tests/unit/vram/back/catalogo_classificacao_json_test.cpp
+    tests/unit/vram/back/repositorio_feedback_cifrado_test.cpp
 )
 
 add_executable(unit_tests ${UNIT_TEST_SOURCES})

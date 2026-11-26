@@ -2,6 +2,7 @@
 
 #include "domain/vram/classificacao/categoria.h"
 #include "domain/vram/valueobjects/chave_processo.h"
+#include "infrastructure/collectors/vram/repositorio_feedback_cifrado.h"
 
 #include <gtest/gtest.h>
 
@@ -30,4 +31,12 @@ TEST(ComposicaoVramTest, CatalogoDaComposicaoEOEmpacotado) {
         vramopt::domain::ChaveProcesso::deBinario(QStringLiteral("firefox")));
     ASSERT_TRUE(firefox.has_value());
     EXPECT_EQ(firefox->veredito, vramopt::domain::Categoria::CandidatoObvioCpu);
+}
+
+// VRAM-07: a RegraFeedback da composição lê o repositório cifrado, não o null object.
+TEST(ComposicaoVramTest, RepositorioDeFeedbackDaComposicaoECifrado) {
+    const auto repo = vramopt::composition::compor_repositorio_feedback();
+    ASSERT_NE(repo, nullptr);
+    EXPECT_NE(dynamic_cast<const vramopt::infrastructure::RepositorioFeedbackCifrado*>(repo.get()),
+              nullptr);
 }

@@ -25,6 +25,10 @@
 #include "infrastructure/collectors/vram/leitor_desktop_file_xdg.h"
 #include "infrastructure/collectors/vram/leitor_environ_proc.h"
 #include "infrastructure/collectors/vram/leitor_maps_proc.h"
+#include "infrastructure/collectors/vram/repositorio_feedback_cifrado.h"
+#include "infrastructure/security/openssl_vault.h"
+
+#include <QStandardPaths>
 
 #include <chrono>
 #include <utility>
@@ -44,8 +48,7 @@ struct RegraNomeada {
 std::vector<RegraNomeada> montar_regras() {
     return {
         {QStringLiteral("feedback"),
-         std::make_shared<application::RegraFeedback>(
-             std::make_shared<infrastructure::RepositorioFeedbackVazio>())},
+         std::make_shared<application::RegraFeedback>(compor_repositorio_feedback())},
         {QStringLiteral("catalogo"),
          std::make_shared<application::RegraCatalogo>(
              compor_catalogo_classificacao())},
@@ -69,6 +72,14 @@ std::vector<RegraNomeada> montar_regras() {
 std::shared_ptr<domain::ICatalogoClassificacao> compor_catalogo_classificacao() {
     return std::make_shared<infrastructure::CatalogoClassificacaoJson>(
         infrastructure::carregar_catalogo_empacotado().entradas);
+}
+
+std::shared_ptr<domain::IRepositorioFeedback> compor_repositorio_feedback() {
+    // AppDataLocation depende de organização/aplicação: GUI e CLI fixam ambas em "my_comp".
+    const QString diretorio =
+        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/vram");
+    return std::make_shared<infrastructure::RepositorioFeedbackCifrado>(
+        std::make_shared<my_comp::infrastructure::security::OpenSslVault>(), diretorio);
 }
 
 std::vector<QString> nomes_das_regras_da_cascata() {

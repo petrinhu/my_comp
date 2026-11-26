@@ -5,6 +5,7 @@
 
 #include "application/vram/auditoria/servico_auditar_vram_atual.h"
 #include "domain/vram/interfaces/i_catalogo_classificacao.h"
+#include "domain/vram/interfaces/i_repositorio_feedback.h"
 
 #include <QString>
 
@@ -17,6 +18,10 @@ namespace vramopt::composition {
 
 // Catálogo usado pela RegraCatalogo: o JSON empacotado em :/vram/catalogo.json (VRAM-06).
 [[nodiscard]] std::shared_ptr<domain::ICatalogoClassificacao> compor_catalogo_classificacao();
+
+// Feedback do usuário cifrado via ISecurityVault em AppDataLocation/vram (VRAM-07).
+// Construir não toca o disco: a carga é preguiçosa, no primeiro acesso.
+[[nodiscard]] std::shared_ptr<domain::IRepositorioFeedback> compor_repositorio_feedback();
 
 // Ordem efetiva da cascata de classificação (primeira regra que opina vence).
 [[nodiscard]] std::vector<QString> nomes_das_regras_da_cascata();
