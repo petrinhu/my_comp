@@ -139,15 +139,26 @@ TEST(DiagnosticViewModelTest, OrdenaPorOrigemEMensagem) {
               (QStringList{QStringLiteral("c"), QStringLiteral("b"), QStringLiteral("a")}));
 }
 
-TEST(DiagnosticViewModelTest, LimiteNegativoViraZero) {
+// 0 é "ilimitado" no provedor (journalctl sem -n); um negativo não pode virar isso.
+TEST(DiagnosticViewModelTest, LimiteNegativoEhIgnorado) {
     auto manager = std::make_shared<DiagnosticManager>();
     DiagnosticViewModel vm(manager);
+    const int original = vm.logLimit();
     QSignalSpy spy(&vm, &DiagnosticViewModel::logLimitChanged);
 
     vm.setLogLimit(-5);
 
+    EXPECT_EQ(vm.logLimit(), original);
+    EXPECT_EQ(spy.count(), 0);
+}
+
+TEST(DiagnosticViewModelTest, LimiteZeroContinuaSignificandoIlimitado) {
+    auto manager = std::make_shared<DiagnosticManager>();
+    DiagnosticViewModel vm(manager);
+
+    vm.setLogLimit(0);
+
     EXPECT_EQ(vm.logLimit(), 0);
-    EXPECT_EQ(spy.count(), 1);
 }
 
 TEST(DiagnosticViewModelTest, SettersSoNotificamQuandoOValorMuda) {
