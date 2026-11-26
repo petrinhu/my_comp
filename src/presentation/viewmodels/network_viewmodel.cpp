@@ -13,7 +13,7 @@ NetworkViewModel::NetworkViewModel(std::shared_ptr<domain::interfaces::INetworkP
 }
 
 namespace {
-const QString EXTERNAL_PROBE_KEY = QStringLiteral("network/external_latency_probe");
+constexpr QLatin1String EXTERNAL_PROBE_KEY{"network/external_latency_probe"}; // constexpr: sem init global que lança (cert-err58)
 } // namespace
 
 void NetworkViewModel::load_preferences() {

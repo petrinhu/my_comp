@@ -6,7 +6,7 @@ namespace my_comp::infrastructure::collectors {
 
 namespace {
 // Elevação via polkit: sudo numa GUI não tem TTY para pedir senha (lê de /dev/tty, não do stdin).
-const QString ELEVATE = QStringLiteral("pkexec");
+constexpr QLatin1String ELEVATE{"pkexec"}; // constexpr: sem init global que lança (cert-err58)
 constexpr int REJECTED_EXIT_CODE = 2;
 constexpr qsizetype MAX_PACKAGE_NAME_LENGTH = 256;
 } // namespace
