@@ -1,6 +1,9 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import ".."
+
+// ABA 11 - Instalação: console do instalador e confirmação interativa.
 
 ColumnLayout {
     spacing: 10
@@ -9,21 +12,21 @@ ColumnLayout {
     Rectangle {
         Layout.fillWidth: true
         height: 80
-        color: root.consolePanelBg
+        color: Theme.consolePanelBg
         radius: 8
         RowLayout {
             anchors.fill: parent; anchors.margins: 15
             Column { 
-                Text { text: qsTr("Sistema"); color: root.consoleMutedTextColor; font.pixelSize: 12 }
-                Text { text: systemInfoViewModel.distro; color: root.contrastTextColor; font.bold: true }
+                Text { text: qsTr("Sistema"); color: Theme.consoleMutedTextColor; font.pixelSize: 12 }
+                Text { text: systemInfoViewModel.distro; color: Theme.contrastTextColor; font.bold: true }
             }
             Column { 
-                Text { text: qsTr("Kernel"); color: root.consoleMutedTextColor; font.pixelSize: 12 }
-                Text { text: systemInfoViewModel.kernel; color: root.contrastTextColor; font.bold: true }
+                Text { text: qsTr("Kernel"); color: Theme.consoleMutedTextColor; font.pixelSize: 12 }
+                Text { text: systemInfoViewModel.kernel; color: Theme.contrastTextColor; font.bold: true }
             }
             Column { 
-                Text { text: qsTr("Driver GPU"); color: root.consoleMutedTextColor; font.pixelSize: 12 }
-                Text { text: systemInfoViewModel.driver; color: root.contrastTextColor; font.bold: true }
+                Text { text: qsTr("Driver GPU"); color: Theme.consoleMutedTextColor; font.pixelSize: 12 }
+                Text { text: systemInfoViewModel.driver; color: Theme.contrastTextColor; font.bold: true }
             }
         }
     }
@@ -32,7 +35,7 @@ ColumnLayout {
     Rectangle {
         Layout.fillWidth: true
         Layout.fillHeight: true
-        color: root.consoleBg
+        color: Theme.consoleBg
         radius: 4
         ScrollView {
             anchors.fill: parent
@@ -41,7 +44,7 @@ ColumnLayout {
                 id: logArea
                 text: installationViewModel.logOutput
                 readOnly: true
-                color: root.consoleTextColor
+                color: Theme.consoleTextColor
                 font.family: "Monospace"
                 font.pixelSize: 12
                 onTextChanged: cursorPosition = length
@@ -57,12 +60,12 @@ ColumnLayout {
         closePolicy: Popup.NoAutoClose
         anchors.centerIn: parent
         padding: 20
-        background: Rectangle { color: root.consolePanelBg; radius: 8 }
+        background: Rectangle { color: Theme.consolePanelBg; radius: 8 }
         
         ColumnLayout {
             spacing: 10
-            Text { text: qsTr("Confirmação necessária:"); color: root.contrastTextColor; font.bold: true }
-            Text { text: installationViewModel.question; color: root.consoleMutedTextColor; wrapMode: Text.WordWrap; width: 300 }
+            Text { text: qsTr("Confirmação necessária:"); color: Theme.contrastTextColor; font.bold: true }
+            Text { text: installationViewModel.question; color: Theme.consoleMutedTextColor; wrapMode: Text.WordWrap; width: 300 }
             Row {
                 spacing: 10
                 Button { text: qsTr("Sim (y)"); onClicked: installationViewModel.respond(true) }

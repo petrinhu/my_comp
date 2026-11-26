@@ -1,8 +1,49 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource prefix="/">
+    <!-- Aliases espelham a árvore de src/presentation/qml: imports relativos ("views",
+         "components", "..") e o qmldir do singleton Theme funcionam a partir de qrc:/ -->
     <file alias="Main.qml">presentation/qml/Main.qml</file>
-    <file alias="CpuDetailDialog.qml">presentation/qml/CpuDetailDialog.qml</file>
-    <file alias="InstallationView.qml">presentation/qml/InstallationView.qml</file>
-    <file alias="ToastOverlay.qml">presentation/qml/ToastOverlay.qml</file>
+    <file alias="Theme.qml">presentation/qml/Theme.qml</file>
+    <file alias="Format.qml">presentation/qml/Format.qml</file>
+    <file alias="qmldir">presentation/qml/qmldir</file>
+    <file alias="components/AudioVisualizer.qml">presentation/qml/components/AudioVisualizer.qml</file>
+    <file alias="components/Card.qml">presentation/qml/components/Card.qml</file>
+    <file alias="components/CpuDetailDialog.qml">presentation/qml/components/CpuDetailDialog.qml</file>
+    <file alias="components/DaemonDialog.qml">presentation/qml/components/DaemonDialog.qml</file>
+    <file alias="components/DashboardCard.qml">presentation/qml/components/DashboardCard.qml</file>
+    <file alias="components/DirectoryScannerCard.qml">presentation/qml/components/DirectoryScannerCard.qml</file>
+    <file alias="components/DriveCard.qml">presentation/qml/components/DriveCard.qml</file>
+    <file alias="components/GpuRow.qml">presentation/qml/components/GpuRow.qml</file>
+    <file alias="components/KillProcessDialog.qml">presentation/qml/components/KillProcessDialog.qml</file>
+    <file alias="components/LabelValue.qml">presentation/qml/components/LabelValue.qml</file>
+    <file alias="components/NavigationSidebar.qml">presentation/qml/components/NavigationSidebar.qml</file>
+    <file alias="components/PageTitle.qml">presentation/qml/components/PageTitle.qml</file>
+    <file alias="components/PartitionUsageRow.qml">presentation/qml/components/PartitionUsageRow.qml</file>
+    <file alias="components/PlaceholderView.qml">presentation/qml/components/PlaceholderView.qml</file>
+    <file alias="components/ProcessExplorer.qml">presentation/qml/components/ProcessExplorer.qml</file>
+    <file alias="components/ProcessSortHeader.qml">presentation/qml/components/ProcessSortHeader.qml</file>
+    <file alias="components/ScanEntryRow.qml">presentation/qml/components/ScanEntryRow.qml</file>
+    <file alias="components/ScrollPage.qml">presentation/qml/components/ScrollPage.qml</file>
+    <file alias="components/SectionTitle.qml">presentation/qml/components/SectionTitle.qml</file>
+    <file alias="components/SmartBadge.qml">presentation/qml/components/SmartBadge.qml</file>
+    <file alias="components/SmbiosGrid.qml">presentation/qml/components/SmbiosGrid.qml</file>
+    <file alias="components/StatusDot.qml">presentation/qml/components/StatusDot.qml</file>
+    <file alias="components/ThemeToggle.qml">presentation/qml/components/ThemeToggle.qml</file>
+    <file alias="components/ToastOverlay.qml">presentation/qml/components/ToastOverlay.qml</file>
+    <file alias="components/VramConfigOrigin.qml">presentation/qml/components/VramConfigOrigin.qml</file>
+    <file alias="components/VramGpuGroup.qml">presentation/qml/components/VramGpuGroup.qml</file>
+    <file alias="components/VramProcessItem.qml">presentation/qml/components/VramProcessItem.qml</file>
+    <file alias="views/DashboardView.qml">presentation/qml/views/DashboardView.qml</file>
+    <file alias="views/DevToolsView.qml">presentation/qml/views/DevToolsView.qml</file>
+    <file alias="views/ExportView.qml">presentation/qml/views/ExportView.qml</file>
+    <file alias="views/HardwareView.qml">presentation/qml/views/HardwareView.qml</file>
+    <file alias="views/InstallationView.qml">presentation/qml/views/InstallationView.qml</file>
+    <file alias="views/JournalView.qml">presentation/qml/views/JournalView.qml</file>
+    <file alias="views/NetworkView.qml">presentation/qml/views/NetworkView.qml</file>
+    <file alias="views/SecurityView.qml">presentation/qml/views/SecurityView.qml</file>
+    <file alias="views/ServicesView.qml">presentation/qml/views/ServicesView.qml</file>
+    <file alias="views/StorageView.qml">presentation/qml/views/StorageView.qml</file>
+    <file alias="views/UpdatesView.qml">presentation/qml/views/UpdatesView.qml</file>
+    <file alias="views/VramView.qml">presentation/qml/views/VramView.qml</file>
 </qresource>
 </RCC>

@@ -1,7 +1,9 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import ".."
 
+// Diálogo "CPU Deep Dive": arquitetura/cache e carga por core em tempo real.
 Dialog {
     id: cpuDetailRoot
     title: qsTr("CPU Deep Dive")
@@ -11,15 +13,15 @@ Dialog {
     anchors.centerIn: Overlay.overlay
     
     background: Rectangle {
-        color: root.dialogBg
+        color: Theme.dialogBg
         radius: 12
-        border.color: root.borderColor
+        border.color: Theme.borderColor
         border.width: 1
     }
 
     header: Rectangle {
         height: 60
-        color: root.dialogHeaderBg
+        color: Theme.dialogHeaderBg
         radius: 12
         
         RowLayout {
@@ -29,7 +31,7 @@ Dialog {
             
             Text { 
                 text: qsTr("📊 Detalhes da CPU")
-                color: root.textColor
+                color: Theme.textColor
                 font.pixelSize: 18
                 font.bold: true 
                 Layout.alignment: Qt.AlignVCenter
@@ -46,7 +48,7 @@ Dialog {
                 
                 contentItem: Text { 
                     text: "✖"
-                    color: closeBtn.hovered ? root.criticalColor : root.textColor
+                    color: closeBtn.hovered ? Theme.criticalColor : Theme.textColor
                     font.pixelSize: 20
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -62,7 +64,7 @@ Dialog {
         // --- SEÇÃO 1: ARQUITETURA (FIXA) ---
         Text { 
             text: qsTr("ARQUITETURA E CACHE")
-            color: root.highlightColor
+            color: Theme.highlightColor
             font.pixelSize: 12
             font.bold: true 
             leftPadding: 5
@@ -71,9 +73,9 @@ Dialog {
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: 200
-            color: root.dialogSectionBg
+            color: Theme.dialogSectionBg
             radius: 8
-            border.color: root.borderColor
+            border.color: Theme.borderColor
             border.width: 1
 
             GridLayout {
@@ -99,7 +101,7 @@ Dialog {
         // --- SEÇÃO 2: MONITORAMENTO (FIXA / CONTEÚDO ROLÁVEL) ---
         Text { 
             text: qsTr("MONITORAMENTO EM TEMPO REAL (POR CORE)")
-            color: root.highlightColor
+            color: Theme.highlightColor
             font.pixelSize: 12
             font.bold: true 
             leftPadding: 5
@@ -108,9 +110,9 @@ Dialog {
         Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
-            color: root.dialogSectionBg
+            color: Theme.dialogSectionBg
             radius: 8
-            border.color: root.borderColor
+            border.color: Theme.borderColor
             border.width: 1
             clip: true
 
@@ -125,7 +127,7 @@ Dialog {
                     contentItem: Rectangle {
                         implicitWidth: 6
                         radius: 3
-                        color: root.borderColor
+                        color: Theme.borderColor
                     }
                 }
                 
@@ -143,7 +145,7 @@ Dialog {
                             
                             Text { 
                                 text: qsTr("C%1").arg(modelData.id)
-                                color: root.textColor
+                                color: Theme.textColor
                                 font.pixelSize: 11
                                 font.bold: true
                                 width: 25
@@ -156,14 +158,14 @@ Dialog {
                                 Rectangle {
                                     Layout.fillWidth: true
                                     height: 8
-                                    color: root.coreLoadTrackColor
+                                    color: Theme.coreLoadTrackColor
                                     radius: 4
                                     
                                     Rectangle {
                                         width: parent.width * (modelData.load / 100.0)
                                         height: parent.height
                                         radius: 4
-                                        color: modelData.load > 85 ? root.criticalColor : root.highlightColor
+                                        color: modelData.load > 85 ? Theme.criticalColor : Theme.highlightColor
                                         Behavior on width { NumberAnimation { duration: 400 } }
                                     }
                                 }
@@ -171,13 +173,13 @@ Dialog {
                                 RowLayout {
                                     Text { 
                                         text: modelData.load.toFixed(1) + "%"
-                                        color: root.textColor
+                                        color: Theme.textColor
                                         font.pixelSize: 10
                                     }
                                     Item { Layout.fillWidth: true }
                                     Text { 
                                         text: (modelData.freq / 1000.0).toFixed(2) + " GHz"
-                                        color: root.mutedTextColor
+                                        color: Theme.mutedTextColor
                                         font.pixelSize: 10
                                     }
                                 }
@@ -186,26 +188,6 @@ Dialog {
                     }
                 }
             }
-        }
-    }
-
-    component LabelValue : RowLayout {
-        property string label
-        property string value
-        spacing: 10
-        Text { 
-            text: label
-            color: root.mutedTextColor
-            font.pixelSize: 12
-            Layout.preferredWidth: 100
-        }
-        Text { 
-            text: value
-            color: root.textColor
-            font.pixelSize: 12
-            font.bold: true
-            Layout.fillWidth: true
-            elide: Text.ElideRight
         }
     }
 }
