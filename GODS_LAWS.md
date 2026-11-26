@@ -165,10 +165,10 @@ Segurança Zero-Cloud:
 **Data:** regra permanente.
 
 - Versione por [SemVer 2.0](https://semver.org/spec/v2.0.0.html) com pré-release. Baseline: `v0.1.0-alpha.0`. Pré-1.0 = APIs ainda instáveis.
-- O próximo release é calculado automaticamente pelos commits Conventional desde o último tag:
-  - **`feat:`** → bump MINOR (`v0.1.0-alpha.0` → `v0.2.0-alpha.0`).
-  - **`fix:`/`refactor:`/`perf:`/`docs:`** → bump PATCH (`v0.1.0` → `v0.1.1`).
-  - **`BREAKING CHANGE:`** no rodapé do commit → bump MAJOR (cuidado: zera pré-release).
+- O próximo release é calculado automaticamente pelo `git-cliff` (`cliff.toml`) a partir dos commits Conventional desde o último tag (regras conferidas empiricamente com git-cliff 2.14):
+  - **Em pré-release** (`-alpha.N`, `-beta.N`, `-rc.N`): qualquer commit releasável (`feat:`, `fix:`, `refactor:`, `perf:`, `docs:`) só incrementa o contador (`v0.1.0-alpha.4` → `v0.1.0-alpha.5`). Sair do pré-release ou mudar de estágio é decisão consciente, não automática.
+  - **Em `0.x` estável:** `feat:` e `fix:` sobem PATCH (`features_always_bump_minor = false`); `BREAKING CHANGE:` sobe MAJOR (`breaking_always_bump_major = true`, zera pré-release).
+  - **A partir de `1.0.0`:** `feat:` → MINOR, `fix:`/`refactor:`/`perf:`/`docs:` → PATCH, `BREAKING CHANGE:` → MAJOR.
 - O marco `BT-04 Release Beta v2.0` cortará `v1.0.0-beta.0` (decisão consciente, não automática).
 - O **codename "v2.0"** no nome do projeto (README, CLAUDE.md) é label histórica (segunda geração pós-bash legacy v0.3.6), independente do SemVer real.
 - O arquivo `VERSION` na raiz reflete a versão **atual** (do último release feito).
