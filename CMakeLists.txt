@@ -147,6 +147,12 @@ set(CORE_SOURCES
     src/infrastructure/collectors/vram/leitor_maps_proc.cpp
     # Composition root (extensão do main.cpp)
     src/composition/vram_composition.cpp
+    src/composition/shared_infrastructure.cpp
+    src/composition/system_composition.cpp
+    src/composition/storage_composition.cpp
+    src/composition/process_composition.cpp
+    src/composition/updates_composition.cpp
+    src/composition/app_composition.cpp
 )
 
 # Biblioteca núcleo: compilada uma vez e compartilhada por app, unit e acceptance.
