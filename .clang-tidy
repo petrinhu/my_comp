@@ -22,8 +22,7 @@ WarningsAsErrors: '*'
 # Exceção (MC-03): API exposta ao QML (Q_INVOKABLE, getters/setters de Q_PROPERTY,
 # signals) segue camelCase, a convenção do QML. Limitação: o clang-tidy não sabe o que é
 # exposto ao QML, então o MethodIgnoredRegexp isenta QUALQUER método camelCase; o uso
-# fora da API QML (ex.: código VRAM em camelCase pt-br, dívida no TODO.md) é fiscalizado
-# em revisão, não por esta ferramenta.
+# fora da API QML é fiscalizado em revisão, não por esta ferramenta.
 CheckOptions:
   - key: readability-identifier-naming.ClassCase
     value: CamelCase
