@@ -27,6 +27,32 @@ std::vector<domain::models::ServiceInfo> SystemdServiceProvider::get_services() 
     return all;
 }
 
+namespace {
+// Instância de template ("getty@tty1.service") herda o estado do template ("getty@.service").
+QString template_of(const QString& unit) {
+    const auto at = unit.indexOf(QLatin1Char('@'));
+    const auto dot = unit.lastIndexOf(QLatin1Char('.'));
+    if (at < 0 || dot < at) return {};
+    return unit.left(at + 1) + unit.mid(dot);
+}
+} // namespace
+
+QHash<QString, QString> SystemdServiceProvider::collect_unit_file_states(domain::models::ServiceScope scope) {
+    QHash<QString, QString> states;
+    QStringList args = {"list-unit-files", "--type=service", "--no-pager", "--output=json"};
+    if (scope == domain::models::ServiceScope::User) args.prepend("--user");
+    QString output;
+    if (m_executor->execute("systemctl", args, output) != 0) return states;
+    const QJsonDocument doc = QJsonDocument::fromJson(output.toUtf8());
+    if (!doc.isArray()) return states;
+    for (const QJsonValue& v : doc.array()) {
+        const QJsonObject o = v.toObject();
+        const QString file = o.value("unit_file").toString();
+        if (!file.isEmpty()) states.insert(file, o.value("state").toString());
+    }
+    return states;
+}
+
 std::vector<domain::models::ServiceInfo> SystemdServiceProvider::collect_units(domain::models::ServiceScope scope) {
     std::vector<domain::models::ServiceInfo> units;
     const bool user_mode = (scope == domain::models::ServiceScope::User);
@@ -44,6 +70,8 @@ std::vector<domain::models::ServiceInfo> SystemdServiceProvider::collect_units(d
         qWarning() << "[Systemd] list-units não devolveu JSON válido:" << err.errorString();
         return units;
     }
+    // SV-01a: estado de habilitação real, uma chamada em lote por escopo.
+    const auto file_states = collect_unit_file_states(scope);
     for (const QJsonValue& v : doc.array()) {
         const QJsonObject o = v.toObject();
         const QString unit = o.value("unit").toString();
@@ -55,8 +83,9 @@ std::vector<domain::models::ServiceInfo> SystemdServiceProvider::collect_units(d
         info.subState = o.value("sub").toString();
         info.description = o.value("description").toString();
         info.scope = scope;
-        // Placeholder até SV-01a (list-unit-files): "loaded" não significa "enabled".
-        info.isEnabled = (info.loadState == "loaded");
+        // "enabled"/"enabled-runtime" sobem no boot; static/disabled/masked/indirect não.
+        const QString state = file_states.value(unit, file_states.value(template_of(unit)));
+        info.isEnabled = state.startsWith(QLatin1String("enabled"));
         units.push_back(info);
     }
     return units;

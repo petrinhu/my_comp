@@ -211,3 +211,41 @@ TEST_F(SystemdServiceProviderTest, RecreatingSameExeReusesItsUnit) {
     const QStringList units = QDir(unit_dir()).entryList({"my_tool*-daemon.service"}, QDir::Files);
     EXPECT_EQ(units.size(), 1);
 }
+
+namespace {
+// Responde conforme o subcomando (list-units vs list-unit-files).
+struct KeyedShell : public IShellExecutor {
+    QString units_json;
+    QString unit_files_json;
+    int execute(const QString&, const QStringList& args, QString& output) override {
+        output = args.contains("list-unit-files") ? unit_files_json : units_json;
+        return 0;
+    }
+};
+} // namespace
+
+// SV-01a: isEnabled era `loadState == "loaded"`, que não diz se o unit sobe no boot.
+// O estado real vem de list-unit-files (em lote, uma chamada por escopo).
+TEST_F(SystemdServiceProviderTest, EnabledStateComesFromListUnitFiles) {
+    auto shell = std::make_shared<KeyedShell>();
+    shell->units_json = R"([
+        {"unit":"sshd.service","load":"loaded","active":"active","sub":"running","description":"SSH"},
+        {"unit":"cups.service","load":"loaded","active":"inactive","sub":"dead","description":"CUPS"},
+        {"unit":"getty@tty1.service","load":"loaded","active":"active","sub":"running","description":"Getty"},
+        {"unit":"systemd-journald.service","load":"loaded","active":"active","sub":"running","description":"Journal"}
+    ])";
+    shell->unit_files_json = R"([
+        {"unit_file":"sshd.service","state":"enabled","preset":"enabled"},
+        {"unit_file":"cups.service","state":"disabled","preset":"enabled"},
+        {"unit_file":"getty@.service","state":"enabled","preset":"enabled"},
+        {"unit_file":"systemd-journald.service","state":"static","preset":null}
+    ])";
+
+    SystemdServiceProvider provider(shell);
+    const auto services = provider.get_services();
+    ASSERT_GE(services.size(), 4u);
+    EXPECT_TRUE(services[0].isEnabled);   // enabled
+    EXPECT_FALSE(services[1].isEnabled);  // disabled, mesmo "loaded"
+    EXPECT_TRUE(services[2].isEnabled);   // instância herda do template getty@.service
+    EXPECT_FALSE(services[3].isEnabled);  // static: não é habilitável
+}
