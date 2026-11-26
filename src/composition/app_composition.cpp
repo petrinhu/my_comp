@@ -37,8 +37,9 @@ AppViewModels compor_app() {
     vms.updates = compor_atualizacoes(infra);
     vms.audio = std::make_unique<vm::AudioViewModel>(std::make_shared<infrastructure::audio::QtAudioProvider>());
     vms.exporter = compor_export(vms.system, vms.process);
+    auto servicos_vram = vramopt::composition::compor_servicos_vram();
     vms.vram_audit = std::make_unique<vramopt::presentation::viewmodels::VramAuditViewModel>(
-        vramopt::composition::compor_servico_auditar_vram());
+        std::move(servicos_vram.auditar), std::move(servicos_vram.registrar_feedback));
     return vms;
 }
 

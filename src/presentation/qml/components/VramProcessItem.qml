@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Controls
 import QtQuick.Layouts
 import ".."
 
@@ -65,6 +66,35 @@ Rectangle {
         Repeater {
             model: processItem.item.origensConfig
             delegate: VramConfigOrigin { origem: modelData }
+        }
+
+        // Feedback do usuário (VRAM-07): fixa o veredito deste binário nas próximas
+        // auditorias; a RegraFeedback vence as demais regras da cascata.
+        RowLayout {
+            visible: vramAuditViewModel.feedbackDisponivel
+                     && processItem.item.chaveBinario !== undefined
+                     && processItem.item.chaveBinario.length > 0
+            Layout.fillWidth: true
+            spacing: 6
+            Text {
+                text: qsTr("Seu veredito:")
+                color: Theme.textColor
+                opacity: 0.75
+                font.pixelSize: 11
+            }
+            Button {
+                text: qsTr("Precisa de GPU")
+                enabled: !vramAuditViewModel.isBusy
+                         && !(processItem.item.regra === "feedback" && processItem.item.categoria === "PrecisaGpu")
+                onClicked: vramAuditViewModel.registrarFeedback(processItem.item.chaveBinario, "PrecisaGpu", "")
+            }
+            Button {
+                text: qsTr("Pode usar só CPU")
+                enabled: !vramAuditViewModel.isBusy
+                         && !(processItem.item.regra === "feedback" && processItem.item.categoria === "CandidatoObvioCpu")
+                onClicked: vramAuditViewModel.registrarFeedback(processItem.item.chaveBinario, "CandidatoObvioCpu", "")
+            }
+            Item { Layout.fillWidth: true }
         }
     }
 }

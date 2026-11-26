@@ -16,6 +16,7 @@
 #include "application/vram/configuracao/sublocators/localizador_desktop_wrapper.h"
 #include "application/vram/configuracao/sublocators/localizador_env_var.h"
 #include "application/vram/configuracao/sublocators/localizador_firefox.h"
+#include "application/vram/feedback/servico_registrar_feedback.h"
 #include "domain/vram/amostra/limiares_comportamento.h"
 #include "infrastructure/collectors/vram/adaptadores_nulos.h"
 #include "infrastructure/collectors/vram/catalogo_classificacao_json.h"
@@ -44,14 +45,21 @@ struct RegraNomeada {
     std::shared_ptr<domain::IRegraClassificacao> regra;
 };
 
+// Fontes de dados das regras que dependem de estado (arquivo, histórico): quem monta a
+// cascata decide se são reais (auditoria) ou null objects (só para listar a ordem).
+struct FontesDaCascata {
+    std::shared_ptr<domain::IRepositorioFeedback>     repositorio_feedback;
+    std::shared_ptr<domain::ICatalogoClassificacao>   catalogo;
+    std::shared_ptr<domain::IAmostradorComportamento> amostrador;
+};
+
 // Tabela única: define a cascata e alimenta nomes_das_regras_da_cascata().
-std::vector<RegraNomeada> montar_regras() {
+std::vector<RegraNomeada> montar_regras(const FontesDaCascata& fontes) {
     return {
         {QStringLiteral("feedback"),
-         std::make_shared<application::RegraFeedback>(compor_repositorio_feedback())},
+         std::make_shared<application::RegraFeedback>(fontes.repositorio_feedback)},
         {QStringLiteral("catalogo"),
-         std::make_shared<application::RegraCatalogo>(
-             compor_catalogo_classificacao())},
+         std::make_shared<application::RegraCatalogo>(fontes.catalogo)},
         {QStringLiteral("categoria_desktop"),
          std::make_shared<application::RegraCategoriaDesktop>(
              std::make_shared<infrastructure::LeitorDesktopFileXdg>(),
@@ -62,8 +70,7 @@ std::vector<RegraNomeada> montar_regras() {
              application::ListaLibsCompute::padrao())},
         {QStringLiteral("comportamento"),
          std::make_shared<application::RegraComportamento>(
-             std::make_shared<infrastructure::AmostradorComportamentoNulo>(),
-             domain::LimiaresComportamento::padrao(), JANELA_COMPORTAMENTO)},
+             fontes.amostrador, domain::LimiaresComportamento::padrao(), JANELA_COMPORTAMENTO)},
     };
 }
 
@@ -84,13 +91,18 @@ std::shared_ptr<domain::IRepositorioFeedback> compor_repositorio_feedback() {
 
 std::vector<QString> nomes_das_regras_da_cascata() {
     std::vector<QString> nomes;
-    for (const auto& r : montar_regras()) {
+    const FontesDaCascata nulas{
+        .repositorio_feedback = std::make_shared<infrastructure::RepositorioFeedbackVazio>(),
+        .catalogo             = std::make_shared<infrastructure::CatalogoClassificacaoVazio>(),
+        .amostrador           = std::make_shared<infrastructure::AmostradorComportamentoNulo>(),
+    };
+    for (const auto& r : montar_regras(nulas)) {
         nomes.push_back(r.nome);
     }
     return nomes;
 }
 
-std::shared_ptr<application::ServicoAuditarVramAtual> compor_servico_auditar_vram() {
+ServicosVram compor_servicos_vram() {
     auto leitor_arq     = std::make_shared<infrastructure::LeitorArquivoConfigFs>();
     auto leitor_environ = std::make_shared<infrastructure::LeitorEnvironProc>();
     auto leitor_dexec   = std::make_shared<infrastructure::LeitorDesktopExecXdg>();
@@ -104,8 +116,16 @@ std::shared_ptr<application::ServicoAuditarVramAtual> compor_servico_auditar_vra
     auto loc_composite = std::make_shared<application::LocalizadorComposite>(std::move(sublocs));
     auto svc_localizar = std::make_shared<application::ServicoLocalizarConfig>(loc_composite);
 
+    // Mesma instância do repositório na regra (leitura) e no caso de uso (gravação).
+    const auto repositorio_feedback = compor_repositorio_feedback();
+    const FontesDaCascata fontes{
+        .repositorio_feedback = repositorio_feedback,
+        .catalogo             = compor_catalogo_classificacao(),
+        .amostrador           = std::make_shared<infrastructure::AmostradorComportamentoNulo>(),
+    };
+
     std::vector<std::shared_ptr<domain::IRegraClassificacao>> regras;
-    for (auto& r : montar_regras()) {
+    for (auto& r : montar_regras(fontes)) {
         regras.push_back(std::move(r.regra));
     }
     auto classif     = std::make_shared<application::ClassificadorEmCascata>(std::move(regras));
@@ -113,8 +133,16 @@ std::shared_ptr<application::ServicoAuditarVramAtual> compor_servico_auditar_vra
     auto svc_sugerir = std::make_shared<application::ServicoSugerirAcao>();
 
     auto backend = infrastructure::criarBackendCompositoDoSistema();
-    return std::make_shared<application::ServicoAuditarVramAtual>(
-        backend, svc_classif, svc_sugerir, svc_localizar);
+    return ServicosVram{
+        .auditar = std::make_shared<application::ServicoAuditarVramAtual>(
+            backend, svc_classif, svc_sugerir, svc_localizar),
+        .registrar_feedback =
+            std::make_shared<application::ServicoRegistrarFeedback>(repositorio_feedback),
+    };
+}
+
+std::shared_ptr<application::ServicoAuditarVramAtual> compor_servico_auditar_vram() {
+    return compor_servicos_vram().auditar;
 }
 
 }

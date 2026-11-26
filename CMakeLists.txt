@@ -133,6 +133,7 @@ set(CORE_SOURCES
     src/application/vram/configuracao/localizador_composite.cpp
     src/application/vram/configuracao/servico_localizar_config.cpp
     src/application/vram/auditoria/servico_auditar_vram_atual.cpp
+    src/application/vram/feedback/servico_registrar_feedback.cpp
     # Foundation/VRAM
     src/infrastructure/collectors/vram/composite_gpu_backend.cpp
     src/infrastructure/collectors/vram/intel_i915_gpu_backend.cpp
@@ -287,6 +288,7 @@ set(UNIT_TEST_SOURCES
     tests/unit/vram/back/leitor_maps_proc_test.cpp
     tests/unit/vram/back/catalogo_classificacao_json_test.cpp
     tests/unit/vram/back/repositorio_feedback_cifrado_test.cpp
+    tests/unit/vram/mid/servico_registrar_feedback_test.cpp
 )
 
 add_executable(unit_tests ${UNIT_TEST_SOURCES})

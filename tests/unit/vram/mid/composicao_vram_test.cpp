@@ -40,3 +40,9 @@ TEST(ComposicaoVramTest, RepositorioDeFeedbackDaComposicaoECifrado) {
     EXPECT_NE(dynamic_cast<const vramopt::infrastructure::RepositorioFeedbackCifrado*>(repo.get()),
               nullptr);
 }
+
+TEST(ComposicaoVramTest, ServicosVramIncluemRegistroDeFeedback) {
+    const auto servicos = vramopt::composition::compor_servicos_vram();
+    EXPECT_NE(servicos.auditar, nullptr);
+    EXPECT_NE(servicos.registrar_feedback, nullptr);
+}

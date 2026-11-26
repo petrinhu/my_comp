@@ -4,6 +4,7 @@
 // Ponto único de montagem da auditoria de VRAM, usado pela GUI e pelo subcomando CLI.
 
 #include "application/vram/auditoria/servico_auditar_vram_atual.h"
+#include "application/vram/feedback/servico_registrar_feedback.h"
 #include "domain/vram/interfaces/i_catalogo_classificacao.h"
 #include "domain/vram/interfaces/i_repositorio_feedback.h"
 
@@ -14,6 +15,16 @@
 
 namespace vramopt::composition {
 
+// Casos de uso da aba VRAM montados sobre as mesmas fontes (o feedback gravado por
+// registrar_feedback é o que a RegraFeedback de auditar lê).
+struct ServicosVram {
+    std::shared_ptr<application::ServicoAuditarVramAtual>  auditar;
+    std::shared_ptr<application::ServicoRegistrarFeedback> registrar_feedback;
+};
+
+[[nodiscard]] ServicosVram compor_servicos_vram();
+
+// Atalho para quem só audita (subcomando CLI).
 [[nodiscard]] std::shared_ptr<application::ServicoAuditarVramAtual> compor_servico_auditar_vram();
 
 // Catálogo usado pela RegraCatalogo: o JSON empacotado em :/vram/catalogo.json (VRAM-06).

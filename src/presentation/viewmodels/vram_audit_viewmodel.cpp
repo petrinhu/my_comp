@@ -5,11 +5,33 @@
 #include <QVariantMap>
 #include <QtConcurrent/QtConcurrent>
 
+#include <optional>
 #include <utility>
 
 namespace vramopt::presentation::viewmodels {
 
 namespace {
+
+constexpr qsizetype TAMANHO_MAXIMO_CHAVE = 255;
+
+QString chave_binario_de(const domain::Processo& p) {
+    for (const auto& c : p.chaves()) {
+        if (c.tipo() == domain::TipoChave::Binario) {
+            return c.valor();
+        }
+    }
+    return {};
+}
+
+std::optional<domain::Categoria> categoria_de_feedback(const QString& texto) {
+    if (texto == QStringLiteral("PrecisaGpu")) {
+        return domain::Categoria::PrecisaGpu;
+    }
+    if (texto == QStringLiteral("CandidatoObvioCpu")) {
+        return domain::Categoria::CandidatoObvioCpu;
+    }
+    return std::nullopt;
+}
 
 QString fabricanteString(domain::Fabricante f) {
     switch (f) {
@@ -79,6 +101,7 @@ QVariantMap itemToMap(const application::ItemAuditoriaVram& item) {
     QVariantMap m;
     m.insert(QStringLiteral("pid"),            item.processo.pid().valor());
     m.insert(QStringLiteral("nome"),           item.processo.nome().valor());
+    m.insert(QStringLiteral("chaveBinario"),   chave_binario_de(item.processo));
     m.insert(QStringLiteral("vramBytes"),
              static_cast<qulonglong>(item.processo.vramConsumida().valor()));
     m.insert(QStringLiteral("vramMb"),
@@ -130,8 +153,9 @@ QVariantList relatorioToVariant(const application::RelatorioAuditoriaVram& r) {
 
 VramAuditViewModel::VramAuditViewModel(
     std::shared_ptr<application::ServicoAuditarVramAtual> servico,
+    std::shared_ptr<application::ServicoRegistrarFeedback> feedback,
     QObject* parent)
-    : QObject{parent}, m_servico{std::move(servico)} {}
+    : QObject{parent}, m_servico{std::move(servico)}, m_feedback{std::move(feedback)} {}
 
 void VramAuditViewModel::aplicarRelatorio(
     const application::RelatorioAuditoriaVram& relatorio) {
@@ -157,6 +181,28 @@ void VramAuditViewModel::refresh() {
             emit gruposChanged();
             m_busy.store(false);
             emit isBusyChanged();
+        }, Qt::QueuedConnection);
+    });
+}
+
+void VramAuditViewModel::registrarFeedback(const QString& chaveBinario,
+                                           const QString& categoria,
+                                           const QString& motivo) {
+    const auto veredito = categoria_de_feedback(categoria);
+    const auto binario = chaveBinario.trimmed();
+    if (!m_feedback || !veredito || binario.isEmpty() || binario.size() > TAMANHO_MAXIMO_CHAVE) {
+        emit feedbackRegistrado(false);
+        return;
+    }
+    auto servico = m_feedback;
+    auto chave = domain::ChaveProcesso::deBinario(binario);
+    auto _future = QtConcurrent::run([this, servico, chave, v = *veredito, motivo]() {
+        const bool ok = servico->executar(chave, v, motivo);
+        QMetaObject::invokeMethod(this, [this, ok]() {
+            emit feedbackRegistrado(ok);
+            if (ok) {
+                refresh();
+            }
         }, Qt::QueuedConnection);
     });
 }
