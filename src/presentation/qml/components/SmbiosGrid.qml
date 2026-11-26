@@ -12,7 +12,7 @@ GridLayout {
     Text { text: qsTr("Versão:"); color: Theme.mutedTextColor; font.pixelSize: 11 }
     Text { text: hardwareViewModel.smbios.version || "—"; color: Theme.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
     Text { text: qsTr("Serial:"); color: Theme.mutedTextColor; font.pixelSize: 11 }
-    Text { text: hardwareViewModel.smbios.serial || "—"; color: Theme.textColor; Layout.fillWidth: true; elide: Text.ElideRight; font.family: "Monospace" }
+    Text { text: hardwareViewModel.smbios.serial || ((hardwareViewModel.smbios.restricted || []).indexOf("serial") >= 0 ? qsTr("🔒 requer root") : "—"); color: Theme.textColor; Layout.fillWidth: true; elide: Text.ElideRight; font.family: "Monospace" }
     Text { text: qsTr("SKU:"); color: Theme.mutedTextColor; font.pixelSize: 11 }
     Text { text: hardwareViewModel.smbios.sku || "—"; color: Theme.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
     Text { text: qsTr("Placa-mãe:"); color: Theme.mutedTextColor; font.pixelSize: 11 }

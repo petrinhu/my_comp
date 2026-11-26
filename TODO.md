@@ -106,6 +106,8 @@ Esta seção é preenchida pela Fase 2. Cada entrada registra o comando usado, o
 
 - **HW-02c (2026-11-26)**: `parse_lsusb_output` troca `split(' ')` por posição por uma regex ancorada no formato (`Bus N Device N: ID vvvv:pppp [nome]`); testes de regressão com snapshot real, dispositivo sem nome, espaços extras e linhas fora do formato (aviso do libusb, `lsusb -t`), que antes viravam dispositivos com campos trocados.
 
+- **HW-01b (2026-11-26)**: SMBIOS sem o fallback "Unknown": campo ausente ou placeholder de firmware ("To Be Filled By O.E.M.", "Default string", "Not Specified"...) fica vazio (UI mostra "—"); campo que existe mas exige root (serial 0400) entra em `SmbiosInfo::restrictedFields` e a UI mostra "🔒 requer root". Diretório DMI injetável; teste de permissão validado rodando como `nobody` (o container é root).
+
 ## TABELA UNIFICADA
 
 | ID | Onda | Grupo | Descrição Técnica | Prioridade | Pré-requisito | Dificuldade | Status | Estado Auditado |
@@ -212,7 +214,7 @@ Esta seção é preenchida pela Fase 2. Cada entrada registra o comando usado, o
 | JR-04b | — | 📈 MEL | `DiagnosticViewModel::searchOnline` hard-coded em `https://www.google.com/search?q=linux <msg>` — tornar engine configurável (DuckDuckGo, distro-específica) ou ler de setting | Baixa | JR-04 | Baixa | ✅ Concluído | ✓ |
 | HW-01 | — | ✨ FEAT | SMBIOS/DMI via `LinuxHardwareProvider` | Média | AR-02 | Baixa | ✅ Concluído | ⚠ |
 | HW-01a | — | 🐛 BUG | **Aba 5 "Hardware" em `Main.qml:547` renderiza `firmwareViewModel.devices`, não `hardwareViewModel`** — `smbios`/`usbDevices`/`bluetoothDevices` coletados por `LinuxHardwareProvider` nunca aparecem na UI, só via `ExportViewModel::collect_all_data`. Criar aba/tab dedicada "Topologia" ou reorganizar para expor SMBIOS + USB + BT em QML | Alta | HW-01 | Média | ✅ Concluído | ✓ |
-| HW-01b | — | 📈 MEL | `LinuxHardwareProvider::collect_topology` usa lambda `read_sys_file` com fallback silencioso `"Unknown"` para todos os 10 campos SMBIOS (manufacturer, product, version, serial, uuid, board_vendor, board_name, bios_vendor, bios_version, bios_date) — logar a ausência ou expor sinalizador `is_valid` para permitir UI diferenciar "indisponível" vs valor real | Baixa | HW-01 | Baixa | ⏳ Pendente | — |
+| HW-01b | — | 📈 MEL | `LinuxHardwareProvider::collect_topology` usa lambda `read_sys_file` com fallback silencioso `"Unknown"` para todos os 10 campos SMBIOS (manufacturer, product, version, serial, uuid, board_vendor, board_name, bios_vendor, bios_version, bios_date) — logar a ausência ou expor sinalizador `is_valid` para permitir UI diferenciar "indisponível" vs valor real | Baixa | HW-01 | Baixa | ✅ Concluído | ✓ |
 | HW-02 | — | ✨ FEAT | Topologia USB/Bluetooth | Média | AR-02 | Média | ✅ Concluído | ⚠ |
 | HW-02a | — | ✨ FEAT | `LinuxHardwareProvider` roda `bluetoothctl devices` — só lista dispositivos **pareados**; dispositivos próximos não pareados (scan ativo) nunca aparecem. Avaliar `bluetoothctl devices Paired`/`Connected`/scan ativo com timeout | Média | HW-02 | Média | 🎨 Pendente design | — |
 | HW-02b | — | 🐛 BUG | `linux_hardware_provider.cpp` hardcoda `dev.paired = true`, deixa `connected = false` e `device_type = ""` sempre — parsear saída real de `bluetoothctl info <mac>` para preencher estado dinâmico | Média | HW-02 | Baixa | ✅ Concluído | ⚠ |

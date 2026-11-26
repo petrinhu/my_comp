@@ -234,6 +234,7 @@ set(UNIT_TEST_SOURCES
     tests/unit/linux_hardware_bluetooth_test.cpp
     tests/unit/toolchain_catalog_test.cpp
     tests/unit/linux_hardware_usb_test.cpp
+    tests/unit/linux_hardware_smbios_test.cpp
     
 
 

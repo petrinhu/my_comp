@@ -1,5 +1,6 @@
 #pragma once
 #include <QString>
+#include <QStringList>
 #include <vector>
 
 namespace my_comp::domain::models {
@@ -33,6 +34,9 @@ struct SmbiosInfo {
     QString boardVendor;
     QString boardVersion;
     QString boardSerial;
+    // Campos vazios = indisponíveis. Os listados aqui existem mas exigem root para leitura
+    // (ex.: "serial", "boardSerial"), para a UI dizer "requer root" em vez de "—" (HW-01b).
+    QStringList restrictedFields;
 };
 
 struct HardwareTopology {

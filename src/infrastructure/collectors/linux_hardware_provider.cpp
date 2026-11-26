@@ -1,15 +1,12 @@
 #include "linux_hardware_provider.h"
 #include <QRegularExpression>
-#include <fstream>
-#include <filesystem>
+#include <QFile>
 #include <QStringList>
-
-namespace fs = std::filesystem;
 
 namespace my_comp::infrastructure::collectors {
 
-LinuxHardwareProvider::LinuxHardwareProvider(std::shared_ptr<IShellExecutor> executor)
-    : m_executor(std::move(executor)) {}
+LinuxHardwareProvider::LinuxHardwareProvider(std::shared_ptr<IShellExecutor> executor, QString dmi_root)
+    : m_executor(std::move(executor)), m_dmi_root(std::move(dmi_root)) {}
 
 domain::models::HardwareTopology LinuxHardwareProvider::collect_topology() {
     domain::models::HardwareTopology topology;
@@ -19,28 +16,42 @@ domain::models::HardwareTopology LinuxHardwareProvider::collect_topology() {
     return topology;
 }
 
+namespace {
+// Textos que firmwares genéricos gravam no lugar do valor real: equivalem a "ausente".
+bool is_oem_placeholder(const QString& v) {
+    static const QStringList placeholders = {
+        "to be filled by o.e.m.", "default string", "not specified", "not applicable",
+        "system product name", "system manufacturer", "system version", "system serial number",
+        "none", "n/a", "x.x", "0", "00000000", "0123456789", "123456789",
+    };
+    return placeholders.contains(v.trimmed().toLower());
+}
+} // namespace
+
 void LinuxHardwareProvider::collect_smbios(domain::models::HardwareTopology& topology) {
-    auto read_sys_file = [](const std::string& path) -> QString {
-        if (fs::exists(path)) {
-            std::ifstream file(path);
-            std::string line;
-            if (std::getline(file, line)) {
-                return QString::fromStdString(line).trimmed();
-            }
+    auto& smbios = topology.smbios;
+    // HW-01b: ausente/placeholder → vazio (a UI mostra "—"); existe mas sem permissão
+    // (serial é 0400 root) → vazio + nome em restrictedFields (a UI mostra "requer root").
+    auto read_field = [this, &smbios](const QString& file, const QString& field) -> QString {
+        QFile f(m_dmi_root + "/" + file);
+        if (!f.exists()) return {};
+        if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            smbios.restrictedFields << field;
+            return {};
         }
-        return "Unknown";
+        const QString value = QString::fromUtf8(f.readLine()).trimmed();
+        return is_oem_placeholder(value) ? QString() : value;
     };
 
-    const std::string base_path = "/sys/class/dmi/id/";
-    topology.smbios.vendor = read_sys_file(base_path + "sys_vendor");
-    topology.smbios.model = read_sys_file(base_path + "product_name");
-    topology.smbios.version = read_sys_file(base_path + "product_version");
-    topology.smbios.serial = read_sys_file(base_path + "product_serial");
-    topology.smbios.sku = read_sys_file(base_path + "product_sku");
-    topology.smbios.boardName = read_sys_file(base_path + "board_name");
-    topology.smbios.boardVendor = read_sys_file(base_path + "board_vendor");
-    topology.smbios.boardVersion = read_sys_file(base_path + "board_version");
-    topology.smbios.boardSerial = read_sys_file(base_path + "board_serial");
+    smbios.vendor = read_field("sys_vendor", "vendor");
+    smbios.model = read_field("product_name", "model");
+    smbios.version = read_field("product_version", "version");
+    smbios.serial = read_field("product_serial", "serial");
+    smbios.sku = read_field("product_sku", "sku");
+    smbios.boardName = read_field("board_name", "boardName");
+    smbios.boardVendor = read_field("board_vendor", "boardVendor");
+    smbios.boardVersion = read_field("board_version", "boardVersion");
+    smbios.boardSerial = read_field("board_serial", "boardSerial");
 }
 
 void LinuxHardwareProvider::parse_lsusb_output(const QString& output, std::vector<domain::models::UsbDevice>& devices) {
