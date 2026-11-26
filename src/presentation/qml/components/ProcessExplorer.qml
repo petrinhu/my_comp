@@ -7,7 +7,7 @@ import ".."
 // Duplo clique numa linha emite killRequested; Main.qml abre a confirmação.
 ColumnLayout {
     id: processExplorer
-    signal killRequested(var pid, var name)
+    signal killRequested(var pid, var name, var startTime)
 
     Layout.fillWidth: true
     Layout.preferredHeight: 400
@@ -48,7 +48,7 @@ ColumnLayout {
                         padding: 0
                         focus: ListView.isCurrentItem
                         highlighted: ListView.isCurrentItem && ListView.view.activeFocus
-                        Keys.onDeletePressed: processExplorer.killRequested(modelData.pid, modelData.command)
+                        Keys.onDeletePressed: processExplorer.killRequested(modelData.pid, modelData.command, modelData.startTime)
                         contentItem: RowLayout {
                             anchors.fill: parent; anchors.leftMargin: 10; anchors.rightMargin: 10
                             Text { textFormat: Text.PlainText; text: modelData.pid; Layout.preferredWidth: 60; color: Theme.highlightColor; font.family: "Monospace" }
@@ -59,7 +59,7 @@ ColumnLayout {
                             Text { textFormat: Text.PlainText; text: modelData.command; Layout.fillWidth: true; color: Theme.textColor; elide: Text.ElideRight; font.family: "Monospace"; font.pixelSize: 11 }
                         }
 
-                        onDoubleClicked: processExplorer.killRequested(modelData.pid, modelData.command)
+                        onDoubleClicked: processExplorer.killRequested(modelData.pid, modelData.command, modelData.startTime)
                     }
                 }
             }

@@ -1,5 +1,6 @@
 #pragma once
 #include <QString>
+#include <cstdint>
 #include <vector>
 
 namespace my_comp::domain::models {
@@ -28,6 +29,9 @@ struct ProcessInfo {
     double memPercent = 0.0;
     QString timeStr;
     QString command;
+    // starttime de /proc/<pid>/stat (ticks desde o boot): com o PID, identifica o
+    // processo mesmo que o kernel recicle o número (kill seguro).
+    std::uint64_t start_time = 0;
 
     std::vector<int> children;
 };

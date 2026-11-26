@@ -3,6 +3,10 @@
 #include <unistd.h>
 #include <cerrno>
 #include "../../src/infrastructure/collectors/linux_process_provider.h"
+#include "../../src/infrastructure/collectors/proc_stat.h"
+#include <QProcess>
+#include <csignal>
+#include <sys/wait.h>
 #include <unistd.h>
 
 using namespace my_comp::infrastructure::collectors;
@@ -36,7 +40,7 @@ TEST(LinuxProcessProviderTest, ShouldHandleKillAndPriorityGracefully) {
     // Kill em PID inválido deve falhar ou retornar erro graciosamente
     // kill_process retorna bool indicando se o comando foi enviado com sucesso
     // (Pode falhar se o PID não existir)
-    provider.kill_process(999999); 
+    provider.kill_process(999999, 0, 0); 
     
     // Set priority em PID inválido
     provider.set_priority(999999, 10);
@@ -49,21 +53,21 @@ TEST(LinuxProcessProviderTest, ShouldHandleKillAndPriorityGracefully) {
 // permissão — seguro para o red: no código antigo essas chamadas retornavam true.
 TEST(LinuxProcessProviderTest, KillRejectsPidsThatTargetGroupsOrInit) {
     LinuxProcessProvider provider;
-    EXPECT_FALSE(provider.kill_process(0, 0));
-    EXPECT_FALSE(provider.kill_process(-1, 0));
-    EXPECT_FALSE(provider.kill_process(-12345, 0));
-    EXPECT_FALSE(provider.kill_process(1, 0));
+    EXPECT_FALSE(provider.kill_process(0, 0, 0));
+    EXPECT_FALSE(provider.kill_process(-1, 0, 0));
+    EXPECT_FALSE(provider.kill_process(-12345, 0, 0));
+    EXPECT_FALSE(provider.kill_process(1, 0, 0));
 }
 
 TEST(LinuxProcessProviderTest, KillRejectsOwnProcess) {
     LinuxProcessProvider provider;
-    EXPECT_FALSE(provider.kill_process(static_cast<int>(::getpid()), 0));
+    EXPECT_FALSE(provider.kill_process(static_cast<int>(::getpid()), 0, 0));
 }
 
 TEST(LinuxProcessProviderTest, KillRejectsInvalidSignal) {
     LinuxProcessProvider provider;
-    EXPECT_FALSE(provider.kill_process(999999, -1));
-    EXPECT_FALSE(provider.kill_process(999999, 4096));
+    EXPECT_FALSE(provider.kill_process(999999, 0, -1));
+    EXPECT_FALSE(provider.kill_process(999999, 0, 4096));
 }
 
 TEST(LinuxProcessProviderTest, SetPriorityRejectsSelfInitAndOutOfRangeNice) {
@@ -91,4 +95,58 @@ TEST(LinuxProcessProviderTest, ComandoDoProprioProcessoVemDoCmdline) {
         }
     }
     GTEST_SKIP() << "PID próprio não apareceu em /proc";
+}
+
+namespace {
+// Processo filho de vida longa para testar o sinal. O destrutor garante a limpeza.
+struct FilhoDormindo {
+    QProcess processo;
+    FilhoDormindo() {
+        processo.start(QStringLiteral("sleep"), {QStringLiteral("30")});
+        processo.waitForStarted(3000);
+    }
+    ~FilhoDormindo() {
+        processo.kill();
+        processo.waitForFinished(3000);
+    }
+    [[nodiscard]] int pid() const { return static_cast<int>(processo.processId()); }
+};
+}  // namespace
+
+// PID reciclado: o diálogo guarda o PID; se o processo morrer e outro herdar o número
+// antes da confirmação, o sinal não pode ir para o processo novo.
+TEST(LinuxProcessProviderTest, KillRecusaQuandoStartTimeNaoConfere) {
+    FilhoDormindo filho;
+    ASSERT_GT(filho.pid(), 0);
+    const auto inicio = my_comp::infrastructure::collectors::read_start_time(filho.pid());
+    ASSERT_TRUE(inicio.has_value());
+
+    LinuxProcessProvider provider;
+    EXPECT_FALSE(provider.kill_process(filho.pid(), *inicio + 1, SIGTERM));
+    EXPECT_EQ(filho.processo.state(), QProcess::Running);
+    EXPECT_FALSE(filho.processo.waitForFinished(300));
+}
+
+TEST(LinuxProcessProviderTest, KillAtingeOProcessoQuandoStartTimeConfere) {
+    FilhoDormindo filho;
+    ASSERT_GT(filho.pid(), 0);
+    const auto inicio = my_comp::infrastructure::collectors::read_start_time(filho.pid());
+    ASSERT_TRUE(inicio.has_value());
+
+    LinuxProcessProvider provider;
+    EXPECT_TRUE(provider.kill_process(filho.pid(), *inicio, SIGTERM));
+    EXPECT_TRUE(filho.processo.waitForFinished(3000));
+}
+
+TEST(LinuxProcessProviderTest, ColetaPreencheStartTime) {
+    FilhoDormindo filho;
+    ASSERT_GT(filho.pid(), 0);
+    LinuxProcessProvider provider;
+    for (const auto& p : provider.collect_processes()) {
+        if (p.pid == filho.pid()) {
+            EXPECT_EQ(p.start_time, my_comp::infrastructure::collectors::read_start_time(filho.pid()).value_or(0));
+            return;
+        }
+    }
+    FAIL() << "filho não apareceu na coleta";
 }

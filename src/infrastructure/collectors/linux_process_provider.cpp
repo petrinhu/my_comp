@@ -1,7 +1,10 @@
 #include "linux_process_provider.h"
 #include "numeric_parse.h"
 #include "proc_cmdline.h"
+#include "proc_stat.h"
+#include <sys/syscall.h>
 #include <unistd.h>
+#include <cerrno>
 #include <signal.h>
 #include <sys/resource.h>
 #include <pwd.h>
@@ -137,6 +140,7 @@ std::vector<domain::models::ProcessInfo> LinuxProcessProvider::collect_processes
 
             // Resto dos dados
             if (ss >> cutime >> cstime >> priority >> nice >> num_threads >> itrealvalue >> starttime >> vsize >> rss) {
+                p.start_time = starttime;
                 p.priority = static_cast<int>(priority);
                 p.nice = static_cast<int>(nice);
                 p.virt = vsize / 1024;
@@ -197,10 +201,38 @@ constexpr int MIN_NICE = -20;
 constexpr int MAX_NICE = 19;
 } // namespace
 
-bool LinuxProcessProvider::kill_process(int pid, int signal) {
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters): trocar pid e start_time só faz o kill ser recusado (pidfd ou starttime não conferem).
+bool LinuxProcessProvider::kill_process(int pid, std::uint64_t expected_start_time, int signal) {
     if (!is_targetable_pid(pid) || signal < 0 || signal >= NSIG) {
         return false;
     }
+    // O pidfd fixa o processo que tem o PID agora. Se o starttime lido depois confere,
+    // é o mesmo da coleta; o sinal vai pelo pidfd e não alcança um PID reciclado.
+    const long pidfd = ::syscall(SYS_pidfd_open, pid, 0);
+    if (pidfd < 0 && errno != ENOSYS) {
+        return false;  // processo já encerrado (ESRCH) ou sem permissão
+    }
+    const auto atual = read_start_time(pid);
+    if (!atual || *atual != expected_start_time) {
+        if (pidfd >= 0) {
+            ::close(static_cast<int>(pidfd));
+        }
+        return false;
+    }
+    if (pidfd >= 0) {
+        const long r = ::syscall(SYS_pidfd_send_signal, static_cast<int>(pidfd), signal, nullptr, 0);
+        const int erro = errno;
+        ::close(static_cast<int>(pidfd));
+        if (r == 0) {
+            return true;
+        }
+        if (erro != ENOSYS) {
+            return false;
+        }
+    }
+    // Sem pidfd (kernel < 5.3, ou valgrind antigo que não emula pidfd_send_signal):
+    // kill() logo após conferir o starttime. Sobra uma janela de microssegundos, contra
+    // os segundos entre a lista e o "Sim" que existiam antes.
     return ::kill(pid, signal) == 0;
 }
 

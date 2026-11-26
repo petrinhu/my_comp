@@ -14,10 +14,14 @@ Dialog {
 
     property int targetPid: 0
     property string targetName: ""
+    // starttime do processo na coleta: o provedor só sinaliza se ainda for o mesmo
+    // processo (PID reciclado entre a lista e o "Sim" é recusado).
+    property real targetStartTime: -1
 
-    function openWith(pid, name) {
+    function openWith(pid, name, startTime) {
         targetPid = pid
         targetName = name
+        targetStartTime = startTime === undefined ? -1 : startTime
         open()
     }
 
@@ -40,5 +44,5 @@ Dialog {
         }
     }
 
-    onAccepted: processViewModel.killProcess(targetPid)
+    onAccepted: processViewModel.killProcess(targetPid, targetStartTime)
 }

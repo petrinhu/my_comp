@@ -11,7 +11,7 @@ ScrollPage {
     // Navegação e diálogos ficam em Main.qml; a view só pede.
     signal navigateRequested(int index)
     signal cpuDetailsRequested()
-    signal killProcessRequested(var pid, var name)
+    signal killProcessRequested(var pid, var name, var startTime)
 
     clip: false
     contentSpacing: 25
@@ -31,6 +31,6 @@ ScrollPage {
     AudioVisualizer {}
 
     ProcessExplorer {
-        onKillRequested: (pid, name) => dashboardView.killProcessRequested(pid, name)
+        onKillRequested: (pid, name, startTime) => dashboardView.killProcessRequested(pid, name, startTime)
     }
 }
