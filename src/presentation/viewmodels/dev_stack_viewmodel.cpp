@@ -75,11 +75,12 @@ void DevStackViewModel::refresh() {
     (void)QtConcurrent::run([self, provider]() {
         auto result = provider->collect_dev_stacks();
         QMetaObject::invokeMethod(self.data(), [self, result]() {
-            if (!self) return;
-            self->m_data = result;
-            self->m_isBusy = false;
-            emit self->isBusyChanged();
-            emit self->dataChanged();
+            auto* vm = self.data();
+            if (!vm) return;
+            vm->m_data = result;
+            vm->m_isBusy = false;
+            emit vm->isBusyChanged();
+            emit vm->dataChanged();
         }, Qt::QueuedConnection);
     });
 }

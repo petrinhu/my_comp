@@ -65,10 +65,11 @@ void HardwareViewModel::refresh() {
     (void)QtConcurrent::run([self, provider]() {
         auto data = provider->collect_topology();
         QMetaObject::invokeMethod(self.data(), [self, data = std::move(data)]() {
-            if (!self) return;
-            self->m_data = std::move(data);
-            self->m_busy = false;
-            emit self->dataChanged();
+            auto* vm = self.data();
+            if (!vm) return;
+            vm->m_data = std::move(data);
+            vm->m_busy = false;
+            emit vm->dataChanged();
         }, Qt::QueuedConnection);
     });
 }

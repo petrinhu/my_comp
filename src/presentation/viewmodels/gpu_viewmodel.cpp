@@ -36,9 +36,10 @@ void GpuViewModel::update_stats() {
             all.insert(all.end(), stats.begin(), stats.end());
         }
         QMetaObject::invokeMethod(self.data(), [self, all]() {
-            if (!self) return;
-            self->m_busy = false;
-            self->apply_stats(all);
+            auto* vm = self.data();
+            if (!vm) return;
+            vm->m_busy = false;
+            vm->apply_stats(all);
         }, Qt::QueuedConnection);
     });
 }

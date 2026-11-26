@@ -36,10 +36,11 @@ void CpuViewModel::refresh() {
     (void)QtConcurrent::run([self, provider]() {
         auto stats = provider->collect_stats();
         QMetaObject::invokeMethod(self.data(), [self, stats]() {
-            if (!self) return;
-            self->m_stats = stats;
-            self->m_busy = false;
-            emit self->statsChanged();
+            auto* vm = self.data();
+            if (!vm) return;
+            vm->m_stats = stats;
+            vm->m_busy = false;
+            emit vm->statsChanged();
         }, Qt::QueuedConnection);
     });
 }

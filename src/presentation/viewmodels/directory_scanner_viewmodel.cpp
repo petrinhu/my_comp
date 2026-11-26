@@ -31,11 +31,12 @@ void DirectoryScannerViewModel::scan(const QString& path) {
 
     auto progress_cb = [self](const domain::models::ScanProgress& p) {
         QMetaObject::invokeMethod(self.data(), [self, p]() {
-            if (!self) return;
-            self->m_current_path = p.current_path;
-            self->m_bytes_scanned = p.bytes_scanned;
-            self->m_files_scanned = p.files_scanned;
-            emit self->progressChanged();
+            auto* vm = self.data();
+            if (!vm) return;
+            vm->m_current_path = p.current_path;
+            vm->m_bytes_scanned = p.bytes_scanned;
+            vm->m_files_scanned = p.files_scanned;
+            emit vm->progressChanged();
         }, Qt::QueuedConnection);
     };
 
@@ -63,12 +64,13 @@ void DirectoryScannerViewModel::scan(const QString& path) {
         const qlonglong total = static_cast<qlonglong>(root.size_bytes);
 
         QMetaObject::invokeMethod(self.data(), [self, top, total]() {
-            if (!self) return;
-            self->m_top_entries = top;
-            self->m_total_size = total;
-            self->m_is_scanning = false;
-            emit self->resultChanged();
-            emit self->isScanningChanged();
+            auto* vm = self.data();
+            if (!vm) return;
+            vm->m_top_entries = top;
+            vm->m_total_size = total;
+            vm->m_is_scanning = false;
+            emit vm->resultChanged();
+            emit vm->isScanningChanged();
         }, Qt::QueuedConnection);
     });
 }

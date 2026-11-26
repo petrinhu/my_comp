@@ -36,10 +36,11 @@ void StorageViewModel::refresh() {
     (void)QtConcurrent::run([self, provider]() {
         auto stats = provider->collect_stats();
         QMetaObject::invokeMethod(self.data(), [self, stats]() {
-            if (!self) return;
-            self->m_stats = stats;
-            self->m_busy = false;
-            emit self->statsChanged();
+            auto* vm = self.data();
+            if (!vm) return;
+            vm->m_stats = stats;
+            vm->m_busy = false;
+            emit vm->statsChanged();
         }, Qt::QueuedConnection);
     });
 }
@@ -61,7 +62,8 @@ void StorageViewModel::refreshInventory() {
             }
         }
         QMetaObject::invokeMethod(self.data(), [self, inv, smart_reports]() {
-            if (!self) return;
+            auto* vm = self.data();
+            if (!vm) return;
             QVariantList list;
             list.reserve(static_cast<int>(inv.drives.size()));
             for (size_t i = 0; i < inv.drives.size(); ++i) {
@@ -106,9 +108,9 @@ void StorageViewModel::refreshInventory() {
                 drive["partitions"] = parts;
                 list.append(drive);
             }
-            self->m_drives = list;
-            self->m_inventory_busy = false;
-            emit self->inventoryChanged();
+            vm->m_drives = list;
+            vm->m_inventory_busy = false;
+            emit vm->inventoryChanged();
         }, Qt::QueuedConnection);
     });
 }
@@ -126,7 +128,8 @@ void StorageViewModel::runBenchmark(const QString& deviceName) {
     (void)QtConcurrent::run([self, provider, deviceName]() {
         auto result = provider->run(deviceName);
         QMetaObject::invokeMethod(self.data(), [self, result]() {
-            if (!self) return;
+            auto* vm = self.data();
+            if (!vm) return;
             QVariantMap m;
             m["device"] = result.device;
             m["seqReadMbS"] = result.seq_read_mb_s;
@@ -135,9 +138,9 @@ void StorageViewModel::runBenchmark(const QString& deviceName) {
             m["success"] = result.success;
             m["errorMessage"] = result.error_message;
             m["running"] = false;
-            self->m_last_benchmark = m;
-            self->m_benchmarking = false;
-            emit self->benchmarkChanged();
+            vm->m_last_benchmark = m;
+            vm->m_benchmarking = false;
+            emit vm->benchmarkChanged();
         }, Qt::QueuedConnection);
     });
 }
