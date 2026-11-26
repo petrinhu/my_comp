@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # scripts/ci.sh — BT-03
-# Pipeline local de CI consolidada: build + ctest + clang-tidy + cppcheck + valgrind.
+# Pipeline local de CI consolidada: build + ctest + clang-tidy + cppcheck + wcag + valgrind.
 #
 # Uso:
 #   scripts/ci.sh                  # roda todas as etapas
@@ -155,6 +155,11 @@ stage_cppcheck() {
     return 0
 }
 
+stage_wcag() {
+    # Gate A3 (MC-07): contraste WCAG AA da paleta central.
+    python3 -I "${ROOT_DIR}/scripts/check_contrast.py" "${ROOT_DIR}/src/presentation/qml/Theme.qml"
+}
+
 stage_valgrind() {
     if ! command -v valgrind >/dev/null; then
         echo "valgrind não encontrado, pulando." ; return 0
@@ -198,6 +203,7 @@ run_stage build stage_build
 run_stage ctest stage_ctest
 [[ "$SKIP_TIDY"     == "0" ]] && run_stage clang-tidy stage_clang_tidy
 [[ "$SKIP_CPPCHECK" == "0" ]] && run_stage cppcheck stage_cppcheck
+run_stage wcag stage_wcag
 [[ "$SKIP_VALGRIND" == "0" ]] && run_stage valgrind stage_valgrind
 
 echo ""
