@@ -18,10 +18,6 @@ public:
 };
 
 TEST(ExportSystemAcceptance, ShouldConsolidateAndExportData) {
-    int argc = 1;
-    char arg0[] = "test";
-    char* argv[] = {arg0};
-    QCoreApplication app(argc, argv);
 
     // Histórico em memória: o teste não toca no QSettings do usuário.
     ExportViewModel vm(std::make_shared<my_comp::application::ExportHistory>(std::make_shared<my_comp::tests::InMemoryPreferencesStore>()));

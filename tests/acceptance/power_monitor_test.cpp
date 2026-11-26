@@ -1,4 +1,6 @@
 #include <gtest/gtest.h>
+#include "../../src/presentation/viewmodels/power_viewmodel.h"
+#include <QtTest/QSignalSpy>
 #include <QDir>
 #include <QFile>
 #include <gmock/gmock.h>
@@ -12,6 +14,7 @@ using namespace testing;
 #include <iostream>
 
 using namespace my_comp::infrastructure::collectors;
+using my_comp::presentation::viewmodels::PowerViewModel;
 
 namespace {
 // Desktops, VMs e CI não têm bateria: o teste só faz sentido onde existe uma.
@@ -45,17 +48,20 @@ public:
     MOCK_METHOD(PowerStats, collect_stats, (), (override));
 };
 
-TEST(PowerMonitorAcceptanceTest, ShouldCollectBatteryData) {
-    auto provider = std::make_unique<MockPowerProvider>();
-    
-    PowerStats fake;
-    fake.battery_percent = 85.0;
-    fake.consumption_watts = 12.5;
-    fake.health_percent = 98.0;
-    
-    EXPECT_CALL(*provider, collect_stats()).WillOnce(Return(fake));
-    
-    auto stats = provider->collect_stats();
-    EXPECT_EQ(stats.battery_percent, 85.0);
-    EXPECT_GT(stats.health_percent, 0.0);
+// QA-03: a aba Energia mostra bateria e consumo medidos.
+TEST(PowerMonitorAcceptanceTest, UserSeesBatteryAndConsumption) {
+    auto provider = std::make_shared<NiceMock<MockPowerProvider>>();
+    PowerStats stats;
+    stats.battery_percent = 85.0;
+    stats.consumption_watts = 12.5;
+    ON_CALL(*provider, collect_stats()).WillByDefault(Return(stats));
+
+    PowerViewModel vm(provider);
+    QSignalSpy changed(&vm, &PowerViewModel::dataChanged);
+    vm.initialize();
+    if (changed.isEmpty()) {
+        ASSERT_TRUE(changed.wait(3000));
+    }
+    EXPECT_DOUBLE_EQ(vm.batteryPercent(), 85.0);
+    EXPECT_DOUBLE_EQ(vm.powerWatts(), 12.5);
 }

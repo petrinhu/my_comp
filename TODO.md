@@ -114,6 +114,8 @@ Esta seção é preenchida pela Fase 2. Cada entrada registra o comando usado, o
 
 - **AUDIT-28 (2026-11-26, parcial)**: `unit_tests` compilado com `-fsanitize=thread` (GCC 13, Qt 6.4 do sistema) e executado: 375 testes passam, 26 avisos. Triagem: 20 em `QWaitCondition::~QWaitCondition` e 1 no PulseAudio (internos de bibliotecas não instrumentadas); 5 com frames do app, todos no handoff `QMetaObject::invokeMethod(..., Qt::QueuedConnection)` do `ProcessViewModel::refresh` (slot object criado no worker e destruído após a main thread executá-lo; a sincronização é o refcount atômico do Qt, invisível ao TSan porque o `libQt6Core` não é instrumentado). Nenhuma corrida confirmada no código do app. **Falta** para fechar: rodar com Qt compilado com TSan (ou build do Qt próprio) para eliminar o ponto cego; comando: `cmake -B build-tsan -DCMAKE_CXX_FLAGS="-fsanitize=thread -fno-omit-frame-pointer" -DCMAKE_EXE_LINKER_FLAGS=-fsanitize=thread`.
 
+- **QA-03 (2026-11-26)**: 14 testes de aceitação eram tautológicos (montavam um mock, chamavam o próprio mock e conferiam o valor que ele devolveu: nenhum código do app rodava). Viraram cenários do usuário pela pilha real: ViewModel → provider real com a fronteira do SO controlada (`tests/acceptance/scripted_shell.h` com saídas reais de systemctl/lsusb/bluetoothctl/podman/java, DMI de fixture, `/proc` do próprio processo) ou ViewModel → mock de provider verificando o que o usuário vê (formatação, percentuais, status, contagem de updates). `test_main` passa a criar um único `QCoreApplication`. Achado novo: AUDIT-30 (nome de processo cortado em 15 caracteres).
+
 ## TABELA UNIFICADA
 
 | ID | Onda | Grupo | Descrição Técnica | Prioridade | Pré-requisito | Dificuldade | Status | Estado Auditado |
@@ -282,7 +284,7 @@ Esta seção é preenchida pela Fase 2. Cada entrada registra o comando usado, o
 | UX-05 | — | 📈 MEL | Auditoria de operações pesadas na UI thread (garantir `QtConcurrent`/`QThread` em I/O e parsing) | Alta | AR-03 | Alta | ⏳ Pendente | — |
 | QA-01 | — | 🧪 TES | T1 — Suite completa de unitários GTest (39 arquivos). **121/121 testes em 52 suites, 605 ms**, zero falhas. Default-init em `ProcessInfo`/`SystemInfo`/`LogEntry` eliminou uninitialised values em Valgrind | Alta | AR-03 | Alta | ✅ Concluído | ✓ |
 | QA-02 | — | 🔎 AU | T2 — Clang-Tidy + CppCheck sem `bugprone-*`/`security-*`/`cert-*` | Alta | — | Baixa | ✅ Concluído | ✓ |
-| QA-03 | — | 🧪 TES | T3 — Suite ATDD (19 arquivos) | Alta | QA-01 | Alta | ⏳ Pendente | — |
+| QA-03 | — | 🧪 TES | T3 — Suite ATDD (19 arquivos) | Alta | QA-01 | Alta | ✅ Concluído | ✓ |
 | QA-04 | — | 🔎 AU | T4 — Valgrind/ASan zero *definitely lost* e zero ERROR SUMMARY. **Zero vazamentos no nosso código**; suppressions em `valgrind.supp` para Intel VA-API (libmfx), libcuda, libavutil, libdrm, NVIDIA, Qt DBus metaobject cache, libdbus. 2 erros residuais são bugs de `posix_memalign(0)` em libnvidia-glcore | Alta | QA-01 | Alta | ✅ Concluído | ✓ |
 | QA-05 | — | 🔎 AU | A3 — WCAG AA (contraste ≥4,5:1, Tab/Enter, tooltips) | Média | DB-06, UX-01 | Média | 🟡 Parcial | ⚠ |
 | QA-06 | — | 🧪 TES | A6 — Cobertura LCOV medida em `src/domain/` e serviços (sem meta numérica, MC-07) | Média | QA-01, QA-03 | Alta | ⏳ Pendente | — |
@@ -336,3 +338,4 @@ Esta seção é preenchida pela Fase 2. Cada entrada registra o comando usado, o
 | AUDIT-27 | — | 🛠️ INFRA | **Publicar a wiki** — `docs/wiki/` → `petrinhu/my_comp.wiki` publicada pelo líder em 2026-11-26 (wiki `cc420b4`) com o comando de `docs/wiki/README.md` | Baixa | AUDIT-21 | Baixa | ✅ Concluído | ✓ |
 | AUDIT-28 | — | 🧪 TES | **Regressão de concorrência com TSan** (QA-15) cobrindo o snapshot do `ExportViewModel` e os callbacks QtConcurrent dos VMs — o fix do AUDIT-10 não tem teste red determinístico | Média | AUDIT-10, QA-15 | Média | 🟡 Parcial | ⚠ |
 | AUDIT-29 | — | 🔎 AU | **Smoke manual no Fedora 43 + Plasma 6 Wayland** das views atomizadas (todas as abas, tema claro/escuro), do fluxo de instalação com `pkexec` e do Switch de latência | Alta | AUDIT-07, AUDIT-19 | Baixa | ⏳ Pendente | — |
+| AUDIT-30 | — | 📈 MEL | **Explorador de processos mostra o nome cortado em 15 caracteres** — a coluna COMMAND vem do `comm` de `/proc/<pid>/stat` (limite `TASK_COMM_LEN` do kernel: "acceptance_tests" aparece como "acceptance_test"), e o filtro por nome completo falha. Ler `/proc/<pid>/cmdline` (argv[0] + args) para exibição/filtro, mantendo `comm` como fallback (kernel threads) | Baixa | QA-03 | Baixa | ⏳ Pendente | — |
