@@ -5,7 +5,7 @@
 #include <QRegularExpression>
 #include <QStringList>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 namespace {
 
@@ -23,11 +23,11 @@ QString reconstruir_sem_primeiro_token(const QStringList& tokens) {
 }
 
 LocalizadorDesktopWrapper::LocalizadorDesktopWrapper(
-    std::shared_ptr<domain::ILeitorDesktopExec> leitor)
+    std::shared_ptr<domain::vram::ILeitorDesktopExec> leitor)
     : m_leitor{std::move(leitor)} {}
 
-QVector<domain::OrigemConfig>
-LocalizadorDesktopWrapper::localizar(const domain::Processo& processo) const {
+QVector<domain::vram::OrigemConfig>
+LocalizadorDesktopWrapper::localizar(const domain::vram::Processo& processo) const {
     auto entrada_opt = m_leitor->entrada_de(processo);
     if (!entrada_opt.has_value()) {
         return {};
@@ -46,8 +46,8 @@ LocalizadorDesktopWrapper::localizar(const domain::Processo& processo) const {
 
     const QString sem_wrapper = reconstruir_sem_primeiro_token(tokens);
 
-    domain::OrigemConfig o{
-        .categoria = domain::CategoriaOrigem::DesktopWrapper,
+    domain::vram::OrigemConfig o{
+        .categoria = domain::vram::CategoriaOrigem::DesktopWrapper,
         .tipo = QStringLiteral("desktop-exec"),
         .caminho = entrada_opt->caminho_arquivo,
         .chave = QStringLiteral("Exec"),

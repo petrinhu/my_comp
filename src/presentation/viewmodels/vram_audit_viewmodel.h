@@ -10,7 +10,7 @@
 #include <atomic>
 #include <memory>
 
-namespace vramopt::presentation::viewmodels {
+namespace my_comp::presentation::viewmodels {
 
 class VramAuditViewModel : public QObject {
     Q_OBJECT
@@ -20,8 +20,8 @@ class VramAuditViewModel : public QObject {
 
 public:
     explicit VramAuditViewModel(
-        std::shared_ptr<application::ServicoAuditarVramAtual> servico,
-        std::shared_ptr<application::ServicoRegistrarFeedback> feedback = nullptr,
+        std::shared_ptr<application::vram::ServicoAuditarVramAtual> servico,
+        std::shared_ptr<application::vram::ServicoRegistrarFeedback> feedback = nullptr,
         QObject* parent = nullptr);
     ~VramAuditViewModel() override = default;
 
@@ -42,7 +42,7 @@ public:
     Q_INVOKABLE void registrarFeedback(const QString& chave_binario, const QString& categoria,
                                        const QString& motivo);
 
-    void aplicar_relatorio(const application::RelatorioAuditoriaVram& relatorio);
+    void aplicar_relatorio(const application::vram::RelatorioAuditoriaVram& relatorio);
 
 signals:
     void gruposChanged();
@@ -50,8 +50,8 @@ signals:
     void feedbackRegistrado(bool sucesso);
 
 private:
-    std::shared_ptr<application::ServicoAuditarVramAtual> m_servico;
-    std::shared_ptr<application::ServicoRegistrarFeedback> m_feedback;
+    std::shared_ptr<application::vram::ServicoAuditarVramAtual> m_servico;
+    std::shared_ptr<application::vram::ServicoRegistrarFeedback> m_feedback;
     QVariantList                                          m_grupos;
     std::atomic<bool>                                     m_busy{false};
 };

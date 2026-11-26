@@ -4,12 +4,12 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::application::ServicoSugerirAcao;
-using vramopt::application::SugestaoAcao;
-using vramopt::application::TipoSugestao;
-using vramopt::domain::Categoria;
-using vramopt::domain::Justificativa;
-using vramopt::domain::ResultadoClassificacao;
+using my_comp::application::vram::ServicoSugerirAcao;
+using my_comp::application::vram::SugestaoAcao;
+using my_comp::application::vram::TipoSugestao;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::Justificativa;
+using my_comp::domain::vram::ResultadoClassificacao;
 
 TEST(ServicoSugerirAcaoTest, RegraFeedbackDevolveTipoSugestaoNenhuma) {
     ServicoSugerirAcao s;

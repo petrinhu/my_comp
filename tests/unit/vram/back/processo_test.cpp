@@ -6,11 +6,11 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
 
 namespace {
 

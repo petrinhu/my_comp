@@ -15,15 +15,15 @@
 
 using ::testing::Return;
 
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::Fabricante;
-using vramopt::domain::GpuInfo;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::infrastructure::CompositeGpuBackend;
-using vramopt::tests::MockGpuBackend;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::Fabricante;
+using my_comp::domain::vram::GpuInfo;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::infrastructure::vram::CompositeGpuBackend;
+using my_comp::tests::vram::MockGpuBackend;
 
 TEST(CompositeGpuBackendTest, RetornaVazioQuandoSemBackends) {
     CompositeGpuBackend composite{{}};

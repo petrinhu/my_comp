@@ -4,14 +4,14 @@
 
 #include <QStringList>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
-class LeitorDesktopFileXdg final : public domain::ILeitorDesktopFile {
+class LeitorDesktopFileXdg final : public domain::vram::ILeitorDesktopFile {
 public:
     explicit LeitorDesktopFileXdg(QStringList xdg_dirs = {});
 
     [[nodiscard]] QStringList
-        categorias_de(const domain::Processo& processo) const override;
+        categorias_de(const domain::vram::Processo& processo) const override;
 
 private:
     QStringList m_xdg_dirs;

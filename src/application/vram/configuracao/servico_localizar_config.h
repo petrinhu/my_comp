@@ -8,17 +8,17 @@
 
 #include <memory>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 class ServicoLocalizarConfig {
 public:
-    explicit ServicoLocalizarConfig(std::shared_ptr<domain::IConfigLocator> locator);
+    explicit ServicoLocalizarConfig(std::shared_ptr<domain::vram::IConfigLocator> locator);
 
-    [[nodiscard]] QVector<domain::OrigemConfig>
-        executar(const domain::Processo& processo) const;
+    [[nodiscard]] QVector<domain::vram::OrigemConfig>
+        executar(const domain::vram::Processo& processo) const;
 
 private:
-    std::shared_ptr<domain::IConfigLocator> m_locator;
+    std::shared_ptr<domain::vram::IConfigLocator> m_locator;
 };
 
 }

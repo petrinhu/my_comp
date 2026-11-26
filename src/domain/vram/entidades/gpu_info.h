@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <QString>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 enum class Fabricante : std::uint8_t { Nvidia, Intel, Amd, Desconhecido };
 

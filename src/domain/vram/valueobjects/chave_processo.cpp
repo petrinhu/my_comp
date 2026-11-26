@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 ChaveProcesso::ChaveProcesso(TipoChave tipo, QString valor)
     : m_tipo{tipo}, m_valor{std::move(valor)} {

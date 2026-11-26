@@ -4,16 +4,16 @@
 
 #include <gmock/gmock.h>
 
-namespace vramopt::tests {
+namespace my_comp::tests::vram {
 
-class MockRepositorioFeedback : public vramopt::domain::IRepositorioFeedback {
+class MockRepositorioFeedback : public my_comp::domain::vram::IRepositorioFeedback {
 public:
-    MOCK_METHOD(std::optional<vramopt::domain::EntradaFeedback>, buscar,
-                (const vramopt::domain::ChaveProcesso&), (const, override));
-    MOCK_METHOD(void, inserir, (const vramopt::domain::EntradaFeedback&), (override));
+    MOCK_METHOD(std::optional<my_comp::domain::vram::EntradaFeedback>, buscar,
+                (const my_comp::domain::vram::ChaveProcesso&), (const, override));
+    MOCK_METHOD(void, inserir, (const my_comp::domain::vram::EntradaFeedback&), (override));
     MOCK_METHOD(void, atualizar_visto_em, (int, QDateTime), (override));
     MOCK_METHOD(void, remover, (int), (override));
-    MOCK_METHOD(QVector<vramopt::domain::EntradaFeedback>, listar_todos, (), (const, override));
+    MOCK_METHOD(QVector<my_comp::domain::vram::EntradaFeedback>, listar_todos, (), (const, override));
 };
 
 }

@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::application::ListaLibsCompute;
+using my_comp::application::vram::ListaLibsCompute;
 
 TEST(ListaLibsComputeTest, PadraoMatchaCuda) {
     auto lista = ListaLibsCompute::padrao();

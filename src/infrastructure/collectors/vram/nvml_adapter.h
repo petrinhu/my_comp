@@ -6,7 +6,7 @@
 #include <optional>
 #include <vector>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 struct NvmlProcessoInfo {
     std::uint32_t pid;

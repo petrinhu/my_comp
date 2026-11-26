@@ -5,7 +5,7 @@
 
 #include <optional>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 class ListaLibsCompute {
 public:

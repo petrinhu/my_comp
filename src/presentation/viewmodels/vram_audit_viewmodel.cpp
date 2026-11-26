@@ -8,81 +8,81 @@
 #include <optional>
 #include <utility>
 
-namespace vramopt::presentation::viewmodels {
+namespace my_comp::presentation::viewmodels {
 
 namespace {
 
 constexpr qsizetype TAMANHO_MAXIMO_CHAVE = 255;
 
-QString chave_binario_de(const domain::Processo& p) {
+QString chave_binario_de(const domain::vram::Processo& p) {
     for (const auto& c : p.chaves()) {
-        if (c.tipo() == domain::TipoChave::Binario) {
+        if (c.tipo() == domain::vram::TipoChave::Binario) {
             return c.valor();
         }
     }
     return {};
 }
 
-std::optional<domain::Categoria> categoria_de_feedback(const QString& texto) {
+std::optional<domain::vram::Categoria> categoria_de_feedback(const QString& texto) {
     if (texto == QStringLiteral("PrecisaGpu")) {
-        return domain::Categoria::PrecisaGpu;
+        return domain::vram::Categoria::PrecisaGpu;
     }
     if (texto == QStringLiteral("CandidatoObvioCpu")) {
-        return domain::Categoria::CandidatoObvioCpu;
+        return domain::vram::Categoria::CandidatoObvioCpu;
     }
     return std::nullopt;
 }
 
-QString fabricante_string(domain::Fabricante f) {
+QString fabricante_string(domain::vram::Fabricante f) {
     switch (f) {
-        case domain::Fabricante::Nvidia:       return QStringLiteral("Nvidia");
-        case domain::Fabricante::Intel:        return QStringLiteral("Intel");
-        case domain::Fabricante::Amd:          return QStringLiteral("AMD");
-        case domain::Fabricante::Desconhecido: return QStringLiteral("Desconhecido");
+        case domain::vram::Fabricante::Nvidia:       return QStringLiteral("Nvidia");
+        case domain::vram::Fabricante::Intel:        return QStringLiteral("Intel");
+        case domain::vram::Fabricante::Amd:          return QStringLiteral("AMD");
+        case domain::vram::Fabricante::Desconhecido: return QStringLiteral("Desconhecido");
     }
     return QStringLiteral("?");
 }
 
-QString categoria_string(domain::Categoria c) {
+QString categoria_string(domain::vram::Categoria c) {
     switch (c) {
-        case domain::Categoria::CandidatoObvioCpu: return QStringLiteral("CandidatoObvioCpu");
-        case domain::Categoria::Indeterminado:     return QStringLiteral("Indeterminado");
-        case domain::Categoria::PrecisaGpu:        return QStringLiteral("PrecisaGpu");
+        case domain::vram::Categoria::CandidatoObvioCpu: return QStringLiteral("CandidatoObvioCpu");
+        case domain::vram::Categoria::Indeterminado:     return QStringLiteral("Indeterminado");
+        case domain::vram::Categoria::PrecisaGpu:        return QStringLiteral("PrecisaGpu");
     }
     return QStringLiteral("?");
 }
 
-QString sugestao_tipo_string(application::TipoSugestao t) {
+QString sugestao_tipo_string(application::vram::TipoSugestao t) {
     switch (t) {
-        case application::TipoSugestao::Nenhuma: return QStringLiteral("Nenhuma");
-        case application::TipoSugestao::AjustarConfigDoApp:
+        case application::vram::TipoSugestao::Nenhuma: return QStringLiteral("Nenhuma");
+        case application::vram::TipoSugestao::AjustarConfigDoApp:
             return QStringLiteral("AjustarConfigDoApp");
-        case application::TipoSugestao::AvaliacaoManualNecessaria:
+        case application::vram::TipoSugestao::AvaliacaoManualNecessaria:
             return QStringLiteral("AvaliacaoManualNecessaria");
     }
     return QStringLiteral("?");
 }
 
-QString categoria_origem_string(domain::CategoriaOrigem c) {
+QString categoria_origem_string(domain::vram::CategoriaOrigem c) {
     switch (c) {
-        case domain::CategoriaOrigem::BrowserChromium: return QStringLiteral("BrowserChromium");
-        case domain::CategoriaOrigem::Firefox:         return QStringLiteral("Firefox");
-        case domain::CategoriaOrigem::PrimeEnv:        return QStringLiteral("PrimeEnv");
-        case domain::CategoriaOrigem::DesktopWrapper:  return QStringLiteral("DesktopWrapper");
+        case domain::vram::CategoriaOrigem::BrowserChromium: return QStringLiteral("BrowserChromium");
+        case domain::vram::CategoriaOrigem::Firefox:         return QStringLiteral("Firefox");
+        case domain::vram::CategoriaOrigem::PrimeEnv:        return QStringLiteral("PrimeEnv");
+        case domain::vram::CategoriaOrigem::DesktopWrapper:  return QStringLiteral("DesktopWrapper");
     }
     return QStringLiteral("?");
 }
 
-QString confianca_string(domain::Confianca c) {
+QString confianca_string(domain::vram::Confianca c) {
     switch (c) {
-        case domain::Confianca::Baixa: return QStringLiteral("Baixa");
-        case domain::Confianca::Media: return QStringLiteral("Media");
-        case domain::Confianca::Alta:  return QStringLiteral("Alta");
+        case domain::vram::Confianca::Baixa: return QStringLiteral("Baixa");
+        case domain::vram::Confianca::Media: return QStringLiteral("Media");
+        case domain::vram::Confianca::Alta:  return QStringLiteral("Alta");
     }
     return QStringLiteral("?");
 }
 
-QVariantMap origem_to_map(const domain::OrigemConfig& o) {
+QVariantMap origem_to_map(const domain::vram::OrigemConfig& o) {
     QVariantMap m;
     m.insert(QStringLiteral("categoria"),       categoria_origem_string(o.categoria));
     m.insert(QStringLiteral("tipo"),            o.tipo);
@@ -97,7 +97,7 @@ QVariantMap origem_to_map(const domain::OrigemConfig& o) {
     return m;
 }
 
-QVariantMap item_to_map(const application::ItemAuditoriaVram& item) {
+QVariantMap item_to_map(const application::vram::ItemAuditoriaVram& item) {
     QVariantMap m;
     m.insert(QStringLiteral("pid"),            item.processo.pid().valor());
     m.insert(QStringLiteral("nome"),           item.processo.nome().valor());
@@ -121,7 +121,7 @@ QVariantMap item_to_map(const application::ItemAuditoriaVram& item) {
     return m;
 }
 
-QVariantMap grupo_to_map(const application::GrupoAuditoriaGpu& grupo) {
+QVariantMap grupo_to_map(const application::vram::GrupoAuditoriaGpu& grupo) {
     QVariantMap m;
     m.insert(QStringLiteral("gpuId"),         grupo.gpu.id());
     m.insert(QStringLiteral("gpuFabricante"), fabricante_string(grupo.gpu.fabricante()));
@@ -140,7 +140,7 @@ QVariantMap grupo_to_map(const application::GrupoAuditoriaGpu& grupo) {
     return m;
 }
 
-QVariantList relatorio_to_variant(const application::RelatorioAuditoriaVram& r) {
+QVariantList relatorio_to_variant(const application::vram::RelatorioAuditoriaVram& r) {
     QVariantList out;
     out.reserve(static_cast<int>(r.grupos.size()));
     for (const auto& g : r.grupos) {
@@ -152,13 +152,13 @@ QVariantList relatorio_to_variant(const application::RelatorioAuditoriaVram& r) 
 }
 
 VramAuditViewModel::VramAuditViewModel(
-    std::shared_ptr<application::ServicoAuditarVramAtual> servico,
-    std::shared_ptr<application::ServicoRegistrarFeedback> feedback,
+    std::shared_ptr<application::vram::ServicoAuditarVramAtual> servico,
+    std::shared_ptr<application::vram::ServicoRegistrarFeedback> feedback,
     QObject* parent)
     : QObject{parent}, m_servico{std::move(servico)}, m_feedback{std::move(feedback)} {}
 
 void VramAuditViewModel::aplicar_relatorio(
-    const application::RelatorioAuditoriaVram& relatorio) {
+    const application::vram::RelatorioAuditoriaVram& relatorio) {
     m_grupos = relatorio_to_variant(relatorio);
     emit gruposChanged();
 }
@@ -195,7 +195,7 @@ void VramAuditViewModel::registrarFeedback(const QString& chave_binario,
         return;
     }
     auto servico = m_feedback;
-    auto chave = domain::ChaveProcesso::de_binario(binario);
+    auto chave = domain::vram::ChaveProcesso::de_binario(binario);
     auto _future = QtConcurrent::run([this, servico, chave, v = *veredito, motivo]() {
         const bool ok = servico->executar(chave, v, motivo);
         QMetaObject::invokeMethod(this, [this, ok]() {

@@ -9,11 +9,11 @@
 #include <utility>
 #include <vector>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
-std::shared_ptr<domain::IGpuBackend>
+std::shared_ptr<domain::vram::IGpuBackend>
 criar_backend_composito_com(const DepsFactoryGpuBackend& deps) {
-    std::vector<std::shared_ptr<domain::IGpuBackend>> backends;
+    std::vector<std::shared_ptr<domain::vram::IGpuBackend>> backends;
 
     if (deps.criar_adapter_nvml) {
         auto adapter = deps.criar_adapter_nvml();
@@ -32,7 +32,7 @@ criar_backend_composito_com(const DepsFactoryGpuBackend& deps) {
     return std::make_shared<CompositeGpuBackend>(std::move(backends));
 }
 
-std::shared_ptr<domain::IGpuBackend> criar_backend_composito_do_sistema() {
+std::shared_ptr<domain::vram::IGpuBackend> criar_backend_composito_do_sistema() {
     return criar_backend_composito_com(DepsFactoryGpuBackend{
         .criar_adapter_nvml = []() { return criar_adapter_nvml_real(); },
         .sistema_tem_intel  = &IntelI915GpuBackend::sistema_tem_gpu_intel,

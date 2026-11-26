@@ -8,7 +8,7 @@
 
 #include <optional>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 class MapaCategoriasDesktop {
 public:
@@ -16,7 +16,7 @@ public:
 
     [[nodiscard]] static MapaCategoriasDesktop padrao();
 
-    [[nodiscard]] std::optional<domain::Categoria>
+    [[nodiscard]] std::optional<domain::vram::Categoria>
         classificar_por(const QStringList& categorias) const;
 
 private:

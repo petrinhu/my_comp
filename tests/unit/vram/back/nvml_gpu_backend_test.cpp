@@ -14,11 +14,11 @@
 #include <memory>
 #include <vector>
 
-using vramopt::domain::Fabricante;
-using vramopt::infrastructure::INvmlAdapter;
-using vramopt::infrastructure::NvmlDeviceInfo;
-using vramopt::infrastructure::NvmlGpuBackend;
-using vramopt::infrastructure::NvmlProcessoInfo;
+using my_comp::domain::vram::Fabricante;
+using my_comp::infrastructure::vram::INvmlAdapter;
+using my_comp::infrastructure::vram::NvmlDeviceInfo;
+using my_comp::infrastructure::vram::NvmlGpuBackend;
+using my_comp::infrastructure::vram::NvmlProcessoInfo;
 
 namespace {
 

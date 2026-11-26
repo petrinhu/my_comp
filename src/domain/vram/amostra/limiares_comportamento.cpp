@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 static constexpr BytesDeMemoria::underlying_t k_bytes_por_mb = 1024ULL * 1024ULL;
 

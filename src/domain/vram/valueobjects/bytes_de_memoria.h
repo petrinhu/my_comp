@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <compare>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 class BytesDeMemoria {
 public:

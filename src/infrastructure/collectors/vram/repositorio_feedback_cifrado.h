@@ -24,24 +24,24 @@
 #include <memory>
 #include <mutex>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
-class RepositorioFeedbackCifrado final : public domain::IRepositorioFeedback {
+class RepositorioFeedbackCifrado final : public domain::vram::IRepositorioFeedback {
 public:
     RepositorioFeedbackCifrado(std::shared_ptr<my_comp::domain::interfaces::ISecurityVault> vault,
                                QString diretorio);
 
     [[nodiscard]] static QByteArray cabecalho();
 
-    [[nodiscard]] std::optional<domain::EntradaFeedback>
-        buscar(const domain::ChaveProcesso& chave) const override;
+    [[nodiscard]] std::optional<domain::vram::EntradaFeedback>
+        buscar(const domain::vram::ChaveProcesso& chave) const override;
 
     // id <= 0 recebe o próximo id livre; feedback para uma chave já marcada substitui o anterior.
-    void inserir(const domain::EntradaFeedback& entrada) override;
+    void inserir(const domain::vram::EntradaFeedback& entrada) override;
     void atualizar_visto_em(int id, QDateTime quando) override;
     void remover(int id) override;
 
-    [[nodiscard]] QVector<domain::EntradaFeedback> listar_todos() const override;
+    [[nodiscard]] QVector<domain::vram::EntradaFeedback> listar_todos() const override;
 
 private:
     void garantir_carregado() const;   // exige m_mutex travado
@@ -58,7 +58,7 @@ private:
     mutable bool                             m_carregado{false};
     mutable bool                             m_somente_memoria{false};
     mutable int                              m_proximo_id{1};
-    mutable QVector<domain::EntradaFeedback> m_entradas;
+    mutable QVector<domain::vram::EntradaFeedback> m_entradas;
 };
 
 }

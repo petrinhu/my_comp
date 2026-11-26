@@ -11,14 +11,14 @@
 using ::testing::_;
 using ::testing::Return;
 
-using vramopt::application::MapaCategoriasDesktop;
-using vramopt::application::RegraCategoriaDesktop;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::Categoria;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::tests::MockLeitorDesktopFile;
+using my_comp::application::vram::MapaCategoriasDesktop;
+using my_comp::application::vram::RegraCategoriaDesktop;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::tests::vram::MockLeitorDesktopFile;
 
 namespace {
 

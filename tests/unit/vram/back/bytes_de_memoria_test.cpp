@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::domain::BytesDeMemoria;
+using my_comp::domain::vram::BytesDeMemoria;
 
 TEST(BytesDeMemoriaTest, ConstroiComZero) {
     BytesDeMemoria b{0};

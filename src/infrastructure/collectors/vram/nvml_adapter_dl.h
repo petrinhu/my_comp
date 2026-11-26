@@ -4,7 +4,7 @@
 
 #include <memory>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 class NvmlAdapterDl final : public INvmlAdapter {
 public:

@@ -4,7 +4,7 @@
 
 #include <cstdint>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 enum class TipoSugestao : std::uint8_t {
     Nenhuma,

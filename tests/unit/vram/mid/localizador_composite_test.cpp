@@ -12,16 +12,16 @@
 using ::testing::_;
 using ::testing::Return;
 
-using vramopt::application::LocalizadorComposite;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::CategoriaOrigem;
-using vramopt::domain::Confianca;
-using vramopt::domain::IConfigLocator;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::OrigemConfig;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::tests::MockConfigLocator;
+using my_comp::application::vram::LocalizadorComposite;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::CategoriaOrigem;
+using my_comp::domain::vram::Confianca;
+using my_comp::domain::vram::IConfigLocator;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::OrigemConfig;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::tests::vram::MockConfigLocator;
 
 namespace {
 

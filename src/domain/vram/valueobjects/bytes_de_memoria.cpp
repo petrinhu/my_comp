@@ -1,6 +1,6 @@
 #include "domain/vram/valueobjects/bytes_de_memoria.h"
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 BytesDeMemoria BytesDeMemoria::de_megabytes(underlying_t mb) noexcept {
     return BytesDeMemoria{mb * 1024 * 1024};

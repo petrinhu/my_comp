@@ -3,8 +3,8 @@
 #include <QString>
 #include <gtest/gtest.h>
 
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::TipoChave;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::TipoChave;
 
 TEST(ChaveProcessoTest, ConstroiComBinario) {
     auto chave = ChaveProcesso::de_binario(QStringLiteral("firefox"));

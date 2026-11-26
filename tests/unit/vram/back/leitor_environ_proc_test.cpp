@@ -8,8 +8,8 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::domain::PID;
-using vramopt::infrastructure::LeitorEnvironProc;
+using my_comp::domain::vram::PID;
+using my_comp::infrastructure::vram::LeitorEnvironProc;
 
 namespace {
 

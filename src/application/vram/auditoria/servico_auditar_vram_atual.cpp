@@ -1,9 +1,9 @@
 #include "application/vram/auditoria/servico_auditar_vram_atual.h"
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 ServicoAuditarVramAtual::ServicoAuditarVramAtual(
-    std::shared_ptr<domain::IGpuBackend> backend,
+    std::shared_ptr<domain::vram::IGpuBackend> backend,
     std::shared_ptr<ServicoClassificarProcesso> classificador,
     std::shared_ptr<ServicoSugerirAcao> sugeridor,
     std::shared_ptr<ServicoLocalizarConfig> localizador)

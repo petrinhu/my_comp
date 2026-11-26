@@ -4,11 +4,11 @@
 
 #include <gmock/gmock.h>
 
-namespace vramopt::tests {
+namespace my_comp::tests::vram {
 
-class MockLeitorDesktopFile : public vramopt::domain::ILeitorDesktopFile {
+class MockLeitorDesktopFile : public my_comp::domain::vram::ILeitorDesktopFile {
 public:
-    MOCK_METHOD(QStringList, categorias_de, (const vramopt::domain::Processo&), (const, override));
+    MOCK_METHOD(QStringList, categorias_de, (const my_comp::domain::vram::Processo&), (const, override));
 };
 
 }

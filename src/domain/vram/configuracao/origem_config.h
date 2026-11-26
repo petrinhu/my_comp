@@ -4,7 +4,7 @@
 
 #include <cstdint>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 enum class CategoriaOrigem : std::uint8_t {
     BrowserChromium,

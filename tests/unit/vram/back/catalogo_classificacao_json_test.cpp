@@ -8,11 +8,11 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::domain::Categoria;
-using vramopt::domain::ChaveProcesso;
-using vramopt::infrastructure::CatalogoClassificacaoJson;
-using vramopt::infrastructure::carregar_catalogo_empacotado;
-using vramopt::infrastructure::parsear_catalogo_json;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::infrastructure::vram::CatalogoClassificacaoJson;
+using my_comp::infrastructure::vram::carregar_catalogo_empacotado;
+using my_comp::infrastructure::vram::parsear_catalogo_json;
 
 namespace {
 

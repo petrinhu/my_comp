@@ -11,37 +11,37 @@
 #include <type_traits>
 
 TEST(IClassificadorProcessosTest, EAbstrata) {
-    static_assert(std::is_abstract_v<vramopt::domain::IClassificadorProcessos>);
+    static_assert(std::is_abstract_v<my_comp::domain::vram::IClassificadorProcessos>);
     SUCCEED();
 }
 
 TEST(IRegraClassificacaoTest, EAbstrata) {
-    static_assert(std::is_abstract_v<vramopt::domain::IRegraClassificacao>);
+    static_assert(std::is_abstract_v<my_comp::domain::vram::IRegraClassificacao>);
     SUCCEED();
 }
 
 TEST(ICatalogoClassificacaoTest, EAbstrata) {
-    static_assert(std::is_abstract_v<vramopt::domain::ICatalogoClassificacao>);
+    static_assert(std::is_abstract_v<my_comp::domain::vram::ICatalogoClassificacao>);
     SUCCEED();
 }
 
 TEST(IRepositorioFeedbackTest, EAbstrata) {
-    static_assert(std::is_abstract_v<vramopt::domain::IRepositorioFeedback>);
+    static_assert(std::is_abstract_v<my_comp::domain::vram::IRepositorioFeedback>);
     SUCCEED();
 }
 
 TEST(ILeitorDesktopFileTest, EAbstrata) {
-    static_assert(std::is_abstract_v<vramopt::domain::ILeitorDesktopFile>);
+    static_assert(std::is_abstract_v<my_comp::domain::vram::ILeitorDesktopFile>);
     SUCCEED();
 }
 
 TEST(ILeitorMapsProcessoTest, EAbstrata) {
-    static_assert(std::is_abstract_v<vramopt::domain::ILeitorMapsProcesso>);
+    static_assert(std::is_abstract_v<my_comp::domain::vram::ILeitorMapsProcesso>);
     SUCCEED();
 }
 
 TEST(IAmostradorComportamentoTest, EAbstrata) {
-    static_assert(std::is_abstract_v<vramopt::domain::IAmostradorComportamento>);
+    static_assert(std::is_abstract_v<my_comp::domain::vram::IAmostradorComportamento>);
     SUCCEED();
 }
 
@@ -52,22 +52,22 @@ TEST(IAmostradorComportamentoTest, EAbstrata) {
 #include "domain/vram/interfaces/i_leitor_environ.h"
 
 TEST(IConfigLocatorTest, EAbstrata) {
-    static_assert(std::is_abstract_v<vramopt::domain::IConfigLocator>);
+    static_assert(std::is_abstract_v<my_comp::domain::vram::IConfigLocator>);
     SUCCEED();
 }
 TEST(ILeitorEnvironTest, EAbstrata) {
-    static_assert(std::is_abstract_v<vramopt::domain::ILeitorEnviron>);
+    static_assert(std::is_abstract_v<my_comp::domain::vram::ILeitorEnviron>);
     SUCCEED();
 }
 TEST(ILeitorArquivoConfigTest, EAbstrata) {
-    static_assert(std::is_abstract_v<vramopt::domain::ILeitorArquivoConfig>);
+    static_assert(std::is_abstract_v<my_comp::domain::vram::ILeitorArquivoConfig>);
     SUCCEED();
 }
 TEST(ILeitorDesktopExecTest, EAbstrata) {
-    static_assert(std::is_abstract_v<vramopt::domain::ILeitorDesktopExec>);
+    static_assert(std::is_abstract_v<my_comp::domain::vram::ILeitorDesktopExec>);
     SUCCEED();
 }
 TEST(IGpuBackendTest, EAbstrata) {
-    static_assert(std::is_abstract_v<vramopt::domain::IGpuBackend>);
+    static_assert(std::is_abstract_v<my_comp::domain::vram::IGpuBackend>);
     SUCCEED();
 }

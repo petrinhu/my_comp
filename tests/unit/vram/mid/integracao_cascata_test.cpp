@@ -22,29 +22,29 @@
 using ::testing::_;
 using ::testing::Return;
 
-using vramopt::application::ClassificadorEmCascata;
-using vramopt::application::ListaLibsCompute;
-using vramopt::application::MapaCategoriasDesktop;
-using vramopt::application::RegraBibliotecaCompute;
-using vramopt::application::RegraCatalogo;
-using vramopt::application::RegraCategoriaDesktop;
-using vramopt::application::RegraComportamento;
-using vramopt::application::RegraFeedback;
-using vramopt::domain::AmostraJanela;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::Categoria;
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::EntradaCatalogo;
-using vramopt::domain::IRegraClassificacao;
-using vramopt::domain::LimiaresComportamento;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::tests::MockAmostradorComportamento;
-using vramopt::tests::MockCatalogoClassificacao;
-using vramopt::tests::MockLeitorDesktopFile;
-using vramopt::tests::MockLeitorMapsProcesso;
-using vramopt::tests::MockRepositorioFeedback;
+using my_comp::application::vram::ClassificadorEmCascata;
+using my_comp::application::vram::ListaLibsCompute;
+using my_comp::application::vram::MapaCategoriasDesktop;
+using my_comp::application::vram::RegraBibliotecaCompute;
+using my_comp::application::vram::RegraCatalogo;
+using my_comp::application::vram::RegraCategoriaDesktop;
+using my_comp::application::vram::RegraComportamento;
+using my_comp::application::vram::RegraFeedback;
+using my_comp::domain::vram::AmostraJanela;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::EntradaCatalogo;
+using my_comp::domain::vram::IRegraClassificacao;
+using my_comp::domain::vram::LimiaresComportamento;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::tests::vram::MockAmostradorComportamento;
+using my_comp::tests::vram::MockCatalogoClassificacao;
+using my_comp::tests::vram::MockLeitorDesktopFile;
+using my_comp::tests::vram::MockLeitorMapsProcesso;
+using my_comp::tests::vram::MockRepositorioFeedback;
 
 namespace {
 
@@ -153,7 +153,7 @@ TEST(IntegracaoCascataTest, FeedbackVenceCatalogoMesmoQueCatalogoTambemDecidiria
     auto c = montar();
 
     EXPECT_CALL(*c.repo, buscar(_))
-        .WillOnce(Return(vramopt::domain::EntradaFeedback{
+        .WillOnce(Return(my_comp::domain::vram::EntradaFeedback{
             .id = 7,
             .chave = ChaveProcesso::de_binario(QStringLiteral("firefox")),
             .veredito = Categoria::PrecisaGpu,

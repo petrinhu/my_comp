@@ -4,14 +4,14 @@
 
 #include <QString>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
-class LeitorEnvironProc final : public domain::ILeitorEnviron {
+class LeitorEnvironProc final : public domain::vram::ILeitorEnviron {
 public:
     explicit LeitorEnvironProc(QString proc_root = QStringLiteral("/proc"));
 
     [[nodiscard]] QHash<QString, QString>
-        environ_de(const domain::PID& pid) const override;
+        environ_de(const domain::vram::PID& pid) const override;
 
 private:
     QString m_proc_root;

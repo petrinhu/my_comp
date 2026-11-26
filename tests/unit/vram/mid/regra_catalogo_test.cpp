@@ -10,15 +10,15 @@
 using ::testing::_;
 using ::testing::Return;
 
-using vramopt::application::RegraCatalogo;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::Categoria;
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::EntradaCatalogo;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::tests::MockCatalogoClassificacao;
+using my_comp::application::vram::RegraCatalogo;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::EntradaCatalogo;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::tests::vram::MockCatalogoClassificacao;
 
 namespace {
 

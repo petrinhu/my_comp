@@ -11,15 +11,15 @@
 using ::testing::_;
 using ::testing::Return;
 
-using vramopt::application::ServicoLocalizarConfig;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::CategoriaOrigem;
-using vramopt::domain::Confianca;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::OrigemConfig;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::tests::MockConfigLocator;
+using my_comp::application::vram::ServicoLocalizarConfig;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::CategoriaOrigem;
+using my_comp::domain::vram::Confianca;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::OrigemConfig;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::tests::vram::MockConfigLocator;
 
 TEST(ServicoLocalizarConfigTest, DelegaAoLocator) {
     auto loc = std::make_shared<MockConfigLocator>();

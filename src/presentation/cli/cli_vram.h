@@ -9,7 +9,7 @@
 
 #include <memory>
 
-namespace vramopt::presentation::cli {
+namespace my_comp::presentation::cli {
 
 struct OpcoesCliVram {
     bool json                   = false;
@@ -20,13 +20,13 @@ struct OpcoesCliVram {
 [[nodiscard]] OpcoesCliVram parsear_opcoes(const QStringList& args);
 
 [[nodiscard]] QString formatar_relatorio(
-    const application::RelatorioAuditoriaVram& rel,
+    const application::vram::RelatorioAuditoriaVram& rel,
     const OpcoesCliVram& opts);
 
 // O serviço vem montado do composition root (main.cpp → composition/vram_composition):
 // a camada de apresentação não instancia infraestrutura (MC-02).
 int executar_com_servico(
-    const std::shared_ptr<application::ServicoAuditarVramAtual>& servico,
+    const std::shared_ptr<application::vram::ServicoAuditarVramAtual>& servico,
     const QStringList& args,
     QTextStream& out);
 

@@ -29,9 +29,9 @@
 #include <map>
 #include <mutex>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
-class HistoricoAmostrasVram final : public domain::IAmostradorComportamento {
+class HistoricoAmostrasVram final : public domain::vram::IAmostradorComportamento {
 public:
     using Relogio = std::function<std::chrono::steady_clock::time_point()>;
 
@@ -41,18 +41,18 @@ public:
     // Relógio vazio usa std::chrono::steady_clock::now (monotônico: imune a ajuste de hora).
     explicit HistoricoAmostrasVram(Relogio relogio = {});
 
-    void registrar(const domain::Processo& processo, domain::BytesDeMemoria vram_total_gpu);
+    void registrar(const domain::vram::Processo& processo, domain::vram::BytesDeMemoria vram_total_gpu);
 
-    [[nodiscard]] domain::AmostraJanela
-        amostra_janela(const domain::PID& pid, std::chrono::seconds janela) const override;
+    [[nodiscard]] domain::vram::AmostraJanela
+        amostra_janela(const domain::vram::PID& pid, std::chrono::seconds janela) const override;
 
     [[nodiscard]] std::size_t pids_rastreados() const;
 
 private:
     struct Amostra {
         std::chrono::steady_clock::time_point quando;
-        domain::BytesDeMemoria                vram;
-        domain::BytesDeMemoria                vram_total_gpu;
+        domain::vram::BytesDeMemoria                vram;
+        domain::vram::BytesDeMemoria                vram_total_gpu;
     };
     struct HistoricoDoPid {
         QString             nome;      // PID reaproveitado por outro binário zera o histórico
@@ -63,7 +63,7 @@ private:
 
     Relogio                                              m_relogio;
     mutable std::mutex                                   m_mutex;
-    std::map<domain::PID::underlying_t, HistoricoDoPid>  m_por_pid;
+    std::map<domain::vram::PID::underlying_t, HistoricoDoPid>  m_por_pid;
 };
 
 }

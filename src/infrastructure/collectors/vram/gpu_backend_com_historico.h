@@ -12,23 +12,23 @@
 #include <memory>
 #include <mutex>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
-class GpuBackendComHistorico final : public domain::IGpuBackend {
+class GpuBackendComHistorico final : public domain::vram::IGpuBackend {
 public:
-    GpuBackendComHistorico(std::shared_ptr<domain::IGpuBackend>  interno,
+    GpuBackendComHistorico(std::shared_ptr<domain::vram::IGpuBackend>  interno,
                            std::shared_ptr<HistoricoAmostrasVram> historico);
 
-    [[nodiscard]] std::vector<domain::GpuInfo> enumerar_gpus() const override;
+    [[nodiscard]] std::vector<domain::vram::GpuInfo> enumerar_gpus() const override;
 
-    [[nodiscard]] std::vector<domain::Processo>
+    [[nodiscard]] std::vector<domain::vram::Processo>
         enumerar_processos_vram(int gpu_id) const override;
 
 private:
-    std::shared_ptr<domain::IGpuBackend>          m_interno;
+    std::shared_ptr<domain::vram::IGpuBackend>          m_interno;
     std::shared_ptr<HistoricoAmostrasVram>        m_historico;
     mutable std::mutex                            m_mutex;
-    mutable std::map<int, domain::BytesDeMemoria> m_vram_total_por_gpu;  // da última enumeração
+    mutable std::map<int, domain::vram::BytesDeMemoria> m_vram_total_por_gpu;  // da última enumeração
 };
 
 }

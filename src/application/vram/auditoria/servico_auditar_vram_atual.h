@@ -8,12 +8,12 @@
 
 #include <memory>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 class ServicoAuditarVramAtual {
 public:
     ServicoAuditarVramAtual(
-        std::shared_ptr<domain::IGpuBackend> backend,
+        std::shared_ptr<domain::vram::IGpuBackend> backend,
         std::shared_ptr<ServicoClassificarProcesso> classificador,
         std::shared_ptr<ServicoSugerirAcao> sugeridor,
         std::shared_ptr<ServicoLocalizarConfig> localizador);
@@ -21,7 +21,7 @@ public:
     [[nodiscard]] RelatorioAuditoriaVram executar() const;
 
 private:
-    std::shared_ptr<domain::IGpuBackend>        m_backend;
+    std::shared_ptr<domain::vram::IGpuBackend>        m_backend;
     std::shared_ptr<ServicoClassificarProcesso> m_classificador;
     std::shared_ptr<ServicoSugerirAcao>         m_sugeridor;
     std::shared_ptr<ServicoLocalizarConfig>     m_localizador;

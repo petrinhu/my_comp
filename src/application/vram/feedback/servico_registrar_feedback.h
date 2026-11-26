@@ -11,7 +11,7 @@
 #include <functional>
 #include <memory>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 // Caso de uso: o usuário fixa o veredito de um processo (VRAM-07). O feedback vence
 // as demais regras da cascata na próxima auditoria (RegraFeedback é a primeira).
@@ -22,17 +22,17 @@ public:
     static constexpr std::size_t TAMANHO_MAXIMO_MOTIVO = 500;
 
     // Relógio vazio usa QDateTime::currentDateTimeUtc().
-    explicit ServicoRegistrarFeedback(std::shared_ptr<domain::IRepositorioFeedback> repo,
+    explicit ServicoRegistrarFeedback(std::shared_ptr<domain::vram::IRepositorioFeedback> repo,
                                       Relogio relogio = {});
 
     // Indeterminado não fixa veredito: devolve false sem gravar. Revisar um feedback
     // existente mantém id e criado_em e marca revisado_em.
-    [[nodiscard]] bool executar(const domain::ChaveProcesso& chave,
-                                domain::Categoria veredito,
+    [[nodiscard]] bool executar(const domain::vram::ChaveProcesso& chave,
+                                domain::vram::Categoria veredito,
                                 const QString& motivo) const;
 
 private:
-    std::shared_ptr<domain::IRepositorioFeedback> m_repo;
+    std::shared_ptr<domain::vram::IRepositorioFeedback> m_repo;
     Relogio                                       m_relogio;
 };
 

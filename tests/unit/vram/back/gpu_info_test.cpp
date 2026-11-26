@@ -3,9 +3,9 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::Fabricante;
-using vramopt::domain::GpuInfo;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::Fabricante;
+using my_comp::domain::vram::GpuInfo;
 
 TEST(GpuInfoTest, AgregaCampos) {
     GpuInfo gpu{

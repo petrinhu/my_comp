@@ -11,15 +11,15 @@
 using ::testing::_;
 using ::testing::Return;
 
-using vramopt::application::ClassificadorEmCascata;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::Categoria;
-using vramopt::domain::Justificativa;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::domain::ResultadoClassificacao;
-using vramopt::tests::MockRegraClassificacao;
+using my_comp::application::vram::ClassificadorEmCascata;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::Justificativa;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::domain::vram::ResultadoClassificacao;
+using my_comp::tests::vram::MockRegraClassificacao;
 
 namespace {
 

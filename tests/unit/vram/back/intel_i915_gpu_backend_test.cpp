@@ -7,8 +7,8 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::domain::Fabricante;
-using vramopt::infrastructure::IntelI915GpuBackend;
+using my_comp::domain::vram::Fabricante;
+using my_comp::infrastructure::vram::IntelI915GpuBackend;
 
 namespace {
 

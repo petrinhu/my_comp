@@ -3,7 +3,7 @@
 #include <iterator>
 #include <utility>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 HistoricoAmostrasVram::HistoricoAmostrasVram(Relogio relogio) : m_relogio{std::move(relogio)} {
     if (!m_relogio) {
@@ -11,8 +11,8 @@ HistoricoAmostrasVram::HistoricoAmostrasVram(Relogio relogio) : m_relogio{std::m
     }
 }
 
-void HistoricoAmostrasVram::registrar(const domain::Processo& processo,
-                                      domain::BytesDeMemoria vram_total_gpu) {
+void HistoricoAmostrasVram::registrar(const domain::vram::Processo& processo,
+                                      domain::vram::BytesDeMemoria vram_total_gpu) {
     const auto agora = m_relogio();
     const std::lock_guard trava{m_mutex};
     descartar_antigas(agora);
@@ -32,9 +32,9 @@ void HistoricoAmostrasVram::registrar(const domain::Processo& processo,
     }
 }
 
-domain::AmostraJanela
-HistoricoAmostrasVram::amostra_janela(const domain::PID& pid, std::chrono::seconds janela) const {
-    domain::AmostraJanela resultado;
+domain::vram::AmostraJanela
+HistoricoAmostrasVram::amostra_janela(const domain::vram::PID& pid, std::chrono::seconds janela) const {
+    domain::vram::AmostraJanela resultado;
     resultado.janela = janela;
 
     const auto inicio = m_relogio() - janela;
@@ -44,7 +44,7 @@ HistoricoAmostrasVram::amostra_janela(const domain::PID& pid, std::chrono::secon
         return resultado;
     }
 
-    domain::BytesDeMemoria::underlying_t soma = 0;
+    domain::vram::BytesDeMemoria::underlying_t soma = 0;
     int contagem = 0;
     for (const auto& a : it->second.amostras) {
         if (a.quando < inicio) {
@@ -55,8 +55,8 @@ HistoricoAmostrasVram::amostra_janela(const domain::PID& pid, std::chrono::secon
         resultado.vram_total_gpu = a.vram_total_gpu;  // amostras em ordem: fica a mais recente
     }
     if (contagem > 0) {
-        resultado.vram_media = domain::BytesDeMemoria{
-            soma / static_cast<domain::BytesDeMemoria::underlying_t>(contagem)};
+        resultado.vram_media = domain::vram::BytesDeMemoria{
+            soma / static_cast<domain::vram::BytesDeMemoria::underlying_t>(contagem)};
         resultado.amostras = contagem;
     }
     // compute_utilizacao_media fica 0.0: sem fonte por processo (ver cabeçalho).

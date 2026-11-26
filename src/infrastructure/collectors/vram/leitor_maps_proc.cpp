@@ -7,7 +7,7 @@
 
 #include <utility>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 namespace {
 constexpr int CAMPOS_ANTES_DO_CAMINHO = 5; // endereço perms offset dev inode
@@ -17,7 +17,7 @@ constexpr qint64 LIMITE_BYTES_MAPS = 16LL * 1024 * 1024; // entrada externa: tet
 LeitorMapsProc::LeitorMapsProc(QString proc_root)
     : m_proc_root{std::move(proc_root)} {}
 
-QStringList LeitorMapsProc::bibliotecas_mapeadas(const domain::PID& pid) const {
+QStringList LeitorMapsProc::bibliotecas_mapeadas(const domain::vram::PID& pid) const {
     QStringList resultado;
     QFile f{QStringLiteral("%1/%2/maps").arg(m_proc_root).arg(pid.valor())};
     if (!f.open(QIODevice::ReadOnly | QIODevice::Text)) {

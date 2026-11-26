@@ -1,6 +1,6 @@
 #include "application/vram/classificacao/regras/lista_libs_compute.h"
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 ListaLibsCompute::ListaLibsCompute(QStringList padroes_compute)
     : m_padroes_compute{std::move(padroes_compute)} {}

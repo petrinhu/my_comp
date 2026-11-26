@@ -14,11 +14,11 @@ using ::testing::Field;
 using ::testing::Return;
 using ::testing::SaveArg;
 
-using vramopt::application::ServicoRegistrarFeedback;
-using vramopt::domain::Categoria;
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::EntradaFeedback;
-using vramopt::tests::MockRepositorioFeedback;
+using my_comp::application::vram::ServicoRegistrarFeedback;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::EntradaFeedback;
+using my_comp::tests::vram::MockRepositorioFeedback;
 
 namespace {
 

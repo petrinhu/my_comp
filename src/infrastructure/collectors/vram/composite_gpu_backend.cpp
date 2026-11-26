@@ -1,9 +1,9 @@
 #include "infrastructure/collectors/vram/composite_gpu_backend.h"
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 CompositeGpuBackend::CompositeGpuBackend(
-    std::vector<std::shared_ptr<domain::IGpuBackend>> backends)
+    std::vector<std::shared_ptr<domain::vram::IGpuBackend>> backends)
     : m_backends{std::move(backends)} {}
 
 void CompositeGpuBackend::garantir_mapa() const {
@@ -13,9 +13,9 @@ void CompositeGpuBackend::garantir_mapa() const {
     m_mapa_pronto = true;
 }
 
-std::vector<vramopt::domain::GpuInfo>
+std::vector<my_comp::domain::vram::GpuInfo>
 CompositeGpuBackend::enumerar_gpus() const {
-    std::vector<domain::GpuInfo> agregadas;
+    std::vector<domain::vram::GpuInfo> agregadas;
     m_mapa_ids.clear();
 
     int proximo_id_global = 0;
@@ -34,7 +34,7 @@ CompositeGpuBackend::enumerar_gpus() const {
     return agregadas;
 }
 
-std::vector<vramopt::domain::Processo>
+std::vector<my_comp::domain::vram::Processo>
 CompositeGpuBackend::enumerar_processos_vram(int gpu_id) const {
     if (!m_mapa_pronto) {
         // Recompute mapping from a side-effect-free call to enumerar_gpus
@@ -46,7 +46,7 @@ CompositeGpuBackend::enumerar_processos_vram(int gpu_id) const {
     const auto& entrada = m_mapa_ids[static_cast<std::size_t>(gpu_id)];
     auto processos = m_backends[entrada.backend_idx]->enumerar_processos_vram(entrada.id_interno);
 
-    std::vector<domain::Processo> remapeados;
+    std::vector<domain::vram::Processo> remapeados;
     remapeados.reserve(processos.size());
     for (const auto& p : processos) {
         remapeados.emplace_back(p.pid(), p.nome(), p.vram_consumida(), gpu_id, p.chaves());

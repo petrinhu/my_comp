@@ -13,11 +13,11 @@
 #include <memory>
 #include <vector>
 
-using vramopt::infrastructure::criar_backend_composito_com;
-using vramopt::infrastructure::DepsFactoryGpuBackend;
-using vramopt::infrastructure::INvmlAdapter;
-using vramopt::infrastructure::NvmlDeviceInfo;
-using vramopt::infrastructure::NvmlProcessoInfo;
+using my_comp::infrastructure::vram::criar_backend_composito_com;
+using my_comp::infrastructure::vram::DepsFactoryGpuBackend;
+using my_comp::infrastructure::vram::INvmlAdapter;
+using my_comp::infrastructure::vram::NvmlDeviceInfo;
+using my_comp::infrastructure::vram::NvmlProcessoInfo;
 
 namespace {
 
@@ -71,7 +71,7 @@ TEST(FactoryGpuBackendTest, AgregaApenasNvmlQuandoIntelAusente) {
     auto backend = criar_backend_composito_com(deps);
     const auto gpus = backend->enumerar_gpus();
     ASSERT_EQ(gpus.size(), 1U);
-    EXPECT_EQ(gpus[0].fabricante(), vramopt::domain::Fabricante::Nvidia);
+    EXPECT_EQ(gpus[0].fabricante(), my_comp::domain::vram::Fabricante::Nvidia);
 }
 
 TEST(FactoryGpuBackendTest, AgregaApenasIntelQuandoNvmlIndisponivel) {
@@ -95,7 +95,7 @@ TEST(FactoryGpuBackendTest, AgregaApenasIntelQuandoNvmlIndisponivel) {
         return a;
     };
     deps.sistema_tem_intel = [](const QString& d) {
-        return vramopt::infrastructure::IntelI915GpuBackend::sistema_tem_gpu_intel(d);
+        return my_comp::infrastructure::vram::IntelI915GpuBackend::sistema_tem_gpu_intel(d);
     };
     deps.drm_root  = drm;
     deps.proc_root = tmp.path() + QStringLiteral("/proc");
@@ -103,5 +103,5 @@ TEST(FactoryGpuBackendTest, AgregaApenasIntelQuandoNvmlIndisponivel) {
     auto backend = criar_backend_composito_com(deps);
     const auto gpus = backend->enumerar_gpus();
     ASSERT_EQ(gpus.size(), 1U);
-    EXPECT_EQ(gpus[0].fabricante(), vramopt::domain::Fabricante::Intel);
+    EXPECT_EQ(gpus[0].fabricante(), my_comp::domain::vram::Fabricante::Intel);
 }

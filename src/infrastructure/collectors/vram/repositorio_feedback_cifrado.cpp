@@ -21,7 +21,7 @@
 #include <utility>
 #include <vector>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 namespace {
 
@@ -43,38 +43,38 @@ const char* const NOME_CHAVE = "vram_feedback.key";
 void limpar(std::vector<std::uint8_t>& v) { OPENSSL_cleanse(v.data(), v.size()); }
 void limpar(QByteArray& b) { OPENSSL_cleanse(b.data(), static_cast<std::size_t>(b.size())); }
 
-QString texto_do_tipo(domain::TipoChave t) {
+QString texto_do_tipo(domain::vram::TipoChave t) {
     switch (t) {
-        case domain::TipoChave::Binario:   return QStringLiteral("binario");
-        case domain::TipoChave::WmClass:   return QStringLiteral("wm_class");
-        case domain::TipoChave::DesktopId: return QStringLiteral("desktop_id");
+        case domain::vram::TipoChave::Binario:   return QStringLiteral("binario");
+        case domain::vram::TipoChave::WmClass:   return QStringLiteral("wm_class");
+        case domain::vram::TipoChave::DesktopId: return QStringLiteral("desktop_id");
     }
     return QStringLiteral("?");
 }
 
-std::optional<domain::ChaveProcesso> chave_de(const QString& tipo, const QString& valor) {
+std::optional<domain::vram::ChaveProcesso> chave_de(const QString& tipo, const QString& valor) {
     if (valor.isEmpty() || valor.size() > TAMANHO_MAXIMO_VALOR) {
         return std::nullopt;
     }
-    if (tipo == QStringLiteral("binario"))    return domain::ChaveProcesso::de_binario(valor);
-    if (tipo == QStringLiteral("wm_class"))   return domain::ChaveProcesso::de_wm_class(valor);
-    if (tipo == QStringLiteral("desktop_id")) return domain::ChaveProcesso::de_desktop_id(valor);
+    if (tipo == QStringLiteral("binario"))    return domain::vram::ChaveProcesso::de_binario(valor);
+    if (tipo == QStringLiteral("wm_class"))   return domain::vram::ChaveProcesso::de_wm_class(valor);
+    if (tipo == QStringLiteral("desktop_id")) return domain::vram::ChaveProcesso::de_desktop_id(valor);
     return std::nullopt;
 }
 
-QString texto_da_categoria(domain::Categoria c) {
+QString texto_da_categoria(domain::vram::Categoria c) {
     switch (c) {
-        case domain::Categoria::CandidatoObvioCpu: return QStringLiteral("CandidatoObvioCpu");
-        case domain::Categoria::Indeterminado:     return QStringLiteral("Indeterminado");
-        case domain::Categoria::PrecisaGpu:        return QStringLiteral("PrecisaGpu");
+        case domain::vram::Categoria::CandidatoObvioCpu: return QStringLiteral("CandidatoObvioCpu");
+        case domain::vram::Categoria::Indeterminado:     return QStringLiteral("Indeterminado");
+        case domain::vram::Categoria::PrecisaGpu:        return QStringLiteral("PrecisaGpu");
     }
     return QStringLiteral("?");
 }
 
-std::optional<domain::Categoria> categoria_de(const QString& texto) {
-    if (texto == QStringLiteral("CandidatoObvioCpu")) return domain::Categoria::CandidatoObvioCpu;
-    if (texto == QStringLiteral("PrecisaGpu"))        return domain::Categoria::PrecisaGpu;
-    if (texto == QStringLiteral("Indeterminado"))     return domain::Categoria::Indeterminado;
+std::optional<domain::vram::Categoria> categoria_de(const QString& texto) {
+    if (texto == QStringLiteral("CandidatoObvioCpu")) return domain::vram::Categoria::CandidatoObvioCpu;
+    if (texto == QStringLiteral("PrecisaGpu"))        return domain::vram::Categoria::PrecisaGpu;
+    if (texto == QStringLiteral("Indeterminado"))     return domain::vram::Categoria::Indeterminado;
     return std::nullopt;
 }
 
@@ -91,7 +91,7 @@ std::optional<QDateTime> data_de(const QJsonValue& v) {
     return d;
 }
 
-QJsonObject para_json(const domain::EntradaFeedback& e) {
+QJsonObject para_json(const domain::vram::EntradaFeedback& e) {
     QJsonObject o{
         {QStringLiteral("id"),          e.id},
         {QStringLiteral("tipo_chave"),  texto_do_tipo(e.chave.tipo())},
@@ -107,7 +107,7 @@ QJsonObject para_json(const domain::EntradaFeedback& e) {
     return o;
 }
 
-std::optional<domain::EntradaFeedback> de_json(const QJsonValue& v) {
+std::optional<domain::vram::EntradaFeedback> de_json(const QJsonValue& v) {
     if (!v.isObject()) {
         return std::nullopt;
     }
@@ -135,7 +135,7 @@ std::optional<domain::EntradaFeedback> de_json(const QJsonValue& v) {
             return std::nullopt;
         }
     }
-    return domain::EntradaFeedback{
+    return domain::vram::EntradaFeedback{
         .id = id,
         .chave = std::move(*chave),
         .veredito = *categoria,
@@ -237,7 +237,7 @@ void RepositorioFeedbackCifrado::carregar() const {
     for (const auto& v : raiz.value(QStringLiteral("entradas")).toArray()) {
         auto e = de_json(v);
         const bool chave_repetida = e && std::any_of(m_entradas.cbegin(), m_entradas.cend(),
-            [&e](const domain::EntradaFeedback& x) { return x.chave == e->chave; });
+            [&e](const domain::vram::EntradaFeedback& x) { return x.chave == e->chave; });
         if (!e || ids.contains(e->id) || chave_repetida) {
             qWarning("feedback VRAM: entrada inválida ignorada");
             continue;
@@ -306,8 +306,8 @@ void RepositorioFeedbackCifrado::persistir() {
     }
 }
 
-std::optional<domain::EntradaFeedback>
-RepositorioFeedbackCifrado::buscar(const domain::ChaveProcesso& chave) const {
+std::optional<domain::vram::EntradaFeedback>
+RepositorioFeedbackCifrado::buscar(const domain::vram::ChaveProcesso& chave) const {
     const std::lock_guard trava{m_mutex};
     garantir_carregado();
     for (const auto& e : std::as_const(m_entradas)) {
@@ -318,15 +318,15 @@ RepositorioFeedbackCifrado::buscar(const domain::ChaveProcesso& chave) const {
     return std::nullopt;
 }
 
-void RepositorioFeedbackCifrado::inserir(const domain::EntradaFeedback& entrada) {
+void RepositorioFeedbackCifrado::inserir(const domain::vram::EntradaFeedback& entrada) {
     const std::lock_guard trava{m_mutex};
     garantir_carregado();
-    domain::EntradaFeedback nova = entrada;
+    domain::vram::EntradaFeedback nova = entrada;
     if (nova.id <= 0) {
         nova.id = m_proximo_id;
     }
     m_proximo_id = std::max(m_proximo_id, nova.id + 1);
-    m_entradas.removeIf([&nova](const domain::EntradaFeedback& e) {
+    m_entradas.removeIf([&nova](const domain::vram::EntradaFeedback& e) {
         return e.id == nova.id || e.chave == nova.chave;
     });
     m_entradas.push_back(std::move(nova));
@@ -348,12 +348,12 @@ void RepositorioFeedbackCifrado::atualizar_visto_em(int id, QDateTime quando) {
 void RepositorioFeedbackCifrado::remover(int id) {
     const std::lock_guard trava{m_mutex};
     garantir_carregado();
-    if (m_entradas.removeIf([id](const domain::EntradaFeedback& e) { return e.id == id; }) > 0) {
+    if (m_entradas.removeIf([id](const domain::vram::EntradaFeedback& e) { return e.id == id; }) > 0) {
         persistir();
     }
 }
 
-QVector<domain::EntradaFeedback> RepositorioFeedbackCifrado::listar_todos() const {
+QVector<domain::vram::EntradaFeedback> RepositorioFeedbackCifrado::listar_todos() const {
     const std::lock_guard trava{m_mutex};
     garantir_carregado();
     return m_entradas;

@@ -16,7 +16,7 @@
 #include <cstdint>
 #include <utility>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 namespace {
 
@@ -62,17 +62,17 @@ QString modelo_do_pci_id(const QString& pci_id) {
     return QStringLiteral("Intel GPU %1").arg(partes.at(1));
 }
 
-domain::BytesDeMemoria ler_vram_total(const QString& device_dir) {
+domain::vram::BytesDeMemoria ler_vram_total(const QString& device_dir) {
     const QString lmem = ler_arquivo_trim(device_dir + QStringLiteral("/mem_info_lmem_total"));
     if (lmem.isEmpty()) {
-        return domain::BytesDeMemoria{0};
+        return domain::vram::BytesDeMemoria{0};
     }
     bool ok = false;
     const auto valor = lmem.toULongLong(&ok);
     if (!ok) {
-        return domain::BytesDeMemoria{0};
+        return domain::vram::BytesDeMemoria{0};
     }
-    return domain::BytesDeMemoria{valor};
+    return domain::vram::BytesDeMemoria{valor};
 }
 
 QHash<QString, QString> parse_fdinfo(const QString& path) {
@@ -191,18 +191,18 @@ IntelI915GpuBackend::descobrir_cards() const {
     return cards;
 }
 
-std::vector<vramopt::domain::GpuInfo>
+std::vector<my_comp::domain::vram::GpuInfo>
 IntelI915GpuBackend::enumerar_gpus() const {
-    std::vector<domain::GpuInfo> gpus;
+    std::vector<domain::vram::GpuInfo> gpus;
     const auto cards = descobrir_cards();
     gpus.reserve(cards.size());
     for (const auto& c : cards) {
-        gpus.emplace_back(c.id_local, domain::Fabricante::Intel, c.modelo, c.vram_total);
+        gpus.emplace_back(c.id_local, domain::vram::Fabricante::Intel, c.modelo, c.vram_total);
     }
     return gpus;
 }
 
-std::vector<vramopt::domain::Processo>
+std::vector<my_comp::domain::vram::Processo>
 IntelI915GpuBackend::enumerar_processos_vram(int gpu_id) const {
     const auto cards = descobrir_cards();
     auto it = std::find_if(cards.begin(), cards.end(),
@@ -250,17 +250,17 @@ IntelI915GpuBackend::enumerar_processos_vram(int gpu_id) const {
         }
     }
 
-    std::vector<domain::Processo> processos;
+    std::vector<domain::vram::Processo> processos;
     processos.reserve(static_cast<std::size_t>(bytes_por_pid.size()));
     auto pids = bytes_por_pid.keys();
     std::sort(pids.begin(), pids.end());
     for (const int pid_n : pids) {
         const QString nome = nome_por_pid.value(pid_n, QStringLiteral("?"));
-        std::vector<domain::ChaveProcesso> chaves;
-        chaves.push_back(domain::ChaveProcesso::de_binario(nome));
-        processos.emplace_back(domain::PID{pid_n},
-                               domain::NomeProcesso{nome},
-                               domain::BytesDeMemoria{bytes_por_pid.value(pid_n)},
+        std::vector<domain::vram::ChaveProcesso> chaves;
+        chaves.push_back(domain::vram::ChaveProcesso::de_binario(nome));
+        processos.emplace_back(domain::vram::PID{pid_n},
+                               domain::vram::NomeProcesso{nome},
+                               domain::vram::BytesDeMemoria{bytes_por_pid.value(pid_n)},
                                gpu_id,
                                std::move(chaves));
     }

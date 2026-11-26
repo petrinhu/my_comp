@@ -1,6 +1,6 @@
 #include "application/vram/configuracao/sublocators/localizador_env_var.h"
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 namespace {
 
@@ -29,31 +29,31 @@ QString instrucao_para(const QString& nome, const QString& valor) {
 
 }
 
-LocalizadorEnvVar::LocalizadorEnvVar(std::shared_ptr<domain::ILeitorEnviron> leitor)
+LocalizadorEnvVar::LocalizadorEnvVar(std::shared_ptr<domain::vram::ILeitorEnviron> leitor)
     : m_leitor{std::move(leitor)} {}
 
-QVector<domain::OrigemConfig>
-LocalizadorEnvVar::localizar(const domain::Processo& processo) const {
+QVector<domain::vram::OrigemConfig>
+LocalizadorEnvVar::localizar(const domain::vram::Processo& processo) const {
     const auto env = m_leitor->environ_de(processo.pid());
     if (env.isEmpty()) {
         return {};
     }
 
-    QVector<domain::OrigemConfig> origens;
+    QVector<domain::vram::OrigemConfig> origens;
     for (const auto& alvo : envs_alvo()) {
         const auto valor = env.value(alvo.nome);
         if (valor.isEmpty() || !alvo.valores_ativos.contains(valor)) {
             continue;
         }
-        domain::OrigemConfig o{
-            .categoria = domain::CategoriaOrigem::PrimeEnv,
+        domain::vram::OrigemConfig o{
+            .categoria = domain::vram::CategoriaOrigem::PrimeEnv,
             .tipo = QStringLiteral("env-var"),
             .caminho = QStringLiteral("/proc/%1/environ").arg(processo.pid().valor()),
             .chave = alvo.nome,
             .valor_atual = valor,
             .valor_sugerido = QStringLiteral("(remover)"),
             .instrucao_humana = instrucao_para(alvo.nome, valor),
-            .confianca = domain::Confianca::Alta,
+            .confianca = domain::vram::Confianca::Alta,
             .requer_reinicio_app = true,
             .aplicavel_automatico = false,
         };

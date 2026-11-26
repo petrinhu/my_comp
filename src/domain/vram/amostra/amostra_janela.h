@@ -4,7 +4,7 @@
 
 #include <chrono>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 struct AmostraJanela {
     BytesDeMemoria          vram_media{0};

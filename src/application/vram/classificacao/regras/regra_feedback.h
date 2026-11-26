@@ -5,17 +5,17 @@
 
 #include <memory>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
-class RegraFeedback final : public domain::IRegraClassificacao {
+class RegraFeedback final : public domain::vram::IRegraClassificacao {
 public:
-    explicit RegraFeedback(std::shared_ptr<domain::IRepositorioFeedback> repo);
+    explicit RegraFeedback(std::shared_ptr<domain::vram::IRepositorioFeedback> repo);
 
-    [[nodiscard]] std::optional<domain::ResultadoClassificacao>
-        avaliar(const domain::Processo& processo) const override;
+    [[nodiscard]] std::optional<domain::vram::ResultadoClassificacao>
+        avaliar(const domain::vram::Processo& processo) const override;
 
 private:
-    std::shared_ptr<domain::IRepositorioFeedback> m_repo;
+    std::shared_ptr<domain::vram::IRepositorioFeedback> m_repo;
 };
 
 }

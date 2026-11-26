@@ -2,7 +2,7 @@
 
 #include "domain/vram/valueobjects/bytes_de_memoria.h"
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 struct LimiaresComportamento {
     double         vram_trivial_percentual{0.0};

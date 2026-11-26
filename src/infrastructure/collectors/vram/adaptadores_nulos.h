@@ -11,29 +11,29 @@
 #include "domain/vram/interfaces/i_catalogo_classificacao.h"
 #include "domain/vram/interfaces/i_repositorio_feedback.h"
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
-class CatalogoClassificacaoVazio final : public domain::ICatalogoClassificacao {
+class CatalogoClassificacaoVazio final : public domain::vram::ICatalogoClassificacao {
 public:
-    [[nodiscard]] std::optional<domain::EntradaCatalogo>
-        buscar(const domain::ChaveProcesso&) const override { return std::nullopt; }
+    [[nodiscard]] std::optional<domain::vram::EntradaCatalogo>
+        buscar(const domain::vram::ChaveProcesso&) const override { return std::nullopt; }
 };
 
-class RepositorioFeedbackVazio final : public domain::IRepositorioFeedback {
+class RepositorioFeedbackVazio final : public domain::vram::IRepositorioFeedback {
 public:
-    [[nodiscard]] std::optional<domain::EntradaFeedback>
-        buscar(const domain::ChaveProcesso&) const override { return std::nullopt; }
-    void inserir(const domain::EntradaFeedback&) override {}
+    [[nodiscard]] std::optional<domain::vram::EntradaFeedback>
+        buscar(const domain::vram::ChaveProcesso&) const override { return std::nullopt; }
+    void inserir(const domain::vram::EntradaFeedback&) override {}
     void atualizar_visto_em(int, QDateTime) override {}
     void remover(int) override {}
-    [[nodiscard]] QVector<domain::EntradaFeedback> listar_todos() const override { return {}; }
+    [[nodiscard]] QVector<domain::vram::EntradaFeedback> listar_todos() const override { return {}; }
 };
 
-class AmostradorComportamentoNulo final : public domain::IAmostradorComportamento {
+class AmostradorComportamentoNulo final : public domain::vram::IAmostradorComportamento {
 public:
-    [[nodiscard]] domain::AmostraJanela
-        amostra_janela(const domain::PID&, std::chrono::seconds janela) const override {
-        domain::AmostraJanela a;
+    [[nodiscard]] domain::vram::AmostraJanela
+        amostra_janela(const domain::vram::PID&, std::chrono::seconds janela) const override {
+        domain::vram::AmostraJanela a;
         a.janela = janela; // amostras = 0 → RegraComportamento se abstém
         return a;
     }

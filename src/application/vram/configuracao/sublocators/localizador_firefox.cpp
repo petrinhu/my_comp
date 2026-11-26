@@ -8,7 +8,7 @@
 
 #include <optional>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 namespace {
 
@@ -85,11 +85,11 @@ const QVector<Chave>& chaves_firefox() {
 
 }
 
-LocalizadorFirefox::LocalizadorFirefox(std::shared_ptr<domain::ILeitorArquivoConfig> leitor)
+LocalizadorFirefox::LocalizadorFirefox(std::shared_ptr<domain::vram::ILeitorArquivoConfig> leitor)
     : m_leitor{std::move(leitor)} {}
 
-QVector<domain::OrigemConfig>
-LocalizadorFirefox::localizar(const domain::Processo& processo) const {
+QVector<domain::vram::OrigemConfig>
+LocalizadorFirefox::localizar(const domain::vram::Processo& processo) const {
     if (!nome_eh_firefox(processo.nome().valor())) {
         return {};
     }
@@ -115,7 +115,7 @@ LocalizadorFirefox::localizar(const domain::Processo& processo) const {
     const QByteArray user_conteudo  = user_opt.value_or(QByteArray{});
     const QByteArray prefs_conteudo = prefs_opt.value_or(QByteArray{});
 
-    QVector<domain::OrigemConfig> origens;
+    QVector<domain::vram::OrigemConfig> origens;
     for (const auto& chave : chaves_firefox()) {
         auto valor_user  = ler_user_pref(user_conteudo, chave.nome);
         auto valor_prefs = ler_user_pref(prefs_conteudo, chave.nome);
@@ -131,8 +131,8 @@ LocalizadorFirefox::localizar(const domain::Processo& processo) const {
 
         const QString caminho_principal = user_opt.has_value() ? user_js : prefs_js;
 
-        domain::OrigemConfig o{
-            .categoria = domain::CategoriaOrigem::Firefox,
+        domain::vram::OrigemConfig o{
+            .categoria = domain::vram::CategoriaOrigem::Firefox,
             .tipo = QStringLiteral("browser-flag"),
             .caminho = caminho_principal,
             .chave = chave.nome,
@@ -142,7 +142,7 @@ LocalizadorFirefox::localizar(const domain::Processo& processo) const {
                 "Em `about:config` (ou edite `%1`), ajuste `%2` para `%3` (%4). "
                 "Reinicie o Firefox.")
                 .arg(caminho_principal, chave.nome, chave.valor_sugerido, chave.descricao_humana),
-            .confianca = domain::Confianca::Alta,
+            .confianca = domain::vram::Confianca::Alta,
             .requer_reinicio_app = true,
             .aplicavel_automatico = false,
         };

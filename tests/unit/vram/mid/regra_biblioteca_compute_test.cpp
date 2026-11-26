@@ -11,14 +11,14 @@
 using ::testing::_;
 using ::testing::Return;
 
-using vramopt::application::ListaLibsCompute;
-using vramopt::application::RegraBibliotecaCompute;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::Categoria;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::tests::MockLeitorMapsProcesso;
+using my_comp::application::vram::ListaLibsCompute;
+using my_comp::application::vram::RegraBibliotecaCompute;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::tests::vram::MockLeitorMapsProcesso;
 
 namespace {
 

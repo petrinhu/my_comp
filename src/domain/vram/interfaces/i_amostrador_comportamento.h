@@ -5,7 +5,7 @@
 
 #include <chrono>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 class IAmostradorComportamento {
 public:

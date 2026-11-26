@@ -27,10 +27,10 @@
 #include <cstddef>
 #include <vector>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 struct ResultadoCargaCatalogo {
-    std::vector<domain::EntradaCatalogo> entradas;
+    std::vector<domain::vram::EntradaCatalogo> entradas;
     int                                  rejeitadas{0};
 };
 
@@ -40,15 +40,15 @@ struct ResultadoCargaCatalogo {
 // Lê o recurso :/vram/catalogo.json embarcado no binário.
 [[nodiscard]] ResultadoCargaCatalogo carregar_catalogo_empacotado();
 
-class CatalogoClassificacaoJson final : public domain::ICatalogoClassificacao {
+class CatalogoClassificacaoJson final : public domain::vram::ICatalogoClassificacao {
 public:
-    explicit CatalogoClassificacaoJson(std::vector<domain::EntradaCatalogo> entradas);
+    explicit CatalogoClassificacaoJson(std::vector<domain::vram::EntradaCatalogo> entradas);
 
-    [[nodiscard]] std::optional<domain::EntradaCatalogo>
-        buscar(const domain::ChaveProcesso& chave) const override;
+    [[nodiscard]] std::optional<domain::vram::EntradaCatalogo>
+        buscar(const domain::vram::ChaveProcesso& chave) const override;
 
 private:
-    std::vector<domain::EntradaCatalogo> m_entradas;
+    std::vector<domain::vram::EntradaCatalogo> m_entradas;
     QHash<QString, std::size_t>          m_por_binario;
     QHash<QString, std::size_t>          m_por_wm_class;    // chave em minúsculas
     QHash<QString, std::size_t>          m_por_desktop_id;  // chave em minúsculas

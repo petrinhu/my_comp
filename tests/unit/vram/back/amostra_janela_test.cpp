@@ -4,8 +4,8 @@
 #include <chrono>
 #include <gtest/gtest.h>
 
-using vramopt::domain::AmostraJanela;
-using vramopt::domain::BytesDeMemoria;
+using my_comp::domain::vram::AmostraJanela;
+using my_comp::domain::vram::BytesDeMemoria;
 
 TEST(AmostraJanelaTest, AgregaCampos) {
     AmostraJanela am{

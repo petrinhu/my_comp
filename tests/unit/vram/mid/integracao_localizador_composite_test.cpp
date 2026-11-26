@@ -19,22 +19,22 @@ using ::testing::_;
 using ::testing::Return;
 using ::testing::Truly;
 
-using vramopt::application::LocalizadorBrowserChromium;
-using vramopt::application::LocalizadorComposite;
-using vramopt::application::LocalizadorDesktopWrapper;
-using vramopt::application::LocalizadorEnvVar;
-using vramopt::application::LocalizadorFirefox;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::CategoriaOrigem;
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::EntradaDesktopExec;
-using vramopt::domain::IConfigLocator;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::tests::MockLeitorArquivoConfig;
-using vramopt::tests::MockLeitorDesktopExec;
-using vramopt::tests::MockLeitorEnviron;
+using my_comp::application::vram::LocalizadorBrowserChromium;
+using my_comp::application::vram::LocalizadorComposite;
+using my_comp::application::vram::LocalizadorDesktopWrapper;
+using my_comp::application::vram::LocalizadorEnvVar;
+using my_comp::application::vram::LocalizadorFirefox;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::CategoriaOrigem;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::EntradaDesktopExec;
+using my_comp::domain::vram::IConfigLocator;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::tests::vram::MockLeitorArquivoConfig;
+using my_comp::tests::vram::MockLeitorDesktopExec;
+using my_comp::tests::vram::MockLeitorEnviron;
 
 namespace {
 

@@ -4,9 +4,9 @@
 
 #include <gmock/gmock.h>
 
-namespace vramopt::tests {
+namespace my_comp::tests::vram {
 
-class MockLeitorArquivoConfig : public vramopt::domain::ILeitorArquivoConfig {
+class MockLeitorArquivoConfig : public my_comp::domain::vram::ILeitorArquivoConfig {
 public:
     MOCK_METHOD(std::optional<QByteArray>, ler, (const QString& path), (const, override));
 };

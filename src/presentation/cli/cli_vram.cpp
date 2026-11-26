@@ -9,30 +9,30 @@
 #include <utility>
 #include <vector>
 
-namespace vramopt::presentation::cli {
+namespace my_comp::presentation::cli {
 
 namespace {
 
-QString fabricante_string(domain::Fabricante f) {
+QString fabricante_string(domain::vram::Fabricante f) {
     switch (f) {
-        case domain::Fabricante::Nvidia:       return QStringLiteral("Nvidia");
-        case domain::Fabricante::Intel:        return QStringLiteral("Intel");
-        case domain::Fabricante::Amd:          return QStringLiteral("AMD");
-        case domain::Fabricante::Desconhecido: return QStringLiteral("?");
+        case domain::vram::Fabricante::Nvidia:       return QStringLiteral("Nvidia");
+        case domain::vram::Fabricante::Intel:        return QStringLiteral("Intel");
+        case domain::vram::Fabricante::Amd:          return QStringLiteral("AMD");
+        case domain::vram::Fabricante::Desconhecido: return QStringLiteral("?");
     }
     return QStringLiteral("?");
 }
 
-QString categoria_string(domain::Categoria c) {
+QString categoria_string(domain::vram::Categoria c) {
     switch (c) {
-        case domain::Categoria::CandidatoObvioCpu: return QStringLiteral("cpu");
-        case domain::Categoria::Indeterminado:     return QStringLiteral("indeterminado");
-        case domain::Categoria::PrecisaGpu:        return QStringLiteral("gpu");
+        case domain::vram::Categoria::CandidatoObvioCpu: return QStringLiteral("cpu");
+        case domain::vram::Categoria::Indeterminado:     return QStringLiteral("indeterminado");
+        case domain::vram::Categoria::PrecisaGpu:        return QStringLiteral("gpu");
     }
     return QStringLiteral("?");
 }
 
-QJsonObject origem_to_json(const domain::OrigemConfig& o) {
+QJsonObject origem_to_json(const domain::vram::OrigemConfig& o) {
     QJsonObject j;
     j[QStringLiteral("tipo")] = o.tipo;
     j[QStringLiteral("caminho")] = o.caminho;
@@ -43,7 +43,7 @@ QJsonObject origem_to_json(const domain::OrigemConfig& o) {
     return j;
 }
 
-QString formatar_json(const application::RelatorioAuditoriaVram& rel,
+QString formatar_json(const application::vram::RelatorioAuditoriaVram& rel,
                      const OpcoesCliVram& opts) {
     QJsonArray gpus;
     for (const auto& grupo : rel.grupos) {
@@ -82,7 +82,7 @@ QString formatar_json(const application::RelatorioAuditoriaVram& rel,
     return QString::fromUtf8(QJsonDocument{root}.toJson(QJsonDocument::Indented));
 }
 
-QString formatar_tabular(const application::RelatorioAuditoriaVram& rel,
+QString formatar_tabular(const application::vram::RelatorioAuditoriaVram& rel,
                         const OpcoesCliVram& opts) {
     QString out;
     if (rel.grupos.empty()) {
@@ -145,13 +145,13 @@ OpcoesCliVram parsear_opcoes(const QStringList& args) {
     return opts;
 }
 
-QString formatar_relatorio(const application::RelatorioAuditoriaVram& rel,
+QString formatar_relatorio(const application::vram::RelatorioAuditoriaVram& rel,
                           const OpcoesCliVram& opts) {
     return opts.json ? formatar_json(rel, opts) : formatar_tabular(rel, opts);
 }
 
 int executar_com_servico(
-    const std::shared_ptr<application::ServicoAuditarVramAtual>& servico,
+    const std::shared_ptr<application::vram::ServicoAuditarVramAtual>& servico,
     const QStringList& args,
     QTextStream& out) {
     if (!servico) {

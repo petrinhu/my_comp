@@ -11,15 +11,15 @@
 using ::testing::_;
 using ::testing::Return;
 
-using vramopt::application::LocalizadorBrowserChromium;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::CategoriaOrigem;
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::Confianca;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::tests::MockLeitorArquivoConfig;
+using my_comp::application::vram::LocalizadorBrowserChromium;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::CategoriaOrigem;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::Confianca;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::tests::vram::MockLeitorArquivoConfig;
 
 namespace {
 

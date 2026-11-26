@@ -9,7 +9,7 @@
 #include <QRegularExpression>
 #include <QStringList>
 
-namespace vramopt::infrastructure::desktop_xdg {
+namespace my_comp::infrastructure::vram::desktop_xdg {
 
 namespace {
 
@@ -117,9 +117,9 @@ QStringList xdg_dirs_do_sistema() {
 }
 
 std::optional<ArquivoDesktopParseado>
-encontrar_por_processo(const QStringList& xdg_dirs, const domain::Processo& processo) {
+encontrar_por_processo(const QStringList& xdg_dirs, const domain::vram::Processo& processo) {
     for (const auto& chave : processo.chaves()) {
-        if (chave.tipo() == domain::TipoChave::DesktopId) {
+        if (chave.tipo() == domain::vram::TipoChave::DesktopId) {
             auto found = buscar_por_desktop_id(xdg_dirs, chave.valor());
             if (found.has_value()) {
                 return found;

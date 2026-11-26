@@ -2,8 +2,8 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::application::MapaCategoriasDesktop;
-using vramopt::domain::Categoria;
+using my_comp::application::vram::MapaCategoriasDesktop;
+using my_comp::domain::vram::Categoria;
 
 TEST(MapaCategoriasDesktopTest, PadraoClassificaWebBrowserComoCpu) {
     auto m = MapaCategoriasDesktop::padrao();

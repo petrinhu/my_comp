@@ -3,10 +3,10 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::domain::CategoriaOrigem;
-using vramopt::domain::Confianca;
-using vramopt::domain::EntradaDesktopExec;
-using vramopt::domain::OrigemConfig;
+using my_comp::domain::vram::CategoriaOrigem;
+using my_comp::domain::vram::Confianca;
+using my_comp::domain::vram::EntradaDesktopExec;
+using my_comp::domain::vram::OrigemConfig;
 
 TEST(OrigemConfigTest, AgregaCampos) {
     OrigemConfig o{

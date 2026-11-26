@@ -5,7 +5,7 @@
 #include <cstring>
 #include <dlfcn.h>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 namespace {
 

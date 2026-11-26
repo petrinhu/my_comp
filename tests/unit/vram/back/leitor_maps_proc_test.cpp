@@ -9,8 +9,8 @@
 
 #include <unistd.h>
 
-using vramopt::domain::PID;
-using vramopt::infrastructure::LeitorMapsProc;
+using my_comp::domain::vram::PID;
+using my_comp::infrastructure::vram::LeitorMapsProc;
 
 namespace {
 void escrever_maps(const QString& root, int pid, const QByteArray& conteudo) {

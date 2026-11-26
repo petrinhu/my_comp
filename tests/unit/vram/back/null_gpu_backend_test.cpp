@@ -2,7 +2,7 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::infrastructure::NullGpuBackend;
+using my_comp::infrastructure::vram::NullGpuBackend;
 
 TEST(NullGpuBackendTest, NaoEnumeraGpus) {
     NullGpuBackend backend;

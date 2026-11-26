@@ -11,14 +11,14 @@
 using ::testing::_;
 using ::testing::Return;
 
-using vramopt::application::LocalizadorEnvVar;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::CategoriaOrigem;
-using vramopt::domain::Confianca;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::tests::MockLeitorEnviron;
+using my_comp::application::vram::LocalizadorEnvVar;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::CategoriaOrigem;
+using my_comp::domain::vram::Confianca;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::tests::vram::MockLeitorEnviron;
 
 namespace {
 

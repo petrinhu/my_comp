@@ -19,7 +19,7 @@ static void inicializar_recurso_catalogo_vram() {
     Q_INIT_RESOURCE(catalogo_vram);
 }
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 namespace {
 
@@ -29,12 +29,12 @@ constexpr qsizetype TAMANHO_MAXIMO_CAMPO = 512;
 constexpr qsizetype MAXIMO_CHAVES_POR_LISTA = 64;
 constexpr QLatin1String CAMINHO_RECURSO{":/vram/catalogo.json"};
 
-std::optional<domain::Categoria> categoria_de_texto(const QString& texto) {
+std::optional<domain::vram::Categoria> categoria_de_texto(const QString& texto) {
     if (texto == QStringLiteral("CandidatoObvioCpu")) {
-        return domain::Categoria::CandidatoObvioCpu;
+        return domain::vram::Categoria::CandidatoObvioCpu;
     }
     if (texto == QStringLiteral("PrecisaGpu")) {
-        return domain::Categoria::PrecisaGpu;
+        return domain::vram::Categoria::PrecisaGpu;
     }
     return std::nullopt;  // "Indeterminado" incluso: ver cabeçalho
 }
@@ -78,7 +78,7 @@ std::optional<QStringList> lista_de_chaves(const QJsonObject& obj, const QString
     return out;
 }
 
-std::optional<domain::EntradaCatalogo> validar_entrada(const QJsonValue& valor, QString& motivo) {
+std::optional<domain::vram::EntradaCatalogo> validar_entrada(const QJsonValue& valor, QString& motivo) {
     if (!valor.isObject()) {
         motivo = QStringLiteral("não é objeto");
         return std::nullopt;
@@ -111,7 +111,7 @@ std::optional<domain::EntradaCatalogo> validar_entrada(const QJsonValue& valor, 
         motivo = QStringLiteral("nenhuma chave (binarios/wm_class/desktop_id)");
         return std::nullopt;
     }
-    return domain::EntradaCatalogo{
+    return domain::vram::EntradaCatalogo{
         .id            = *id,
         .binarios      = *binarios,
         .wm_class      = *wm_class,
@@ -193,7 +193,7 @@ ResultadoCargaCatalogo carregar_catalogo_empacotado() {
     return parsear_catalogo_json(f.read(TAMANHO_MAXIMO_JSON + 1));
 }
 
-CatalogoClassificacaoJson::CatalogoClassificacaoJson(std::vector<domain::EntradaCatalogo> entradas)
+CatalogoClassificacaoJson::CatalogoClassificacaoJson(std::vector<domain::vram::EntradaCatalogo> entradas)
     : m_entradas{std::move(entradas)} {
     for (std::size_t pos = 0; pos < m_entradas.size(); ++pos) {
         const auto& e = m_entradas[pos];
@@ -203,19 +203,19 @@ CatalogoClassificacaoJson::CatalogoClassificacaoJson(std::vector<domain::Entrada
     }
 }
 
-std::optional<domain::EntradaCatalogo>
-CatalogoClassificacaoJson::buscar(const domain::ChaveProcesso& chave) const {
+std::optional<domain::vram::EntradaCatalogo>
+CatalogoClassificacaoJson::buscar(const domain::vram::ChaveProcesso& chave) const {
     const QHash<QString, std::size_t>* indice = nullptr;
     QString valor = chave.valor();
     switch (chave.tipo()) {
-        case domain::TipoChave::Binario:
+        case domain::vram::TipoChave::Binario:
             indice = &m_por_binario;
             break;
-        case domain::TipoChave::WmClass:
+        case domain::vram::TipoChave::WmClass:
             indice = &m_por_wm_class;
             valor = valor.toLower();
             break;
-        case domain::TipoChave::DesktopId:
+        case domain::vram::TipoChave::DesktopId:
             indice = &m_por_desktop_id;
             valor = valor.toLower();
             break;

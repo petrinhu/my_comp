@@ -8,7 +8,7 @@
 
 #include <optional>
 
-namespace vramopt::infrastructure::desktop_xdg {
+namespace my_comp::infrastructure::vram::desktop_xdg {
 
 struct ArquivoDesktopParseado {
     QString                 caminho;
@@ -19,6 +19,6 @@ struct ArquivoDesktopParseado {
 
 [[nodiscard]] std::optional<ArquivoDesktopParseado>
     encontrar_por_processo(const QStringList& xdg_dirs,
-                         const domain::Processo& processo);
+                         const domain::vram::Processo& processo);
 
 }

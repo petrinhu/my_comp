@@ -4,7 +4,7 @@
 
 #include <QString>
 
-namespace vramopt::domain {
+namespace my_comp::domain::vram {
 
 enum class TipoChave : std::uint8_t { Binario, WmClass, DesktopId };
 

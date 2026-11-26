@@ -20,10 +20,10 @@
 
 using my_comp::infrastructure::security::ArquivoChaveLocal;
 using my_comp::infrastructure::security::OpenSslVault;
-using vramopt::domain::Categoria;
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::EntradaFeedback;
-using vramopt::infrastructure::RepositorioFeedbackCifrado;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::EntradaFeedback;
+using my_comp::infrastructure::vram::RepositorioFeedbackCifrado;
 
 namespace {
 

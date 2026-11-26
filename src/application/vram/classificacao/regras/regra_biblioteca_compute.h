@@ -6,18 +6,18 @@
 
 #include <memory>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
-class RegraBibliotecaCompute final : public domain::IRegraClassificacao {
+class RegraBibliotecaCompute final : public domain::vram::IRegraClassificacao {
 public:
-    RegraBibliotecaCompute(std::shared_ptr<domain::ILeitorMapsProcesso> leitor,
+    RegraBibliotecaCompute(std::shared_ptr<domain::vram::ILeitorMapsProcesso> leitor,
                            ListaLibsCompute lista);
 
-    [[nodiscard]] std::optional<domain::ResultadoClassificacao>
-        avaliar(const domain::Processo& processo) const override;
+    [[nodiscard]] std::optional<domain::vram::ResultadoClassificacao>
+        avaliar(const domain::vram::Processo& processo) const override;
 
 private:
-    std::shared_ptr<domain::ILeitorMapsProcesso> m_leitor;
+    std::shared_ptr<domain::vram::ILeitorMapsProcesso> m_leitor;
     ListaLibsCompute                             m_lista;
 };
 

@@ -4,14 +4,14 @@
 
 #include <utility>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 LeitorDesktopFileXdg::LeitorDesktopFileXdg(QStringList xdg_dirs)
     : m_xdg_dirs{xdg_dirs.isEmpty() ? desktop_xdg::xdg_dirs_do_sistema()
                                     : std::move(xdg_dirs)} {}
 
 QStringList
-LeitorDesktopFileXdg::categorias_de(const domain::Processo& processo) const {
+LeitorDesktopFileXdg::categorias_de(const domain::vram::Processo& processo) const {
     const auto found = desktop_xdg::encontrar_por_processo(m_xdg_dirs, processo);
     if (!found.has_value()) {
         return {};

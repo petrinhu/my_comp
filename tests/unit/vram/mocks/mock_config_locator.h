@@ -4,12 +4,12 @@
 
 #include <gmock/gmock.h>
 
-namespace vramopt::tests {
+namespace my_comp::tests::vram {
 
-class MockConfigLocator : public vramopt::domain::IConfigLocator {
+class MockConfigLocator : public my_comp::domain::vram::IConfigLocator {
 public:
-    MOCK_METHOD(QVector<vramopt::domain::OrigemConfig>, localizar,
-                (const vramopt::domain::Processo&), (const, override));
+    MOCK_METHOD(QVector<my_comp::domain::vram::OrigemConfig>, localizar,
+                (const my_comp::domain::vram::Processo&), (const, override));
 };
 
 }

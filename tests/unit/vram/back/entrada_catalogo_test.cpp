@@ -3,8 +3,8 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::domain::Categoria;
-using vramopt::domain::EntradaCatalogo;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::EntradaCatalogo;
 
 TEST(EntradaCatalogoTest, AgregaCampos) {
     EntradaCatalogo e{

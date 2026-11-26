@@ -3,8 +3,8 @@
 
 #include <gtest/gtest.h>
 
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::LimiaresComportamento;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::LimiaresComportamento;
 
 TEST(LimiaresComportamentoTest, FabricaPadraoBateSpec) {
     auto lim = LimiaresComportamento::padrao();

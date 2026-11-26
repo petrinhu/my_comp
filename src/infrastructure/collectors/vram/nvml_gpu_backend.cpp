@@ -11,7 +11,7 @@
 #include <map>
 #include <utility>
 
-namespace vramopt::infrastructure {
+namespace my_comp::infrastructure::vram {
 
 namespace {
 
@@ -34,9 +34,9 @@ NvmlGpuBackend::NvmlGpuBackend(std::shared_ptr<INvmlAdapter> adapter,
     : m_adapter{std::move(adapter)},
       m_proc_root{std::move(proc_root)} {}
 
-std::vector<vramopt::domain::GpuInfo>
+std::vector<my_comp::domain::vram::GpuInfo>
 NvmlGpuBackend::enumerar_gpus() const {
-    std::vector<domain::GpuInfo> gpus;
+    std::vector<domain::vram::GpuInfo> gpus;
     if (!m_adapter || !m_adapter->is_available()) {
         return gpus;
     }
@@ -48,16 +48,16 @@ NvmlGpuBackend::enumerar_gpus() const {
             continue;
         }
         gpus.emplace_back(static_cast<int>(i),
-                          domain::Fabricante::Nvidia,
+                          domain::vram::Fabricante::Nvidia,
                           info->nome,
-                          domain::BytesDeMemoria{info->vram_total_bytes});
+                          domain::vram::BytesDeMemoria{info->vram_total_bytes});
     }
     return gpus;
 }
 
-std::vector<vramopt::domain::Processo>
+std::vector<my_comp::domain::vram::Processo>
 NvmlGpuBackend::enumerar_processos_vram(int gpu_id) const {
-    std::vector<domain::Processo> processos;
+    std::vector<domain::vram::Processo> processos;
     if (!m_adapter || !m_adapter->is_available() || gpu_id < 0) {
         return processos;
     }
@@ -81,11 +81,11 @@ NvmlGpuBackend::enumerar_processos_vram(int gpu_id) const {
     for (const auto& [pid, bytes] : por_pid) {
         const NvmlProcessoInfo r{.pid = pid, .bytes = bytes};
         const auto nome = ler_comm(m_proc_root, r.pid);
-        std::vector<domain::ChaveProcesso> chaves;
-        chaves.push_back(domain::ChaveProcesso::de_binario(nome));
-        processos.emplace_back(domain::PID{static_cast<std::int32_t>(r.pid)},
-                               domain::NomeProcesso{nome},
-                               domain::BytesDeMemoria{r.bytes},
+        std::vector<domain::vram::ChaveProcesso> chaves;
+        chaves.push_back(domain::vram::ChaveProcesso::de_binario(nome));
+        processos.emplace_back(domain::vram::PID{static_cast<std::int32_t>(r.pid)},
+                               domain::vram::NomeProcesso{nome},
+                               domain::vram::BytesDeMemoria{r.bytes},
                                gpu_id,
                                std::move(chaves));
     }

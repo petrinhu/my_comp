@@ -1,6 +1,6 @@
 #include "application/vram/configuracao/sublocators/tabela_paths_browser_chromium.h"
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 const QHash<QString, QString>& tabela_paths_browser_chromium() {
     static const QHash<QString, QString> tabela = {

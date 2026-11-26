@@ -12,15 +12,15 @@
 using ::testing::_;
 using ::testing::Return;
 
-using vramopt::application::RegraComportamento;
-using vramopt::domain::AmostraJanela;
-using vramopt::domain::BytesDeMemoria;
-using vramopt::domain::Categoria;
-using vramopt::domain::LimiaresComportamento;
-using vramopt::domain::NomeProcesso;
-using vramopt::domain::PID;
-using vramopt::domain::Processo;
-using vramopt::tests::MockAmostradorComportamento;
+using my_comp::application::vram::RegraComportamento;
+using my_comp::domain::vram::AmostraJanela;
+using my_comp::domain::vram::BytesDeMemoria;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::LimiaresComportamento;
+using my_comp::domain::vram::NomeProcesso;
+using my_comp::domain::vram::PID;
+using my_comp::domain::vram::Processo;
+using my_comp::tests::vram::MockAmostradorComportamento;
 
 namespace {
 

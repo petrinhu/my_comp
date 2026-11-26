@@ -2,24 +2,24 @@
 
 #include <utility>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 ServicoRegistrarFeedback::ServicoRegistrarFeedback(
-    std::shared_ptr<domain::IRepositorioFeedback> repo, Relogio relogio)
+    std::shared_ptr<domain::vram::IRepositorioFeedback> repo, Relogio relogio)
     : m_repo{std::move(repo)}, m_relogio{std::move(relogio)} {
     if (!m_relogio) {
         m_relogio = [] { return QDateTime::currentDateTimeUtc(); };
     }
 }
 
-bool ServicoRegistrarFeedback::executar(const domain::ChaveProcesso& chave,
-                                        domain::Categoria veredito,
+bool ServicoRegistrarFeedback::executar(const domain::vram::ChaveProcesso& chave,
+                                        domain::vram::Categoria veredito,
                                         const QString& motivo) const {
-    if (!m_repo || veredito == domain::Categoria::Indeterminado) {
+    if (!m_repo || veredito == domain::vram::Categoria::Indeterminado) {
         return false;
     }
     const QDateTime agora = m_relogio();
-    domain::EntradaFeedback entrada{
+    domain::vram::EntradaFeedback entrada{
         .id = 0,
         .chave = chave,
         .veredito = veredito,

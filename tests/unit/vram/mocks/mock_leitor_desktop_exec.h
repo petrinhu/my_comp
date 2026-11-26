@@ -4,12 +4,12 @@
 
 #include <gmock/gmock.h>
 
-namespace vramopt::tests {
+namespace my_comp::tests::vram {
 
-class MockLeitorDesktopExec : public vramopt::domain::ILeitorDesktopExec {
+class MockLeitorDesktopExec : public my_comp::domain::vram::ILeitorDesktopExec {
 public:
-    MOCK_METHOD(std::optional<vramopt::domain::EntradaDesktopExec>, entrada_de,
-                (const vramopt::domain::Processo&), (const, override));
+    MOCK_METHOD(std::optional<my_comp::domain::vram::EntradaDesktopExec>, entrada_de,
+                (const my_comp::domain::vram::Processo&), (const, override));
 };
 
 }

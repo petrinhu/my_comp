@@ -2,11 +2,11 @@
 
 #include <QString>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
 namespace {
 
-QString detalhe_da_amostra(const domain::AmostraJanela& a) {
+QString detalhe_da_amostra(const domain::vram::AmostraJanela& a) {
     return QStringLiteral("VRAM %1%/total, compute %2% media, janela %3s")
         .arg(a.razao_vram_sobre_total() * 100.0, 0, 'f', 1)
         .arg(a.compute_utilizacao_media * 100.0, 0, 'f', 1)
@@ -16,15 +16,15 @@ QString detalhe_da_amostra(const domain::AmostraJanela& a) {
 }
 
 RegraComportamento::RegraComportamento(
-    std::shared_ptr<domain::IAmostradorComportamento> amostrador,
-    domain::LimiaresComportamento limiares,
+    std::shared_ptr<domain::vram::IAmostradorComportamento> amostrador,
+    domain::vram::LimiaresComportamento limiares,
     std::chrono::seconds janela)
     : m_amostrador{std::move(amostrador)},
       m_limiares{limiares},
       m_janela{janela} {}
 
-std::optional<domain::ResultadoClassificacao>
-RegraComportamento::avaliar(const domain::Processo& processo) const {
+std::optional<domain::vram::ResultadoClassificacao>
+RegraComportamento::avaliar(const domain::vram::Processo& processo) const {
     const auto a = m_amostrador->amostra_janela(processo.pid(), m_janela);
     if (a.amostras <= 0) {
         return std::nullopt; // sem dados não há veredito; zeros pareceriam "trivial + ocioso"
@@ -37,25 +37,25 @@ RegraComportamento::avaliar(const domain::Processo& processo) const {
     const bool vram_trivial       = a.vram_media <= vram_trivial_efet;
     const bool compute_idle       = a.compute_utilizacao_media < m_limiares.compute_idle;
 
-    domain::Justificativa just{
+    domain::vram::Justificativa just{
         .regra = QStringLiteral("comportamento"),
         .detalhe = detalhe_da_amostra(a),
     };
 
     // Linha 1: compute alto sustentado → PrecisaGpu
     if (compute_sustentado) {
-        return domain::ResultadoClassificacao{.categoria = domain::Categoria::PrecisaGpu, .justificativa = just};
+        return domain::vram::ResultadoClassificacao{.categoria = domain::vram::Categoria::PrecisaGpu, .justificativa = just};
     }
     // Linha 2: VRAM alta + alguma atividade → PrecisaGpu
     if (vram_alta && !compute_idle) {
-        return domain::ResultadoClassificacao{.categoria = domain::Categoria::PrecisaGpu, .justificativa = just};
+        return domain::vram::ResultadoClassificacao{.categoria = domain::vram::Categoria::PrecisaGpu, .justificativa = just};
     }
     // Linha 3: VRAM trivial + idle → CandidatoObvioCpu
     if (vram_trivial && compute_idle) {
-        return domain::ResultadoClassificacao{.categoria = domain::Categoria::CandidatoObvioCpu, .justificativa = just};
+        return domain::vram::ResultadoClassificacao{.categoria = domain::vram::Categoria::CandidatoObvioCpu, .justificativa = just};
     }
     // Linha 4: resto → Indeterminado
-    return domain::ResultadoClassificacao{.categoria = domain::Categoria::Indeterminado, .justificativa = just};
+    return domain::vram::ResultadoClassificacao{.categoria = domain::vram::Categoria::Indeterminado, .justificativa = just};
 }
 
 }

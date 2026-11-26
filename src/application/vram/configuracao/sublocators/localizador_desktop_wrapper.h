@@ -5,17 +5,17 @@
 
 #include <memory>
 
-namespace vramopt::application {
+namespace my_comp::application::vram {
 
-class LocalizadorDesktopWrapper final : public domain::IConfigLocator {
+class LocalizadorDesktopWrapper final : public domain::vram::IConfigLocator {
 public:
-    explicit LocalizadorDesktopWrapper(std::shared_ptr<domain::ILeitorDesktopExec> leitor);
+    explicit LocalizadorDesktopWrapper(std::shared_ptr<domain::vram::ILeitorDesktopExec> leitor);
 
-    [[nodiscard]] QVector<domain::OrigemConfig>
-        localizar(const domain::Processo& processo) const override;
+    [[nodiscard]] QVector<domain::vram::OrigemConfig>
+        localizar(const domain::vram::Processo& processo) const override;
 
 private:
-    std::shared_ptr<domain::ILeitorDesktopExec> m_leitor;
+    std::shared_ptr<domain::vram::ILeitorDesktopExec> m_leitor;
 };
 
 }

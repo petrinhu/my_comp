@@ -5,9 +5,9 @@
 #include <QDateTime>
 #include <gtest/gtest.h>
 
-using vramopt::domain::Categoria;
-using vramopt::domain::ChaveProcesso;
-using vramopt::domain::EntradaFeedback;
+using my_comp::domain::vram::Categoria;
+using my_comp::domain::vram::ChaveProcesso;
+using my_comp::domain::vram::EntradaFeedback;
 
 TEST(EntradaFeedbackTest, AgregaCampos) {
     auto agora = QDateTime::currentDateTimeUtc();

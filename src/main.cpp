@@ -30,8 +30,8 @@ int executar_cli_vram(int argc, char* argv[]) {
         sub_args << QString::fromUtf8(argv[i]);
     }
     QTextStream out{stdout};
-    return vramopt::presentation::cli::executar_com_servico(
-        vramopt::composition::compor_servico_auditar_vram(), sub_args, out);
+    return my_comp::presentation::cli::executar_com_servico(
+        my_comp::composition::compor_servico_auditar_vram(), sub_args, out);
 }
 
 bool sistema_em_tema_escuro(const QGuiApplication& app) {
