@@ -49,6 +49,8 @@ QVariantList HardwareViewModel::bluetoothDevices() const {
         map["name"] = dev.name;
         map["address"] = dev.address;
         map["paired"] = dev.paired;
+        map["connected"] = dev.connected;
+        map["type"] = dev.type;
         list.append(map);
     }
     return list;

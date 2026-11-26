@@ -94,6 +94,8 @@ Esta seção é preenchida pela Fase 2. Cada entrada registra o comando usado, o
 
 - **UX-02a / UX-02c / SV-01d (2026-11-26)**: o tipo `url` do QML 6.4 não expõe `toLocalFile()` (conferido com qmltestrunner), então os dois `replace("file://") + decodeURIComponent()` do `Main.qml` viraram `urlHelper.toLocalPath(url)` (C++ `QUrl::toLocalFile`, com teste); o `FileDialog` do daemon abre na home em vez de `~/.local/share/applications` (⚠: diálogo não exercitado no smoke offscreen). SV-01d já não existia: o teste com `found_common` foi reescrito com mocks em `1967293` (2026-04-20).
 
+- **HW-02b (2026-11-26)**: `paired`/`connected`/`type` vêm de `bluetoothctl info <mac>` (novo `parse_bluetoothctl_info`, testado com saídas reais de fone e mouse); `parse_bluetoothctl_output` deixa de assumir `paired = true` e só aceita linhas `Device <MAC válido>` (o MAC vai para o argv, MC-10). A aba Hardware mostra o ponto verde para conectado e o texto "conectado/pareado/não pareado". ⚠: sem adaptador Bluetooth no ambiente de teste; validar no Fedora.
+
 ## TABELA UNIFICADA
 
 | ID | Onda | Grupo | Descrição Técnica | Prioridade | Pré-requisito | Dificuldade | Status | Estado Auditado |
@@ -203,7 +205,7 @@ Esta seção é preenchida pela Fase 2. Cada entrada registra o comando usado, o
 | HW-01b | — | 📈 MEL | `LinuxHardwareProvider::collect_topology` usa lambda `read_sys_file` com fallback silencioso `"Unknown"` para todos os 10 campos SMBIOS (manufacturer, product, version, serial, uuid, board_vendor, board_name, bios_vendor, bios_version, bios_date) — logar a ausência ou expor sinalizador `is_valid` para permitir UI diferenciar "indisponível" vs valor real | Baixa | HW-01 | Baixa | ⏳ Pendente | — |
 | HW-02 | — | ✨ FEAT | Topologia USB/Bluetooth | Média | AR-02 | Média | ✅ Concluído | ⚠ |
 | HW-02a | — | ✨ FEAT | `LinuxHardwareProvider` roda `bluetoothctl devices` — só lista dispositivos **pareados**; dispositivos próximos não pareados (scan ativo) nunca aparecem. Avaliar `bluetoothctl devices Paired`/`Connected`/scan ativo com timeout | Média | HW-02 | Média | 🎨 Pendente design | — |
-| HW-02b | — | 🐛 BUG | `linux_hardware_provider.cpp` hardcoda `dev.paired = true`, deixa `connected = false` e `device_type = ""` sempre — parsear saída real de `bluetoothctl info <mac>` para preencher estado dinâmico | Média | HW-02 | Baixa | ⏳ Pendente | — |
+| HW-02b | — | 🐛 BUG | `linux_hardware_provider.cpp` hardcoda `dev.paired = true`, deixa `connected = false` e `device_type = ""` sempre — parsear saída real de `bluetoothctl info <mac>` para preencher estado dinâmico | Média | HW-02 | Baixa | ✅ Concluído | ⚠ |
 | HW-02c | — | 📈 MEL | Parsing USB depende de formato exato `Bus X Device Y: ID vvvv:pppp descrição` do `lsusb` — falha silenciosa se coluna mudar (ex.: versões traduzidas). Migrar para `lsusb -v`/`libusb` ou adicionar testes de regressão com snapshots de saída | Baixa | HW-02 | Média | ⏳ Pendente | — |
 | HW-03 | — | ✨ FEAT | Detecção GPU (NVIDIA + Sysfs) | Média | AR-02 | Média | ✅ Concluído | ⚠ |
 | HW-03a | — | 🐛 BUG | **`SysfsGpuProvider::collect_stats` apenas detecta existência de `/sys/class/drm/card*/device/` e retorna struct com `load_percent`/`temperature_c`/`vram_used_mb` = 0** — função `read_sysfs_value` está definida mas nunca é chamada. Leitura real de `gpu_busy_percent`/`hwmon*/temp1_input`/`mem_info_vram_used` (amdgpu/i915) está ausente, o card GPU de AMD/Intel sempre lê 0% | Alta | HW-03 | Média | ✅ Concluído | ✓ |

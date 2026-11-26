@@ -56,8 +56,12 @@ ScrollPage {
                 ScrollBar.vertical: ScrollBar {}
                 delegate: RowLayout {
                     width: btList.width; height: 28; spacing: 12
-                    StatusDot { size: 8; active: modelData.paired }
+                    StatusDot { size: 8; active: modelData.connected }
                     Text { text: modelData.name || qsTr("(sem nome)"); color: Theme.textColor; Layout.fillWidth: true; elide: Text.ElideRight }
+                    Text {
+                        text: modelData.connected ? qsTr("conectado") : (modelData.paired ? qsTr("pareado") : qsTr("não pareado"))
+                        color: Theme.mutedTextColor; font.pixelSize: 11
+                    }
                     Text { text: modelData.address || ""; color: Theme.mutedTextColor; font.family: "Monospace"; font.pixelSize: 11 }
                 }
             }
