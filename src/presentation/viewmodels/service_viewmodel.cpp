@@ -87,55 +87,33 @@ void ServiceViewModel::refresh() {
     });
 }
 
-void ServiceViewModel::startService(const QString& name, const QString& scope) {
-    const auto service_scope = parse_scope(scope);
+void ServiceViewModel::run_action(Action action, const QString& name, const QString& scope) {
     setBusy(true);
     QPointer<ServiceViewModel> self(this);
     auto provider = m_provider;
-    (void)QtConcurrent::run([self, provider, name, service_scope]() {
-        bool ok = provider->start_service(name, service_scope);
-        QMetaObject::invokeMethod(self.data(), [self, ok, name]() {
+    const auto service_scope = parse_scope(scope);
+    (void)QtConcurrent::run([self, provider, action, name, service_scope]() {
+        const auto result = ((*provider).*action)(name, service_scope);
+        QMetaObject::invokeMethod(self.data(), [self, result]() {
             auto* vm = self.data();
             if (!vm) return;
             vm->setBusy(false);
-            if (ok) vm->refresh();
-            emit vm->operationFinished(ok, ok ? "Serviço " + name + " iniciado." : "Falha ao iniciar " + name);
+            if (result.ok) vm->refresh();
+            emit vm->operationFinished(result.ok, result.message);
         }, Qt::QueuedConnection);
     });
 }
 
-void ServiceViewModel::pauseService(const QString& name, const QString& scope) {
-    const auto service_scope = parse_scope(scope);
-    setBusy(true);
-    QPointer<ServiceViewModel> self(this);
-    auto provider = m_provider;
-    (void)QtConcurrent::run([self, provider, name, service_scope]() {
-        bool ok = provider->pause_service(name, service_scope);
-        QMetaObject::invokeMethod(self.data(), [self, ok, name]() {
-            auto* vm = self.data();
-            if (!vm) return;
-            vm->setBusy(false);
-            if (ok) vm->refresh();
-            emit vm->operationFinished(ok, ok ? "Serviço " + name + " pausado (sessão)." : "Falha ao pausar " + name);
-        }, Qt::QueuedConnection);
-    });
+void ServiceViewModel::enableAndStart(const QString& name, const QString& scope) {
+    run_action(&domain::interfaces::IServiceProvider::enable_and_start, name, scope);
 }
 
-void ServiceViewModel::stopService(const QString& name, const QString& scope) {
-    const auto service_scope = parse_scope(scope);
-    setBusy(true);
-    QPointer<ServiceViewModel> self(this);
-    auto provider = m_provider;
-    (void)QtConcurrent::run([self, provider, name, service_scope]() {
-        bool ok = provider->stop_service(name, service_scope);
-        QMetaObject::invokeMethod(self.data(), [self, ok, name]() {
-            auto* vm = self.data();
-            if (!vm) return;
-            vm->setBusy(false);
-            if (ok) vm->refresh();
-            emit vm->operationFinished(ok, ok ? "Serviço " + name + " parado de vez." : "Falha ao parar " + name);
-        }, Qt::QueuedConnection);
-    });
+void ServiceViewModel::stopNow(const QString& name, const QString& scope) {
+    run_action(&domain::interfaces::IServiceProvider::stop, name, scope);
+}
+
+void ServiceViewModel::disableAndStop(const QString& name, const QString& scope) {
+    run_action(&domain::interfaces::IServiceProvider::disable_and_stop, name, scope);
 }
 
 void ServiceViewModel::createDaemon(const QString& exe_path, const QString& params) {

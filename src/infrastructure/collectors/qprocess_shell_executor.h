@@ -10,6 +10,8 @@ public:
     int execute(const QString& command, const QStringList& args, QString& output) override;
     int execute_with_timeout(const QString& command, const QStringList& args, QString& output,
                              int timeout_ms) override;
+    ShellResult run_capturing(const QString& command, const QStringList& args,
+                              int timeout_ms = DEFAULT_SHELL_TIMEOUT_MS) override;
 };
 
 } // namespace my_comp::infrastructure::collectors
