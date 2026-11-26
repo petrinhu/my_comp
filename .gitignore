@@ -8,3 +8,4 @@ compile_commands.json
 *.user
 legacy/
 .claude/worktrees/
+__pycache__/
