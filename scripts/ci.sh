@@ -111,11 +111,12 @@ stage_clang_tidy() {
     local failed=0
     for f in $files; do
         # Só as famílias do gate T2 (MC-07) reprovam; performance/cppcoreguidelines são
-        # reportadas como aviso (o .clang-tidy tem WarningsAsErrors '*' para uso no editor).
+        # reportadas como aviso. O valor do CLI é ANEXADO ao WarningsAsErrors '*' do
+        # .clang-tidy, por isso começa com '-*' (zera antes de reativar o gate).
         if ! clang-tidy -p "${BUILD_DIR}" \
             --quiet \
             --header-filter='src/.*' \
-            --warnings-as-errors='bugprone-*,cert-*,security-*,clang-analyzer-security*' \
+            --warnings-as-errors='-*,bugprone-*,cert-*,security-*,clang-analyzer-security*' \
             --checks='-*,bugprone-*,cert-*,security-*,clang-analyzer-security*,cppcoreguidelines-*,performance-*,-cppcoreguidelines-avoid-magic-numbers,-cppcoreguidelines-pro-bounds-*,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-non-private-member-variables-in-classes,-cppcoreguidelines-avoid-non-const-global-variables,-cppcoreguidelines-owning-memory,-cppcoreguidelines-special-member-functions,-cppcoreguidelines-init-variables' \
             "$f" 2>&1
         then
@@ -134,17 +135,24 @@ stage_cppcheck() {
     if cppcheck --help 2>&1 | grep -q 'c++23'; then
         std_flag="--std=c++23"
     fi
-    cppcheck \
+    # Reprova só por error/warning (bugs prováveis); style/performance/portability ficam
+    # visíveis no log como sugestão, sem bloquear (MC-07 não os inclui no gate).
+    local out
+    out=$(cppcheck \
         --enable=warning,style,performance,portability \
         --suppress=missingIncludeSystem \
         --suppress=unknownMacro \
         --suppress=functionStatic \
         --suppress=passedByValue \
         --inline-suppr \
-        --error-exitcode=1 \
         "${std_flag}" \
         -I "${ROOT_DIR}/src" \
-        "${ROOT_DIR}/src" 2>&1
+        "${ROOT_DIR}/src" 2>&1)
+    echo "$out"
+    if echo "$out" | grep -qE ': (error|warning): '; then
+        echo "[ci] cppcheck encontrou error/warning" ; return 1
+    fi
+    return 0
 }
 
 stage_valgrind() {
