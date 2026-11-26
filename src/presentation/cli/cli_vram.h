@@ -23,11 +23,11 @@ struct OpcoesCliVram {
     const application::RelatorioAuditoriaVram& rel,
     const OpcoesCliVram& opts);
 
+// O serviço vem montado do composition root (main.cpp → composition/vram_composition):
+// a camada de apresentação não instancia infraestrutura (MC-02).
 int executarComServico(
     const std::shared_ptr<application::ServicoAuditarVramAtual>& servico,
     const QStringList& args,
     QTextStream& out);
-
-int executar(const QStringList& args, QTextStream& out);
 
 }

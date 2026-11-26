@@ -27,6 +27,7 @@ public:
     bool                                                 disponivel = true;
     std::vector<NvmlDeviceInfo>                          devices;
     std::vector<std::vector<NvmlProcessoInfo>>           procs_por_idx;
+    std::vector<std::vector<NvmlProcessoInfo>>           graphics_por_idx;
 
     [[nodiscard]] bool isAvailable() const override { return disponivel; }
     [[nodiscard]] std::uint32_t deviceCount() override {
@@ -44,6 +45,13 @@ public:
             return {};
         }
         return procs_por_idx[idx];
+    }
+    [[nodiscard]] std::vector<NvmlProcessoInfo>
+        processosGraphics(std::uint32_t idx) override {
+        if (idx >= graphics_por_idx.size()) {
+            return {};
+        }
+        return graphics_por_idx[idx];
     }
 };
 
@@ -148,4 +156,65 @@ TEST(NvmlGpuBackendTest, GpuIdNegativoRetornaVazio) {
     };
     NvmlGpuBackend backend{adapter};
     EXPECT_TRUE(backend.enumerarProcessosVram(-1).empty());
+}
+
+// Browsers, compositores e jogos usam contexto gráfico, não compute: sem a lista graphics
+// a auditoria não via justamente os processos que os localizadores de config tratam.
+TEST(NvmlGpuBackendTest, IncluiProcessosGraphicsAlemDosCompute) {
+    QTemporaryDir tmp;
+    ASSERT_TRUE(tmp.isValid());
+    escreverComm(tmp.path(), 100, QStringLiteral("python"));
+    escreverComm(tmp.path(), 200, QStringLiteral("firefox"));
+
+    auto adapter = std::make_shared<FakeNvmlAdapter>();
+    adapter->devices = {NvmlDeviceInfo{.nome = QStringLiteral("RTX"), .vram_total_bytes = 1ULL << 33}};
+    adapter->procs_por_idx = {{NvmlProcessoInfo{.pid = 100, .bytes = 1ULL << 30}}};
+    adapter->graphics_por_idx = {{NvmlProcessoInfo{.pid = 200, .bytes = 300ULL << 20}}};
+
+    NvmlGpuBackend backend{adapter, tmp.path()};
+    const auto procs = backend.enumerarProcessosVram(0);
+    ASSERT_EQ(procs.size(), 2U);
+    bool viu_firefox = false;
+    for (const auto& p : procs) {
+        if (p.pid().valor() == 200) {
+            viu_firefox = true;
+            EXPECT_EQ(p.nome().valor(), QStringLiteral("firefox"));
+            EXPECT_EQ(p.vramConsumida().valor(), 300ULL << 20);
+        }
+    }
+    EXPECT_TRUE(viu_firefox);
+}
+
+// Processo com contexto compute E graphics aparece nas duas listas: conta uma vez só.
+TEST(NvmlGpuBackendTest, DeduplicaPidPresenteNasDuasListas) {
+    QTemporaryDir tmp;
+    ASSERT_TRUE(tmp.isValid());
+    escreverComm(tmp.path(), 300, QStringLiteral("blender"));
+
+    auto adapter = std::make_shared<FakeNvmlAdapter>();
+    adapter->devices = {NvmlDeviceInfo{.nome = QStringLiteral("RTX"), .vram_total_bytes = 1ULL << 33}};
+    adapter->procs_por_idx = {{NvmlProcessoInfo{.pid = 300, .bytes = 500ULL << 20}}};
+    adapter->graphics_por_idx = {{NvmlProcessoInfo{.pid = 300, .bytes = 800ULL << 20}}};
+
+    NvmlGpuBackend backend{adapter, tmp.path()};
+    const auto procs = backend.enumerarProcessosVram(0);
+    ASSERT_EQ(procs.size(), 1U);
+    EXPECT_EQ(procs[0].vramConsumida().valor(), 800ULL << 20); // maior dos dois relatos
+}
+
+// NVML devolve NVML_VALUE_NOT_AVAILABLE (~0ULL) quando não consegue medir (ex.: sem
+// permissão / MIG): não pode virar 16 EiB de VRAM no relatório.
+TEST(NvmlGpuBackendTest, ValorNaoDisponivelViraZero) {
+    QTemporaryDir tmp;
+    ASSERT_TRUE(tmp.isValid());
+    escreverComm(tmp.path(), 400, QStringLiteral("Xwayland"));
+
+    auto adapter = std::make_shared<FakeNvmlAdapter>();
+    adapter->devices = {NvmlDeviceInfo{.nome = QStringLiteral("RTX"), .vram_total_bytes = 1ULL << 33}};
+    adapter->graphics_por_idx = {{NvmlProcessoInfo{.pid = 400, .bytes = ~0ULL}}};
+
+    NvmlGpuBackend backend{adapter, tmp.path()};
+    const auto procs = backend.enumerarProcessosVram(0);
+    ASSERT_EQ(procs.size(), 1U);
+    EXPECT_EQ(procs[0].vramConsumida().valor(), 0U);
 }

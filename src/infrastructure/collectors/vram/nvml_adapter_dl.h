@@ -21,6 +21,8 @@ public:
     [[nodiscard]] std::optional<NvmlDeviceInfo> deviceInfo(std::uint32_t idx) override;
     [[nodiscard]] std::vector<NvmlProcessoInfo>
         processosCompute(std::uint32_t idx) override;
+    [[nodiscard]] std::vector<NvmlProcessoInfo>
+        processosGraphics(std::uint32_t idx) override;
 
 private:
     struct Impl;

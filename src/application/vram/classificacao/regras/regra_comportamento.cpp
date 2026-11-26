@@ -26,6 +26,9 @@ RegraComportamento::RegraComportamento(
 std::optional<domain::ResultadoClassificacao>
 RegraComportamento::avaliar(const domain::Processo& processo) const {
     const auto a = m_amostrador->amostraJanela(processo.pid(), m_janela);
+    if (a.amostras <= 0) {
+        return std::nullopt; // sem dados não há veredito; zeros pareceriam "trivial + ocioso"
+    }
 
     const bool compute_sustentado = a.compute_utilizacao_media >= m_limiares.compute_sustentado;
     const auto vram_alta_efet     = m_limiares.vramAltaEfetivo(a.vram_total_gpu);

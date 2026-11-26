@@ -128,3 +128,12 @@ TEST(RegraComportamentoTest, JustificativaCitaMetricas) {
     EXPECT_TRUE(r->justificativa.detalhe.contains(QStringLiteral("VRAM")));
     EXPECT_TRUE(r->justificativa.detalhe.contains(QStringLiteral("compute")));
 }
+
+// Sem amostras não há base para veredito: com zeros a regra concluiria "VRAM trivial +
+// ocioso" e marcaria tudo como CandidatoObvioCpu. Deve se abster e deixar a cascata seguir.
+TEST(RegraComportamentoTest, SemAmostrasSeAbstem) {
+    auto amostrador = std::make_shared<MockAmostradorComportamento>();
+    EXPECT_CALL(*amostrador, amostraJanela(_, _)).WillOnce(Return(AmostraJanela{}));
+    RegraComportamento regra{amostrador, LimiaresComportamento::padrao(), std::chrono::seconds{30}};
+    EXPECT_FALSE(regra.avaliar(proc()).has_value());
+}

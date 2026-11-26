@@ -58,6 +58,7 @@ struct NvmlAdapterDl::Impl {
     FnDeviceGetName         fnGetName{nullptr};
     FnDeviceGetMemoryInfo   fnGetMem{nullptr};
     FnDeviceGetCompProcs    fnGetCompProcs{nullptr};
+    FnDeviceGetCompProcs    fnGetGraphicsProcs{nullptr}; // mesma assinatura da variante compute
 
     template <typename T>
     static T resolve(void* h, const char* nome_v2_pref, const char* nome_legacy) {
@@ -99,6 +100,11 @@ NvmlAdapterDl::NvmlAdapterDl()
     m_impl->fnGetCompProcs = Impl::resolve<FnDeviceGetCompProcs>(m_impl->handle,
                                                                  "nvmlDeviceGetComputeRunningProcesses_v3",
                                                                  "nvmlDeviceGetComputeRunningProcesses_v2");
+
+    // Opcional: drivers antigos podem não exportar; a lista graphics fica vazia.
+    m_impl->fnGetGraphicsProcs = Impl::resolve<FnDeviceGetCompProcs>(m_impl->handle,
+                                                                     "nvmlDeviceGetGraphicsRunningProcesses_v3",
+                                                                     "nvmlDeviceGetGraphicsRunningProcesses_v2");
 
     if (!m_impl->simbolosOk()) {
         return;
@@ -154,17 +160,18 @@ std::optional<NvmlDeviceInfo> NvmlAdapterDl::deviceInfo(std::uint32_t idx) {
     return out;
 }
 
-std::vector<NvmlProcessoInfo> NvmlAdapterDl::processosCompute(std::uint32_t idx) {
+namespace {
+
+// Protocolo de duas chamadas do NVML: 1ª com buffer nulo devolve o tamanho
+// (INSUFFICIENT_SIZE); 2ª preenche. Se a lista crescer entre as duas, desiste do ciclo.
+template <typename Fn>
+std::vector<NvmlProcessoInfo> listarProcessos(Fn fn, NvmlDevice_t dev) {
     std::vector<NvmlProcessoInfo> resultado;
-    if (!isAvailable()) {
-        return resultado;
-    }
-    NvmlDevice_t dev = nullptr;
-    if (m_impl->fnGetHandle(idx, &dev) != NVML_SUCCESS || dev == nullptr) {
+    if (fn == nullptr) {
         return resultado;
     }
     unsigned int n = 0;
-    auto rc = m_impl->fnGetCompProcs(dev, &n, nullptr);
+    auto rc = fn(dev, &n, nullptr);
     if (n == 0 && rc == NVML_SUCCESS) {
         return resultado;
     }
@@ -172,7 +179,7 @@ std::vector<NvmlProcessoInfo> NvmlAdapterDl::processosCompute(std::uint32_t idx)
         return resultado;
     }
     std::vector<NvmlProcessInfo_v2> buffer(n);
-    rc = m_impl->fnGetCompProcs(dev, &n, buffer.data());
+    rc = fn(dev, &n, buffer.data());
     if (rc != NVML_SUCCESS) {
         return resultado;
     }
@@ -184,6 +191,30 @@ std::vector<NvmlProcessoInfo> NvmlAdapterDl::processosCompute(std::uint32_t idx)
         });
     }
     return resultado;
+}
+
+}
+
+std::vector<NvmlProcessoInfo> NvmlAdapterDl::processosCompute(std::uint32_t idx) {
+    if (!isAvailable()) {
+        return {};
+    }
+    NvmlDevice_t dev = nullptr;
+    if (m_impl->fnGetHandle(idx, &dev) != NVML_SUCCESS || dev == nullptr) {
+        return {};
+    }
+    return listarProcessos(m_impl->fnGetCompProcs, dev);
+}
+
+std::vector<NvmlProcessoInfo> NvmlAdapterDl::processosGraphics(std::uint32_t idx) {
+    if (!isAvailable()) {
+        return {};
+    }
+    NvmlDevice_t dev = nullptr;
+    if (m_impl->fnGetHandle(idx, &dev) != NVML_SUCCESS || dev == nullptr) {
+        return {};
+    }
+    return listarProcessos(m_impl->fnGetGraphicsProcs, dev);
 }
 
 std::shared_ptr<INvmlAdapter> criarAdapterNvmlReal() {

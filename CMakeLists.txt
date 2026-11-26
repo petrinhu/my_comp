@@ -144,6 +144,9 @@ set(CORE_SOURCES
     src/infrastructure/collectors/vram/desktop_xdg_search.cpp
     src/infrastructure/collectors/vram/leitor_desktop_exec_xdg.cpp
     src/infrastructure/collectors/vram/leitor_desktop_file_xdg.cpp
+    src/infrastructure/collectors/vram/leitor_maps_proc.cpp
+    # Composition root (extensão do main.cpp)
+    src/composition/vram_composition.cpp
 )
 
 # Biblioteca núcleo: compilada uma vez e compartilhada por app, unit e acceptance.
@@ -270,6 +273,8 @@ set(UNIT_TEST_SOURCES
     tests/unit/vram/back/leitor_desktop_xdg_test.cpp
     tests/unit/vram/mid/vram_audit_viewmodel_test.cpp
     tests/unit/vram/mid/cli_vram_test.cpp
+    tests/unit/vram/mid/composicao_vram_test.cpp
+    tests/unit/vram/back/leitor_maps_proc_test.cpp
 )
 
 add_executable(unit_tests ${UNIT_TEST_SOURCES})
