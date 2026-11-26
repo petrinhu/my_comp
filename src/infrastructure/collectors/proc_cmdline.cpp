@@ -1,5 +1,7 @@
 #include "proc_cmdline.h"
 
+#include <QByteArray>
+#include <QFile>
 #include <QStringList>
 
 namespace my_comp::infrastructure::collectors {
@@ -21,6 +23,16 @@ QString format_cmdline(const std::string& raw, const QString& fallback_comm) {
         return fallback_comm;
     }
     return args.join(QLatin1Char(' '));
+}
+
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters): trocar os dois só faz a leitura falhar e cair no fallback.
+QString read_cmdline(const QString& path, const QString& fallback_comm) {
+    QFile f{path};
+    if (!f.open(QIODevice::ReadOnly)) {
+        return fallback_comm;
+    }
+    const QByteArray raw = f.read(static_cast<qint64>(MAX_CMDLINE_BYTES));
+    return format_cmdline(raw.toStdString(), fallback_comm);
 }
 
 } // namespace my_comp::infrastructure::collectors
