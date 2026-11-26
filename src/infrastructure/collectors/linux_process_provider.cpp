@@ -9,9 +9,7 @@
 #include <sstream>
 #include <filesystem>
 #include <algorithm>
-#include <QByteArray>
 #include <QDateTime>
-#include <QFile>
 #include <QDebug>
 
 namespace fs = std::filesystem;
@@ -100,9 +98,7 @@ std::vector<domain::models::ProcessInfo> LinuxProcessProvider::collect_processes
             p.pid = pid;
             // comm é cortado em 15 caracteres; cmdline traz o nome completo e os argumentos (AUDIT-30).
             const QString comm = QString::fromStdString(line.substr(open_paren + 1, close_paren - open_paren - 1));
-            QFile cmdline_file(QString::fromStdString((entry.path() / "cmdline").string()));
-            const QByteArray cmdline_raw = cmdline_file.open(QIODevice::ReadOnly) ? cmdline_file.readAll() : QByteArray{};
-            p.command = format_cmdline(cmdline_raw.toStdString(), comm);
+            p.command = read_cmdline(QString::fromStdString((entry.path() / "cmdline").string()), comm);
             
             const std::string rest = line.substr(close_paren + 2);
             std::stringstream ss(rest);
