@@ -100,6 +100,7 @@ bool SystemdServiceProvider::run_systemctl(const QStringList& args, bool user_mo
 
 domain::models::OperationResult SystemdServiceProvider::control(const QStringList& args,
                                                                 domain::models::ServiceScope scope,
+                                                                // NOLINTNEXTLINE(bugprone-easily-swappable-parameters): textos de sucesso e de falha mostrados ao usuário; trocá-los não muda o comando executado.
                                                                 const QString& done, const QString& failed) {
     QStringList final_args = args;
     if (scope == domain::models::ServiceScope::User) final_args.prepend("--user");
@@ -146,6 +147,7 @@ QString exec_start_of(const QString& unit_path) {
     return {};
 }
 
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters): interno a este arquivo; os nomes deixam explícito qual é a unit e qual é o executável.
 bool unit_belongs_to(const QString& unit_path, const QString& exe_path) {
     const QString exec = exec_start_of(unit_path);
     return exec == exe_path || exec.startsWith(exe_path + QLatin1Char(' '));

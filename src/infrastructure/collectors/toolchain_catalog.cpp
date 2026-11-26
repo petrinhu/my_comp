@@ -11,7 +11,7 @@
 namespace my_comp::infrastructure::collectors {
 
 namespace {
-constexpr qint64 MAX_CATALOG_BYTES = 256 * 1024;
+constexpr qint64 MAX_CATALOG_BYTES = qint64{256} * 1024;
 
 bool has_control_char(const QString& s) {
     for (const QChar c : s) {
@@ -70,6 +70,7 @@ std::vector<ToolchainSpec> parse_toolchain_catalog(const QByteArray& json) {
     return specs;
 }
 
+// NOLINTNEXTLINE(bugprone-easily-swappable-parameters): base é por valor e user por referência; a ordem (user sobrescreve base) está no nome e nos testes.
 std::vector<ToolchainSpec> merge_toolchain_catalogs(std::vector<ToolchainSpec> base,
                                                     const std::vector<ToolchainSpec>& user) {
     for (const auto& u : user) {
