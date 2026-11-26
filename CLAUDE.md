@@ -5,7 +5,7 @@ Fonte única de verdade para o desenvolvimento do **my_comp** (evolução do scr
 ## Stack & ambiente
 
 - **SO alvo:** Fedora 43 + KDE Plasma 6 + Wayland nativo (design agnóstico a distros; multi-PM detectado em runtime).
-- **Linguagem:** C++23 estrito (flags `-Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -Wold-style-cast -Wnull-dereference -fstack-protector-strong -D_FORTIFY_SOURCE=3` globais; `-Werror` em adoção incremental — hoje 491 warnings rastreados como dívida técnica).
+- **Linguagem:** C++23 estrito (flags `-Wall -Wextra -Wpedantic -Wshadow -Wnon-virtual-dtor -Woverloaded-virtual -Wold-style-cast -Wnull-dereference -fstack-protector-strong -D_FORTIFY_SOURCE=3` globais; `-Werror` em adoção incremental — build limpo com 0 warnings no GCC 13.3 em 2026-11-26; medir no GCC do Fedora 43 antes de ativar, ver `AUDIT-02` no `TODO.md`).
 - **Framework:** Qt6 — `Core`, `Gui`, `Quick`, `QuickControls2`, `WaylandClient`, `Multimedia`, `DBus`, `Network`, `Concurrent`, `Test`.
 - **Build:** CMake ≥ 3.16 + Ninja.
 - **Testes:** GoogleTest + CTest.
