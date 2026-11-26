@@ -4,6 +4,7 @@
 #include <QQmlContext>
 #include <QStringList>
 #include <QStyleHints>
+#include <QPalette>
 #include <QTextStream>
 #include <QDebug>
 #include <QFile>
@@ -103,13 +104,23 @@ int main(int argc, char *argv[])
         return vramopt::presentation::cli::executar(sub_args, out);
     }
 
-    qputenv("QT_QPA_PLATFORM", "wayland");
+    // Wayland por padrão, sem sobrescrever escolha explícita do usuário (ex.: QT_QPA_PLATFORM=xcb).
+    if (qEnvironmentVariableIsEmpty("QT_QPA_PLATFORM")) {
+        qputenv("QT_QPA_PLATFORM", "wayland");
+    }
 
     QGuiApplication app(argc, argv);
     app.setOrganizationName("my_comp");
     app.setApplicationName("my_comp");
 
-    bool is_system_dark = (app.styleHints()->colorScheme() == Qt::ColorScheme::Dark);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    const bool is_system_dark = (app.styleHints()->colorScheme() == Qt::ColorScheme::Dark);
+#else
+    // Qt < 6.5 não expõe colorScheme(): infere pelo contraste da paleta do sistema.
+    const QPalette sys_palette = QGuiApplication::palette();
+    const bool is_system_dark = sys_palette.color(QPalette::Window).lightness()
+                                < sys_palette.color(QPalette::WindowText).lightness();
+#endif
 
     // 1. Infraestrutura
     auto shell = std::make_shared<my_comp::infrastructure::collectors::QProcessShellExecutor>();

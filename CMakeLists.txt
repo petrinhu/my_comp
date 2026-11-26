@@ -23,23 +23,27 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick QuickControls2 WaylandClient Multimedia DBus Network Concurrent Test)
+# Qt 6.4 = mínimo que compila (Ubuntu 24.04 LTS); APIs 6.5+ ficam atrás de QT_VERSION_CHECK.
+find_package(Qt6 6.4 REQUIRED COMPONENTS Core Gui Quick QuickControls2 WaylandClient Multimedia DBus Network Concurrent Test)
 
 find_package(OpenSSL REQUIRED)
 
-# Adicionar GoogleTest para TDD/ATDD
-include(FetchContent)
-FetchContent_Declare(
-  googletest
-  URL https://github.com/google/googletest/archive/refs/tags/v1.15.2.zip
-  DOWNLOAD_EXTRACT_TIMESTAMP TRUE
-)
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
+# GoogleTest: prefere o pacote do sistema (Fedora: gtest-devel; Debian/Ubuntu: libgtest-dev).
+# Fallback: FetchContent fixado por hash de commit (integridade verificada pelo git; v1.15.2).
+find_package(GTest 1.14 CONFIG QUIET)
+if(NOT GTest_FOUND)
+    include(FetchContent)
+    FetchContent_Declare(
+      googletest
+      GIT_REPOSITORY https://github.com/google/googletest.git
+      GIT_TAG        b514bdc898e2951020cbdca1304b75f5950d1f59 # v1.15.2
+    )
+    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(googletest)
+endif()
 
 # Fontes
-set(PROJECT_SOURCES
-    src/main.cpp
+set(CORE_SOURCES
     src/infrastructure/collectors/qprocess_shell_executor.cpp
     src/infrastructure/collectors/interactive_process_runner.cpp
     src/infrastructure/collectors/installer_adapter.cpp
@@ -142,15 +146,10 @@ set(PROJECT_SOURCES
     src/infrastructure/collectors/vram/leitor_desktop_file_xdg.cpp
 )
 
-# Recurso QML
-qt_add_resources(PROJECT_SOURCES
-    src/resources.qrc
-)
-
-add_executable(my_comp ${PROJECT_SOURCES})
-target_include_directories(my_comp PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-
-target_link_libraries(my_comp PRIVATE
+# Biblioteca núcleo: compilada uma vez e compartilhada por app, unit e acceptance.
+add_library(my_comp_core STATIC ${CORE_SOURCES})
+target_include_directories(my_comp_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_link_libraries(my_comp_core PUBLIC
     Qt6::Core
     Qt6::Gui
     Qt6::Quick
@@ -164,6 +163,12 @@ target_link_libraries(my_comp PRIVATE
     OpenSSL::Crypto
     ${CMAKE_DL_LIBS}
 )
+
+# Executável: main.cpp (composition root) + recursos QML
+set(APP_SOURCES src/main.cpp)
+qt_add_resources(APP_SOURCES src/resources.qrc)
+add_executable(my_comp ${APP_SOURCES})
+target_link_libraries(my_comp PRIVATE my_comp_core)
 
 # Configuração de Testes
 enable_testing()
@@ -215,102 +220,7 @@ set(UNIT_TEST_SOURCES
     tests/unit/audio_fuzz_test.cpp
     tests/unit/journal_load_test.cpp
     
-    src/infrastructure/collectors/qprocess_shell_executor.cpp
-    src/infrastructure/collectors/linux_memory_provider.cpp
-    src/infrastructure/collectors/linux_user_metadata_provider.cpp
-    src/infrastructure/collectors/linux_cpu_provider.cpp
-    src/infrastructure/collectors/linux_system_info_provider.cpp
-    src/infrastructure/collectors/linux_storage_provider.cpp
-    src/infrastructure/collectors/linux_disk_inventory_provider.cpp
-    src/infrastructure/collectors/linux_smart_provider.cpp
-    src/infrastructure/collectors/hdparm_benchmark_provider.cpp
-    src/infrastructure/collectors/filesystem_directory_scanner.cpp
-    src/infrastructure/collectors/linux_network_provider.cpp
-    src/infrastructure/collectors/linux_power_provider.cpp
-    src/infrastructure/collectors/linux_hardware_provider.cpp
-    src/infrastructure/collectors/linux_process_provider.cpp
-    src/infrastructure/collectors/systemd_service_provider.cpp
-    src/infrastructure/collectors/linux_dev_stack_provider.cpp
-    src/infrastructure/collectors/nvidia_gpu_provider.cpp
-    src/infrastructure/collectors/sysfs_gpu_provider.cpp
-    src/infrastructure/collectors/apt_update_provider.cpp
-    src/infrastructure/collectors/pacman_update_provider.cpp
-    src/infrastructure/collectors/snap_update_provider.cpp
-    src/infrastructure/collectors/cargo_update_provider.cpp
-    src/infrastructure/collectors/dbus_firmware_provider.cpp
-    src/infrastructure/collectors/installer_adapter.cpp
-    src/infrastructure/collectors/interactive_process_runner.cpp
-    src/infrastructure/security/openssl_vault.cpp
-    src/infrastructure/exporters/json_export_provider.cpp
-    src/infrastructure/exporters/markdown_export_provider.cpp
-    src/infrastructure/exporters/html_export_provider.cpp
-    src/infrastructure/audio/qt_audio_provider.cpp
-    src/presentation/viewmodels/update_viewmodel.cpp
-    src/presentation/viewmodels/update_package_model.cpp
-    src/presentation/viewmodels/diagnostic_viewmodel.cpp
-    src/presentation/viewmodels/log_entry_model.cpp
-    src/presentation/viewmodels/cpu_viewmodel.cpp
-    src/presentation/viewmodels/memory_viewmodel.cpp
-    src/presentation/viewmodels/firmware_viewmodel.cpp
-    src/presentation/viewmodels/gpu_viewmodel.cpp
-    src/presentation/viewmodels/power_viewmodel.cpp
-    src/presentation/viewmodels/network_viewmodel.cpp
-    src/presentation/viewmodels/storage_viewmodel.cpp
-    src/presentation/viewmodels/system_info_viewmodel.cpp
-    src/presentation/viewmodels/user_metadata_viewmodel.cpp
-    src/presentation/viewmodels/hardware_viewmodel.cpp
-    src/presentation/viewmodels/service_viewmodel.cpp
-    src/presentation/viewmodels/process_viewmodel.cpp
-    src/presentation/viewmodels/dev_stack_viewmodel.cpp
-    src/presentation/viewmodels/export_viewmodel.cpp
-    src/presentation/viewmodels/audio_viewmodel.cpp
-    src/presentation/viewmodels/installation_viewmodel.cpp
-    src/presentation/viewmodels/directory_scanner_viewmodel.cpp
-    src/presentation/viewmodels/vram_audit_viewmodel.cpp
-    src/presentation/cli/cli_vram.cpp
 
-    # ----- Feature VRAM — fontes de produção (precisam estar no test binary) -----
-    src/domain/vram/valueobjects/pid.cpp
-    src/domain/vram/valueobjects/bytes_de_memoria.cpp
-    src/domain/vram/valueobjects/nome_processo.cpp
-    src/domain/vram/valueobjects/chave_processo.cpp
-    src/domain/vram/classificacao/justificativa.cpp
-    src/domain/vram/entidades/processo.cpp
-    src/domain/vram/entidades/gpu_info.cpp
-    src/domain/vram/amostra/amostra_janela.cpp
-    src/domain/vram/amostra/limiares_comportamento.cpp
-    src/domain/vram/entidades/entrada_catalogo.cpp
-    src/domain/vram/entidades/entrada_feedback.cpp
-    src/domain/vram/configuracao/origem_config.cpp
-    src/application/vram/classificacao/regras/regra_feedback.cpp
-    src/application/vram/classificacao/regras/regra_catalogo.cpp
-    src/application/vram/classificacao/regras/mapa_categorias_desktop.cpp
-    src/application/vram/classificacao/regras/regra_categoria_desktop.cpp
-    src/application/vram/classificacao/regras/lista_libs_compute.cpp
-    src/application/vram/classificacao/regras/regra_biblioteca_compute.cpp
-    src/application/vram/classificacao/regras/regra_comportamento.cpp
-    src/application/vram/classificacao/classificador_em_cascata.cpp
-    src/application/vram/classificacao/servico_classificar_processo.cpp
-    src/application/vram/classificacao/servico_sugerir_acao.cpp
-    src/application/vram/configuracao/sublocators/tabela_paths_browser_chromium.cpp
-    src/application/vram/configuracao/sublocators/localizador_browser_chromium.cpp
-    src/application/vram/configuracao/sublocators/localizador_firefox.cpp
-    src/application/vram/configuracao/sublocators/localizador_env_var.cpp
-    src/application/vram/configuracao/sublocators/lista_wrappers_desktop.cpp
-    src/application/vram/configuracao/sublocators/localizador_desktop_wrapper.cpp
-    src/application/vram/configuracao/localizador_composite.cpp
-    src/application/vram/configuracao/servico_localizar_config.cpp
-    src/application/vram/auditoria/servico_auditar_vram_atual.cpp
-    src/infrastructure/collectors/vram/composite_gpu_backend.cpp
-    src/infrastructure/collectors/vram/intel_i915_gpu_backend.cpp
-    src/infrastructure/collectors/vram/nvml_gpu_backend.cpp
-    src/infrastructure/collectors/vram/nvml_adapter_dl.cpp
-    src/infrastructure/collectors/vram/factory_gpu_backend.cpp
-    src/infrastructure/collectors/vram/leitor_arquivo_config_fs.cpp
-    src/infrastructure/collectors/vram/leitor_environ_proc.cpp
-    src/infrastructure/collectors/vram/desktop_xdg_search.cpp
-    src/infrastructure/collectors/vram/leitor_desktop_exec_xdg.cpp
-    src/infrastructure/collectors/vram/leitor_desktop_file_xdg.cpp
 
     # ----- Feature VRAM — testes unitários -----
     tests/unit/vram/sanity_test.cpp
@@ -360,11 +270,8 @@ set(UNIT_TEST_SOURCES
 )
 
 add_executable(unit_tests ${UNIT_TEST_SOURCES})
-target_include_directories(unit_tests PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/vram
-)
-target_link_libraries(unit_tests PRIVATE GTest::gtest_main GTest::gmock Qt6::Core Qt6::Gui Qt6::DBus Qt6::Network Qt6::Multimedia Qt6::Concurrent Qt6::Test OpenSSL::SSL OpenSSL::Crypto ${CMAKE_DL_LIBS})
+target_include_directories(unit_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/tests/unit/vram)
+target_link_libraries(unit_tests PRIVATE my_comp_core GTest::gtest_main GTest::gmock Qt6::Test)
 add_test(NAME unit_tests COMMAND unit_tests)
 set_tests_properties(unit_tests PROPERTIES TIMEOUT 120)
 
@@ -390,74 +297,10 @@ set(ACCEPTANCE_TEST_SOURCES
     tests/acceptance/export_system_test.cpp
     tests/acceptance/audio_capture_test.cpp
     
-    src/infrastructure/collectors/qprocess_shell_executor.cpp
-    src/infrastructure/collectors/interactive_process_runner.cpp
-    src/infrastructure/collectors/installer_adapter.cpp
-    src/infrastructure/collectors/linux_cpu_provider.cpp
-    src/infrastructure/collectors/linux_memory_provider.cpp
-    src/infrastructure/collectors/dbus_firmware_provider.cpp
-    src/infrastructure/collectors/linux_storage_provider.cpp
-    src/infrastructure/collectors/linux_disk_inventory_provider.cpp
-    src/infrastructure/collectors/linux_smart_provider.cpp
-    src/infrastructure/collectors/hdparm_benchmark_provider.cpp
-    src/infrastructure/collectors/filesystem_directory_scanner.cpp
-    src/infrastructure/collectors/linux_network_provider.cpp
-    src/infrastructure/collectors/nvidia_gpu_provider.cpp
-    src/infrastructure/collectors/sysfs_gpu_provider.cpp
-    src/infrastructure/collectors/linux_power_provider.cpp
-    src/infrastructure/collectors/linux_system_info_provider.cpp
-    src/infrastructure/collectors/linux_user_metadata_provider.cpp
-    src/infrastructure/collectors/linux_hardware_provider.cpp
-    src/infrastructure/collectors/systemd_service_provider.cpp
-    src/infrastructure/collectors/linux_process_provider.cpp
-    src/infrastructure/collectors/linux_dev_stack_provider.cpp
-    src/infrastructure/collectors/apt_update_provider.cpp
-    src/infrastructure/collectors/pacman_update_provider.cpp
-    src/infrastructure/collectors/snap_update_provider.cpp
-    src/infrastructure/collectors/cargo_update_provider.cpp
-    src/infrastructure/audio/qt_audio_provider.cpp
-    src/infrastructure/exporters/json_export_provider.cpp
-    src/infrastructure/exporters/markdown_export_provider.cpp
-    src/infrastructure/exporters/html_export_provider.cpp
-    src/infrastructure/security/openssl_vault.cpp
-    
-    src/presentation/viewmodels/update_viewmodel.cpp
-    src/presentation/viewmodels/update_package_model.cpp
-    src/presentation/viewmodels/diagnostic_viewmodel.cpp
-    src/presentation/viewmodels/log_entry_model.cpp
-    src/presentation/viewmodels/cpu_viewmodel.cpp
-    src/presentation/viewmodels/memory_viewmodel.cpp
-    src/presentation/viewmodels/firmware_viewmodel.cpp
-    src/presentation/viewmodels/gpu_viewmodel.cpp
-    src/presentation/viewmodels/power_viewmodel.cpp
-    src/presentation/viewmodels/storage_viewmodel.cpp
-    src/presentation/viewmodels/network_viewmodel.cpp
-    src/presentation/viewmodels/system_info_viewmodel.cpp
-    src/presentation/viewmodels/user_metadata_viewmodel.cpp
-    src/presentation/viewmodels/hardware_viewmodel.cpp
-    src/presentation/viewmodels/service_viewmodel.cpp
-    src/presentation/viewmodels/process_viewmodel.cpp
-    src/presentation/viewmodels/dev_stack_viewmodel.cpp
-    src/presentation/viewmodels/export_viewmodel.cpp
-    src/presentation/viewmodels/audio_viewmodel.cpp
-    src/presentation/viewmodels/installation_viewmodel.cpp
-    src/presentation/viewmodels/directory_scanner_viewmodel.cpp
 )
 
 add_executable(acceptance_tests ${ACCEPTANCE_TEST_SOURCES})
-target_include_directories(acceptance_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
-target_link_libraries(acceptance_tests PRIVATE
-    GTest::gtest_main 
-    GTest::gmock 
-    Qt6::Core 
-    Qt6::DBus 
-    Qt6::Concurrent 
-    Qt6::Test 
-    Qt6::Multimedia 
-    Qt6::Network
-    OpenSSL::SSL
-    OpenSSL::Crypto
-)
+target_link_libraries(acceptance_tests PRIVATE my_comp_core GTest::gtest_main GTest::gmock Qt6::Test)
 add_test(NAME acceptance_tests COMMAND acceptance_tests)
 set_tests_properties(acceptance_tests PROPERTIES TIMEOUT 180)
 
