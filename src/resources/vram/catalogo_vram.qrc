@@ -1,0 +1,7 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<!-- Recursos da feature VRAM compilados na my_comp_core (app e testes enxergam o mesmo
+     catálogo). Biblioteca estática: o leitor chama Q_INIT_RESOURCE(catalogo_vram). -->
+<qresource prefix="/vram">
+    <file>catalogo.json</file>
+</qresource>
+</RCC>

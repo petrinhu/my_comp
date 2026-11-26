@@ -145,6 +145,9 @@ set(CORE_SOURCES
     src/infrastructure/collectors/vram/leitor_desktop_exec_xdg.cpp
     src/infrastructure/collectors/vram/leitor_desktop_file_xdg.cpp
     src/infrastructure/collectors/vram/leitor_maps_proc.cpp
+    # Catálogo de classificação empacotado (VRAM-06)
+    src/infrastructure/collectors/vram/catalogo_classificacao_json.cpp
+    src/resources/vram/catalogo_vram.qrc
     # Composition root (extensão do main.cpp)
     src/composition/vram_composition.cpp
     src/composition/shared_infrastructure.cpp
@@ -278,6 +281,7 @@ set(UNIT_TEST_SOURCES
     tests/unit/vram/mid/cli_vram_test.cpp
     tests/unit/vram/mid/composicao_vram_test.cpp
     tests/unit/vram/back/leitor_maps_proc_test.cpp
+    tests/unit/vram/back/catalogo_classificacao_json_test.cpp
 )
 
 add_executable(unit_tests ${UNIT_TEST_SOURCES})

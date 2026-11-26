@@ -18,6 +18,7 @@
 #include "application/vram/configuracao/sublocators/localizador_firefox.h"
 #include "domain/vram/amostra/limiares_comportamento.h"
 #include "infrastructure/collectors/vram/adaptadores_nulos.h"
+#include "infrastructure/collectors/vram/catalogo_classificacao_json.h"
 #include "infrastructure/collectors/vram/factory_gpu_backend.h"
 #include "infrastructure/collectors/vram/leitor_arquivo_config_fs.h"
 #include "infrastructure/collectors/vram/leitor_desktop_exec_xdg.h"
@@ -47,7 +48,7 @@ std::vector<RegraNomeada> montar_regras() {
              std::make_shared<infrastructure::RepositorioFeedbackVazio>())},
         {QStringLiteral("catalogo"),
          std::make_shared<application::RegraCatalogo>(
-             std::make_shared<infrastructure::CatalogoClassificacaoVazio>())},
+             compor_catalogo_classificacao())},
         {QStringLiteral("categoria_desktop"),
          std::make_shared<application::RegraCategoriaDesktop>(
              std::make_shared<infrastructure::LeitorDesktopFileXdg>(),
@@ -64,6 +65,11 @@ std::vector<RegraNomeada> montar_regras() {
 }
 
 } // namespace
+
+std::shared_ptr<domain::ICatalogoClassificacao> compor_catalogo_classificacao() {
+    return std::make_shared<infrastructure::CatalogoClassificacaoJson>(
+        infrastructure::carregar_catalogo_empacotado().entradas);
+}
 
 std::vector<QString> nomes_das_regras_da_cascata() {
     std::vector<QString> nomes;

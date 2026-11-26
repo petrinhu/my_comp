@@ -2,8 +2,9 @@
 
 // Null objects para as regras da cascata cujas fontes de dados ainda não existem.
 // Cada um faz a regra correspondente se abster (std::nullopt), sem inventar veredito.
-// Pendências: catálogo empacotado, persistência de feedback via ISecurityVault (MC-10)
-// e amostragem temporal de utilização por processo — ver TODO.md (VRAM-06..08).
+// O catálogo empacotado já existe (catalogo_classificacao_json.h); o vazio fica para
+// testes e montagens sem recurso. Pendências: persistência de feedback via
+// ISecurityVault (MC-10) e amostragem temporal por processo (VRAM-07..08).
 
 #include "domain/vram/amostra/amostra_janela.h"
 #include "domain/vram/interfaces/i_amostrador_comportamento.h"

@@ -1,5 +1,8 @@
 #include "composition/vram_composition.h"
 
+#include "domain/vram/classificacao/categoria.h"
+#include "domain/vram/valueobjects/chave_processo.h"
+
 #include <gtest/gtest.h>
 
 // A composição única (usada por GUI e CLI) monta a cascata completa; antes só a
@@ -17,4 +20,14 @@ TEST(ComposicaoVramTest, ComporServicoDevolveInstanciaUtilizavel) {
     auto servico = vramopt::composition::compor_servico_auditar_vram();
     ASSERT_NE(servico, nullptr);
     (void)servico->executar(); // sem GPU no ambiente de teste: relatório vazio, sem crash
+}
+
+// VRAM-06: a RegraCatalogo da composição consulta o catálogo empacotado, não o null object.
+TEST(ComposicaoVramTest, CatalogoDaComposicaoEOEmpacotado) {
+    const auto catalogo = vramopt::composition::compor_catalogo_classificacao();
+    ASSERT_NE(catalogo, nullptr);
+    const auto firefox = catalogo->buscar(
+        vramopt::domain::ChaveProcesso::deBinario(QStringLiteral("firefox")));
+    ASSERT_TRUE(firefox.has_value());
+    EXPECT_EQ(firefox->veredito, vramopt::domain::Categoria::CandidatoObvioCpu);
 }
