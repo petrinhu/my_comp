@@ -18,7 +18,7 @@ using DiagnosticFilter = my_comp::domain::interfaces::DiagnosticFilter;
 
 class JournalDiagnosticProvider : public IDiagnosticProvider {
 public:
-    explicit JournalDiagnosticProvider(std::shared_ptr<IShellExecutor> shell) : shell_(std::move(shell)) {}
+    explicit JournalDiagnosticProvider(std::shared_ptr<IShellExecutor> shell) : m_shell(std::move(shell)) {}
 
     [[nodiscard]] QString get_name() const override { return "journal"; }
 
@@ -109,7 +109,7 @@ public:
         }
 
         QString output;
-        shell_->execute("journalctl", args, output);
+        m_shell->execute("journalctl", args, output);
 
         std::vector<LogEntry> logs;
         parse_journalctl_output(output, logs);
@@ -117,7 +117,7 @@ public:
     }
 
 private:
-    std::shared_ptr<IShellExecutor> shell_;
+    std::shared_ptr<IShellExecutor> m_shell;
 };
 
 } // namespace my_comp::infrastructure::collectors

@@ -6,19 +6,19 @@
 namespace my_comp::presentation::viewmodels {
 
 DiagnosticViewModel::DiagnosticViewModel(std::shared_ptr<my_comp::application::DiagnosticManager> manager, QObject* parent)
-    : QObject(parent), manager_(std::move(manager)), model_(new LogEntryModel(this)) {}
+    : QObject(parent), m_manager(std::move(manager)), m_model(new LogEntryModel(this)) {}
 
 void DiagnosticViewModel::refresh() {
-    if (is_busy_) return;
-    is_busy_ = true;
+    if (m_is_busy) return;
+    m_is_busy = true;
     emit isBusyChanged();
 
     int filter = m_current_filter;
-    QString query = search_query_;
-    int limit = log_limit_;
+    QString query = m_search_query;
+    int limit = m_log_limit;
 
     QPointer<DiagnosticViewModel> self(this);
-    auto manager = manager_;
+    auto manager = m_manager;
     (void)QtConcurrent::run([self, manager, filter, query, limit]() {
         auto logs = manager->fetch_all_logs(
             static_cast<my_comp::application::DiagnosticFilter>(filter),
@@ -27,42 +27,43 @@ void DiagnosticViewModel::refresh() {
         );
 
         QMetaObject::invokeMethod(self.data(), [self, logs]() mutable {
-            if (!self) return;
-            self->data_ = std::move(logs);
-            self->applySortAndPush();
-            self->is_busy_ = false;
-            emit self->isBusyChanged();
+            auto* vm = self.data();
+            if (!vm) return;
+            vm->m_data = std::move(logs);
+            vm->applySortAndPush();
+            vm->m_is_busy = false;
+            emit vm->isBusyChanged();
         }, Qt::QueuedConnection);
     });
 }
 
 void DiagnosticViewModel::setSortField(const QString& f) {
-    if (sort_field_ != f) {
-        sort_field_ = f;
+    if (m_sort_field != f) {
+        m_sort_field = f;
         emit sortFieldChanged();
         applySortAndPush();
     }
 }
 
 void DiagnosticViewModel::setSortAscending(bool a) {
-    if (sort_ascending_ != a) {
-        sort_ascending_ = a;
+    if (m_sort_ascending != a) {
+        m_sort_ascending = a;
         emit sortAscendingChanged();
         applySortAndPush();
     }
 }
 
 void DiagnosticViewModel::applySortAndPush() {
-    auto sorted = data_;
-    const QString field = sort_field_;
-    const bool asc = sort_ascending_;
+    auto sorted = m_data;
+    const QString field = m_sort_field;
+    const bool asc = m_sort_ascending;
     std::stable_sort(sorted.begin(), sorted.end(), [field, asc](const auto& a, const auto& b) {
         if (field == "priority") return asc ? (a.priority < b.priority) : (a.priority > b.priority);
         if (field == "source")   return asc ? (a.source < b.source)     : (a.source > b.source);
         if (field == "message")  return asc ? (a.message < b.message)   : (a.message > b.message);
         return asc ? (a.timestamp < b.timestamp) : (a.timestamp > b.timestamp);
     });
-    model_->setLogs(std::move(sorted));
+    m_model->setLogs(std::move(sorted));
 }
 
 void DiagnosticViewModel::performSearch() {
@@ -76,10 +77,10 @@ void DiagnosticViewModel::searchOnline(const QString& message) {
     // Fallback seguro: se não houver %1 e a URL for válida, apenda como query.
     const QString encoded = QUrl::toPercentEncoding(message);
     QString final_url;
-    if (search_engine_url_.contains("%1")) {
-        final_url = QString(search_engine_url_).replace("%1", encoded);
+    if (m_search_engine_url.contains("%1")) {
+        final_url = QString(m_search_engine_url).replace("%1", encoded);
     } else {
-        final_url = search_engine_url_ + encoded;
+        final_url = m_search_engine_url + encoded;
     }
 
     qDebug() << "[DiagnosticVM] Opening search for:" << message << "via" << final_url;
@@ -87,8 +88,8 @@ void DiagnosticViewModel::searchOnline(const QString& message) {
 }
 
 void DiagnosticViewModel::setSearchQuery(const QString& q) {
-    if (search_query_ != q) {
-        search_query_ = q;
+    if (m_search_query != q) {
+        m_search_query = q;
         emit searchQueryChanged();
     }
 }
@@ -103,15 +104,15 @@ void DiagnosticViewModel::setCurrentFilter(int filter) {
 
 void DiagnosticViewModel::setLogLimit(int n) {
     if (n < 0) n = 0;
-    if (log_limit_ != n) {
-        log_limit_ = n;
+    if (m_log_limit != n) {
+        m_log_limit = n;
         emit logLimitChanged();
     }
 }
 
 void DiagnosticViewModel::setSearchEngineUrl(const QString& url) {
-    if (search_engine_url_ != url) {
-        search_engine_url_ = url;
+    if (m_search_engine_url != url) {
+        m_search_engine_url = url;
         emit searchEngineUrlChanged();
     }
 }

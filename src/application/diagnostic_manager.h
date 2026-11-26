@@ -16,7 +16,7 @@ using DiagnosticFilter = domain::interfaces::DiagnosticFilter;
 class DiagnosticManager {
 public:
     void register_provider(std::unique_ptr<IDiagnosticProvider> provider) {
-        providers_.push_back(std::move(provider));
+        m_providers.push_back(std::move(provider));
     }
 
     /**
@@ -24,7 +24,7 @@ public:
      */
     [[nodiscard]] std::vector<LogEntry> fetch_all_logs(DiagnosticFilter filter = DiagnosticFilter::All, const QString& query = "", int limit = 100) {
         std::vector<LogEntry> all_logs;
-        for (const auto& provider : providers_) {
+        for (const auto& provider : m_providers) {
             auto logs = provider->fetch_logs(filter, query, limit);
             all_logs.insert(all_logs.end(),
                           std::make_move_iterator(logs.begin()),
@@ -34,7 +34,7 @@ public:
     }
 
 private:
-    std::vector<std::unique_ptr<IDiagnosticProvider>> providers_;
+    std::vector<std::unique_ptr<IDiagnosticProvider>> m_providers;
 };
 
 } // namespace my_comp::application

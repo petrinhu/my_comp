@@ -30,7 +30,7 @@ public:
     [[nodiscard]] QHash<int, QByteArray> roleNames() const override;
 
 private:
-    std::vector<LogEntry> logs_;
+    std::vector<LogEntry> m_logs;
 };
 
 } // namespace my_comp::presentation::viewmodels

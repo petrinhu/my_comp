@@ -12,13 +12,13 @@ namespace my_comp::infrastructure::collectors {
 
 class DnfUpdateProvider : public domain::interfaces::IUpdateProvider {
 public:
-    explicit DnfUpdateProvider(std::shared_ptr<IShellExecutor> shell) : shell_(std::move(shell)) {}
+    explicit DnfUpdateProvider(std::shared_ptr<IShellExecutor> shell) : m_shell(std::move(shell)) {}
 
     [[nodiscard]] QString get_name() const override { return "dnf"; }
 
     [[nodiscard]] bool is_available() const override {
         QString output;
-        shell_->execute("which", {"dnf"}, output);
+        m_shell->execute("which", {"dnf"}, output);
         return !output.isEmpty();
     }
 
@@ -26,7 +26,7 @@ public:
         QString output;
         std::vector<domain::models::UpdatePackage> updates;
 
-        if (shell_->execute_with_timeout("dnf", {"check-update", "--quiet"}, output, PACKAGE_MANAGER_TIMEOUT_MS) == 100) {
+        if (m_shell->execute_with_timeout("dnf", {"check-update", "--quiet"}, output, PACKAGE_MANAGER_TIMEOUT_MS) == 100) {
             auto lines = output.split('\n', Qt::SkipEmptyParts);
             for (const auto& line : lines) {
                 auto parts = line.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
@@ -60,7 +60,7 @@ private:
         QStringList args;
         args << "-q" << "--qf" << "%{NAME} %{VERSION}-%{RELEASE}\n";
         args.append(names);
-        if (shell_->execute("rpm", args, rpm_out) != 0) return;
+        if (m_shell->execute("rpm", args, rpm_out) != 0) return;
         QHash<QString, QString> installed;
         for (const auto& line : rpm_out.split('\n', Qt::SkipEmptyParts)) {
             const auto sp = line.split(' ', Qt::SkipEmptyParts);
@@ -72,7 +72,7 @@ private:
         }
     }
 
-    std::shared_ptr<IShellExecutor> shell_;
+    std::shared_ptr<IShellExecutor> m_shell;
 };
 
 } // namespace my_comp::infrastructure::collectors
