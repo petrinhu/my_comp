@@ -45,6 +45,7 @@ endif()
 # Fontes
 set(CORE_SOURCES
     src/infrastructure/collectors/qprocess_shell_executor.cpp
+    src/infrastructure/shutdown_signal.cpp
     src/infrastructure/collectors/interactive_process_runner.cpp
     src/infrastructure/collectors/installer_adapter.cpp
     src/infrastructure/collectors/linux_cpu_provider.cpp

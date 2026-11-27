@@ -1,7 +1,11 @@
 #include "qprocess_shell_executor.h"
+#include "../shutdown_signal.h"
+#include <QElapsedTimer>
 #include <QProcess>
 #include <QProcessEnvironment>
 #include <QDebug>
+
+#include <algorithm>
 
 namespace my_comp::infrastructure::collectors {
 
@@ -19,6 +23,10 @@ int QProcessShellExecutor::execute_with_timeout(const QString& command, const QS
 ShellResult QProcessShellExecutor::run_capturing(const QString& command, const QStringList& args,
                                                  int timeout_ms) {
     ShellResult result;
+    if (shutdown_requested()) {
+        result.err = QStringLiteral("app encerrando");
+        return result;
+    }
     qDebug() << "[Shell] Executing:" << command << args.join(' ');
     QProcess p;
     // IN-01b: ambiente explícito com locale C — parsing determinístico em qualquer sistema.
@@ -32,11 +40,30 @@ ShellResult QProcessShellExecutor::run_capturing(const QString& command, const Q
         result.err = p.errorString();
         return result;
     }
-    if (!p.waitForFinished(timeout_ms)) {
-        qWarning() << "[Shell] Timeout (" << timeout_ms << "ms) executing:" << command;
+    // Espera em fatias para atender o encerramento do app sem esperar o timeout inteiro
+    // (dnf check-update chega a 180 s). Revisão do UX-05.
+    constexpr int FATIA_MS = 200;
+    QElapsedTimer relogio;
+    relogio.start();
+    bool terminou = false;
+    while (!terminou) {
+        const qint64 restante = timeout_ms - relogio.elapsed();
+        if (restante <= 0 || shutdown_requested()) {
+            break;
+        }
+        terminou = p.waitForFinished(static_cast<int>(std::min<qint64>(restante, FATIA_MS)));
+        if (!terminou && p.state() == QProcess::NotRunning) {
+            terminou = true;  // acabou entre duas fatias
+        }
+    }
+    if (!terminou) {
+        const bool por_encerramento = shutdown_requested();
+        qWarning() << "[Shell]" << (por_encerramento ? "Encerramento do app interrompeu:" : "Timeout executando:")
+                   << command;
         p.kill();
         p.waitForFinished(1000); // colhe o processo morto (evita zumbi)
-        result.err = QStringLiteral("tempo esgotado (%1 ms)").arg(timeout_ms);
+        result.err = por_encerramento ? QStringLiteral("app encerrando")
+                                      : QStringLiteral("tempo esgotado (%1 ms)").arg(timeout_ms);
         return result;
     }
     if (p.exitStatus() == QProcess::CrashExit) {
