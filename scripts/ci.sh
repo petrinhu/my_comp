@@ -95,7 +95,8 @@ stage_build() {
 stage_ctest() {
     # --timeout 180 = teto de segurança caso algum teste novo entre sem TIMEOUT no add_test.
     # CTest também respeita as TIMEOUT properties por teste do CMakeLists.txt.
-    ( cd "${BUILD_DIR}" && ctest --output-on-failure --timeout 180 )
+    # --no-tests=error: sem build (configure falhou), "nenhum teste" não pode contar como verde.
+    ( cd "${BUILD_DIR}" && ctest --output-on-failure --timeout 180 --no-tests=error )
 }
 
 stage_clang_tidy() {
