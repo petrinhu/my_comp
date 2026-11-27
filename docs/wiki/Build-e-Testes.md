@@ -27,9 +27,16 @@ cd build && ctest --output-on-failure
 ## Gates (MC-07)
 
 ```bash
-./scripts/ci.sh                 # build + ctest + clang-tidy + cppcheck + valgrind
+./scripts/ci.sh                 # build + ctest + clang-tidy + cppcheck + contraste + texto puro QML + valgrind
 ./scripts/ci.sh --quick         # só build + ctest
+./scripts/coverage.sh           # cobertura de linhas por camada (gcovr)
 ```
+
+No GitHub, o workflow `.github/workflows/ci.yml` roda em todo PR e push na `main`, em três jobs:
+
+- **Ubuntu 24.04:** o `scripts/ci.sh` inteiro, menos o clang-tidy.
+- **Gate T2:** o clang-tidy em paralelo.
+- **Fedora 43:** build e testes com o GCC do SO alvo; o resumo do job mostra a contagem de warnings.
 
 | Gate | Critério |
 | :--- | :--- |

@@ -30,6 +30,7 @@ private:
     QString m_distro;
     QString m_kernel;
     QString m_driver;
+    bool m_busy{false};  // só lido/escrito na thread da UI
 };
 
 }

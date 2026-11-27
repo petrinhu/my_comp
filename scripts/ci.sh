@@ -95,7 +95,8 @@ stage_build() {
 stage_ctest() {
     # --timeout 180 = teto de segurança caso algum teste novo entre sem TIMEOUT no add_test.
     # CTest também respeita as TIMEOUT properties por teste do CMakeLists.txt.
-    ( cd "${BUILD_DIR}" && ctest --output-on-failure --timeout 180 )
+    # --no-tests=error: sem build (configure falhou), "nenhum teste" não pode contar como verde.
+    ( cd "${BUILD_DIR}" && ctest --output-on-failure --timeout 180 --no-tests=error )
 }
 
 stage_clang_tidy() {
@@ -105,25 +106,18 @@ stage_clang_tidy() {
     if [[ ! -f "${BUILD_DIR}/compile_commands.json" ]]; then
         echo "compile_commands.json ausente em ${BUILD_DIR}. Rode configure antes." ; return 1
     fi
-    # Checks alinhados à MC-07 (gate T2): bugprone-*, security-*, cert-*, cppcoreguidelines-*, performance-*
-    local files
-    files=$(find "${ROOT_DIR}/src" -name '*.cpp' -not -path '*/build/*' -type f)
-    local failed=0
-    for f in $files; do
-        # Só as famílias do gate T2 (MC-07) reprovam; performance/cppcoreguidelines são
-        # reportadas como aviso. O valor do CLI é ANEXADO ao WarningsAsErrors '*' do
-        # .clang-tidy, por isso começa com '-*' (zera antes de reativar o gate).
-        if ! clang-tidy -p "${BUILD_DIR}" \
-            --quiet \
+    # Checks alinhados à MC-07 (gate T2): bugprone-*, security-*, cert-*, cppcoreguidelines-*, performance-*.
+    # Só as famílias do gate T2 reprovam; performance/cppcoreguidelines são reportadas como
+    # aviso. O valor do CLI é ANEXADO ao WarningsAsErrors '*' do .clang-tidy, por isso
+    # começa com '-*' (zera antes de reativar o gate). Um arquivo por processo, em paralelo:
+    # xargs devolve 123 se qualquer invocação falhar.
+    local checks='-*,bugprone-*,cert-*,security-*,clang-analyzer-security*,cppcoreguidelines-*,performance-*,-cppcoreguidelines-avoid-magic-numbers,-cppcoreguidelines-pro-bounds-*,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-non-private-member-variables-in-classes,-cppcoreguidelines-avoid-non-const-global-variables,-cppcoreguidelines-owning-memory,-cppcoreguidelines-special-member-functions,-cppcoreguidelines-init-variables'
+    local gate='-*,bugprone-*,cert-*,security-*,clang-analyzer-security*'
+    find "${ROOT_DIR}/src" -name '*.cpp' -not -path '*/build/*' -type f -print0 \
+        | xargs -0 -P "$(nproc)" -n 1 clang-tidy -p "${BUILD_DIR}" --quiet \
             --header-filter='src/.*' \
-            --warnings-as-errors='-*,bugprone-*,cert-*,security-*,clang-analyzer-security*' \
-            --checks='-*,bugprone-*,cert-*,security-*,clang-analyzer-security*,cppcoreguidelines-*,performance-*,-cppcoreguidelines-avoid-magic-numbers,-cppcoreguidelines-pro-bounds-*,-cppcoreguidelines-pro-type-reinterpret-cast,-cppcoreguidelines-non-private-member-variables-in-classes,-cppcoreguidelines-avoid-non-const-global-variables,-cppcoreguidelines-owning-memory,-cppcoreguidelines-special-member-functions,-cppcoreguidelines-init-variables' \
-            "$f" 2>&1
-        then
-            failed=1
-        fi
-    done
-    return $failed
+            --warnings-as-errors="${gate}" \
+            --checks="${checks}" 2>&1
 }
 
 stage_cppcheck() {

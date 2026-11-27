@@ -3,11 +3,13 @@
 
 #include "composition/app_composition.h"
 #include "composition/vram_composition.h"
+#include "infrastructure/shutdown_signal.h"
 #include "presentation/cli/cli_vram.h"
 
 #include <QCoreApplication>
 #include <QDebug>
 #include <QGuiApplication>
+#include <QThreadPool>
 #include <QPalette>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -60,6 +62,15 @@ int executar_gui(int argc, char* argv[]) {
     // Declarados antes do engine: o engine (e o QML) é destruído primeiro.
     const auto view_models = my_comp::composition::compor_app();
 
+    // Ao fechar: comandos externos em voo desistem e a varredura de disco para, para o
+    // waitForDone abaixo não segurar o processo (dnf check-update chega a 180 s).
+    QObject::connect(&app, &QCoreApplication::aboutToQuit, &app, [&view_models]() {
+        my_comp::infrastructure::request_shutdown();
+        if (view_models.storage.directory_scanner) {
+            view_models.storage.directory_scanner->cancel();
+        }
+    });
+
     QQmlApplicationEngine engine;
     auto* ctx = engine.rootContext();
     ctx->setContextProperty("isSystemDarkInitial", sistema_em_tema_escuro(app));
@@ -75,7 +86,12 @@ int executar_gui(int argc, char* argv[]) {
         }, Qt::QueuedConnection);
     engine.load(url);
 
-    return app.exec();
+    const int rc = app.exec();
+    // Coletas em voo (QtConcurrent) terminam antes de os ViewModels e o app saírem de cena.
+    // Sem limite de propósito: post_to_ui posta no qApp, que precisa viver mais que todo
+    // worker. Com request_shutdown no aboutToQuit, a espera dura menos de um segundo.
+    QThreadPool::globalInstance()->waitForDone();
+    return rc;
 }
 
 } // namespace

@@ -1,6 +1,13 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <QtTest/QSignalSpy>
+#include <QCoreApplication>
+#include <QSemaphore>
+#include <QThread>
+#include <QThreadPool>
+#include <atomic>
+#include <memory>
+#include <stdexcept>
 #include "../../src/presentation/viewmodels/system_info_viewmodel.h"
 #include "../../src/presentation/viewmodels/user_metadata_viewmodel.h"
 #include "../../src/presentation/viewmodels/hardware_viewmodel.h"
@@ -79,9 +86,99 @@ TEST(SystemInfoViewModelTest, ShouldLoadDataAfterRefresh) {
     SystemInfoViewModel vm(provider);
     EXPECT_TRUE(vm.distro().isEmpty());
 
+    QSignalSpy spy(&vm, &SystemInfoViewModel::dataChanged);
     vm.refresh();
+    ASSERT_TRUE(spy.wait(2000));  // UX-05: a coleta é assíncrona
     EXPECT_TRUE(vm.distro().startsWith("Fedora"));
     EXPECT_EQ(vm.kernel(), "6.12");
+}
+
+// UX-05: get_system_info roda uname e lspci (QProcess bloqueante); não pode ser na thread da UI.
+TEST(SystemInfoViewModelTest, ColetaForaDaThreadDaUi) {
+    auto provider = std::make_shared<MockSystemInfoProvider>();
+    QThread* thread_da_coleta = nullptr;
+    EXPECT_CALL(*provider, get_system_info()).WillOnce(Invoke([&thread_da_coleta]() {
+        thread_da_coleta = QThread::currentThread();
+        return SystemInfo{};
+    }));
+    SystemInfoViewModel vm(provider);
+    QSignalSpy spy(&vm, &SystemInfoViewModel::dataChanged);
+    vm.refresh();
+    ASSERT_TRUE(spy.wait(2000));
+    EXPECT_NE(thread_da_coleta, QThread::currentThread());
+    QThreadPool::globalInstance()->waitForDone();
+}
+
+namespace {
+// Espera os workers do QtConcurrent e entrega os eventos que eles postaram na UI.
+void drenar_workers() {
+    QThreadPool::globalInstance()->waitForDone();
+    QCoreApplication::processEvents();
+}
+}  // namespace
+
+// Revisão do UX-05: uma falha mantém os dados bons e libera a trava para o próximo refresh.
+TEST(SystemInfoViewModelTest, FalhaNaColetaMantemDadosEPermiteNovoRefresh) {
+    auto provider = std::make_shared<MockSystemInfoProvider>();
+    SystemInfo info;
+    info.distroName = "Fedora";
+    SystemInfo depois;
+    depois.distroName = "Fedora";
+    depois.kernelVersion = "6.19";
+    EXPECT_CALL(*provider, get_system_info())
+        .WillOnce(Return(info))
+        .WillOnce(Invoke([]() -> SystemInfo { throw std::runtime_error("lspci sumiu"); }))
+        .WillOnce(Return(depois));
+    SystemInfoViewModel vm(provider);
+    QSignalSpy spy(&vm, &SystemInfoViewModel::dataChanged);
+    vm.refresh();
+    ASSERT_TRUE(spy.wait(2000));
+
+    vm.refresh();      // falha
+    drenar_workers();
+    EXPECT_EQ(spy.count(), 1);                    // falha não notifica
+    EXPECT_TRUE(vm.distro().startsWith("Fedora"));  // nem apaga o que havia
+
+    vm.refresh();      // a trava foi liberada
+    ASSERT_TRUE(spy.wait(2000));
+    EXPECT_EQ(vm.kernel(), "6.19");
+}
+
+// m_busy: refresh() com coleta em voo não dispara outra, e volta sem bloquear.
+TEST(SystemInfoViewModelTest, RefreshComColetaEmVooNaoSobrepoe) {
+    auto provider = std::make_shared<MockSystemInfoProvider>();
+    QSemaphore liberar;
+    std::atomic<int> chamadas{0};
+    EXPECT_CALL(*provider, get_system_info()).WillRepeatedly(Invoke([&liberar, &chamadas]() {
+        ++chamadas;
+        liberar.acquire();
+        return SystemInfo{};
+    }));
+    SystemInfoViewModel vm(provider);
+    vm.refresh();
+    vm.refresh();
+    vm.refresh();
+    liberar.release(3);
+    drenar_workers();
+    EXPECT_EQ(chamadas.load(), 1);
+}
+
+// Destruir o ViewModel com coleta em voo (fechar o app): o resultado é descartado sem tocar
+// no objeto morto. A janela exata entre ler o ponteiro e postar o evento não dá para forçar
+// de forma determinística; ela é fechada por post_to_ui (o QPointer só é lido na UI).
+TEST(SystemInfoViewModelTest, DestruirComColetaEmVooEhSeguro) {
+    auto provider = std::make_shared<MockSystemInfoProvider>();
+    QSemaphore liberar;
+    EXPECT_CALL(*provider, get_system_info()).WillOnce(Invoke([&liberar]() {
+        liberar.acquire();
+        return SystemInfo{};
+    }));
+    auto vm = std::make_unique<SystemInfoViewModel>(provider);
+    vm->refresh();
+    vm.reset();
+    liberar.release();
+    drenar_workers();
+    SUCCEED();
 }
 
 TEST(UserMetadataViewModelTest, ShouldRefreshData) {
@@ -92,8 +189,26 @@ TEST(UserMetadataViewModelTest, ShouldRefreshData) {
     EXPECT_CALL(*provider, get_user_metadata()).WillRepeatedly(Return(data));
     
     UserMetadataViewModel vm(provider);
+    QSignalSpy spy(&vm, &UserMetadataViewModel::dataChanged);
     vm.refresh();
+    ASSERT_TRUE(spy.wait(2000));  // UX-05: a coleta é assíncrona
     EXPECT_EQ(vm.currentUser(), "petrus");
+}
+
+// UX-05: get_user_metadata roda last e ulimit e percorre getpwent (pode ir ao LDAP).
+TEST(UserMetadataViewModelTest, ColetaForaDaThreadDaUi) {
+    auto provider = std::make_shared<MockUserMetadataProvider>();
+    QThread* thread_da_coleta = nullptr;
+    EXPECT_CALL(*provider, get_user_metadata()).WillOnce(Invoke([&thread_da_coleta]() {
+        thread_da_coleta = QThread::currentThread();
+        return UserMetadata{};
+    }));
+    UserMetadataViewModel vm(provider);
+    QSignalSpy spy(&vm, &UserMetadataViewModel::dataChanged);
+    vm.refresh();
+    ASSERT_TRUE(spy.wait(2000));
+    EXPECT_NE(thread_da_coleta, QThread::currentThread());
+    QThreadPool::globalInstance()->waitForDone();
 }
 
 TEST(HardwareViewModelTest, ShouldRefreshData) {
