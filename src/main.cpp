@@ -8,6 +8,7 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QGuiApplication>
+#include <QThreadPool>
 #include <QPalette>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -75,7 +76,11 @@ int executar_gui(int argc, char* argv[]) {
         }, Qt::QueuedConnection);
     engine.load(url);
 
-    return app.exec();
+    const int rc = app.exec();
+    // Coletas em voo (QtConcurrent) terminam antes de os ViewModels e o app saírem de cena;
+    // os comandos de shell têm timeout, então a espera é limitada (revisão do UX-05).
+    QThreadPool::globalInstance()->waitForDone();
+    return rc;
 }
 
 } // namespace

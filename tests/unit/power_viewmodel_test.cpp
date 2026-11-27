@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <QtTest/QSignalSpy>
+#include <QCoreApplication>
 #include <QThread>
+#include <QThreadPool>
 #include <stdexcept>
 #include "../../src/presentation/viewmodels/power_viewmodel.h"
 #include "../../src/domain/interfaces/i_power_provider.h"
@@ -49,8 +51,11 @@ TEST(PowerViewModelTest, ColetaForaDaThreadDaUi) {
     vm.initialize();
     ASSERT_TRUE(spy.wait(2000));
     EXPECT_NE(thread_da_coleta, QThread::currentThread());
+    QThreadPool::globalInstance()->waitForDone();
 }
 
+// Falha só perde aquele tique: o próximo update() coleta de novo. Chama o slot direto,
+// sem depender do timer real de 2 s.
 TEST(PowerViewModelTest, FalhaNaColetaNaoTravaAsProximas) {
     auto provider = std::make_shared<MockPowerProvider>();
     PowerStats stats;
@@ -60,7 +65,11 @@ TEST(PowerViewModelTest, FalhaNaColetaNaoTravaAsProximas) {
         .WillRepeatedly(Return(stats));
     PowerViewModel vm(provider);
     QSignalSpy spy(&vm, &PowerViewModel::dataChanged);
-    vm.initialize();               // 1ª coleta falha
-    ASSERT_TRUE(spy.wait(4000));   // a do timer (2 s) ainda acontece
+    ASSERT_TRUE(QMetaObject::invokeMethod(&vm, "update", Qt::DirectConnection));  // falha
+    QThreadPool::globalInstance()->waitForDone();
+    QCoreApplication::processEvents();
+    EXPECT_EQ(spy.count(), 0);
+    ASSERT_TRUE(QMetaObject::invokeMethod(&vm, "update", Qt::DirectConnection));
+    ASSERT_TRUE(spy.wait(2000));
     EXPECT_DOUBLE_EQ(vm.batteryPercent(), 42.0);
 }

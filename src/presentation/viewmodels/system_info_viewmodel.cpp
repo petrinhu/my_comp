@@ -1,11 +1,13 @@
 #include "system_info_viewmodel.h"
+#include "ui_dispatch.h"
 
 #include <QDebug>
-#include <QMetaObject>
 #include <QPointer>
 #include <QtConcurrent/QtConcurrent>
 
 #include <exception>
+#include <optional>
+#include <utility>
 
 namespace my_comp::presentation::viewmodels {
 
@@ -22,7 +24,7 @@ void SystemInfoViewModel::refresh() {
     const QPointer<SystemInfoViewModel> self(this);
     auto provider = m_provider;
     (void)QtConcurrent::run([self, provider]() {
-        domain::models::SystemInfo info;
+        std::optional<domain::models::SystemInfo> info;
         try {
             info = provider->get_system_info();
         } catch (const std::exception& e) {
@@ -30,15 +32,15 @@ void SystemInfoViewModel::refresh() {
         } catch (...) {
             qWarning() << "[SystemInfoVM] falha desconhecida na coleta";
         }
-        QMetaObject::invokeMethod(self.data(), [self, info]() {
-            auto* vm = self.data();
-            if (!vm) return;
-            vm->m_distro = (info.distroName + " " + info.distroVersion).trimmed();
-            vm->m_kernel = info.kernelVersion;
-            vm->m_driver = info.gpuDriver;
+        // Falha mantém os dados anteriores; só libera a trava.
+        post_to_ui(self, [info = std::move(info)](SystemInfoViewModel* vm) {
             vm->m_busy = false;
+            if (!info) return;
+            vm->m_distro = (info->distroName + " " + info->distroVersion).trimmed();
+            vm->m_kernel = info->kernelVersion;
+            vm->m_driver = info->gpuDriver;
             emit vm->dataChanged();
-        }, Qt::QueuedConnection);
+        });
     });
 }
 

@@ -1,11 +1,13 @@
 #include "user_metadata_viewmodel.h"
+#include "ui_dispatch.h"
 
 #include <QDebug>
-#include <QMetaObject>
 #include <QPointer>
 #include <QtConcurrent/QtConcurrent>
 
 #include <exception>
+#include <optional>
+#include <utility>
 
 namespace my_comp::presentation::viewmodels {
 
@@ -32,7 +34,7 @@ void UserMetadataViewModel::refresh() {
     const QPointer<UserMetadataViewModel> self(this);
     auto provider = m_provider;
     (void)QtConcurrent::run([self, provider]() {
-        domain::models::UserMetadata data;
+        std::optional<domain::models::UserMetadata> data;
         try {
             data = provider->get_user_metadata();
         } catch (const std::exception& e) {
@@ -40,13 +42,13 @@ void UserMetadataViewModel::refresh() {
         } catch (...) {
             qWarning() << "[UserMetadataVM] falha desconhecida na coleta";
         }
-        QMetaObject::invokeMethod(self.data(), [self, data = std::move(data)]() mutable {
-            auto* vm = self.data();
-            if (!vm) return;
-            vm->m_data = std::move(data);
+        // Falha mantém os dados anteriores; só libera a trava.
+        post_to_ui(self, [data = std::move(data)](UserMetadataViewModel* vm) mutable {
             vm->m_busy = false;
+            if (!data) return;
+            vm->m_data = std::move(*data);
             emit vm->dataChanged();
-        }, Qt::QueuedConnection);
+        });
     });
 }
 

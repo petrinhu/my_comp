@@ -1,12 +1,13 @@
 #include "power_viewmodel.h"
+#include "ui_dispatch.h"
 
 #include <QDebug>
-#include <QMetaObject>
 #include <QPointer>
 #include <QtConcurrent/QtConcurrent>
 
 #include <exception>
 #include <optional>
+#include <utility>
 
 namespace my_comp::presentation::viewmodels {
 
@@ -42,9 +43,7 @@ void PowerViewModel::update() {
         } catch (...) {
             qWarning() << "[PowerVM] falha desconhecida na coleta";
         }
-        QMetaObject::invokeMethod(self.data(), [self, stats]() {
-            auto* vm = self.data();
-            if (!vm) return;
+        post_to_ui(self, [stats = std::move(stats)](PowerViewModel* vm) {
             vm->m_busy = false;
             if (!stats) return;
             bool changed = false;
@@ -53,7 +52,7 @@ void PowerViewModel::update() {
             if (changed) {
                 emit vm->dataChanged();
             }
-        }, Qt::QueuedConnection);
+        });
     });
 }
 
