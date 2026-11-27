@@ -1,5 +1,13 @@
 #include "power_viewmodel.h"
 
+#include <QDebug>
+#include <QMetaObject>
+#include <QPointer>
+#include <QtConcurrent/QtConcurrent>
+
+#include <exception>
+#include <optional>
+
 namespace my_comp::presentation::viewmodels {
 
 // Provider injetado pelo composition root (MC-02). MC-04: ctor sem I/O e sem start de timer.
@@ -16,17 +24,37 @@ void PowerViewModel::initialize() {
     m_timer->start(2000);
 }
 
+// UX-05: collect_stats lê ~9 arquivos em /sys/class/power_supply a cada 2 s: fora da
+// thread da UI. Se a coleta anterior ainda não voltou, o tique do timer é pulado; uma
+// falha só perde aquele tique (QA-13).
 void PowerViewModel::update() {
-    if (!m_provider) return;
-    auto stats = m_provider->collect_stats();
+    if (!m_provider || m_busy) return;
+    m_busy = true;
 
-    bool changed = false;
-    if (m_power != stats.consumption_watts) { m_power = stats.consumption_watts; changed = true; }
-    if (m_percent != stats.battery_percent) { m_percent = stats.battery_percent; changed = true; }
-    
-    if (changed) {
-        emit dataChanged();
-    }
+    const QPointer<PowerViewModel> self(this);
+    auto provider = m_provider;
+    (void)QtConcurrent::run([self, provider]() {
+        std::optional<domain::models::PowerStats> stats;
+        try {
+            stats = provider->collect_stats();
+        } catch (const std::exception& e) {
+            qWarning() << "[PowerVM] falha na coleta:" << e.what();
+        } catch (...) {
+            qWarning() << "[PowerVM] falha desconhecida na coleta";
+        }
+        QMetaObject::invokeMethod(self.data(), [self, stats]() {
+            auto* vm = self.data();
+            if (!vm) return;
+            vm->m_busy = false;
+            if (!stats) return;
+            bool changed = false;
+            if (vm->m_power != stats->consumption_watts) { vm->m_power = stats->consumption_watts; changed = true; }
+            if (vm->m_percent != stats->battery_percent) { vm->m_percent = stats->battery_percent; changed = true; }
+            if (changed) {
+                emit vm->dataChanged();
+            }
+        }, Qt::QueuedConnection);
+    });
 }
 
 }

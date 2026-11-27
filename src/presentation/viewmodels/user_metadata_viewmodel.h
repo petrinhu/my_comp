@@ -38,6 +38,7 @@ signals:
 private:
     std::shared_ptr<domain::interfaces::IUserMetadataProvider> m_provider;
     domain::models::UserMetadata m_data;
+    bool m_busy{false};  // só lido/escrito na thread da UI
 };
 
 }

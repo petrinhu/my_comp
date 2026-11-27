@@ -25,5 +25,6 @@ private:
     double m_percent = 0.0;
     QTimer* m_timer = nullptr;
     bool m_initialized = false;
+    bool m_busy = false;  // coleta em andamento; só lido/escrito na thread da UI
 };
 }
