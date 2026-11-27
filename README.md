@@ -1,5 +1,6 @@
 # my_comp v2.0 *(codename Alpha)*
 
+[![CI](https://github.com/petrinhu/my_comp/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/petrinhu/my_comp/actions/workflows/ci.yml)
 [![Versão](https://img.shields.io/github/v/tag/petrinhu/my_comp?include_prereleases&sort=semver&label=vers%C3%A3o)](CHANGELOG.md)
 [![Licença: AGPL-3.0](https://img.shields.io/github/license/petrinhu/my_comp?label=licen%C3%A7a)](LICENSE)
 [![Último commit](https://img.shields.io/github/last-commit/petrinhu/my_comp?label=%C3%BAltimo%20commit)](https://github.com/petrinhu/my_comp/commits/main)

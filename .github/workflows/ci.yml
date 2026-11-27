@@ -1,0 +1,112 @@
+# CI do my_comp. Espelha o scripts/ci.sh (gates da MC-07) no GitHub.
+#
+# - ubuntu:  o mesmo ambiente do container de desenvolvimento (GCC 13, Qt 6.4). Roda o
+#            scripts/ci.sh inteiro: build, ctest, cppcheck, contraste, texto puro no QML e
+#            valgrind. O clang-tidy (gate T2) roda em job próprio, em paralelo.
+# - fedora:  o SO alvo (Fedora 43, GCC do Fedora). Compila e testa e mede os warnings
+#            do compilador, que o AUDIT-02 precisa antes de ligar -Werror.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  UBUNTU_DEPS: >-
+    build-essential cmake ninja-build pkg-config
+    qt6-base-dev qt6-base-dev-tools qt6-declarative-dev qt6-declarative-dev-tools
+    qt6-wayland-dev qt6-wayland-dev-tools qt6-multimedia-dev qt6-qpa-plugins
+    qml6-module-qtquick qml6-module-qtquick-controls qml6-module-qtquick-layouts
+    qml6-module-qtquick-templates qml6-module-qtquick-window qml6-module-qtquick-dialogs
+    qml6-module-qtqml-workerscript qml6-module-qttest qml6-module-qtcore
+    qml6-module-qt-labs-platform
+    libgl-dev libvulkan-dev libxkbcommon-dev
+    libgtest-dev libgmock-dev libssl-dev
+    valgrind cppcheck python3
+
+jobs:
+  ubuntu:
+    name: Ubuntu 24.04 (scripts/ci.sh)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dependências
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q --no-install-recommends ${UBUNTU_DEPS}
+      - name: scripts/ci.sh (sem clang-tidy, que roda no job tidy)
+        run: scripts/ci.sh --skip-tidy
+      - name: Logs dos estágios
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-logs-ubuntu
+          path: build/ci-logs/
+          if-no-files-found: ignore
+
+  tidy:
+    name: Gate T2 (clang-tidy)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dependências
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q --no-install-recommends ${UBUNTU_DEPS} clang-tidy
+      - name: Configurar (compile_commands.json) e gerar os mocs
+        run: |
+          cmake -S . -B build -G Ninja -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          cmake --build build -j"$(nproc)"
+      - name: clang-tidy em paralelo
+        run: |
+          source <(sed -n '/^stage_clang_tidy() {/,/^}/p' scripts/ci.sh)
+          ROOT_DIR="$PWD" BUILD_DIR="$PWD/build" stage_clang_tidy
+
+  fedora:
+    name: Fedora 43 (GCC do SO alvo)
+    runs-on: ubuntu-24.04
+    container: fedora:43
+    timeout-minutes: 45
+    steps:
+      - name: Dependências
+        run: |
+          dnf install -y -q git gcc-c++ cmake ninja-build \
+            qt6-qtbase-devel qt6-qtbase-private-devel qt6-qtdeclarative-devel \
+            qt6-qtwayland-devel qt6-qtmultimedia-devel \
+            gtest-devel gmock-devel openssl-devel python3
+      - uses: actions/checkout@v4
+      - name: Build
+        run: |
+          gcc --version | head -1
+          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo
+          cmake --build build -j"$(nproc)" 2>&1 | tee build.log
+      - name: Contagem de warnings (AUDIT-02)
+        run: |
+          n=$(grep -c 'warning:' build.log || true)
+          echo "warnings do GCC no Fedora 43: ${n}"
+          {
+            echo "### Fedora 43: warnings do compilador"
+            echo ""
+            echo "$(gcc --version | head -1): **${n}** warnings no build limpo."
+            if [ "${n}" -gt 0 ]; then
+              echo ""
+              echo '```'
+              grep 'warning:' build.log | sed -E 's/^.*my_comp\///' | sort | uniq -c | sort -rn | head -40
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: ctest
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: cd build && ctest --output-on-failure
